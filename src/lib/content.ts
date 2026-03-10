@@ -44,6 +44,22 @@ export const STATUS_LABEL: Record<string, string> = {
   archived: "보관됨",
 };
 
+/** 현재 글 기준 이전/다음 글 반환 (날짜 내림차순 기준) */
+export function getAdjacentBlogs(slug: string) {
+  const posts = getPublishedBlogs();
+  const idx = posts.findIndex((p) => p.slug === slug);
+  return {
+    prev: idx < posts.length - 1 ? posts[idx + 1] : null, // 이전(오래된) 글
+    next: idx > 0 ? posts[idx - 1] : null, // 다음(최신) 글
+  };
+}
+
+/** 읽기 시간 추정 (한국어 기준 ~500자/분) */
+export function getReadingTime(body: string): number {
+  const text = body.replace(/<[^>]*>/g, "").replace(/[{}()\[\];=]/g, "");
+  return Math.max(1, Math.round(text.length / 500));
+}
+
 /** 날짜를 한국어 형식으로 포맷 */
 export function formatDate(dateStr: string): string {
   return new Date(dateStr).toLocaleDateString("ko-KR", {

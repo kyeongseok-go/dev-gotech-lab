@@ -1,7 +1,14 @@
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import { PageContainer } from "@/components/layout/page-container";
 import { MDXContent } from "@/components/mdx/mdx-content";
-import { getPublishedBlogs, getBlogBySlug, formatDate } from "@/lib/content";
+import {
+  getPublishedBlogs,
+  getBlogBySlug,
+  getAdjacentBlogs,
+  getReadingTime,
+  formatDate,
+} from "@/lib/content";
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -19,6 +26,9 @@ export default async function BlogPostPage({ params }: Props) {
     notFound();
   }
 
+  const { prev, next } = getAdjacentBlogs(slug);
+  const readingTime = getReadingTime(post.body);
+
   return (
     <PageContainer className="max-w-3xl">
       <article>
@@ -32,6 +42,8 @@ export default async function BlogPostPage({ params }: Props) {
                 <span>{post.category}</span>
               </>
             )}
+            <span>·</span>
+            <span>{readingTime}분 읽기</span>
           </div>
           <h1 className="mt-3 text-3xl font-bold">{post.title}</h1>
           {post.description && (
@@ -56,6 +68,36 @@ export default async function BlogPostPage({ params }: Props) {
           <MDXContent code={post.body} />
         </div>
       </article>
+
+      {/* 이전/다음 글 네비게이션 */}
+      {(prev || next) && (
+        <nav className="mt-12 grid gap-4 border-t border-border pt-8 sm:grid-cols-2">
+          {prev ? (
+            <Link
+              href={`/blog/${prev.slug}`}
+              className="group rounded-lg border border-border p-4 transition-colors hover:bg-muted/50"
+            >
+              <span className="text-xs text-muted-foreground">← 이전 글</span>
+              <p className="mt-1 font-medium group-hover:text-primary">
+                {prev.title}
+              </p>
+            </Link>
+          ) : (
+            <div />
+          )}
+          {next && (
+            <Link
+              href={`/blog/${next.slug}`}
+              className="group rounded-lg border border-border p-4 text-right transition-colors hover:bg-muted/50"
+            >
+              <span className="text-xs text-muted-foreground">다음 글 →</span>
+              <p className="mt-1 font-medium group-hover:text-primary">
+                {next.title}
+              </p>
+            </Link>
+          )}
+        </nav>
+      )}
     </PageContainer>
   );
 }
