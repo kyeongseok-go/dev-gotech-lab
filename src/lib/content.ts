@@ -60,6 +60,30 @@ export function getReadingTime(body: string): number {
   return Math.max(1, Math.round(text.length / 500));
 }
 
+/** 컴파일된 MDX body에서 h2/h3 heading을 추출하여 TOC 생성 */
+export interface TocItem {
+  level: 2 | 3;
+  text: string;
+  id: string;
+}
+
+export function extractToc(body: string): TocItem[] {
+  const items: TocItem[] = [];
+  // 컴파일된 MDX: t.h2,{children:"텍스트"} 또는 t.h3,{children:"텍스트"}
+  const re = /t\.(h[23]),\{children:"([^"]+)"\}/g;
+  let match;
+  while ((match = re.exec(body)) !== null) {
+    const level = match[1] === "h2" ? 2 : 3;
+    const text = match[2];
+    const id = text
+      .toLowerCase()
+      .replace(/\s+/g, "-")
+      .replace(/[^\w가-힣-]/g, "");
+    items.push({ level: level as 2 | 3, text, id });
+  }
+  return items;
+}
+
 /** 날짜를 한국어 형식으로 포맷 */
 export function formatDate(dateStr: string): string {
   return new Date(dateStr).toLocaleDateString("ko-KR", {

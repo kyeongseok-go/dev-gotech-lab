@@ -4,13 +4,30 @@ import * as runtime from "react/jsx-runtime";
 import { type ComponentPropsWithoutRef, useMemo } from "react";
 import { Callout } from "./callout";
 
+/** children에서 텍스트만 추출하여 id용 slug 생성 */
+function toId(children: React.ReactNode): string {
+  const text = typeof children === "string"
+    ? children
+    : Array.isArray(children)
+      ? children.map((c) => (typeof c === "string" ? c : "")).join("")
+      : "";
+  return text
+    .toLowerCase()
+    .replace(/\s+/g, "-")
+    .replace(/[^\w가-힣-]/g, "");
+}
+
 // 기본 MDX 컴포넌트 (코드 블록, 헤딩, 링크)
 const defaultComponents = {
-  h2: (props: ComponentPropsWithoutRef<"h2">) => (
-    <h2 className="mt-8 mb-3 text-xl font-semibold" {...props} />
+  h2: ({ children, ...props }: ComponentPropsWithoutRef<"h2">) => (
+    <h2 id={toId(children)} className="mt-8 mb-3 text-xl font-semibold" {...props}>
+      {children}
+    </h2>
   ),
-  h3: (props: ComponentPropsWithoutRef<"h3">) => (
-    <h3 className="mt-6 mb-2 text-lg font-semibold" {...props} />
+  h3: ({ children, ...props }: ComponentPropsWithoutRef<"h3">) => (
+    <h3 id={toId(children)} className="mt-6 mb-2 text-lg font-semibold" {...props}>
+      {children}
+    </h3>
   ),
   p: (props: ComponentPropsWithoutRef<"p">) => (
     <p className="mb-4 leading-7" {...props} />

@@ -2,11 +2,13 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { PageContainer } from "@/components/layout/page-container";
 import { MDXContent } from "@/components/mdx/mdx-content";
+import { Toc } from "@/components/mdx/toc";
 import {
   getPublishedBlogs,
   getBlogBySlug,
   getAdjacentBlogs,
   getReadingTime,
+  extractToc,
   formatDate,
 } from "@/lib/content";
 
@@ -28,6 +30,7 @@ export default async function BlogPostPage({ params }: Props) {
 
   const { prev, next } = getAdjacentBlogs(slug);
   const readingTime = getReadingTime(post.body);
+  const toc = extractToc(post.body);
 
   return (
     <PageContainer className="max-w-3xl">
@@ -62,6 +65,9 @@ export default async function BlogPostPage({ params }: Props) {
             </div>
           )}
         </header>
+
+        {/* 목차 */}
+        {toc.length > 0 && <Toc items={toc} />}
 
         {/* 본문 */}
         <div className="prose-custom">
