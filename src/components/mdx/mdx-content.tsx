@@ -31,18 +31,19 @@ const defaultComponents = {
   li: (props: ComponentPropsWithoutRef<"li">) => (
     <li className="leading-7" {...props} />
   ),
-  pre: (props: ComponentPropsWithoutRef<"pre">) => (
-    <pre
-      className="mb-4 overflow-x-auto rounded-md bg-muted p-4 text-sm"
-      {...props}
-    />
-  ),
-  code: (props: ComponentPropsWithoutRef<"code">) => (
-    <code
-      className="rounded bg-muted px-1 py-0.5 text-sm font-mono"
-      {...props}
-    />
-  ),
+  // pre/code: rehype-pretty-code가 Shiki 인라인 스타일을 주입하므로 커스텀 제거.
+  // 인라인 코드(코드 블록 바깥)만 스타일링.
+  code: ({ children, ...props }: ComponentPropsWithoutRef<"code">) => {
+    // data-language 속성이 있으면 코드 블록 내부 → Shiki가 처리하므로 그대로 통과
+    if ("data-language" in props) {
+      return <code {...props}>{children}</code>;
+    }
+    return (
+      <code className="rounded bg-muted px-1 py-0.5 text-sm font-mono" {...props}>
+        {children}
+      </code>
+    );
+  },
   blockquote: (props: ComponentPropsWithoutRef<"blockquote">) => (
     <blockquote
       className="mb-4 border-l-4 border-border pl-4 text-muted-foreground italic"

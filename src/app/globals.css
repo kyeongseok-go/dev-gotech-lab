@@ -127,3 +127,32 @@
     @apply font-sans;
 	}
 }
+
+/* rehype-pretty-code (Shiki) 코드 블록 스타일 */
+pre[data-theme] {
+  margin-bottom: 1rem;
+  overflow-x: auto;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  font-size: 0.875rem;
+  line-height: 1.6;
+}
+
+/* 언어 라벨 */
+pre[data-language]::before {
+  content: attr(data-language);
+  display: block;
+  margin-bottom: 0.5rem;
+  font-size: 0.75rem;
+  color: #888;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* 코드 블록 내 code 태그 기본 리셋 */
+pre[data-theme] code {
+  background: transparent;
+  padding: 0;
+  border-radius: 0;
+  font-size: inherit;
+}

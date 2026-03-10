@@ -1,3 +1,4 @@
+import rehypePrettyCode from "rehype-pretty-code";
 import { defineCollection, defineConfig, s } from "velite";
 
 // ------------------------------------------------------------------ blog --
@@ -63,6 +64,11 @@ export default defineConfig({
     base: "/static/",
     name: "[name]-[hash:6][ext]",
     clean: true,
+  },
+  mdx: {
+    rehypePlugins: [
+      [rehypePrettyCode, { theme: "github-dark-default", keepBackground: true }],
+    ],
   },
   collections: { blogs, projects, showcase },
 });
