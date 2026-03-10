@@ -164,3 +164,24 @@ tbody tr:hover {
 .dark tbody tr:hover {
   background-color: oklch(0.269 0 0);
 }
+
+/* 히어로 키워드 부유 애니메이션 */
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
+}
+.hero-tag {
+  animation: float 3s ease-in-out infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-tag { animation: none; }
+}
+
+/* 히어로 배경 도트 패턴 */
+.hero-dots {
+  background-image: radial-gradient(circle, oklch(0.8 0 0) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+.dark .hero-dots {
+  background-image: radial-gradient(circle, oklch(0.3 0 0) 1px, transparent 1px);
+}

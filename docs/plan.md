@@ -35,7 +35,14 @@
   - R2 바인딩 + src/lib/storage/ (경로 빌더 + put/get/delete 헬퍼)
   - /services 목록 페이지 (D1 기반, 헤더 네비게이션 추가)
   - /services/news 뉴스 애그리게이터 MVP (카테고리 필터, fallback UI)
-- [ ] Day 6: 홈 페이지 폴리싱 + 선택적 3D/2D 히어로
+- [x] Day 6: 홈 페이지 폴리싱 + 선택적 3D/2D 히어로
+  - 2D 히어로 섹션: 도트 패턴 배경 + 카피 + 키워드 태그 + CTA 버튼
+  - 키워드 태그 CSS float 애니메이션 (prefers-reduced-motion 대응)
+  - 홈 섹션 정리: 프로젝트·Showcase 카드에 상세 Link 추가
+  - 서비스 섹션 추가 (D1 getServices 기반, fallback UI)
+  - 구독 CTA 섹션 (SubscribeForm 포함, 하단 배치)
+  - 광고 placeholder 컴포넌트 (AdPlaceholder, 블로그↔프로젝트 사이)
+  - 3D는 성능·일정 리스크 판단 후 의도적 제외 (Phase 2 검토)
 - [ ] Day 7: SEO + QA + GitHub 정리 + 배포 + README
 
 ## 메모
@@ -45,3 +52,5 @@
 - 구독 백엔드 연동은 Phase 2 (MailerLite/Buttondown/자체 API)
 - Day 5에서 D1/R2 인프라 + 서비스 허브 + 뉴스 MVP 완료
 - 뉴스 실제 외부 수집 자동화는 Phase 2 (크롤러/RSS/스케줄러)
+- Day 6에서 홈 히어로 + 섹션 정리 + 구독 CTA + 광고 placeholder 완료
+- 다크모드 토글, 3D 히어로는 Phase 2 검토 대상
