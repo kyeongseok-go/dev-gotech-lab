@@ -19,7 +19,8 @@
 			}
 		],
 		"paths": {
-			"@/*": ["./src/*"]
+			"@/*": ["./src/*"],
+			"@/.velite": ["./.velite"]
 		},
 		"types": [
 			"./cloudflare-env.d.ts",

@@ -44,6 +44,9 @@ next-env.d.ts
 # OpenNext
 /.open-next
 
+# Velite (자동 생성 데이터 레이어)
+/.velite
+
 # wrangler files
 .wrangler
 .dev.vars*
