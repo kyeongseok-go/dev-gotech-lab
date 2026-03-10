@@ -1,0 +1,40 @@
+---
+title: "Day 1 회고 — shadcn/ui 초기화와 레이아웃 구성"
+slug: claude-day1-recap
+date: 2026-03-10
+description: "Claude Code로 프로젝트 기본 구조를 잡은 Day 1 과정 요약. shadcn/ui, ESLint 마이그레이션, 공통 레이아웃."
+category: devlog
+tags: ["Claude Code", "shadcn/ui", "devlog"]
+draft: false
+---
+
+## Day 1에서 한 일
+
+Day 1의 목표는 **"Next.js + Cloudflare + Tailwind + shadcn 기본 구성"** 이었습니다.
+
+### shadcn/ui 초기화
+
+```bash
+pnpm dlx shadcn@latest init -y -f --css-variables -b radix -p nova
+```
+
+CLI 플래그가 바뀌어서 여러 번 시도가 필요했습니다.
+결국 `radix` + `nova` 프리셋 조합으로 성공했습니다.
+
+### ESLint 이슈
+
+Next.js 16에서 `next lint`가 제거되었습니다.
+공식 codemod를 사용해 `eslint .`로 전환했습니다.
+
+### 공통 레이아웃
+
+세 개의 컴포넌트를 만들었습니다:
+
+1. `SiteHeader` — 로고 + 네비게이션
+2. `SiteFooter` — 저작권 + 링크
+3. `PageContainer` — 최대 너비 래퍼
+
+### 배운 점
+
+- 메이저 버전 업그레이드 시 **공식 마이그레이션 가이드를 먼저 확인**하는 게 가장 빠르다
+- Claude에게 계획을 먼저 설명하게 하면 방향이 잘못됐을 때 코드 없이 수정할 수 있다
