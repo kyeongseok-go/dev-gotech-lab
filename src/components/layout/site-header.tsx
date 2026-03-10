@@ -4,6 +4,7 @@ const NAV_LINKS = [
   { href: "/blog", label: "블로그" },
   { href: "/projects", label: "프로젝트" },
   { href: "/showcase", label: "Showcase" },
+  { href: "/services", label: "서비스" },
   { href: "/about", label: "소개" },
 ];
 
