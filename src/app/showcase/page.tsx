@@ -43,7 +43,11 @@ export default function ShowcasePage() {
                 )}
               </div>
 
-              <h2 className="mt-3 text-lg font-semibold">{item.title}</h2>
+              <Link href={`/showcase/${item.slug}`}>
+                <h2 className="mt-3 text-lg font-semibold hover:text-primary transition-colors">
+                  {item.title}
+                </h2>
+              </Link>
               <p className="mt-1 flex-1 text-sm text-muted-foreground line-clamp-2">
                 {item.summary}
               </p>
