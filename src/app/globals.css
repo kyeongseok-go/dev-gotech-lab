@@ -156,3 +156,11 @@ pre[data-theme] code {
   border-radius: 0;
   font-size: inherit;
 }
+
+/* 테이블 행 호버 */
+tbody tr:hover {
+  background-color: oklch(0.97 0 0);
+}
+.dark tbody tr:hover {
+  background-color: oklch(0.269 0 0);
+}

@@ -2,6 +2,7 @@
 
 import * as runtime from "react/jsx-runtime";
 import { type ComponentPropsWithoutRef, useMemo } from "react";
+import { Callout } from "./callout";
 
 // 기본 MDX 컴포넌트 (코드 블록, 헤딩, 링크)
 const defaultComponents = {
@@ -54,6 +55,35 @@ const defaultComponents = {
   strong: (props: ComponentPropsWithoutRef<"strong">) => (
     <strong className="font-semibold" {...props} />
   ),
+  // 테이블: 기본 가독성 스타일
+  table: (props: ComponentPropsWithoutRef<"table">) => (
+    <div className="my-4 overflow-x-auto">
+      <table className="w-full border-collapse text-sm" {...props} />
+    </div>
+  ),
+  thead: (props: ComponentPropsWithoutRef<"thead">) => (
+    <thead className="border-b border-border bg-muted/50" {...props} />
+  ),
+  th: (props: ComponentPropsWithoutRef<"th">) => (
+    <th className="px-3 py-2 text-left font-semibold" {...props} />
+  ),
+  td: (props: ComponentPropsWithoutRef<"td">) => (
+    <td className="border-b border-border px-3 py-2" {...props} />
+  ),
+  // 이미지: figure + figcaption 래퍼
+  img: ({ alt, ...props }: ComponentPropsWithoutRef<"img">) => (
+    <figure className="my-6">
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img className="rounded-lg" alt={alt ?? ""} {...props} />
+      {alt && (
+        <figcaption className="mt-2 text-center text-sm text-muted-foreground">
+          {alt}
+        </figcaption>
+      )}
+    </figure>
+  ),
+  // Callout: <Callout type="info|warning|tip">
+  Callout,
 };
 
 interface MDXContentProps {
