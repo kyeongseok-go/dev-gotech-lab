@@ -29,6 +29,19 @@ export async function getNewsItems(limit = 20): Promise<NewsItem[]> {
   }
 }
 
+/** 고유 카테고리 목록 조회 */
+export async function getNewsCategories(): Promise<string[]> {
+  try {
+    const db = getDB();
+    const { results } = await db.prepare(
+      "SELECT DISTINCT category FROM news_cache ORDER BY category ASC",
+    ).all<{ category: string }>();
+    return results.map((r) => r.category);
+  } catch {
+    return [];
+  }
+}
+
 /** 카테고리별 뉴스 조회 */
 export async function getNewsByCategory(
   category: string,
