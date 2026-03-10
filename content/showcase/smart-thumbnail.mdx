@@ -1,0 +1,26 @@
+---
+title: "Smart Thumbnail Generator"
+slug: smart-thumbnail
+summary: "블로그 글 제목과 태그를 입력하면 AI가 자동으로 OG 이미지 썸네일을 생성하는 도구."
+type: "웹 도구"
+status: "wip"
+stack: ["Claude API", "Cloudflare Workers", "Satori", "TypeScript"]
+repoUrl: "https://github.com/kyeongseok-go/smart-thumbnail"
+featured: true
+draft: false
+---
+
+## 소개
+
+블로그 포스트를 올릴 때마다 OG 이미지를 직접 만드는 건 번거롭습니다.
+제목, 태그, 카테고리를 입력하면 AI가 레이아웃과 색상을 자동으로 결정해 썸네일을 생성합니다.
+
+## 기술 구성
+
+- Satori로 JSX → SVG 변환
+- Cloudflare Workers에서 서버리스로 실행
+- Claude API로 색상/레이아웃 추천
+
+## 현재 상태
+
+기본 JSX → SVG 변환 파이프라인 구현 완료. AI 추천 기능 개발 중.
