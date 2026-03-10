@@ -1,4 +1,5 @@
 import { PageContainer } from "@/components/layout/page-container";
+import { SubscribeForm } from "@/components/subscribe-form";
 
 /* ----------------------------------------------------------------- */
 /* 데이터 상수 — 추후 MDX 또는 외부 파일로 분리 가능                    */
@@ -158,6 +159,15 @@ export default function AboutPage() {
           위해 만들었습니다. Next.js 16 + Tailwind CSS v4 + Velite MDX로
           구성되어 있으며, Cloudflare Pages에 배포됩니다.
         </p>
+      </section>
+
+      {/* 구독 */}
+      <section className="mb-12 rounded-lg border border-border bg-muted/30 p-6">
+        <h2 className="mb-2 text-lg font-semibold">소식 받기</h2>
+        <p className="mb-4 text-sm text-muted-foreground">
+          AI 실험, 개발 기록, 새 서비스 업데이트를 이메일로 받아보세요.
+        </p>
+        <SubscribeForm />
       </section>
 
       {/* 연락 */}
