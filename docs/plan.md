@@ -18,7 +18,12 @@
   - /blog 목록·상세 (SSG 3개), /projects 목록·상세 (SSG 2개), /showcase 목록 (3개)
   - 홈 최신 콘텐츠 섹션 (blog 3 / projects 2 / showcase 3 + 더보기)
   - ESLint ignore에 .open-next, .velite 추가
-- [ ] Day 3: 블로그 목록/상세 + MDX 컴포넌트
+- [x] Day 3: 블로그 목록/상세 + MDX 컴포넌트 — 780328f~af570b5
+  - rehype-pretty-code + Shiki 코드 하이라이팅 (github-dark-default 테마)
+  - MDX 커스텀 컴포넌트: Callout(info/warning/tip), Table 스타일링, Image(figure) 래퍼
+  - 읽기 시간 표시 + 이전/다음 글 네비게이션
+  - h2/h3 기반 정적 TOC (anchor 링크)
+  - /blog 카테고리·태그 필터 (URL searchParams 기반)
 - [ ] Day 4: 프로젝트 / 소개 / 구독 / AI Showcase 목록
 - [ ] Day 5: D1 + R2 연결 + 서비스 목록 페이지
 - [ ] Day 6: 홈 페이지 폴리싱 + 선택적 3D/2D 히어로
@@ -26,5 +31,5 @@
 
 ## 메모
 - Day 2에서 Day 3 범위(블로그 MDX 컴포넌트)와 Day 4 범위(프로젝트/Showcase 목록)를 일부 선행 완료
-- Day 3은 MDX 커스텀 컴포넌트 고도화(코드 하이라이팅, callout 등)에 집중 가능
+- Day 3에서 블로그 UX 고도화 완료 (코드 하이라이팅, Callout, TOC, 필터, 네비게이션)
 - Day 4는 about 페이지 실내용 + 구독 구조에 집중 가능
