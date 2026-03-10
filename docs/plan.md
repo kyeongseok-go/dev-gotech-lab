@@ -6,8 +6,12 @@
 - 가능하면 GitHub Issue 번호 또는 작업 단위를 함께 메모한다.
 
 ## 이번 주 플랜
-- [ ] Day 0: GitHub 저장소 / Claude Code / 규칙 파일 / Cloudflare 인증 초기화
-- [ ] Day 1: Next.js + Cloudflare + Tailwind + shadcn 기본 구성
+- [x] Day 0: GitHub 저장소 / Claude Code / 규칙 파일 / Cloudflare 인증 초기화 — 55b4e87
+- [x] Day 1: Next.js + Cloudflare + Tailwind + shadcn 기본 구성 — 19c16aa~31145db
+  - shadcn/ui 초기화 (radix-nova, CSS variables), ESLint next lint→eslint CLI 마이그레이션
+  - SiteHeader / SiteFooter / PageContainer 컴포넌트 생성, RootLayout 연결
+  - 페이지 라우트 스텁: /, /blog, /blog/[slug], /projects, /showcase, /about
+  - pnpm preview (Cloudflare Workers 로컬) 기동 확인
 - [ ] Day 2: Velite + MDX + 기본 라우트 + 레이아웃
 - [ ] Day 3: 블로그 목록/상세 + MDX 컴포넌트
 - [ ] Day 4: 프로젝트 / 소개 / 구독 / AI Showcase 목록
