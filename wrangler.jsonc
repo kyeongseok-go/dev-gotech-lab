@@ -43,6 +43,13 @@
 			"database_id": "LOCAL_ONLY",
 			"migrations_dir": "migrations"
 		}
+	],
+	// R2 Object Storage
+	"r2_buckets": [
+		{
+			"binding": "STORAGE",
+			"bucket_name": "gotech-lab-storage"
+		}
 	]
 	/**
 	 * Smart Placement
