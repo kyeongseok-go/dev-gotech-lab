@@ -29,7 +29,12 @@
   - 구독 폼 UI: SubscribeForm 재사용 컴포넌트, /subscribe 페이지 + /about 하단
   - /showcase/[slug] 상세 페이지 (SSG, status 뱃지, 외부 링크, 목록 네비게이션)
   - 프로젝트 상세 메타 보강 (techStack 뱃지, repo/demo 링크, 목록 네비게이션)
-- [ ] Day 5: D1 + R2 연결 + 서비스 목록 페이지
+- [x] Day 5: D1 + R2 연결 + 서비스 목록 페이지 — 299cfac~bceafbf
+  - D1 스키마: service_registry, news_cache, feature_flags + 시드 데이터
+  - D1 접근 레이어: src/lib/db/ (services, news, flags 조회 함수)
+  - R2 바인딩 + src/lib/storage/ (경로 빌더 + put/get/delete 헬퍼)
+  - /services 목록 페이지 (D1 기반, 헤더 네비게이션 추가)
+  - /services/news 뉴스 애그리게이터 MVP (카테고리 필터, fallback UI)
 - [ ] Day 6: 홈 페이지 폴리싱 + 선택적 3D/2D 히어로
 - [ ] Day 7: SEO + QA + GitHub 정리 + 배포 + README
 
@@ -38,3 +43,5 @@
 - Day 3에서 블로그 UX 고도화 완료 (코드 하이라이팅, Callout, TOC, 필터, 네비게이션)
 - Day 4에서 about 실내용 + 구독 UI + showcase 상세 + projects 상세 보강 완료
 - 구독 백엔드 연동은 Phase 2 (MailerLite/Buttondown/자체 API)
+- Day 5에서 D1/R2 인프라 + 서비스 허브 + 뉴스 MVP 완료
+- 뉴스 실제 외부 수집 자동화는 Phase 2 (크롤러/RSS/스케줄러)
