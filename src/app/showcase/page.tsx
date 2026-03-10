@@ -1,6 +1,13 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { PageContainer } from "@/components/layout/page-container";
 import { getPublishedShowcase, STATUS_LABEL } from "@/lib/content";
+
+export const metadata: Metadata = {
+  title: "AI Showcase",
+  description: "AI를 활용해 만든 실험과 프로토타입 모음입니다.",
+  alternates: { canonical: "/showcase" },
+};
 
 const STATUS_COLOR: Record<string, string> = {
   live: "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200",

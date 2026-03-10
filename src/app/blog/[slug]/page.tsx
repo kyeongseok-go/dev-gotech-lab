@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { PageContainer } from "@/components/layout/page-container";
@@ -14,6 +15,23 @@ import {
 
 interface Props {
   params: Promise<{ slug: string }>;
+}
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { slug } = await params;
+  const post = getBlogBySlug(slug);
+  if (!post) return {};
+  return {
+    title: post.title,
+    description: post.description ?? `${post.title} — gotech.lab 블로그`,
+    alternates: { canonical: `/blog/${slug}` },
+    openGraph: {
+      type: "article",
+      title: post.title,
+      description: post.description ?? undefined,
+      publishedTime: post.date,
+    },
+  };
 }
 
 export function generateStaticParams() {

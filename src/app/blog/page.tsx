@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { Suspense } from "react";
 import Link from "next/link";
 import { PageContainer } from "@/components/layout/page-container";
@@ -8,6 +9,12 @@ import {
   getAllTags,
   formatDate,
 } from "@/lib/content";
+
+export const metadata: Metadata = {
+  title: "블로그",
+  description: "AI 실험, 개발 기록, 기술 인사이트를 공유합니다.",
+  alternates: { canonical: "/blog" },
+};
 
 interface Props {
   searchParams: Promise<{ category?: string; tag?: string }>;

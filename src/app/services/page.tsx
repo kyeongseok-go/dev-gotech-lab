@@ -1,6 +1,13 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { PageContainer } from "@/components/layout/page-container";
 import { getServices } from "@/lib/db/services";
+
+export const metadata: Metadata = {
+  title: "서비스",
+  description: "gotech.lab에서 제공하는 도구와 서비스 모음입니다.",
+  alternates: { canonical: "/services" },
+};
 
 const STATUS_LABEL: Record<string, string> = {
   live: "운영중",

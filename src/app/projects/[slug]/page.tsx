@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { PageContainer } from "@/components/layout/page-container";
@@ -6,6 +7,17 @@ import { getPublishedProjects, getProjectBySlug } from "@/lib/content";
 
 interface Props {
   params: Promise<{ slug: string }>;
+}
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { slug } = await params;
+  const project = getProjectBySlug(slug);
+  if (!project) return {};
+  return {
+    title: project.title,
+    description: project.summary,
+    alternates: { canonical: `/projects/${slug}` },
+  };
 }
 
 export function generateStaticParams() {

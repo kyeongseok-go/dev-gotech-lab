@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { PageContainer } from "@/components/layout/page-container";
 import {
@@ -5,6 +6,12 @@ import {
   getNewsByCategory,
   getNewsCategories,
 } from "@/lib/db/news";
+
+export const metadata: Metadata = {
+  title: "AI 뉴스",
+  description: "AI·개발 관련 뉴스를 한눈에 모아봅니다.",
+  alternates: { canonical: "/services/news" },
+};
 
 const CATEGORY_LABEL: Record<string, string> = {
   ai: "AI",

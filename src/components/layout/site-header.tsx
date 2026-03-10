@@ -15,12 +15,12 @@ export function SiteHeader() {
         <Link href="/" className="font-semibold text-foreground">
           gotech.lab
         </Link>
-        <nav className="flex items-center gap-6">
+        <nav className="flex items-center gap-3 sm:gap-6 overflow-x-auto">
           {NAV_LINKS.map(({ href, label }) => (
             <Link
               key={href}
               href={href}
-              className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+              className="whitespace-nowrap text-sm text-muted-foreground hover:text-foreground transition-colors"
             >
               {label}
             </Link>

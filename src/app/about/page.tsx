@@ -1,5 +1,12 @@
+import type { Metadata } from "next";
 import { PageContainer } from "@/components/layout/page-container";
 import { SubscribeForm } from "@/components/subscribe-form";
+
+export const metadata: Metadata = {
+  title: "소개",
+  description: "오피스 SW 엔진 개발자의 기술 블로그 · 포트폴리오 · AI 실험 공간입니다.",
+  alternates: { canonical: "/about" },
+};
 
 /* ----------------------------------------------------------------- */
 /* 데이터 상수 — 추후 MDX 또는 외부 파일로 분리 가능                    */

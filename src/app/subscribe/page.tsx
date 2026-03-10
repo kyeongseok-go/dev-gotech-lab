@@ -1,5 +1,12 @@
+import type { Metadata } from "next";
 import { PageContainer } from "@/components/layout/page-container";
 import { SubscribeForm } from "@/components/subscribe-form";
+
+export const metadata: Metadata = {
+  title: "구독",
+  description: "새 글과 서비스 업데이트를 이메일로 받아보세요.",
+  alternates: { canonical: "/subscribe" },
+};
 
 export default function SubscribePage() {
   return (

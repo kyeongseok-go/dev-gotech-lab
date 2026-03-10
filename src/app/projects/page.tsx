@@ -1,6 +1,13 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { PageContainer } from "@/components/layout/page-container";
 import { getPublishedProjects } from "@/lib/content";
+
+export const metadata: Metadata = {
+  title: "프로젝트",
+  description: "진행 중이거나 완료된 프로젝트 목록입니다.",
+  alternates: { canonical: "/projects" },
+};
 
 export default function ProjectsPage() {
   const items = getPublishedProjects();

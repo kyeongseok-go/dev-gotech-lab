@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { PageContainer } from "@/components/layout/page-container";
@@ -16,6 +17,17 @@ const STATUS_COLOR: Record<string, string> = {
 
 interface Props {
   params: Promise<{ slug: string }>;
+}
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { slug } = await params;
+  const item = getShowcaseBySlug(slug);
+  if (!item) return {};
+  return {
+    title: item.title,
+    description: item.summary,
+    alternates: { canonical: `/showcase/${slug}` },
+  };
 }
 
 export function generateStaticParams() {

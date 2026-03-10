@@ -43,7 +43,16 @@
   - 구독 CTA 섹션 (SubscribeForm 포함, 하단 배치)
   - 광고 placeholder 컴포넌트 (AdPlaceholder, 블로그↔프로젝트 사이)
   - 3D는 성능·일정 리스크 판단 후 의도적 제외 (Phase 2 검토)
-- [ ] Day 7: SEO + QA + GitHub 정리 + 배포 + README
+- [x] Day 7: SEO + QA + GitHub 정리 + 배포 + README
+  - 전역 metadata: metadataBase, title.template, OG, twitter (layout.tsx)
+  - 페이지별 metadata: 정적 8개 + generateMetadata 3개 (blog/projects/showcase 상세)
+  - sitemap.ts: 정적 6경로 + 동적 상세 페이지 (Velite 기반)
+  - robots.ts: 전체 허용, /api/ 차단, sitemap URL
+  - RSS 2.0: /rss.xml Route Handler (blog 컬렉션 기반)
+  - README.md 재작성 + .env.example 추가
+  - 사이트 상수 분리: src/lib/constants.ts (SITE_URL, SITE_NAME)
+  - ESLint .wrangler/** ignore 추가
+  - 모바일 네비게이션 간격 조정 (QA 수정)
 
 ## 메모
 - Day 2에서 Day 3 범위(블로그 MDX 컴포넌트)와 Day 4 범위(프로젝트/Showcase 목록)를 일부 선행 완료
@@ -54,3 +63,4 @@
 - 뉴스 실제 외부 수집 자동화는 Phase 2 (크롤러/RSS/스케줄러)
 - Day 6에서 홈 히어로 + 섹션 정리 + 구독 CTA + 광고 placeholder 완료
 - 다크모드 토글, 3D 히어로는 Phase 2 검토 대상
+- Day 7에서 SEO 인프라 + RSS + README + QA 완료, 1주 스프린트 마감
