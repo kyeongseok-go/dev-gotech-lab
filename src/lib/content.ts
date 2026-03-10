@@ -84,6 +84,20 @@ export function extractToc(body: string): TocItem[] {
   return items;
 }
 
+/** 공개된 블로그 글의 고유 카테고리 목록 */
+export function getAllCategories(): string[] {
+  const cats = getPublishedBlogs()
+    .map((p) => p.category)
+    .filter((c): c is string => !!c);
+  return [...new Set(cats)];
+}
+
+/** 공개된 블로그 글의 고유 태그 목록 */
+export function getAllTags(): string[] {
+  const tags = getPublishedBlogs().flatMap((p) => p.tags);
+  return [...new Set(tags)];
+}
+
 /** 날짜를 한국어 형식으로 포맷 */
 export function formatDate(dateStr: string): string {
   return new Date(dateStr).toLocaleDateString("ko-KR", {
