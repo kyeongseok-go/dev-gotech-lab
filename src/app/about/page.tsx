@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import { PageContainer } from "@/components/layout/page-container";
 import { SubscribeForm } from "@/components/subscribe-form";
 
@@ -80,12 +81,29 @@ const INTERESTS = [
 export default function AboutPage() {
   return (
     <PageContainer className="max-w-3xl">
-      {/* 소개 */}
+      {/* 소개 — 프로필 카드 */}
       <section className="mb-12">
-        <h1 className="text-2xl font-semibold">{PROFILE.name}</h1>
-        <p className="mt-4 leading-7 text-muted-foreground">
-          {PROFILE.headline}
-        </p>
+        <div className="flex items-start gap-6">
+          {/* 실제 사진 */}
+          <div className="relative h-24 w-24 flex-shrink-0 overflow-hidden rounded-2xl ring-2 ring-border sm:h-32 sm:w-32">
+            <Image
+              src="/images/profile.png"
+              alt="고경석 프로필"
+              fill
+              className="object-cover"
+              style={{ objectPosition: "50% 8%" }}
+              sizes="128px"
+              priority
+            />
+          </div>
+          <div className="min-w-0 flex-1">
+            <h1 className="text-2xl font-semibold">{PROFILE.name}</h1>
+            <p className="mt-1 text-sm text-primary font-medium">AI Builder · Full-stack Developer</p>
+            <p className="mt-3 leading-7 text-muted-foreground">
+              {PROFILE.headline}
+            </p>
+          </div>
+        </div>
       </section>
 
       {/* 경력 요약 */}

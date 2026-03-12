@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html lang="ko" data-theme="light" style=""><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>고텍이 (Gotekie) Brand Guidelines</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&amp;family=JetBrains+Mono:wght@400;700&amp;family=Space+Grotesk:wght@500;700&amp;display=swap" rel="stylesheet">
+    <link rel="stylesheet" as="style" crossorigin="" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.8/dist/web/static/pretendard.css">
+    <style>
+      :root {
+        --color-bg: #0d0f1a;
+        --color-card: #161929;
+        --color-cyan: #00e5ff;
+        --color-violet: #7c3aed;
+        --color-text: #ffffff;
+        --color-text-muted: #8892a4;
+        --color-border: #1e2139;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: 'Pretendard', 'Inter', sans-serif;
+        background-color: var(--color-bg);
+        color: var(--color-text);
+        line-height: 1.6;
+        margin: 0;
+        padding: 0;
+        /* Dot grid pattern */
+        background-image: radial-gradient(#ffffff08 1px, transparent 1px);
+        background-size: 32px 32px;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 60px 20px;
+      }
+
+      /* Typography */
+      h1,
+      h2,
+      h3,
+      h4,
+      h5,
+      h6 {
+        margin-top: 0;
+        color: #fff;
+      }
+
+      h1 {
+        font-family: 'Space Grotesk', sans-serif;
+        font-size: 4rem;
+        line-height: 1.1;
+        margin-bottom: 0.5rem;
+        background: linear-gradient(135deg, var(--color-cyan) 0%, var(--color-violet) 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        text-shadow: 0 0 40px rgba(0, 229, 255, 0.2);
+      }
+
+      h2 {
+        font-family: 'Pretendard', sans-serif;
+        font-size: 2.5rem;
+        margin-bottom: 1.5rem;
+        position: relative;
+        display: inline-block;
+      }
+
+      h2::after {
+        content: '';
+        position: absolute;
+        bottom: -10px;
+        left: 0;
+        width: 60px;
+        height: 4px;
+        background: linear-gradient(90deg, var(--color-cyan), var(--color-violet));
+        border-radius: 2px;
+      }
+
+      h3 {
+        font-size: 1.5rem;
+        margin-top: 2rem;
+        margin-bottom: 1rem;
+        color: var(--color-cyan);
+      }
+
+      p {
+        color: #d1d5db;
+        margin-bottom: 1.5rem;
+      }
+
+      code {
+        font-family: 'JetBrains Mono', monospace;
+        background: #1e2139;
+        padding: 0.2em 0.4em;
+        border-radius: 4px;
+        color: var(--color-cyan);
+        font-size: 0.9em;
+      }
+
+      /* Sections */
+      section {
+        margin-bottom: 80px;
+        padding-top: 40px;
+        border-top: 1px solid var(--color-border);
+      }
+
+      .hero {
+        text-align: center;
+        padding: 100px 0;
+        border-top: none;
+      }
+
+      .hero-subtitle {
+        font-size: 1.5rem;
+        color: var(--color-text-muted);
+        margin-bottom: 2rem;
+        font-weight: 300;
+      }
+
+      .hero-slogan {
+        font-family: 'Space Grotesk', sans-serif;
+        font-size: 2rem;
+        font-weight: 700;
+        letter-spacing: -0.02em;
+        padding: 1rem 2rem;
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 100px;
+        display: inline-block;
+      }
+
+      /* Cards */
+      .card-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 24px;
+        margin-top: 2rem;
+      }
+
+      .card {
+        background: var(--color-card);
+        border: 1px solid var(--color-border);
+        border-radius: 12px;
+        padding: 24px;
+        transition:
+          transform 0.2s ease,
+          box-shadow 0.2s ease;
+      }
+
+      .card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        border-color: var(--color-cyan);
+      }
+
+      .card h4 {
+        color: #fff;
+        margin-bottom: 0.5rem;
+        font-size: 1.2rem;
+      }
+
+      .value-number {
+        font-family: 'Space Grotesk', sans-serif;
+        font-size: 3rem;
+        font-weight: 700;
+        color: rgba(255, 255, 255, 0.1);
+        line-height: 1;
+        margin-bottom: -10px;
+      }
+
+      /* Color Palette */
+      .color-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 20px;
+      }
+
+      .swatch {
+        border-radius: 12px;
+        overflow: hidden;
+        border: 1px solid var(--color-border);
+      }
+
+      .swatch-color {
+        height: 120px;
+        width: 100%;
+      }
+
+      .swatch-info {
+        padding: 16px;
+        background: var(--color-card);
+      }
+
+      .swatch-name {
+        font-weight: 700;
+        display: block;
+        margin-bottom: 4px;
+      }
+
+      .swatch-hex {
+        font-family: 'JetBrains Mono', monospace;
+        color: var(--color-text-muted);
+        font-size: 0.9rem;
+      }
+
+      /* Table */
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 2rem;
+        background: var(--color-card);
+        border-radius: 12px;
+        overflow: hidden;
+      }
+
+      th,
+      td {
+        padding: 16px 24px;
+        text-align: left;
+        border-bottom: 1px solid var(--color-border);
+      }
+
+      th {
+        background: rgba(0, 0, 0, 0.2);
+        color: var(--color-text-muted);
+        font-weight: 500;
+        font-size: 0.9rem;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+      }
+
+      td {
+        color: #fff;
+      }
+
+      tr:last-child td {
+        border-bottom: none;
+      }
+
+      /* Code Block */
+      .code-block {
+        background: #161929;
+        padding: 24px;
+        border-radius: 8px;
+        overflow-x: auto;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.9rem;
+        border: 1px solid var(--color-border);
+        color: #a78bfa;
+      }
+
+      .gradient-text {
+        background: linear-gradient(90deg, var(--color-cyan), var(--color-violet));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      /* Specific Section Styles */
+      .logo-showcase {
+        background: #000;
+        padding: 40px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 20px;
+        border: 1px solid var(--color-border);
+      }
+
+      .logo-text {
+        font-family: 'Pretendard', sans-serif;
+        font-weight: 800;
+        font-size: 3rem;
+        color: #fff;
+        letter-spacing: -0.03em;
+      }
+
+      .logo-icon {
+        width: 48px;
+        height: 48px;
+        background: linear-gradient(135deg, var(--color-cyan), var(--color-violet));
+        border-radius: 8px;
+        margin-right: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        font-size: 24px;
+        color: #000;
+      }
+
+      .metric-box {
+        background: rgba(0, 229, 255, 0.05);
+        border: 1px solid rgba(0, 229, 255, 0.2);
+        padding: 20px;
+        border-radius: 8px;
+        text-align: center;
+      }
+
+      .metric-value {
+        font-size: 2.5rem;
+        font-weight: 700;
+        color: var(--color-cyan);
+        display: block;
+        margin-bottom: 5px;
+        font-family: 'Space Grotesk', sans-serif;
+      }
+
+      .metric-label {
+        font-size: 0.9rem;
+        color: var(--color-text-muted);
+      }
+
+      .footer {
+        text-align: center;
+        padding: 60px 0;
+        border-top: 1px solid var(--color-border);
+        color: var(--color-text-muted);
+        font-size: 0.9rem;
+      }
+
+      /* Expertise Grid */
+      .expertise-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+      }
+
+      @media (max-width: 768px) {
+        h1 {
+          font-size: 2.5rem;
+        }
+        .expertise-grid {
+          grid-template-columns: 1fr;
+        }
+        .container {
+          padding: 40px 20px;
+        }
+      }
+    </style>
+  </head>
+  <body style="">
+    <div class="container">
+      <!-- HERO -->
+      <header class="hero">
+        <h1>고텍이</h1>
+        <div class="hero-subtitle">Go Kyeongseok의 개인 브랜드 아이덴티티</div>
+        <div class="hero-slogan">Build the Technology. Live Easier.</div>
+        <p style="margin-top: 1rem; color: var(--color-text-muted)">기술을 만들고, 더 쉽게 산다</p>
+      </header>
+
+      <!-- SECTION 1 -->
+      <section id="brand-story">
+        <h2>브랜드 스토리 (Brand Story)</h2>
+
+        <div class="card-grid">
+          <div class="card">
+            <h3>Naming Meaning</h3>
+            <ul style="list-style: none; padding: 0; color: #d1d5db">
+              <li style="margin-bottom: 10px">
+                <strong style="color: var(--color-cyan)">Go</strong> — Go Kyeongseok의 이름 (고)
+              </li>
+              <li style="margin-bottom: 10px">
+                <strong style="color: var(--color-cyan)">Tech</strong> — Technology (기술)
+              </li>
+              <li style="margin-bottom: 10px">
+                <strong style="color: var(--color-cyan)">Easy</strong> — 쉽고 편하게 (이)
+              </li>
+              <li><strong>고텍이</strong> — 한글로 친근하고 기억하기 쉬운 개인 브랜드명</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3>Origin Story</h3>
+            <p>
+              5년간 오피스 소프트웨어 엔진을 깊이 있게 개발해온 <strong>Go Kyeongseok(고경석)</strong>이, 그 경험을
+              바탕으로 최신 기술을 적용해 세상을 더 편하게 만들겠다는 철학으로 만든 개인 브랜드입니다.
+            </p>
+            <p style="margin-bottom: 0">
+              복잡한 엔진 모듈 9개를 직접 설계하며 쌓아온 기술력을 바탕으로, 이제는 최신 기술로 세상을 더 쉽고 편하게
+              만드는 것을 목표로 합니다.
+            </p>
+          </div>
+        </div>
+
+        <div style="margin-top: 40px; display: grid; grid-template-columns: 1fr 1fr; gap: 24px">
+          <div class="metric-box" style="text-align: left; background: var(--color-card); border-color: var(--color-border)">
+            <h4 style="color: var(--color-cyan); margin-top: 0">Vision</h4>
+            <p style="margin-bottom: 0; font-size: 1.2rem">기술이 삶의 무게를 덜어주는 세상</p>
+          </div>
+          <div class="metric-box" style="text-align: left; background: var(--color-card); border-color: var(--color-border)">
+            <h4 style="color: var(--color-cyan); margin-top: 0">Mission</h4>
+            <p style="margin-bottom: 0; font-size: 1.2rem">
+              최신 기술을 직접 만들고 적용하여, 나와 세상이 더 편하게 살 수 있도록
+            </p>
+          </div>
+        </div>
+
+        <h3>5 Core Values</h3>
+        <div class="card-grid" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr))">
+          <div class="card">
+            <div class="value-number">01</div>
+            <h4>혁신</h4>
+            <p style="font-size: 0.9rem; margin-bottom: 0">9개 핵심 모듈 설계 기술 혁신 DNA</p>
+          </div>
+          <div class="card">
+            <div class="value-number">02</div>
+            <h4>정밀함</h4>
+            <p style="font-size: 0.9rem; margin-bottom: 0">오차율 0%, 커버리지 95%의 완성도</p>
+          </div>
+          <div class="card">
+            <div class="value-number">03</div>
+            <h4>단순함</h4>
+            <p style="font-size: 0.9rem; margin-bottom: 0">직관적인 사용성 중심</p>
+          </div>
+          <div class="card">
+            <div class="value-number">04</div>
+            <h4>성장</h4>
+            <p style="font-size: 0.9rem; margin-bottom: 0">멈추지 않는 아키텍트의 성장</p>
+          </div>
+          <div class="card">
+            <div class="value-number">05</div>
+            <h4>사람</h4>
+            <p style="font-size: 0.9rem; margin-bottom: 0">기술은 삶을 위해 존재</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION 2 -->
+      <section id="voice">
+        <h2>슬로건 &amp; 브랜드 보이스</h2>
+
+        <div style="
+            background: var(--color-card);
+            padding: 40px;
+            border-radius: 12px;
+            border-left: 4px solid var(--color-cyan);
+            margin-bottom: 40px;
+          ">
+          <h3 style="margin-top: 0; font-family: 'Space Grotesk'; font-size: 2rem; color: #fff">
+            "Build the Technology. Live Easier."
+          </h3>
+          <p style="font-size: 1.5rem; color: var(--color-text-muted); margin-bottom: 0">기술을 만들고, 더 쉽게 산다</p>
+        </div>
+
+        <div class="card-grid">
+          <div class="card">
+            <h4>01. 명확함 (Clarity)</h4>
+            <p style="margin-bottom: 0">
+              복잡한 엔진 기술도 누구나 이해할 수 있게 설명합니다. 5년간 복잡한 시스템을 설계한 경험을 바탕으로 명확하게
+              전달합니다.
+            </p>
+          </div>
+          <div class="card">
+            <h4>02. 전문성 (Expertise)</h4>
+            <p style="margin-bottom: 0">
+              "이론"이 아닌 9개 핵심 모듈 설계의 "실전 경험"에서 나온 깊이 있는 인사이트를 공유합니다.
+            </p>
+          </div>
+          <div class="card">
+            <h4>03. 성장 지향 (Growth)</h4>
+            <p style="margin-bottom: 0">
+              초급 개발자에서 시스템 아키텍트까지의 여정처럼, 끊임없이 배우고 실패와 개선 과정을 솔직하게 공유합니다.
+            </p>
+          </div>
+          <div class="card">
+            <h4>04. 친근함 (Friendly)</h4>
+            <p style="margin-bottom: 0">
+              개발자 친구처럼 편하게 이야기하는 톤. "~합니다"보다 "~해요", "~하죠" 같은 부드러운 어투를 사용합니다.
+            </p>
+          </div>
+          <div class="card">
+            <h4>05. 한국적 감성 (Korean Native)</h4>
+            <p style="margin-bottom: 0">
+              한글 브랜드명 "고텍이"처럼, 한국 개발자 문화와 감성을 담아냅니다. 영어도 자연스럽게 병행합니다.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION 2.5: EXPERTISE -->
+      <section id="expertise">
+        <h2>고경석의 전문 영역 (Expertise)</h2>
+        <p style="font-size: 1.2rem; color: var(--color-cyan)">
+          5년 개발 여정 (2019.08 - 2024.12) | 오피스 SW 엔진 개발 전문가
+        </p>
+
+        <div class="expertise-grid">
+          <div class="card" style="border-top: 3px solid var(--color-cyan)">
+            <h4 style="color: var(--color-cyan)">Engineering Depth</h4>
+            <ul style="padding-left: 20px; color: #d1d5db">
+              <li style="margin-bottom: 10px">
+                <strong>PieceTree 기반 텍스트 엔진</strong>: 메모리 효율적 구조, 성능 40% 향상
+              </li>
+              <li style="margin-bottom: 10px"><strong>React + TypeScript 아키텍처</strong>: SuperPoint 엔진 전환</li>
+              <li style="margin-bottom: 10px"><strong>실시간 공동편집</strong>: Operation Message Handler 설계</li>
+              <li><strong>성능 최적화</strong>: 검색 70%, 썸네일 40% 향상</li>
+            </ul>
+          </div>
+
+          <div class="card" style="border-top: 3px solid var(--color-violet)">
+            <h4 style="color: var(--color-violet)">System Design</h4>
+            <ul style="padding-left: 20px; color: #d1d5db">
+              <li style="margin-bottom: 10px">
+                <strong>SuperPoint Architecture</strong>: 차세대 프레젠테이션 엔진 계층 설계
+              </li>
+              <li style="margin-bottom: 10px"><strong>Theme/ClrMap System</strong>: 완벽한 색상 테마 시스템 설계</li>
+              <li style="margin-bottom: 10px"><strong>IRFactory 문서 구조</strong>: Import/Export 파서 설계</li>
+            </ul>
+          </div>
+
+          <div class="card" style="
+              grid-column: 1 / -1;
+              background: linear-gradient(135deg, rgba(13, 15, 26, 0.9), rgba(22, 25, 41, 0.9));
+            ">
+            <h4 style="text-align: center; margin-bottom: 24px">9 Core Modules Developed</h4>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 16px">
+              <div class="metric-box">
+                <span class="metric-value">40%</span>
+                <span class="metric-label">Annotation 성능 향상</span>
+              </div>
+              <div class="metric-box">
+                <span class="metric-value">60%</span>
+                <span class="metric-label">Bookmarks 탐색 효율</span>
+              </div>
+              <div class="metric-box">
+                <span class="metric-value">70%</span>
+                <span class="metric-label">Find/Replace 속도</span>
+              </div>
+              <div class="metric-box">
+                <span class="metric-value">0%</span>
+                <span class="metric-label">Theme 색상 오차율</span>
+              </div>
+              <div class="metric-box">
+                <span class="metric-value">100%</span>
+                <span class="metric-label">Cross-ref 정확도</span>
+              </div>
+              <div class="metric-box">
+                <span class="metric-value">95%</span>
+                <span class="metric-label">Test Coverage</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION 3 -->
+      <section id="logo">
+        <h2>로고 시스템 (Logo System)</h2>
+
+        <div class="logo-showcase">
+          <div style="display: flex; align-items: center">
+            <div class="logo-icon">ㄱ</div>
+            <div class="logo-text">고텍이</div>
+          </div>
+        </div>
+
+        <div class="card-grid">
+          <div class="card">
+            <h4>Dark Wordmark</h4>
+            <p style="font-size: 0.9rem">웹사이트, 앱 다크모드용 메인 로고</p>
+          </div>
+          <div class="card">
+            <h4>ㄱ Tech Mark</h4>
+            <p style="font-size: 0.9rem">앱 아이콘, Favicon, GitHub 프로필</p>
+          </div>
+          <div class="card">
+            <h4>Full Brand Logo</h4>
+            <p style="font-size: 0.9rem">헤더, 프레젠테이션, 배너용</p>
+          </div>
+        </div>
+
+        <h3 style="margin-top: 40px">Usage Rules</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>버전</th>
+              <th>사용 환경</th>
+              <th>권장 배경 명도</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Dark Wordmark</td>
+              <td>웹사이트 다크모드, 앱 스플래시</td>
+              <td>20% 이하</td>
+            </tr>
+            <tr>
+              <td>ㄱ Tech Mark</td>
+              <td>앱 아이콘, Favicon, 프로필</td>
+              <td>다크/라이트 모두</td>
+            </tr>
+            <tr>
+              <td>Full Brand Logo</td>
+              <td>프레젠테이션, 웹 헤더</td>
+              <td>다크 배경</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- SECTION 4 -->
+      <section id="colors">
+        <h2>컬러 팔레트 (Color Palette)</h2>
+
+        <h3>Primary Colors</h3>
+        <div class="color-grid">
+          <div class="swatch">
+            <div class="swatch-color" style="background: #00e5ff"></div>
+            <div class="swatch-info">
+              <span class="swatch-name">Cyber Cyan</span>
+              <span class="swatch-hex">#00E5FF</span>
+            </div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-color" style="background: #7c3aed"></div>
+            <div class="swatch-info">
+              <span class="swatch-name">Deep Violet</span>
+              <span class="swatch-hex">#7C3AED</span>
+            </div>
+          </div>
+        </div>
+
+        <h3>Dark Backgrounds</h3>
+        <div class="color-grid">
+          <div class="swatch">
+            <div class="swatch-color" style="background: #0d0f1a"></div>
+            <div class="swatch-info">
+              <span class="swatch-name">Space Black</span>
+              <span class="swatch-hex">#0D0F1A</span>
+            </div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-color" style="background: #161929"></div>
+            <div class="swatch-info">
+              <span class="swatch-name">Dark Navy</span>
+              <span class="swatch-hex">#161929</span>
+            </div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-color" style="background: #1e2139"></div>
+            <div class="swatch-info">
+              <span class="swatch-name">Midnight</span>
+              <span class="swatch-hex">#1E2139</span>
+            </div>
+          </div>
+        </div>
+
+        <h3>Accents</h3>
+        <div class="color-grid">
+          <div class="swatch">
+            <div class="swatch-color" style="background: #a78bfa"></div>
+            <div class="swatch-info">
+              <span class="swatch-name">Soft Lavender</span>
+              <span class="swatch-hex">#A78BFA</span>
+            </div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-color" style="background: #00ff88"></div>
+            <div class="swatch-info">
+              <span class="swatch-name">Neon Mint</span>
+              <span class="swatch-hex">#00FF88</span>
+            </div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-color" style="background: #ff6b9d"></div>
+            <div class="swatch-info">
+              <span class="swatch-name">Warm Coral</span>
+              <span class="swatch-hex">#FF6B9D</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION 5 -->
+      <section id="typography">
+        <h2>타이포그래피 (Typography)</h2>
+
+        <table>
+          <thead>
+            <tr>
+              <th>용도</th>
+              <th>폰트</th>
+              <th>굵기</th>
+              <th>대안</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>한글 로고/헤딩</td>
+              <td>Pretendard</td>
+              <td>ExtraBold 800</td>
+              <td>Noto Sans KR</td>
+            </tr>
+            <tr>
+              <td>영문 헤딩</td>
+              <td>Space Grotesk</td>
+              <td>Bold 700</td>
+              <td>Outfit</td>
+            </tr>
+            <tr>
+              <td>본문</td>
+              <td>Pretendard / Inter</td>
+              <td>Regular 400</td>
+              <td>—</td>
+            </tr>
+            <tr>
+              <td>코드</td>
+              <td>JetBrains Mono</td>
+              <td>Regular 400</td>
+              <td>Fira Code</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div style="background: var(--color-card); padding: 40px; border-radius: 12px; margin-top: 24px">
+          <div style="font-size: 64px; font-weight: 800; line-height: 1.2; margin-bottom: 24px; font-family: 'Pretendard'">
+            고텍이 디자인 시스템
+          </div>
+          <div style="
+              font-size: 48px;
+              font-weight: 700;
+              line-height: 1.2;
+              margin-bottom: 24px;
+              font-family: 'Space Grotesk';
+              color: var(--color-cyan);
+            ">
+            Build the Technology.
+          </div>
+          <div style="font-size: 32px; font-weight: 700; line-height: 1.4; margin-bottom: 16px">핵심 가치와 비전</div>
+          <div style="font-size: 18px; line-height: 1.6; color: #d1d5db">
+            기술은 결국 사람의 삶을 더 편하게 하기 위해 존재합니다. 복잡한 기술을 단순하게 만들고, 혁신을 통해 더 나은
+            내일을 만듭니다.
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION 7 -->
+      <section id="applications">
+        <h2>적용 예시 (Applications)</h2>
+
+        <div class="card-grid">
+          <div class="card">
+            <h4>GitHub Profile</h4>
+            <p style="font-size: 0.9rem; color: var(--color-text-muted)">Username: gotekie / gokyeongseok</p>
+            <div class="code-block" style="margin-top: 10px; color: #fff">
+              ### Go Kyeongseok<br>
+              오피스 SW 엔진 개발 전문가<br><br>
+              &gt; "기술을 만들고, 더 쉽게 산다"<br>
+              &gt; Build the Technology. Live Easier.
+            </div>
+          </div>
+
+          <div class="card">
+            <h4>Email Signature</h4>
+            <div class="code-block" style="margin-top: 10px; color: #fff; white-space: pre">
+              고경석 (Go Kyeongseok) 오피스 SW 엔진 개발 전문가 ──────────────────── 📧 <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="5d36283a3131646b6d6b1d3a303c3431733e3230">[email&#160;protected]</a> 📱
+              010-4162-9606 🌐 gotekie.dev 🐙 GitHub | 💼 LinkedIn 고텍이 | "기술을 만들고, 더 쉽게 산다"
+            </div>
+          </div>
+
+          <div class="card">
+            <h4>Business Card</h4>
+            <div style="
+                background: #0d0f1a;
+                padding: 20px;
+                border-radius: 8px;
+                border: 1px solid #1e2139;
+                margin-bottom: 10px;
+              ">
+              <div style="color: var(--color-cyan); font-weight: bold; font-size: 1.2rem; margin-bottom: 4px">
+                고텍이
+              </div>
+              <div style="font-size: 0.8rem; color: #8892a4">Go Kyeongseok</div>
+              <div style="font-size: 0.9rem; margin-top: 10px">오피스 SW 엔진 개발 전문가</div>
+            </div>
+            <div style="background: #f8faff; color: #000; padding: 20px; border-radius: 8px">
+              <div style="font-weight: bold; margin-bottom: 10px">기술을 만들고, 더 쉽게 산다</div>
+              <div style="font-size: 0.8rem"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="ee859b898282d7d8ded8ae89838f8782c08d8183">[email&#160;protected]</a></div>
+              <div style="font-size: 0.8rem">010-4162-9606</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION 8 -->
+      <section id="assets">
+        <h2>디지털 에셋 (Digital Assets)</h2>
+
+        <h3>CSS Variables</h3>
+        <div class="code-block">
+          :root { /* Primary */ --color-cyan: #00E5FF; --color-violet: #7C3AED; /* Dark Backgrounds */
+          --color-space-black: #0D0F1A; --color-dark-navy: #161929; --color-midnight: #1E2139; /* Accents */
+          --color-lavender: #A78BFA; --color-mint: #00FF88; --color-coral: #FF6B9D; /* Text */ --color-white: #FFFFFF;
+          --color-gray: #8892A4; /* Gradients */ --gradient-primary: linear-gradient(135deg, var(--color-cyan) 0%,
+          var(--color-violet) 100%); }
+        </div>
+      </section>
+
+      <!-- SECTION 9 -->
+      <section id="architecture">
+        <h2>브랜드 아키텍처 (Brand Architecture)</h2>
+
+        <div class="card-grid">
+          <div class="card">
+            <h4>Master Brand</h4>
+            <p style="font-size: 1.2rem; color: #fff">
+              고텍이 <span style="font-size: 0.9rem; color: var(--color-text-muted)">by Go Kyeongseok</span>
+            </p>
+          </div>
+          <div class="card">
+            <h4>Sub-Project Naming</h4>
+            <p>"[프로젝트명] by 고텍이"<br>"[ProjectName] · Gotekie"</p>
+            <p style="font-size: 0.9rem; color: var(--color-cyan)">Ex: SuperDocs by 고텍이</p>
+          </div>
+          <div class="card">
+            <h4>Handles &amp; URLs</h4>
+            <p>@gotekie<br>gotekie.dev</p>
+          </div>
+        </div>
+
+        <h3>Hashtags</h3>
+        <div style="display: flex; flex-wrap: wrap; gap: 10px">
+          <code>#고텍이</code> <code>#Gotekie</code> <code>#GoKyeongseok</code> <code>#오피스SW개발</code>
+          <code>#기술로더쉬운세상</code> <code>#BuildTechLiveEasy</code>
+        </div>
+      </section>
+
+      <footer class="footer">
+        <p>© 2025 고텍이 (Gotekie) by Go Kyeongseok. All rights reserved.</p>
+        <p>"기술을 만들고, 더 쉽게 산다" | Built with latest technology.</p>
+      </footer>
+    </div>
+  
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script></body></html>

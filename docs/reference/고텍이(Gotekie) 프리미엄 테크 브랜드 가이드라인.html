@@ -1,0 +1,924 @@
+<!DOCTYPE html>
+<html lang="ko" data-theme="light" style=""><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>고텍이 (Gotekie) Brand Guidelines</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&amp;family=JetBrains+Mono:wght@400;500&amp;family=Space+Grotesk:wght@500;700&amp;display=swap" rel="stylesheet">
+    <link rel="stylesheet" as="style" crossorigin="" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.8/dist/web/static/pretendard.css">
+    <style>
+      :root {
+        --bg-primary: #0d0f1a;
+        --bg-card: #161929;
+        --text-primary: #ffffff;
+        --text-secondary: #8892a4;
+        --brand-cyan: #00e5ff;
+        --brand-violet: #7c3aed;
+        --brand-lavender: #a78bfa;
+        --brand-mint: #34d399;
+        --brand-coral: #fb7185;
+        --font-kr-display: 'Pretendard', sans-serif;
+        --font-en-display: 'Space Grotesk', sans-serif;
+        --font-en-body: 'Inter', sans-serif;
+        --font-mono: 'JetBrains Mono', monospace;
+      }
+
+      body {
+        background-color: var(--bg-primary);
+        color: var(--text-primary);
+        font-family: var(--font-en-body), var(--font-kr-display);
+        margin: 0;
+        padding: 60px 80px;
+        line-height: 1.6;
+        max-width: 1000px;
+        margin: 0 auto;
+        background-image: radial-gradient(#2a2f45 1px, transparent 1px);
+        background-size: 40px 40px;
+      }
+
+      /* Typography */
+      h1,
+      h2,
+      h3,
+      h4,
+      h5,
+      h6 {
+        color: var(--text-primary);
+        margin-top: 0;
+      }
+
+      h1 {
+        font-family: var(--font-en-display);
+        font-size: 64px;
+        line-height: 1.1;
+        letter-spacing: -0.02em;
+        background: linear-gradient(135deg, var(--brand-cyan), var(--brand-violet));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        margin-bottom: 16px;
+      }
+
+      h2 {
+        font-family: var(--font-kr-display);
+        font-size: 40px;
+        font-weight: 800;
+        margin-top: 60px;
+        margin-bottom: 24px;
+        display: flex;
+        align-items: center;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        padding-bottom: 16px;
+      }
+
+      h2::before {
+        content: '';
+        display: inline-block;
+        width: 8px;
+        height: 32px;
+        background: var(--brand-cyan);
+        margin-right: 16px;
+        border-radius: 4px;
+        box-shadow: 0 0 15px rgba(0, 229, 255, 0.5);
+      }
+
+      h3 {
+        font-family: var(--font-en-display);
+        font-size: 24px;
+        color: var(--brand-cyan);
+        margin-top: 32px;
+        margin-bottom: 16px;
+      }
+
+      p {
+        color: var(--text-secondary);
+        font-size: 16px;
+        margin-bottom: 16px;
+      }
+
+      .lead {
+        font-size: 20px;
+        color: var(--text-primary);
+        font-weight: 500;
+        margin-bottom: 40px;
+        max-width: 700px;
+      }
+
+      /* Layout Components */
+      .section {
+        margin-bottom: 80px;
+      }
+
+      .grid-2 {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 32px;
+      }
+
+      .grid-3 {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 24px;
+      }
+
+      .card {
+        background: var(--bg-card);
+        border: 1px solid #2a2f45;
+        border-radius: 12px;
+        padding: 24px;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 2px;
+        background: linear-gradient(90deg, var(--brand-cyan), var(--brand-violet));
+        opacity: 0.5;
+      }
+
+      /* Color Swatches */
+      .color-swatch {
+        height: 120px;
+        border-radius: 12px;
+        margin-bottom: 12px;
+        position: relative;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .color-info {
+        font-family: var(--font-mono);
+        font-size: 12px;
+        color: var(--text-secondary);
+      }
+
+      .color-name {
+        color: var(--text-primary);
+        font-weight: 700;
+        font-size: 14px;
+        margin-bottom: 4px;
+      }
+
+      /* Typography Spec */
+      .type-spec-row {
+        display: flex;
+        align-items: baseline;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        padding: 24px 0;
+      }
+
+      .type-label {
+        width: 120px;
+        font-family: var(--font-mono);
+        color: var(--brand-cyan);
+        font-size: 12px;
+      }
+
+      .type-example {
+        flex: 1;
+        color: var(--text-primary);
+      }
+
+      .type-meta {
+        width: 150px;
+        text-align: right;
+        font-family: var(--font-mono);
+        font-size: 12px;
+        color: var(--text-secondary);
+      }
+
+      /* Code Blocks */
+      .code-block {
+        background: #000;
+        padding: 16px;
+        border-radius: 8px;
+        font-family: var(--font-mono);
+        font-size: 13px;
+        color: #a78bfa;
+        border: 1px solid #2a2f45;
+        margin-top: 8px;
+      }
+
+      /* Logo Grid */
+      .logo-box {
+        background: var(--bg-card);
+        border: 1px solid #2a2f45;
+        border-radius: 8px;
+        height: 160px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 12px;
+        position: relative;
+      }
+
+      .logo-text-kr {
+        font-family: var(--font-kr-display);
+        font-weight: 800;
+        font-size: 32px;
+        color: white;
+      }
+
+      .logo-text-en {
+        font-family: var(--font-en-display);
+        font-weight: 700;
+        font-size: 24px;
+        letter-spacing: -0.02em;
+      }
+
+      .dont-box {
+        position: relative;
+      }
+
+      .dont-overlay {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        color: var(--brand-coral);
+        font-size: 48px;
+        opacity: 0.8;
+      }
+
+      /* Header Section */
+      .header-brand {
+        margin-bottom: 80px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        padding-bottom: 60px;
+      }
+
+      .brand-badge {
+        display: inline-block;
+        padding: 6px 12px;
+        background: rgba(0, 229, 255, 0.1);
+        border: 1px solid var(--brand-cyan);
+        border-radius: 100px;
+        color: var(--brand-cyan);
+        font-family: var(--font-mono);
+        font-size: 12px;
+        margin-bottom: 24px;
+      }
+
+      /* Gradient Text Helper */
+      .text-gradient {
+        background: linear-gradient(90deg, var(--brand-cyan), var(--brand-violet));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      /* Feature List */
+      .feature-list {
+        list-style: none;
+        padding: 0;
+      }
+
+      .feature-item {
+        display: flex;
+        margin-bottom: 16px;
+        align-items: baseline;
+      }
+
+      .feature-icon {
+        color: var(--brand-cyan);
+        margin-right: 12px;
+        font-family: var(--font-mono);
+      }
+
+      /* Application Mockup Placeholders */
+      .mockup-container {
+        background: #000;
+        border-radius: 8px;
+        padding: 2px;
+        background: linear-gradient(135deg, #2a2f45, #0d0f1a);
+      }
+
+      .mockup-header {
+        height: 24px;
+        background: #1e2438;
+        border-top-left-radius: 6px;
+        border-top-right-radius: 6px;
+        display: flex;
+        align-items: center;
+        padding-left: 8px;
+        gap: 4px;
+      }
+
+      .dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: #2a2f45;
+      }
+
+      .mockup-body {
+        padding: 20px;
+        min-height: 120px;
+      }
+    </style>
+  </head>
+  <body style="">
+    <!-- Cover / Header -->
+    <div class="header-brand">
+      <div class="brand-badge">BRAND GUIDELINES V1.0</div>
+      <h1>
+        고텍이<br><span style="font-size: 0.6em; font-family: var(--font-en-display); color: white">GOTEKIE</span>
+      </h1>
+      <p class="lead">Build the Technology. Live Easier.<br>기술을 만들고, 더 쉽게 산다.</p>
+
+      <div class="grid-2" style="margin-top: 40px">
+        <div>
+          <div style="font-family: var(--font-mono); font-size: 12px; color: var(--text-secondary); margin-bottom: 8px">
+            OWNER
+          </div>
+          <div style="color: white; font-weight: 500">Ko Kyungseok (고경석)</div>
+        </div>
+        <div>
+          <div style="font-family: var(--font-mono); font-size: 12px; color: var(--text-secondary); margin-bottom: 8px">
+            VERSION
+          </div>
+          <div style="color: white; font-weight: 500">2025.02</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section 1: Brand Story -->
+    <div class="section">
+      <h2>01 Brand Story</h2>
+      <div class="grid-2">
+        <div>
+          <h3>Origin of Name</h3>
+          <p><strong>고텍이 (Gotekie)</strong>는 세 가지 핵심 단어의 결합입니다.</p>
+          <ul class="feature-list">
+            <li class="feature-item">
+              <span class="feature-icon">01</span><span><strong>고 (Go)</strong> — 행동, 전진, 그리고 고경석의 성(姓)</span>
+            </li>
+            <li class="feature-item">
+              <span class="feature-icon">02</span><span><strong>텍 (Tech)</strong> — 기술, 테크놀로지, 개발</span>
+            </li>
+            <li class="feature-item">
+              <span class="feature-icon">03</span><span><strong>이 (Easy)</strong> — 쉽고, 간편하고, 친근한 연결 ('이' 접미사)</span>
+            </li>
+          </ul>
+        </div>
+        <div>
+          <h3>Mission &amp; Vision</h3>
+          <div class="card">
+            <div style="color: var(--brand-cyan); font-family: var(--font-mono); font-size: 12px; margin-bottom: 8px">
+              VISION
+            </div>
+            <p style="color: white; font-size: 18px; font-weight: 700; margin-bottom: 24px">
+              "기술이 삶의 무게를 덜어주는 세상"
+            </p>
+
+            <div style="color: var(--brand-violet); font-family: var(--font-mono); font-size: 12px; margin-bottom: 8px">
+              MISSION
+            </div>
+            <p style="color: white; margin-bottom: 0">
+              최신 기술을 직접 만들고 적용하여, 나와 세상이 더 편하게 살 수 있도록 돕습니다.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-top: 40px">
+        <h3>Core Values</h3>
+        <div class="grid-3" style="grid-template-columns: repeat(5, 1fr); gap: 12px">
+          <div class="card" style="padding: 16px; text-align: center">
+            <div style="font-size: 24px; margin-bottom: 8px">🚀</div>
+            <div style="color: white; font-size: 14px; font-weight: bold">Innovation</div>
+            <div style="font-size: 12px">혁신</div>
+          </div>
+          <div class="card" style="padding: 16px; text-align: center">
+            <div style="font-size: 24px; margin-bottom: 8px">✨</div>
+            <div style="color: white; font-size: 14px; font-weight: bold">Simplicity</div>
+            <div style="font-size: 12px">단순함</div>
+          </div>
+          <div class="card" style="padding: 16px; text-align: center">
+            <div style="font-size: 24px; margin-bottom: 8px">🤝</div>
+            <div style="color: white; font-size: 14px; font-weight: bold">Access</div>
+            <div style="font-size: 12px">접근성</div>
+          </div>
+          <div class="card" style="padding: 16px; text-align: center">
+            <div style="font-size: 24px; margin-bottom: 8px">🛠️</div>
+            <div style="color: white; font-size: 14px; font-weight: bold">Craft</div>
+            <div style="font-size: 12px">장인정신</div>
+          </div>
+          <div class="card" style="padding: 16px; text-align: center">
+            <div style="font-size: 24px; margin-bottom: 8px">❤️</div>
+            <div style="color: white; font-size: 14px; font-weight: bold">Human</div>
+            <div style="font-size: 12px">사람중심</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section 2: Slogan & Voice -->
+    <div class="section">
+      <h2>02 Slogan &amp; Voice</h2>
+
+      <div class="card" style="
+          text-align: center;
+          padding: 48px 24px;
+          background: radial-gradient(circle at center, #1e2438 0%, #0d0f1a 100%);
+          border: 1px solid #2a2f45;
+        ">
+        <div style="
+            font-family: var(--font-en-display);
+            font-size: 32px;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 12px;
+          ">
+          "Build the Technology. Live Easier."
+        </div>
+        <div style="font-family: var(--font-kr-display); font-size: 20px; color: var(--text-secondary)">
+          기술을 만들고, 더 쉽게 산다
+        </div>
+      </div>
+
+      <div class="grid-2" style="margin-top: 40px">
+        <div>
+          <h3>Brand Voice Characteristics</h3>
+          <p>고텍이의 목소리는 "친절한 개발자 친구" 같습니다.</p>
+          <div style="margin-top: 24px">
+            <div style="margin-bottom: 16px">
+              <strong style="color: var(--brand-cyan)">01. 명확함 (Clear)</strong>
+              <p style="font-size: 14px; margin-top: 4px">
+                어려운 전문 용어 대신 누구나 이해할 수 있는 언어로 설명합니다.
+              </p>
+            </div>
+            <div style="margin-bottom: 16px">
+              <strong style="color: var(--brand-cyan)">02. 유쾌함 (Playful)</strong>
+              <p style="font-size: 14px; margin-top: 4px">딱딱하지 않습니다. 적절한 이모지와 위트를 사용합니다.</p>
+            </div>
+            <div style="margin-bottom: 16px">
+              <strong style="color: var(--brand-cyan)">03. 한국적 감성 (Korean vibe)</strong>
+              <p style="font-size: 14px; margin-top: 4px">한국의 인터넷 밈이나 개발자 문화를 자연스럽게 녹여냅니다.</p>
+            </div>
+          </div>
+        </div>
+        <div>
+          <h3>Tone Examples</h3>
+          <div class="card" style="margin-bottom: 16px">
+            <div style="font-size: 12px; color: var(--brand-coral); margin-bottom: 4px">❌ BAD (Too Rigid)</div>
+            <p style="color: white; font-size: 14px; margin: 0">
+              "본 솔루션은 최적화된 알고리즘을 통해 사용자의 편의성을 극대화합니다."
+            </p>
+          </div>
+          <div class="card">
+            <div style="font-size: 12px; color: var(--brand-mint); margin-bottom: 4px">✅ GOOD (Gotekie Style)</div>
+            <p style="color: white; font-size: 14px; margin: 0">
+              "이 기능을 쓰면 퇴근이 30분 빨라집니다. 복잡한 건 제가 처리했으니, 그냥 버튼만 누르세요! 🚀"
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section 3: Logo System -->
+    <div class="section">
+      <h2>03 Logo System</h2>
+      <div class="grid-3">
+        <div>
+          <div class="logo-box">
+            <span class="logo-text-kr">고텍이</span>
+          </div>
+          <div class="color-name">Wordmark (Primary)</div>
+          <p style="font-size: 13px">가장 기본이 되는 로고입니다. 다크 배경에서 흰색 텍스트를 사용합니다.</p>
+        </div>
+        <div>
+          <div class="logo-box">
+            <div style="text-align: center">
+              <div style="font-size: 32px; color: var(--brand-cyan); font-weight: bold; margin-bottom: 4px">ㄱ</div>
+              <span class="logo-text-kr" style="font-size: 18px">고텍이</span>
+            </div>
+          </div>
+          <div class="color-name">Vertical Stack</div>
+          <p style="font-size: 13px">심볼과 텍스트를 수직으로 배치한 버전입니다. 소셜 미디어 프로필 등에 적합합니다.</p>
+        </div>
+        <div>
+          <div class="logo-box">
+            <div style="
+                width: 48px;
+                height: 48px;
+                border: 2px solid var(--brand-cyan);
+                border-radius: 12px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: var(--brand-cyan);
+                font-weight: bold;
+                font-size: 24px;
+              ">
+              ㄱ
+            </div>
+          </div>
+          <div class="color-name">Symbol Mark</div>
+          <p style="font-size: 13px">파비콘, 앱 아이콘 등 작은 공간에 사용되는 단독 심볼입니다.</p>
+        </div>
+      </div>
+
+      <h3 style="margin-top: 40px">Protection (Don'ts)</h3>
+      <div class="grid-3">
+        <div class="logo-box dont-box">
+          <span class="logo-text-kr" style="transform: rotate(-10deg)">고텍이</span>
+          <div class="dont-overlay">×</div>
+        </div>
+        <div class="logo-box dont-box">
+          <span class="logo-text-kr" style="color: var(--brand-coral)">고텍이</span>
+          <div class="dont-overlay">×</div>
+        </div>
+        <div class="logo-box dont-box">
+          <span class="logo-text-kr" style="text-shadow: 2px 2px 0 red">고텍이</span>
+          <div class="dont-overlay">×</div>
+        </div>
+      </div>
+      <p style="font-size: 13px; color: var(--brand-coral)">
+        * 로고를 회전하거나, 지정되지 않은 색상을 쓰거나, 그림자 효과를 추가하지 마십시오.
+      </p>
+    </div>
+
+    <!-- Section 4: Color System -->
+    <div class="section">
+      <h2>04 Color System</h2>
+
+      <div style="margin-bottom: 40px">
+        <h3>Primary Colors</h3>
+        <div class="grid-2">
+          <div>
+            <div class="color-swatch" style="background: #00e5ff"></div>
+            <div class="color-name">Cyber Cyan</div>
+            <div class="color-info">HEX: #00E5FF / RGB: 0, 229, 255</div>
+            <div class="color-info">Usage: Primary Action, Links, Focus</div>
+          </div>
+          <div>
+            <div class="color-swatch" style="background: #7c3aed"></div>
+            <div class="color-name">Deep Violet</div>
+            <div class="color-info">HEX: #7C3AED / RGB: 124, 58, 237</div>
+            <div class="color-info">Usage: Secondary, Gradient End</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid-3">
+        <div>
+          <h3>Backgrounds</h3>
+          <div class="color-swatch" style="background: #0d0f1a"></div>
+          <div class="color-name">Space Black</div>
+          <div class="color-info">#0D0F1A (Main BG)</div>
+
+          <div class="color-swatch" style="background: #161929; margin-top: 16px"></div>
+          <div class="color-name">Dark Navy</div>
+          <div class="color-info">#161929 (Card BG)</div>
+        </div>
+
+        <div>
+          <h3>Accents</h3>
+          <div class="color-swatch" style="background: #34d399"></div>
+          <div class="color-name">Mint Green</div>
+          <div class="color-info">#34D399 (Success)</div>
+
+          <div class="color-swatch" style="background: #fb7185; margin-top: 16px"></div>
+          <div class="color-name">Warm Coral</div>
+          <div class="color-info">#FB7185 (Error)</div>
+        </div>
+
+        <div>
+          <h3>Gradients</h3>
+          <div class="color-swatch" style="background: linear-gradient(135deg, #00e5ff, #7c3aed)"></div>
+          <div class="color-name">Primary Gradient</div>
+          <div class="color-info">Cyan to Violet (135deg)</div>
+
+          <div class="color-swatch" style="
+              background: radial-gradient(circle, rgba(0, 229, 255, 0.2) 0%, rgba(13, 15, 26, 1) 70%);
+              margin-top: 16px;
+            "></div>
+          <div class="color-name">Glow Effect</div>
+          <div class="color-info">Radial Alpha Blend</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section 5: Typography -->
+    <div class="section">
+      <h2>05 Typography</h2>
+
+      <div style="margin-bottom: 40px">
+        <div class="grid-2">
+          <div class="card">
+            <div style="
+                font-family: var(--font-kr-display);
+                font-size: 32px;
+                font-weight: 800;
+                color: white;
+                margin-bottom: 8px;
+              ">
+              프리텐다드
+            </div>
+            <div class="color-name">Pretendard</div>
+            <div class="color-info">Korean Display &amp; Body</div>
+            <div class="color-info">Weights: 400, 500, 800</div>
+          </div>
+          <div class="card">
+            <div style="
+                font-family: var(--font-en-display);
+                font-size: 32px;
+                font-weight: 700;
+                color: white;
+                margin-bottom: 8px;
+              ">
+              Space Grotesk
+            </div>
+            <div class="color-name">Space Grotesk</div>
+            <div class="color-info">English Headings</div>
+            <div class="color-info">Weights: 500, 700</div>
+          </div>
+        </div>
+      </div>
+
+      <h3>Type Scale</h3>
+      <div style="background: var(--bg-card); padding: 0 24px; border-radius: 12px; border: 1px solid #2a2f45">
+        <div class="type-spec-row">
+          <div class="type-label">Display</div>
+          <div class="type-example" style="font-size: 64px; font-weight: 800; font-family: var(--font-kr-display)">
+            고텍이 Gotekie
+          </div>
+          <div class="type-meta">80px / 800</div>
+        </div>
+
+        <div class="type-spec-row">
+          <div class="type-label">Heading 1</div>
+          <div class="type-example" style="font-size: 48px; font-weight: 700; font-family: var(--font-en-display)">
+            Build Technology
+          </div>
+          <div class="type-meta">56px / 700</div>
+        </div>
+
+        <div class="type-spec-row">
+          <div class="type-label">Heading 2</div>
+          <div class="type-example" style="font-size: 32px; font-weight: 700; font-family: var(--font-kr-display)">
+            주요 기능 소개
+          </div>
+          <div class="type-meta">40px / 700</div>
+        </div>
+
+        <div class="type-spec-row">
+          <div class="type-label">Heading 3</div>
+          <div class="type-example" style="font-size: 24px; font-weight: 500; font-family: var(--font-en-display)">
+            Technical Specs
+          </div>
+          <div class="type-meta">28px / 500</div>
+        </div>
+
+        <div class="type-spec-row">
+          <div class="type-label">Body Large</div>
+          <div class="type-example" style="font-size: 18px; font-family: var(--font-en-body)">
+            Technology makes life easier when applied correctly.
+          </div>
+          <div class="type-meta">18px / 400</div>
+        </div>
+
+        <div class="type-spec-row">
+          <div class="type-label">Body Medium</div>
+          <div class="type-example" style="font-size: 16px; font-family: var(--font-en-body)">
+            기술은 올바르게 적용될 때 삶을 더 쉽게 만듭니다.
+          </div>
+          <div class="type-meta">16px / 400</div>
+        </div>
+
+        <div class="type-spec-row">
+          <div class="type-label">Code / Mono</div>
+          <div class="type-example" style="font-size: 14px; font-family: var(--font-mono); color: var(--brand-lavender)">
+            npm install gotekie-ui
+          </div>
+          <div class="type-meta">14px / Mono</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section 6: Visual Identity -->
+    <div class="section">
+      <h2>06 Visual Identity</h2>
+      <div class="grid-2">
+        <div>
+          <h3>Pattern &amp; Texture</h3>
+          <p>배경에는 아주 미세한 도트 그리드 패턴(Opacity 5%)을 사용하여 테크니컬한 깊이감을 줍니다.</p>
+          <div class="card" style="
+              height: 120px;
+              background-image: radial-gradient(white 1px, transparent 1px);
+              background-size: 20px 20px;
+              opacity: 0.5;
+            "></div>
+        </div>
+        <div>
+          <h3>Glow Effects</h3>
+          <p>중요한 요소나 카드 호버 시 Cyan 색상의 은은한 광선 효과를 사용합니다.</p>
+          <div class="card" style="height: 120px; display: flex; align-items: center; justify-content: center">
+            <div style="
+                padding: 12px 24px;
+                border: 1px solid var(--brand-cyan);
+                border-radius: 8px;
+                color: var(--brand-cyan);
+                box-shadow: 0 0 20px rgba(0, 229, 255, 0.3);
+              ">
+              Glowing Element
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-top: 32px">
+        <h3>UI Components Style</h3>
+        <div class="card">
+          <div style="display: flex; gap: 16px; align-items: center">
+            <!-- Primary Button -->
+            <button style="
+                background: var(--brand-cyan);
+                color: #000;
+                border: none;
+                padding: 10px 20px;
+                border-radius: 6px;
+                font-weight: bold;
+                font-family: var(--font-en-body);
+                cursor: pointer;
+              ">
+              Get Started
+            </button>
+
+            <!-- Secondary Button -->
+            <button style="
+                background: transparent;
+                color: white;
+                border: 1px solid #2a2f45;
+                padding: 10px 20px;
+                border-radius: 6px;
+                font-family: var(--font-en-body);
+                cursor: pointer;
+              ">
+              Learn More
+            </button>
+
+            <!-- Tag -->
+            <span style="
+                background: rgba(124, 58, 237, 0.2);
+                color: var(--brand-lavender);
+                padding: 4px 12px;
+                border-radius: 100px;
+                font-size: 12px;
+                font-family: var(--font-mono);
+              ">v2.0.1</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section 7: Applications -->
+    <div class="section">
+      <h2>07 Applications</h2>
+
+      <!-- GitHub Mockup -->
+      <h3 style="margin-top: 0">GitHub Profile README</h3>
+      <div class="mockup-container">
+        <div class="mockup-header">
+          <div class="dot" style="background: #ff5f56"></div>
+          <div class="dot" style="background: #ffbd2e"></div>
+          <div class="dot" style="background: #27c93f"></div>
+        </div>
+        <div class="mockup-body" style="background: #0d1117; color: #c9d1d9">
+          <div style="font-size: 24px; font-weight: 600; margin-bottom: 16px">
+            Hi there, I'm <span style="color: var(--brand-cyan)">Gotekie</span> 👋
+          </div>
+          <div style="margin-bottom: 20px; font-family: var(--font-mono); font-size: 14px">
+            <span style="color: var(--brand-violet)">const</span>
+            <span style="color: var(--brand-cyan)">mission</span> =
+            <span style="color: #a5d6ff">"Build the Technology. Live Easier."</span>;
+          </div>
+          <div style="display: flex; gap: 8px">
+            <span style="
+                background: #21262d;
+                padding: 4px 8px;
+                border-radius: 4px;
+                font-size: 12px;
+                border: 1px solid #30363d;
+              ">TypeScript</span>
+            <span style="
+                background: #21262d;
+                padding: 4px 8px;
+                border-radius: 4px;
+                font-size: 12px;
+                border: 1px solid #30363d;
+              ">React</span>
+            <span style="
+                background: #21262d;
+                padding: 4px 8px;
+                border-radius: 4px;
+                font-size: 12px;
+                border: 1px solid #30363d;
+              ">Next.js</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card Mockup -->
+      <h3 style="margin-top: 40px">Business Card</h3>
+      <div class="grid-2">
+        <!-- Front -->
+        <div style="
+            background: #0d0f1a;
+            border: 1px solid #2a2f45;
+            height: 200px;
+            padding: 24px;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+          ">
+          <div style="font-family: var(--font-kr-display); font-weight: 800; font-size: 24px; color: white">고텍이</div>
+          <div>
+            <div style="color: white; font-weight: bold">Ko Kyungseok</div>
+            <div style="color: var(--brand-cyan); font-size: 12px">Creative Developer</div>
+          </div>
+          <div style="
+              position: absolute;
+              right: 24px;
+              top: 24px;
+              width: 32px;
+              height: 32px;
+              border: 2px solid var(--brand-cyan);
+              border-radius: 8px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              color: var(--brand-cyan);
+              font-weight: bold;
+            ">
+            ㄱ
+          </div>
+        </div>
+        <!-- Back -->
+        <div style="
+            background: #0d0f1a;
+            border: 1px solid #2a2f45;
+            height: 200px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+          ">
+          <div style="
+              position: absolute;
+              width: 100%;
+              height: 100%;
+              background-image: radial-gradient(#2a2f45 1px, transparent 1px);
+              background-size: 10px 10px;
+              opacity: 0.5;
+            "></div>
+          <div style="position: relative; z-index: 2; text-align: center">
+            <div style="font-family: var(--font-en-display); font-weight: bold; color: white; font-size: 18px">
+              Build the Technology.<br>Live Easier.
+            </div>
+            <div style="margin-top: 16px; font-size: 12px; color: var(--text-secondary)">gotekie.dev</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section 8: Brand Architecture -->
+    <div class="section">
+      <h2>08 Brand Architecture</h2>
+      <div class="grid-2">
+        <div>
+          <h3>Naming Convention</h3>
+          <p>프로젝트 네이밍 시 일관성을 유지합니다.</p>
+          <div class="code-block">
+            [Project Name] by 고텍이<br>
+            [Project Name] · Gotekie
+          </div>
+          <p style="font-size: 12px; margin-top: 8px">예: "DevTimer by 고텍이"</p>
+        </div>
+        <div>
+          <h3>Digital Presence</h3>
+          <ul class="feature-list">
+            <li class="feature-item"><span class="feature-icon">@</span><span>gotekie (Global Handle)</span></li>
+            <li class="feature-item"><span class="feature-icon">#</span><span>#GoTechEasy #고텍이</span></li>
+            <li class="feature-item"><span class="feature-icon">🌐</span><span>gotekie.dev</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div style="border-top: 1px solid #2a2f45; padding-top: 40px; margin-top: 80px; text-align: center">
+      <p style="font-size: 14px; color: var(--text-secondary)">
+        © 2025 Ko Kyungseok. All rights reserved.<br>
+        This document serves as the official brand guidelines for "고텍이 (Gotekie)".
+      </p>
+    </div>
+  
+
+</body></html>
