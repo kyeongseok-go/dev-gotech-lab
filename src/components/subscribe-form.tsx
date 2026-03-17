@@ -22,7 +22,6 @@ export function SubscribeForm({ onSubmit }: SubscribeFormProps) {
       if (onSubmit) {
         await onSubmit(email);
       } else {
-        // 더미 처리: 1초 대기 후 성공
         await new Promise((r) => setTimeout(r, 1000));
       }
       setStatus("success");
@@ -49,18 +48,17 @@ export function SubscribeForm({ onSubmit }: SubscribeFormProps) {
             if (status !== "idle") setStatus("idle");
           }}
           disabled={status === "submitting"}
-          className="flex-1 rounded-lg border border-input bg-background px-3 py-2 text-sm outline-ring/50 placeholder:text-muted-foreground disabled:opacity-50"
+          className="flex-1 rounded-xl border border-input bg-background px-4 py-2.5 text-sm outline-ring/50 placeholder:text-muted-foreground disabled:opacity-50"
         />
         <button
           type="submit"
           disabled={status === "submitting"}
-          className="rounded-lg bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90 disabled:opacity-50"
+          className="rounded-xl bg-primary px-5 py-2.5 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90 disabled:opacity-50"
         >
-          {status === "submitting" ? "전송 중…" : "구독하기"}
+          {status === "submitting" ? "전송 중..." : "구독하기"}
         </button>
       </form>
 
-      {/* 상태 메시지 */}
       <div className="mt-3 text-sm" aria-live="polite">
         {status === "success" && (
           <p className="text-green-600 dark:text-green-400">

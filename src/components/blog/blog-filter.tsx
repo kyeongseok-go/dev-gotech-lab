@@ -36,10 +36,10 @@ export function BlogFilter({ categories, tags }: BlogFilterProps) {
           <span className="text-xs font-medium text-muted-foreground">카테고리</span>
           <button
             onClick={() => setFilter("category", "")}
-            className={`rounded-full px-3 py-1 text-xs transition-colors ${
+            className={`rounded-full px-3.5 py-1.5 text-xs font-medium transition-colors ${
               !activeCategory
                 ? "bg-primary text-primary-foreground"
-                : "bg-secondary text-secondary-foreground hover:bg-secondary/80"
+                : "bg-secondary text-secondary-foreground hover:bg-muted"
             }`}
           >
             전체
@@ -48,10 +48,10 @@ export function BlogFilter({ categories, tags }: BlogFilterProps) {
             <button
               key={cat}
               onClick={() => setFilter("category", cat)}
-              className={`rounded-full px-3 py-1 text-xs transition-colors ${
+              className={`rounded-full px-3.5 py-1.5 text-xs font-medium transition-colors ${
                 activeCategory === cat
                   ? "bg-primary text-primary-foreground"
-                  : "bg-secondary text-secondary-foreground hover:bg-secondary/80"
+                  : "bg-secondary text-secondary-foreground hover:bg-muted"
               }`}
             >
               {cat}
@@ -67,7 +67,7 @@ export function BlogFilter({ categories, tags }: BlogFilterProps) {
           {activeTag && (
             <button
               onClick={() => setFilter("tag", "")}
-              className="rounded-full px-3 py-1 text-xs bg-primary text-primary-foreground"
+              className="rounded-full px-3.5 py-1.5 text-xs font-medium bg-primary text-primary-foreground"
             >
               {activeTag} ✕
             </button>
@@ -78,7 +78,7 @@ export function BlogFilter({ categories, tags }: BlogFilterProps) {
               <button
                 key={tag}
                 onClick={() => setFilter("tag", tag)}
-                className="rounded-full px-3 py-1 text-xs bg-secondary text-secondary-foreground hover:bg-secondary/80 transition-colors"
+                className="rounded-full px-3.5 py-1.5 text-xs font-medium bg-secondary text-secondary-foreground hover:bg-muted transition-colors"
               >
                 {tag}
               </button>

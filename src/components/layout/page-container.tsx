@@ -7,7 +7,7 @@ interface PageContainerProps {
 
 export function PageContainer({ children, className }: PageContainerProps) {
   return (
-    <main className={cn("mx-auto max-w-4xl px-4 py-10", className)}>
+    <main className={cn("mx-auto max-w-5xl px-5 py-12", className)}>
       {children}
     </main>
   );

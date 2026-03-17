@@ -54,29 +54,26 @@ export default async function BlogPostPage({ params }: Props) {
     <PageContainer className="max-w-3xl">
       <article>
         {/* 메타 영역 */}
-        <header className="mb-8">
+        <header className="mb-10">
           <div className="flex items-center gap-3 text-sm text-muted-foreground">
             <time>{formatDate(post.date)}</time>
             {post.category && (
               <>
-                <span>·</span>
-                <span>{post.category}</span>
+                <span className="text-border">|</span>
+                <span className="font-medium text-primary">{post.category}</span>
               </>
             )}
-            <span>·</span>
+            <span className="text-border">|</span>
             <span>{readingTime}분 읽기</span>
           </div>
-          <h1 className="mt-3 text-3xl font-bold">{post.title}</h1>
+          <h1 className="mt-4 text-3xl font-bold tracking-tight">{post.title}</h1>
           {post.description && (
-            <p className="mt-3 text-muted-foreground">{post.description}</p>
+            <p className="mt-3 text-muted-foreground leading-relaxed">{post.description}</p>
           )}
           {post.tags.length > 0 && (
             <div className="mt-4 flex flex-wrap gap-1.5">
               {post.tags.map((tag) => (
-                <span
-                  key={tag}
-                  className="rounded-full bg-secondary px-2.5 py-0.5 text-xs text-secondary-foreground"
-                >
+                <span key={tag} className="tag-badge">
                   {tag}
                 </span>
               ))}
@@ -95,14 +92,14 @@ export default async function BlogPostPage({ params }: Props) {
 
       {/* 이전/다음 글 네비게이션 */}
       {(prev || next) && (
-        <nav className="mt-12 grid gap-4 border-t border-border pt-8 sm:grid-cols-2">
+        <nav className="mt-14 grid gap-4 border-t border-border pt-8 sm:grid-cols-2">
           {prev ? (
             <Link
               href={`/blog/${prev.slug}`}
-              className="group rounded-lg border border-border p-4 transition-colors hover:bg-muted/50"
+              className="list-card group"
             >
-              <span className="text-xs text-muted-foreground">← 이전 글</span>
-              <p className="mt-1 font-medium group-hover:text-primary">
+              <span className="text-xs text-muted-foreground">&larr; 이전 글</span>
+              <p className="mt-1.5 font-medium group-hover:text-primary transition-colors">
                 {prev.title}
               </p>
             </Link>
@@ -112,10 +109,10 @@ export default async function BlogPostPage({ params }: Props) {
           {next && (
             <Link
               href={`/blog/${next.slug}`}
-              className="group rounded-lg border border-border p-4 text-right transition-colors hover:bg-muted/50"
+              className="list-card group text-right"
             >
-              <span className="text-xs text-muted-foreground">다음 글 →</span>
-              <p className="mt-1 font-medium group-hover:text-primary">
+              <span className="text-xs text-muted-foreground">다음 글 &rarr;</span>
+              <p className="mt-1.5 font-medium group-hover:text-primary transition-colors">
                 {next.title}
               </p>
             </Link>

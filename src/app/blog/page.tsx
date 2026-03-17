@@ -35,7 +35,7 @@ export default async function BlogPage({ searchParams }: Props) {
 
   return (
     <PageContainer>
-      <h1 className="text-2xl font-semibold">블로그</h1>
+      <h1 className="text-3xl font-bold tracking-tight">블로그</h1>
       <p className="mt-2 mb-8 text-muted-foreground">
         개발 기록과 기술 이야기를 공유합니다.
       </p>
@@ -51,19 +51,19 @@ export default async function BlogPage({ searchParams }: Props) {
             : "아직 작성된 글이 없습니다."}
         </p>
       ) : (
-        <ul className="space-y-6">
+        <ul className="space-y-4">
           {filtered.map((post) => (
             <li key={post.slug}>
               <Link
                 href={`/blog/${post.slug}`}
-                className="block rounded-lg border border-border p-5 transition-colors hover:bg-muted/50"
+                className="list-card block"
               >
                 <div className="flex items-center gap-3 text-xs text-muted-foreground">
                   <time>{formatDate(post.date)}</time>
                   {post.category && (
                     <>
-                      <span>·</span>
-                      <span>{post.category}</span>
+                      <span className="text-border">|</span>
+                      <span className="font-medium text-primary">{post.category}</span>
                     </>
                   )}
                 </div>
@@ -76,10 +76,7 @@ export default async function BlogPage({ searchParams }: Props) {
                 {post.tags.length > 0 && (
                   <div className="mt-3 flex flex-wrap gap-1.5">
                     {post.tags.map((t) => (
-                      <span
-                        key={t}
-                        className="rounded-full bg-secondary px-2.5 py-0.5 text-xs text-secondary-foreground"
-                      >
+                      <span key={t} className="tag-badge">
                         {t}
                       </span>
                     ))}

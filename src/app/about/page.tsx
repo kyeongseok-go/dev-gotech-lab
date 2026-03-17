@@ -82,9 +82,8 @@ export default function AboutPage() {
   return (
     <PageContainer className="max-w-3xl">
       {/* 소개 — 프로필 카드 */}
-      <section className="mb-12">
+      <section className="mb-14">
         <div className="flex items-start gap-6">
-          {/* 실제 사진 */}
           <div className="relative h-24 w-24 flex-shrink-0 overflow-hidden rounded-2xl ring-2 ring-border sm:h-32 sm:w-32">
             <Image
               src="/images/profile.png"
@@ -97,8 +96,8 @@ export default function AboutPage() {
             />
           </div>
           <div className="min-w-0 flex-1">
-            <h1 className="text-2xl font-semibold">{PROFILE.name}</h1>
-            <p className="mt-1 text-sm text-primary font-medium">AI Builder · Full-stack Developer</p>
+            <h1 className="text-3xl font-bold tracking-tight">{PROFILE.name}</h1>
+            <p className="mt-1.5 text-sm text-primary font-semibold">AI Builder &middot; Full-stack Developer</p>
             <p className="mt-3 leading-7 text-muted-foreground">
               {PROFILE.headline}
             </p>
@@ -107,10 +106,10 @@ export default function AboutPage() {
       </section>
 
       {/* 경력 요약 */}
-      <section className="mb-12">
-        <h2 className="mb-6 text-lg font-semibold">경력 요약</h2>
-        <p className="mb-4 text-sm text-muted-foreground">
-          Tmax A&C · 오피스 SW 엔진 개발 (2019.08 – 2024.12)
+      <section className="mb-14">
+        <h2 className="section-heading mb-8 text-lg font-bold">경력 요약</h2>
+        <p className="mb-5 text-sm text-muted-foreground">
+          Tmax A&C &middot; 오피스 SW 엔진 개발 (2019.08 &ndash; 2024.12)
         </p>
         <ol className="relative border-l border-border pl-6 space-y-6">
           {CAREER.map((item) => (
@@ -121,7 +120,7 @@ export default function AboutPage() {
               <div>
                 <div className="flex items-center gap-2 text-sm">
                   <span className="font-medium">{item.title}</span>
-                  <span className="rounded-full bg-secondary px-2 py-0.5 text-xs text-secondary-foreground">
+                  <span className="tag-badge">
                     {item.role}
                   </span>
                 </div>
@@ -135,21 +134,15 @@ export default function AboutPage() {
       </section>
 
       {/* 기술 스택 */}
-      <section className="mb-12">
-        <h2 className="mb-6 text-lg font-semibold">기술 스택</h2>
+      <section className="mb-14">
+        <h2 className="section-heading mb-8 text-lg font-bold">기술 스택</h2>
         <div className="grid gap-4 sm:grid-cols-2">
           {Object.entries(SKILLS).map(([category, items]) => (
-            <div
-              key={category}
-              className="rounded-lg border border-border p-4"
-            >
-              <h3 className="mb-2 text-sm font-medium">{category}</h3>
+            <div key={category} className="list-card">
+              <h3 className="mb-3 text-sm font-semibold">{category}</h3>
               <div className="flex flex-wrap gap-1.5">
                 {items.map((skill) => (
-                  <span
-                    key={skill}
-                    className="rounded-full bg-secondary px-2.5 py-0.5 text-xs text-secondary-foreground"
-                  >
+                  <span key={skill} className="tag-badge">
                     {skill}
                   </span>
                 ))}
@@ -160,15 +153,12 @@ export default function AboutPage() {
       </section>
 
       {/* 관심 분야 */}
-      <section className="mb-12">
-        <h2 className="mb-6 text-lg font-semibold">관심 분야</h2>
-        <ul className="grid gap-3 sm:grid-cols-2">
+      <section className="mb-14">
+        <h2 className="section-heading mb-8 text-lg font-bold">관심 분야</h2>
+        <ul className="grid gap-4 sm:grid-cols-2">
           {INTERESTS.map((item) => (
-            <li
-              key={item.label}
-              className="rounded-lg border border-border p-4"
-            >
-              <p className="font-medium">{item.label}</p>
+            <li key={item.label} className="list-card">
+              <p className="font-semibold">{item.label}</p>
               <p className="mt-1 text-sm text-muted-foreground">{item.desc}</p>
             </li>
           ))}
@@ -176,8 +166,8 @@ export default function AboutPage() {
       </section>
 
       {/* 이 사이트에 대해 */}
-      <section className="mb-12">
-        <h2 className="mb-4 text-lg font-semibold">이 사이트에 대해</h2>
+      <section className="mb-14">
+        <h2 className="section-heading mb-6 text-lg font-bold">이 사이트에 대해</h2>
         <p className="leading-7 text-muted-foreground">
           <strong className="text-foreground">gotech.lab</strong>은 기술 블로그,
           포트폴리오, AI 실험 결과, 그리고 작은 서비스들을 한 곳에 모아 공유하기
@@ -187,22 +177,22 @@ export default function AboutPage() {
       </section>
 
       {/* 구독 */}
-      <section className="mb-12 rounded-lg border border-border bg-muted/30 p-6">
-        <h2 className="mb-2 text-lg font-semibold">소식 받기</h2>
-        <p className="mb-4 text-sm text-muted-foreground">
+      <section className="mb-14 list-card !py-8">
+        <h2 className="mb-2 text-lg font-bold">소식 받기</h2>
+        <p className="mb-5 text-sm text-muted-foreground">
           AI 실험, 개발 기록, 새 서비스 업데이트를 이메일로 받아보세요.
         </p>
         <SubscribeForm />
       </section>
 
       {/* 연락 */}
-      <section className="mb-12">
-        <h2 className="mb-4 text-lg font-semibold">연락</h2>
+      <section className="mb-14">
+        <h2 className="section-heading mb-6 text-lg font-bold">연락</h2>
         <ul className="space-y-2 text-sm">
           <li>
             <a
               href={`mailto:${PROFILE.email}`}
-              className="text-primary underline underline-offset-4 hover:text-primary/80"
+              className="font-medium text-primary hover:text-primary/80 transition-colors"
             >
               {PROFILE.email}
             </a>
@@ -212,9 +202,9 @@ export default function AboutPage() {
               href={PROFILE.github}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-primary underline underline-offset-4 hover:text-primary/80"
+              className="font-medium text-primary hover:text-primary/80 transition-colors"
             >
-              GitHub
+              GitHub &rarr;
             </a>
           </li>
         </ul>

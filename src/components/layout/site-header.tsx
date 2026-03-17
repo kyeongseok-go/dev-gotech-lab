@@ -12,31 +12,33 @@ const NAV_LINKS = [
 export function SiteHeader() {
   return (
     <header className="site-header sticky top-0 z-50">
-      <div className="mx-auto flex h-14 max-w-4xl items-center justify-between px-4">
+      <div className="mx-auto flex h-16 max-w-5xl items-center justify-between px-5">
         {/* 로고 */}
         <Link href="/" className="flex items-center gap-2.5">
-          <div className="logo-icon flex h-8 w-8 items-center justify-center rounded-lg text-sm font-bold text-black">
+          <div className="logo-icon flex h-8 w-8 items-center justify-center rounded-lg text-sm font-bold text-white">
             ㄱ
           </div>
-          <span className="logo-text text-base font-extrabold tracking-tight text-white">
+          <span className="logo-text text-base font-extrabold tracking-tight">
             고텍이
           </span>
         </Link>
 
         {/* 네비게이션 + 테마 토글 */}
-        <div className="flex items-center gap-1 sm:gap-2">
-          <nav className="flex items-center gap-1 overflow-x-auto sm:gap-2">
+        <div className="flex items-center gap-1">
+          <nav className="flex items-center gap-0.5 overflow-x-auto">
             {NAV_LINKS.map(({ href, label }) => (
               <Link
                 key={href}
                 href={href}
-                className="nav-link whitespace-nowrap rounded-md px-3 py-1.5 text-sm transition-colors"
+                className="nav-link whitespace-nowrap rounded-lg px-3 py-2 text-sm font-medium transition-colors"
               >
                 {label}
               </Link>
             ))}
           </nav>
-          <ThemeToggle />
+          <div className="ml-2">
+            <ThemeToggle />
+          </div>
         </div>
       </div>
     </header>

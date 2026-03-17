@@ -19,11 +19,13 @@ const SERVICE_STATUS_LABEL: Record<string, string> = {
   archived: "종료",
 };
 
-const SERVICE_STATUS_COLOR: Record<string, { bg: string; text: string }> = {
-  live: { bg: "rgba(0, 255, 136, 0.1)", text: "#00ff88" },
-  wip: { bg: "rgba(255, 229, 0, 0.1)", text: "#fbbf24" },
-  archived: { bg: "rgba(136, 146, 164, 0.1)", text: "#8892a4" },
+const SERVICE_STATUS_CLASS: Record<string, string> = {
+  live: "status-badge status-live",
+  wip: "status-badge status-wip",
+  archived: "status-badge status-archived",
 };
+
+const BENTO_COLORS = ["bento-blue", "bento-green", "bento-purple", "bento-pink", "bento-yellow", "bento-mint"];
 
 export default async function Home() {
   const blogs = getPublishedBlogs().slice(0, 3);
@@ -36,50 +38,48 @@ export default async function Home() {
     <PageContainer>
       {/* ── 히어로 ── */}
       <FadeIn>
-      <section className="relative -mx-4 mb-20 overflow-hidden rounded-2xl px-6 py-20 sm:px-12 sm:py-28">
+      <section className="relative -mx-4 mb-24 overflow-hidden rounded-3xl px-8 py-24 sm:px-14 sm:py-32">
         {/* 배경 레이어 */}
         <div className="hero-dots pointer-events-none absolute inset-0" />
         <div className="hero-glow pointer-events-none absolute inset-0" />
-        <div
-          className="pointer-events-none absolute inset-0 rounded-2xl border border-primary/15"
-        />
+        <div className="pointer-events-none absolute inset-0 rounded-3xl border border-border" />
 
         <div className="relative flex items-center gap-10">
           {/* 텍스트 영역 */}
           <div className="flex-1 min-w-0">
             {/* 서브 라벨 */}
-            <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/8 px-4 py-1.5 text-xs font-medium text-primary">
-              <span className="h-1.5 w-1.5 rounded-full bg-primary shadow-[0_0_6px_var(--primary)]" />
-              오피스 SW 엔진 5년 → AI 빌더
+            <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-4 py-1.5 text-xs font-medium text-primary">
+              <span className="h-1.5 w-1.5 rounded-full bg-primary" />
+              오피스 SW 엔진 5년 &rarr; AI 빌더
             </div>
 
             {/* 메인 타이틀 */}
-            <h1 className="hero-title text-4xl font-extrabold leading-tight tracking-tight sm:text-5xl lg:text-6xl">
+            <h1 className="hero-title text-4xl font-extrabold leading-[1.15] tracking-tight sm:text-5xl lg:text-6xl">
               만들고, 기록하고,
               <br />
               공유합니다.
             </h1>
 
-            {/* 슬로건 — Go/Technology/Easier = 고텍이 */}
-            <p className="mt-4 font-[family-name:var(--font-space-grotesk)] text-lg font-medium text-muted-foreground sm:text-xl">
+            {/* 슬로건 */}
+            <p className="mt-5 font-[family-name:var(--font-space-grotesk)] text-lg font-medium text-muted-foreground sm:text-xl">
               <span className="gradient-text font-bold">Go</span>!! Build The{" "}
               <span className="gradient-text font-bold">Technology</span>. Live{" "}
               <span className="gradient-text font-bold">Easier</span>.
             </p>
 
-            <p className="mt-3 max-w-lg text-sm leading-relaxed text-muted-foreground">
+            <p className="mt-4 max-w-lg text-sm leading-relaxed text-muted-foreground">
               5년간의 오피스 SW 엔진 개발 경험 위에,
               <br />
               AI를 활용해 빠르게 만들고 기록하는 사람의 공간입니다.
             </p>
 
             {/* 태그 뱃지 */}
-            <div className="mt-6 flex flex-wrap gap-2">
+            <div className="mt-7 flex flex-wrap gap-2">
               {[
-                { label: "기술 블로그", color: "#00e5ff" },
+                { label: "기술 블로그", color: "#3b82f6" },
                 { label: "포트폴리오", color: "#a78bfa" },
-                { label: "AI 실험", color: "#00ff88" },
-                { label: "서비스", color: "#ff6b9d" },
+                { label: "AI 실험", color: "#22c55e" },
+                { label: "서비스", color: "#f472b6" },
               ].map(({ label, color }, i) => (
                 <span
                   key={label}
@@ -97,23 +97,23 @@ export default async function Home() {
             </div>
 
             {/* CTA 버튼 */}
-            <div className="mt-8 flex flex-wrap items-center gap-3">
+            <div className="mt-9 flex flex-wrap items-center gap-3">
               <Link
                 href="/blog"
-                className="btn-glow rounded-lg px-6 py-2.5 text-sm"
+                className="btn-glow rounded-xl px-6 py-2.5 text-sm"
               >
                 블로그 보기
               </Link>
               <Link
                 href="/about"
-                className="rounded-lg border border-border bg-secondary px-6 py-2.5 text-sm font-medium text-foreground transition-colors hover:bg-secondary/80"
+                className="rounded-xl border border-border bg-card px-6 py-2.5 text-sm font-medium text-foreground transition-colors hover:bg-muted"
               >
                 소개 보기
               </Link>
             </div>
 
             {/* 메트릭 수치 */}
-            <div className="mt-12 grid grid-cols-3 gap-4 sm:max-w-lg">
+            <div className="mt-14 grid grid-cols-3 gap-4 sm:max-w-lg">
               {[
                 { value: "9개", label: "핵심 모듈 설계" },
                 { value: "5년", label: "엔진 개발 경력" },
@@ -127,7 +127,7 @@ export default async function Home() {
                 </div>
               ))}
             </div>
-          </div>{/* 텍스트 영역 끝 */}
+          </div>
 
           {/* 캐릭터 — 라이트모드 + sm 이상에서만 표시 */}
           <div className="hidden dark:hidden sm:flex flex-shrink-0 items-end self-end">
@@ -140,7 +140,6 @@ export default async function Home() {
                 priority
                 sizes="(min-width:1024px) 288px, 256px"
               />
-              {/* 하단 페이드 */}
               <div className="pointer-events-none absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-[var(--background)] to-transparent" />
             </div>
           </div>
@@ -167,18 +166,18 @@ export default async function Home() {
               <li key={post.slug}>
                 <Link
                   href={`/blog/${post.slug}`}
-                  className="brand-card block p-4"
+                  className="list-card block"
                 >
                   <div className="flex items-center gap-2 text-xs text-muted-foreground">
                     <time>{formatDate(post.date)}</time>
                     {post.category && (
                       <>
-                        <span>·</span>
-                        <span className="text-primary">{post.category}</span>
+                        <span className="text-border">|</span>
+                        <span className="text-primary font-medium">{post.category}</span>
                       </>
                     )}
                   </div>
-                  <h3 className="mt-1.5 font-semibold text-foreground">{post.title}</h3>
+                  <h3 className="mt-2 font-semibold text-foreground">{post.title}</h3>
                   {post.description && (
                     <p className="mt-1 line-clamp-1 text-sm text-muted-foreground">
                       {post.description}
@@ -193,7 +192,7 @@ export default async function Home() {
       </FadeIn>
 
       {/* 광고 자리 */}
-      <AdPlaceholder className="mb-14" />
+      <AdPlaceholder className="mb-16" />
 
       {/* ── 프로젝트 ── */}
       <FadeIn delay={100}>
@@ -214,7 +213,7 @@ export default async function Home() {
               <li key={project.slug}>
                 <Link
                   href={`/projects/${project.slug}`}
-                  className="brand-card block p-5"
+                  className="list-card block"
                 >
                   <h3 className="font-semibold text-foreground">{project.title}</h3>
                   <p className="mt-1.5 line-clamp-2 text-sm text-muted-foreground">
@@ -223,10 +222,7 @@ export default async function Home() {
                   {project.techStack.length > 0 && (
                     <div className="mt-3 flex flex-wrap gap-1.5">
                       {project.techStack.slice(0, 4).map((t) => (
-                        <span
-                          key={t}
-                          className="rounded-full border border-accent/30 bg-accent/15 px-2.5 py-0.5 text-xs font-medium text-[var(--brand-lavender)]"
-                        >
+                        <span key={t} className="tag-badge">
                           {t}
                         </span>
                       ))}
@@ -240,7 +236,7 @@ export default async function Home() {
       </HomeSection>
       </FadeIn>
 
-      {/* ── AI Showcase ── */}
+      {/* ── AI Showcase — 벤토 스타일 ── */}
       <FadeIn delay={100}>
       <HomeSection
         title="AI Showcase"
@@ -255,17 +251,17 @@ export default async function Home() {
           </p>
         ) : (
           <ul className="grid gap-4 sm:grid-cols-3">
-            {showcaseItems.map((item) => (
+            {showcaseItems.map((item, idx) => (
               <li key={item.slug}>
                 <Link
                   href={`/showcase/${item.slug}`}
-                  className="brand-card block p-5"
+                  className={`bento-card block ${BENTO_COLORS[idx % BENTO_COLORS.length]}`}
                 >
-                  <span className="rounded-full bg-[rgba(0,255,136,0.1)] px-2 py-0.5 text-xs font-medium text-[#00ff88]">
+                  <span className="status-badge status-live text-[11px]">
                     {STATUS_LABEL[item.status] ?? item.status}
                   </span>
-                  <h3 className="mt-2 font-semibold text-foreground">{item.title}</h3>
-                  <p className="mt-1 line-clamp-2 text-sm text-muted-foreground">
+                  <h3 className="mt-3 font-semibold">{item.title}</h3>
+                  <p className="mt-1.5 line-clamp-2 text-sm opacity-70">
                     {item.summary}
                   </p>
                 </Link>
@@ -287,21 +283,11 @@ export default async function Home() {
           <ul className="grid gap-4 sm:grid-cols-2">
             {displayServices.map((svc) => (
               <li key={svc.slug}>
-                <div className="brand-card p-5">
-                  {(() => {
-                    const sc =
-                      SERVICE_STATUS_COLOR[svc.status] ??
-                      SERVICE_STATUS_COLOR.archived;
-                    return (
-                      <span
-                        className="rounded-full px-2.5 py-0.5 text-xs font-medium"
-                        style={{ background: sc.bg, color: sc.text }}
-                      >
-                        {SERVICE_STATUS_LABEL[svc.status] ?? svc.status}
-                      </span>
-                    );
-                  })()}
-                  <h3 className="mt-2 font-semibold text-foreground">{svc.title}</h3>
+                <div className="list-card">
+                  <span className={SERVICE_STATUS_CLASS[svc.status] ?? SERVICE_STATUS_CLASS.archived}>
+                    {SERVICE_STATUS_LABEL[svc.status] ?? svc.status}
+                  </span>
+                  <h3 className="mt-2.5 font-semibold text-foreground">{svc.title}</h3>
                   <p className="mt-1 line-clamp-2 text-sm text-muted-foreground">
                     {svc.description}
                   </p>
@@ -310,7 +296,7 @@ export default async function Home() {
                       href={svc.url}
                       className="mt-3 inline-block text-sm font-medium text-primary transition-colors hover:text-primary/80"
                     >
-                      바로가기 →
+                      바로가기 &rarr;
                     </Link>
                   )}
                 </div>
@@ -323,14 +309,14 @@ export default async function Home() {
 
       {/* ── 구독 CTA ── */}
       <FadeIn delay={100}>
-      <section className="relative mb-12 overflow-hidden rounded-2xl border border-primary/15 bg-gradient-to-br from-primary/5 to-accent/8 p-8 sm:p-10">
+      <section className="relative mb-12 overflow-hidden rounded-3xl border border-border bg-card p-8 sm:p-10">
         <div className="relative z-10 flex items-start gap-8">
           <div className="flex-1">
-            <div className="mb-1 text-xs font-semibold uppercase tracking-widest text-primary">
+            <div className="mb-1.5 text-xs font-semibold uppercase tracking-widest text-primary">
               Newsletter
             </div>
             <h2 className="text-xl font-bold text-foreground">새 소식 받아보기</h2>
-            <p className="mt-2 mb-6 text-sm leading-relaxed text-muted-foreground">
+            <p className="mt-3 mb-6 text-sm leading-relaxed text-muted-foreground">
               AI 실험 결과, 개발 기록, 새 서비스 업데이트를 이메일로 받아보세요.
               <br />
               스팸 없이, 새 글이 올라올 때만 보내드립니다.
@@ -339,14 +325,14 @@ export default async function Home() {
             <p className="mt-4 text-xs text-muted-foreground">
               <Link
                 href="/about"
-                className="text-[var(--brand-lavender)] underline underline-offset-4 transition-colors hover:text-primary"
+                className="text-primary underline underline-offset-4 transition-colors hover:text-primary/80"
               >
-                만든 사람 보기 →
+                만든 사람 보기 &rarr;
               </Link>
             </p>
           </div>
 
-          {/* 완성! 캐릭터 — 라이트모드에서만 */}
+          {/* 캐릭터 — 라이트모드에서만 */}
           <div className="hidden dark:hidden sm:block relative h-48 w-40 flex-shrink-0 self-center">
             <Image
               src="/images/character/completion.png"
@@ -364,7 +350,7 @@ export default async function Home() {
 }
 
 /* ─────────────────────────────────────────────────── */
-/* 공통 섹션 래퍼 (캐릭터 일러스트 옵션)                  */
+/* 공통 섹션 래퍼                                       */
 /* ─────────────────────────────────────────────────── */
 function HomeSection({
   title,
@@ -382,10 +368,9 @@ function HomeSection({
   characterAlt?: string;
 }) {
   return (
-    <section className="mb-14">
+    <section className="mb-16">
       <div className="mb-6 flex items-end justify-between">
         <div className="flex items-center gap-3">
-          {/* 섹션 옆 작은 캐릭터 */}
           {characterSrc && (
             <div className="relative hidden h-10 w-12 dark:hidden sm:block">
               <Image
@@ -403,9 +388,9 @@ function HomeSection({
         </div>
         <Link
           href={href}
-          className="text-sm text-muted-foreground transition-colors hover:text-primary"
+          className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary"
         >
-          {label} →
+          {label} &rarr;
         </Link>
       </div>
       {children}
