@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { PageContainer } from "@/components/layout/page-container";
 import { MDXContent } from "@/components/mdx/mdx-content";
 import { Toc } from "@/components/mdx/toc";
+import { StickyToc } from "@/components/blog/sticky-toc";
+import { AuthorProfile } from "@/components/blog/author-profile";
 import {
   getPublishedBlogs,
   getBlogBySlug,
@@ -51,48 +52,87 @@ export default async function BlogPostPage({ params }: Props) {
   const toc = extractToc(post.body);
 
   return (
-    <PageContainer className="max-w-3xl">
-      <article>
-        {/* 메타 영역 */}
+    <div className="relative mx-auto max-w-[1100px] px-5 py-12">
+      {/* ── 본문 영역 ── */}
+      <article className="mx-auto max-w-[768px]">
+        {/* 헤더 */}
         <header className="mb-10">
-          <div className="flex items-center gap-3 text-sm text-muted-foreground">
-            <time>{formatDate(post.date)}</time>
-            {post.category && (
-              <>
-                <span className="text-border">|</span>
-                <span className="font-medium text-primary">{post.category}</span>
-              </>
-            )}
-            <span className="text-border">|</span>
-            <span>{readingTime}분 읽기</span>
-          </div>
-          <h1 className="mt-4 text-3xl font-bold tracking-tight">{post.title}</h1>
+          {/* 제목 — Velog 스타일 (3rem, ExtraBold) */}
+          <h1 className="text-[2.5rem] font-extrabold leading-tight tracking-tight sm:text-[3rem]">
+            {post.title}
+          </h1>
+
           {post.description && (
-            <p className="mt-3 text-muted-foreground leading-relaxed">{post.description}</p>
+            <p className="mt-4 text-lg text-muted-foreground leading-relaxed">
+              {post.description}
+            </p>
           )}
+
+          {/* 저자 프로필 */}
+          <div className="mt-6">
+            <AuthorProfile date={formatDate(post.date)} readingTime={readingTime} />
+          </div>
+
+          {/* 태그 — Mint 칩 스타일 */}
           {post.tags.length > 0 && (
-            <div className="mt-4 flex flex-wrap gap-1.5">
+            <div className="mt-5 flex flex-wrap gap-2">
               {post.tags.map((tag) => (
-                <span key={tag} className="tag-badge">
+                <Link
+                  key={tag}
+                  href={`/blog?tag=${encodeURIComponent(tag)}`}
+                  className="tag-chip-velog"
+                >
                   {tag}
-                </span>
+                </Link>
               ))}
             </div>
           )}
+
+          {/* 카테고리 */}
+          {post.category && (
+            <div className="mt-4">
+              <Link
+                href={`/blog?category=${encodeURIComponent(post.category)}`}
+                className="text-sm font-medium text-primary hover:text-primary/80 transition-colors"
+              >
+                {post.category}
+              </Link>
+            </div>
+          )}
+
+          <hr className="mt-8 border-border" />
         </header>
 
-        {/* 목차 */}
-        {toc.length > 0 && <Toc items={toc} />}
+        {/* 모바일 목차 (xl 이하에서만 표시) */}
+        {toc.length > 0 && (
+          <div className="xl:hidden">
+            <Toc items={toc} />
+          </div>
+        )}
 
-        {/* 본문 */}
-        <div className="prose-custom">
+        {/* 본문 — Velog 타이포그래피 */}
+        <div className="prose-velog">
           <MDXContent code={post.body} />
         </div>
       </article>
 
-      {/* 이전/다음 글 네비게이션 */}
+      {/* ── Desktop Sticky TOC ── */}
+      {toc.length > 0 && (
+        <aside className="absolute right-0 top-48 hidden w-56 xl:block" style={{ position: "sticky", top: "5rem", alignSelf: "start" }}>
+          {/* position: sticky가 absolute 안에선 안 됨. 별도 구조 필요 */}
+        </aside>
+      )}
+
+      {/* Desktop Sticky TOC — 고정 위치 */}
+      {toc.length > 0 && (
+        <div className="fixed right-[max(1rem,calc((100vw-1100px)/2-14rem))] top-24 hidden w-52 xl:block">
+          <StickyToc items={toc} />
+        </div>
+      )}
+
+      {/* ── 이전/다음 글 네비게이션 ── */}
       {(prev || next) && (
-        <nav className="mt-14 grid gap-4 border-t border-border pt-8 sm:grid-cols-2">
+        <nav className="mx-auto mt-14 max-w-[768px] grid gap-4 border-t border-border pt-8 sm:grid-cols-2">
           {prev ? (
             <Link
               href={`/blog/${prev.slug}`}
@@ -119,6 +159,6 @@ export default async function BlogPostPage({ params }: Props) {
           )}
         </nav>
       )}
-    </PageContainer>
+    </div>
   );
 }

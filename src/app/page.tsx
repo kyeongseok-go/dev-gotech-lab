@@ -9,6 +9,7 @@ import {
   STATUS_LABEL,
 } from "@/lib/content";
 import { getServices } from "@/lib/db/services";
+import { getPublishedCardNews } from "@/lib/db/card-news";
 import { AdPlaceholder } from "@/components/ad-placeholder";
 import { SubscribeForm } from "@/components/subscribe-form";
 import { FadeIn } from "@/components/fade-in";
@@ -27,12 +28,20 @@ const SERVICE_STATUS_CLASS: Record<string, string> = {
 
 const BENTO_COLORS = ["bento-blue", "bento-green", "bento-purple", "bento-pink", "bento-yellow", "bento-mint"];
 
+const CARD_NEWS_BADGE: Record<string, { label: string; className: string }> = {
+  ai: { label: "AI", className: "card-news-badge card-news-badge-ai" },
+  trend: { label: "트렌드", className: "card-news-badge card-news-badge-trend" },
+  dev: { label: "개발", className: "card-news-badge card-news-badge-dev" },
+  news: { label: "뉴스", className: "card-news-badge card-news-badge-news" },
+};
+
 export default async function Home() {
   const blogs = getPublishedBlogs().slice(0, 3);
   const projects = getPublishedProjects().slice(0, 2);
   const showcaseItems = getPublishedShowcase().slice(0, 3);
   const services = await getServices();
   const displayServices = services.slice(0, 2);
+  const cardNewsItems = await getPublishedCardNews(4);
 
   return (
     <PageContainer>
@@ -49,7 +58,7 @@ export default async function Home() {
           <div className="flex-1 min-w-0">
             {/* 서브 라벨 */}
             <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-4 py-1.5 text-xs font-medium text-primary">
-              <span className="h-1.5 w-1.5 rounded-full bg-primary" />
+              <span className="h-1.5 w-1.5 rounded-full bg-primary animate-pulse" />
               오피스 SW 엔진 5년 &rarr; AI 빌더
             </div>
 
@@ -60,7 +69,7 @@ export default async function Home() {
               공유합니다.
             </h1>
 
-            {/* 슬로건 */}
+            {/* 슬로건 — Space Grotesk */}
             <p className="mt-5 font-[family-name:var(--font-space-grotesk)] text-lg font-medium text-muted-foreground sm:text-xl">
               <span className="gradient-text font-bold">Go</span>!! Build The{" "}
               <span className="gradient-text font-bold">Technology</span>. Live{" "}
@@ -76,10 +85,10 @@ export default async function Home() {
             {/* 태그 뱃지 */}
             <div className="mt-7 flex flex-wrap gap-2">
               {[
-                { label: "기술 블로그", color: "#3b82f6" },
+                { label: "기술 블로그", color: "#00e5ff" },
                 { label: "포트폴리오", color: "#a78bfa" },
-                { label: "AI 실험", color: "#22c55e" },
-                { label: "서비스", color: "#f472b6" },
+                { label: "AI 실험", color: "#00ff88" },
+                { label: "카드뉴스", color: "#ff6b9d" },
               ].map(({ label, color }, i) => (
                 <span
                   key={label}
@@ -106,7 +115,7 @@ export default async function Home() {
               </Link>
               <Link
                 href="/about"
-                className="rounded-xl border border-border bg-card px-6 py-2.5 text-sm font-medium text-foreground transition-colors hover:bg-muted"
+                className="rounded-xl border border-border bg-card px-6 py-2.5 text-sm font-medium text-foreground transition-colors hover:bg-muted hover:border-primary/30"
               >
                 소개 보기
               </Link>
@@ -145,6 +154,50 @@ export default async function Home() {
           </div>
         </div>
       </section>
+      </FadeIn>
+
+      {/* ── 기술 트렌드 카드뉴스 ── */}
+      <FadeIn delay={80}>
+      <HomeSection
+        title="기술 트렌드"
+        href="/card-news"
+        label="전체 보기"
+      >
+        {cardNewsItems.length === 0 ? (
+          <p className="text-sm text-muted-foreground">등록된 카드뉴스가 없습니다.</p>
+        ) : (
+          <div className="grid gap-4 sm:grid-cols-2">
+            {cardNewsItems.map((item) => {
+              const badge = CARD_NEWS_BADGE[item.category] ?? CARD_NEWS_BADGE.news;
+              const href = item.external_link ?? `/card-news#${item.slug}`;
+              const isExternal = !!item.external_link;
+              return (
+                <a
+                  key={item.id}
+                  href={href}
+                  target={isExternal ? "_blank" : undefined}
+                  rel={isExternal ? "noopener noreferrer" : undefined}
+                  className="card-news-item block overflow-hidden"
+                >
+                  {item.image_url && (
+                    <div className="aspect-video overflow-hidden">
+                      <img src={item.image_url} alt={item.title} className="h-full w-full object-cover" />
+                    </div>
+                  )}
+                  <div className="p-5">
+                    <div className="flex items-center justify-between gap-2">
+                      <span className={badge.className}>{badge.label}</span>
+                      <time className="text-xs text-muted-foreground">{item.created_at?.slice(0, 10)}</time>
+                    </div>
+                    <h3 className="mt-3 font-semibold text-foreground leading-snug">{item.title}</h3>
+                    <p className="mt-2 line-clamp-2 text-sm text-muted-foreground">{item.summary}</p>
+                  </div>
+                </a>
+              );
+            })}
+          </div>
+        )}
+      </HomeSection>
       </FadeIn>
 
       {/* ── 최신 블로그 ── */}
@@ -310,6 +363,10 @@ export default async function Home() {
       {/* ── 구독 CTA ── */}
       <FadeIn delay={100}>
       <section className="relative mb-12 overflow-hidden rounded-3xl border border-border bg-card p-8 sm:p-10">
+        {/* 미묘한 글로우 */}
+        <div className="pointer-events-none absolute -top-20 -right-20 h-40 w-40 rounded-full bg-primary/5 blur-3xl" />
+        <div className="pointer-events-none absolute -bottom-16 -left-16 h-32 w-32 rounded-full bg-accent/5 blur-3xl" />
+
         <div className="relative z-10 flex items-start gap-8">
           <div className="flex-1">
             <div className="mb-1.5 text-xs font-semibold uppercase tracking-widest text-primary">
@@ -317,7 +374,7 @@ export default async function Home() {
             </div>
             <h2 className="text-xl font-bold text-foreground">새 소식 받아보기</h2>
             <p className="mt-3 mb-6 text-sm leading-relaxed text-muted-foreground">
-              AI 실험 결과, 개발 기록, 새 서비스 업데이트를 이메일로 받아보세요.
+              AI 실험 결과, 기술 트렌드 카드뉴스, 새 서비스 업데이트를 이메일로 받아보세요.
               <br />
               스팸 없이, 새 글이 올라올 때만 보내드립니다.
             </p>

@@ -1,13 +1,12 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
-import Link from "next/link";
 import { PageContainer } from "@/components/layout/page-container";
 import { BlogFilter } from "@/components/blog/blog-filter";
+import { BlogCard } from "@/components/blog/blog-card";
 import {
   getPublishedBlogs,
   getAllCategories,
   getAllTags,
-  formatDate,
 } from "@/lib/content";
 
 export const metadata: Metadata = {
@@ -51,41 +50,21 @@ export default async function BlogPage({ searchParams }: Props) {
             : "아직 작성된 글이 없습니다."}
         </p>
       ) : (
-        <ul className="space-y-4">
+        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {filtered.map((post) => (
-            <li key={post.slug}>
-              <Link
-                href={`/blog/${post.slug}`}
-                className="list-card block"
-              >
-                <div className="flex items-center gap-3 text-xs text-muted-foreground">
-                  <time>{formatDate(post.date)}</time>
-                  {post.category && (
-                    <>
-                      <span className="text-border">|</span>
-                      <span className="font-medium text-primary">{post.category}</span>
-                    </>
-                  )}
-                </div>
-                <h2 className="mt-2 text-lg font-semibold">{post.title}</h2>
-                {post.description && (
-                  <p className="mt-1 text-sm text-muted-foreground line-clamp-2">
-                    {post.description}
-                  </p>
-                )}
-                {post.tags.length > 0 && (
-                  <div className="mt-3 flex flex-wrap gap-1.5">
-                    {post.tags.map((t) => (
-                      <span key={t} className="tag-badge">
-                        {t}
-                      </span>
-                    ))}
-                  </div>
-                )}
-              </Link>
-            </li>
+            <BlogCard
+              key={post.slug}
+              slug={post.slug}
+              title={post.title}
+              description={post.description}
+              thumbnail={(post as Record<string, unknown>).thumbnail as string | undefined}
+              category={post.category}
+              tags={post.tags}
+              date={post.date}
+              body={post.body}
+            />
           ))}
-        </ul>
+        </div>
       )}
     </PageContainer>
   );

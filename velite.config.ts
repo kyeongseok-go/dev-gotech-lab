@@ -12,6 +12,7 @@ const blogs = defineCollection({
     description: s.string().max(999).optional(),
     category: s.string().optional(),
     tags: s.array(s.string()).default([]),
+    thumbnail: s.string().optional(),
     draft: s.boolean().default(false),
     body: s.mdx(),
   }),

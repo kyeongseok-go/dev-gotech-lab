@@ -22,6 +22,11 @@ export function ogKey(type: ContentType, slug: string): string {
   return `og/${type}/${slug}.png`;
 }
 
+/** 카드뉴스 커버 이미지 키 */
+export function cardNewsKey(slug: string, ext = "png"): string {
+  return `card-news/${slug}/cover.${ext}`;
+}
+
 /** 일반 업로드 키 (날짜 기반) */
 export function uploadKey(filename: string, date = new Date()): string {
   const yyyy = date.getFullYear();
