@@ -1,50 +1,45 @@
 ---
 title: "Claude Code로 개인 홈페이지 만들기 — Day 0 & Day 1"
 slug: building-with-claude-day0-day1
-description: "AI와 함께한 1주일 개발 챌린지. 기획부터 공통 레이아웃 완성까지, 어떤 프롬프트로 무엇을 만들었는지 기록합니다."
+description: "AI와 함께한 1주일 개발 챌린지. 기획부터 공통 레이아웃 완성까지, 어떤 프롬프트로 무엇을 만들었는지 솔직하게 기록합니다."
 date: 2026-03-10
 category: devlog
 tags: ["Claude Code", "Next.js", "Cloudflare", "shadcn/ui", "devlog"]
 draft: false
 ---
 
-> 이 글은 Claude Code를 사용해 개인 홈페이지를 1주일 안에 만드는 챌린지의 Day 0–1 기록입니다.
-> 어떤 프롬프트를 썼는지, 어떤 순서로 작업했는지, 실제로 어떤 이슈가 있었는지 솔직하게 정리합니다.
+안녕하세요, 고텍이예요! 오늘은 좀 도전적인 프로젝트 이야기를 가져왔어요.
+
+**"Claude Code로 개인 홈페이지를 1주일 안에 만들 수 있을까?"** — 이 질문에 대한 답을 직접 찾아보기로 했거든요. 결론부터 말하면, Day 0~1 이틀 만에 기본 뼈대가 완성됐어요. 같이 고!!
 
 ---
 
 ## 왜 시작했나
 
-채용 담당자, 기술 리더, 개발자 커뮤니티 독자 모두가 방문할 수 있는 개인 홈페이지가 필요했다.
-블로그 + 프로젝트 포트폴리오 + 서비스 플랫폼을 하나로 묶되, **1주일 안에 배포 가능한 MVP**를 만드는 것이 목표였다.
+채용 담당자, 기술 리더, 개발자 커뮤니티 독자 — 이 세 부류가 방문할 수 있는 개인 홈페이지가 필요했어요. 블로그 + 프로젝트 포트폴리오 + AI 서비스 쇼케이스를 하나로 묶되, **1주일 안에 배포 가능한 MVP**를 만드는 게 목표였죠.
 
-AI 코딩 도구가 많이 나왔지만, 실제로 프로덕션 수준의 프로젝트를 처음부터 끝까지 AI와 함께 짓는 경험을 해보고 싶었다.
-선택한 도구는 **Claude Code** — Anthropic이 만든 CLI 기반 AI 코딩 에이전트다.
+AI 코딩 도구가 많이 나왔지만, 실제로 프로덕션 수준의 프로젝트를 **처음부터 끝까지 AI와 함께** 짓는 경험을 해보고 싶었어요. 선택한 도구는 **Claude Code** — Anthropic이 만든 CLI 기반 AI 코딩 에이전트예요.
 
 ---
 
 ## 기술 스택 결정
 
-본격적인 코딩 전에 기술 스택을 먼저 고정했다.
-변경 비용이 크기 때문에 초반에 명확히 정해두는 게 낫다.
+본격적인 코딩 전에 기술 스택을 먼저 고정했어요. 변경 비용이 크기 때문에 초반에 명확히 정해두는 게 낫거든요.
 
 | 영역 | 선택 | 이유 |
 |------|------|------|
-| 프레임워크 | **Next.js 15 App Router** | 가장 익숙하고, Cloudflare 어댑터 지원 |
-| 스타일링 | **Tailwind CSS v4** | v4의 CSS 변수 방식이 shadcn과 잘 맞음 |
+| 프레임워크 | **Next.js 15 App Router** | 가장 익숙 + Cloudflare 어댑터 지원 |
+| 스타일링 | **Tailwind CSS v4** | CSS 변수 방식이 shadcn과 찰떡 |
 | UI 컴포넌트 | **shadcn/ui** | 복사-붙여넣기 방식으로 의존성 최소화 |
 | 콘텐츠 | **Velite + MDX** | Next.js 통합이 자연스럽고 타입 안전 |
 | 배포 | **Cloudflare Pages + Workers** | 무료 티어, 엣지 성능, D1/R2 연동 |
 | 패키지 매니저 | **pnpm** | 빠르고 디스크 효율적 |
 
-![Next.js + Cloudflare 기술 스택](https://assets.vercel.com/image/upload/v1662130559/nextjs/Icon_light_background.png)
-
 ---
 
 ## Claude Code 운영 규칙 설계
 
-Claude Code를 단순한 자동완성 도구가 아닌 **일관된 협업자**로 쓰려면 규칙이 필요했다.
-`CLAUDE.md`를 프로젝트 루트에 두고, 세부 규칙은 `docs/claude/` 아래에 분리했다.
+여기서 중요한 포인트! Claude Code를 단순한 자동완성이 아닌 **일관된 협업자**로 쓰려면 규칙이 필요해요. `CLAUDE.md`를 프로젝트 루트에 두고, 세부 규칙은 `docs/claude/` 아래에 분리했어요.
 
 ```
 CLAUDE.md                  ← 진입점 (파일 참조만)
@@ -55,13 +50,13 @@ docs/claude/
   mistakes.md              ← 반복 실수 기록 (누적 관리)
 ```
 
-**핵심 규칙 중 몇 가지:**
-- 작업 시작 전 반드시 `techspec.md` → `plan.md` 순서로 읽는다
-- 한 번에 하나의 기능 단위만 구현한다
-- 코드 생성 전에 작업 계획을 먼저 설명한다
-- 모든 설명과 커밋 메시지는 한국어로 작성한다
+**핵심 규칙 몇 가지:**
+- 작업 시작 전 반드시 `techspec.md` → `plan.md` 순서로 읽기
+- 한 번에 하나의 기능 단위만 구현
+- 코드 생성 전에 작업 계획을 먼저 설명
+- 모든 설명과 커밋 메시지는 한국어
 
-이 규칙 덕분에 Claude가 맥락을 잃지 않고 일관되게 작업할 수 있었다.
+이 규칙 덕분에 Claude가 맥락을 잃지 않고 일관되게 작업할 수 있었어요. 이거 진짜 중요하더라고요 — CLAUDE.md 없이 쓰면 Claude가 가끔 엉뚱한 방향으로 가거든요.
 
 ---
 
@@ -69,7 +64,7 @@ docs/claude/
 
 ### 사용한 프롬프트 패턴
 
-Day 0는 세팅 작업이 많아, 주로 **"현재 상태를 먼저 파악하고, 그 다음 무엇을 해야 하는지 정리해라"** 패턴을 썼다.
+Day 0는 세팅 작업이 많아서, **"현재 상태를 먼저 파악하고, 다음 할 일을 정리해라"** 패턴을 썼어요.
 
 ```
 CLAUDE.md, docs/techspec.md, docs/plan.md를 먼저 읽고
@@ -86,7 +81,7 @@ CLAUDE.md, docs/techspec.md, docs/plan.md를 먼저 읽고
 
 **Claude가 파악한 현황:**
 - `create-next-app`으로 생성된 기본 뼈대만 있음
-- Next.js + Tailwind + OpenNext는 설치됨
+- Next.js + Tailwind + OpenNext은 설치됨
 - shadcn/ui, Velite, 공통 컴포넌트, 페이지 라우트 — 모두 없음
 
 ### 실제로 한 일
@@ -97,67 +92,54 @@ CLAUDE.md, docs/techspec.md, docs/plan.md를 먼저 읽고
 - `CLAUDE.md`, `docs/techspec.md`, `docs/plan.md` 템플릿 작성
 - Cloudflare Wrangler 설정 (`wrangler.jsonc`, `.dev.vars`)
 
+이지하게 고!
+
 ---
 
 ## Day 1 — 기본 구성 완성
 
-Day 1은 총 4개의 커밋으로 진행됐다.
+Day 1은 총 **4개의 커밋**으로 진행됐어요.
 
 ### Step 1 — shadcn/ui 초기화
-
-```
-pnpm dlx shadcn@latest init 기준으로 진행한다.
-스타일은 과하지 않은 기본값을 사용한다.
-CSS 변수 사용 방식을 우선한다.
-```
-
-**예상치 못한 이슈:**
-shadcn CLI 최신 버전에서 `--base-color` 플래그가 없어졌다.
-여러 번 시도 끝에 `-b radix -p nova` 조합으로 비대화형 실행에 성공했다.
 
 ```bash
 pnpm dlx shadcn@latest init -y -f --css-variables -b radix -p nova
 ```
 
-![shadcn/ui 공식 사이트](https://ui.shadcn.com/og.jpg)
+**예상치 못한 이슈:** shadcn CLI 최신 버전에서 `--base-color` 플래그가 없어졌어요. 여러 번 시도 끝에 `-b radix -p nova` 조합으로 비대화형 실행에 성공했어요.
 
 **결과:**
 - `components.json` 생성
 - `src/lib/utils.ts` — `cn()` 유틸 함수
 - `globals.css` — oklch 기반 CSS 변수 블록 (`:root` / `.dark`)
 
+쉽죠? 알고 나면 한 줄이에요 ㅎㅎ
+
 ---
 
-### Step 2 — ESLint 마이그레이션 (예상치 못한 이슈)
+### Step 2 — ESLint 마이그레이션 (삽질 포인트!)
 
-`pnpm lint` 실행 시 에러 발생:
+이거 주의하세요! `pnpm lint` 실행하면 에러가 뜹니다:
 
 ```
 Invalid project directory provided, no such directory: .../lint
 ```
 
-**원인:** Next.js 16에서 `next lint` 명령이 **완전히 제거**됐다.
-공식 문서를 확인해 공식 codemod를 실행했다.
+**원인:** Next.js 16에서 `next lint` 명령이 **완전히 제거**됐어요. 공식 codemod로 해결:
 
 ```bash
 npx @next/codemod@canary next-lint-to-eslint-cli . --force
 ```
 
-codemod가 자동으로 `package.json`의 `"lint": "next lint"`를 `"lint": "eslint ."`로 바꿔줬다.
-하지만 생성된 `eslint.config.mjs`에 ESM `.js` 확장자 누락, `eslint-config-next` 버전 불일치(15 → 16) 등 추가 이슈가 있었고, 이를 단계적으로 해결했다.
+codemod가 `package.json`의 `"lint": "next lint"`를 `"lint": "eslint ."`로 자동 변경해줘요. 근데 여기서 끝이 아니에요 — 생성된 `eslint.config.mjs`에 ESM `.js` 확장자 누락, `eslint-config-next` 버전 불일치(15 → 16) 등 추가 이슈가 있었어요.
 
-**배운 점:** 메이저 버전 업그레이드 시 공식 마이그레이션 가이드를 먼저 확인하는 게 가장 빠르다.
+**교훈:** 메이저 버전 업그레이드 시 공식 마이그레이션 가이드를 먼저 확인하는 게 가장 빠릅니다. 이거 제가 삽질했으니까 여러분은 안 그러셔도 돼요!
 
 ---
 
 ### Step 3 — 공통 레이아웃 컴포넌트
 
-```
-과한 디자인 작업은 하지 말고 공통 레이아웃의 최소 골격만 만든다
-아직 모바일 메뉴 토글, 검색, 다크모드 스위치 같은 고급 기능은 넣지 않는다
-```
-
-생성한 컴포넌트:
+과한 디자인은 나중으로 미루고 최소 골격만:
 
 ```
 src/components/layout/
@@ -166,20 +148,17 @@ src/components/layout/
   page-container.tsx ← max-w-4xl 공통 래퍼
 ```
 
-**설계 결정 하나:** `PageContainer`를 `RootLayout`에서 전체 감싸지 않고, **각 페이지가 직접 사용**하는 방식을 선택했다.
-나중에 풀너비 히어로 섹션 같은 예외 케이스를 유연하게 처리하기 위함이다.
-
-![Tailwind CSS v4](https://tailwindcss.com/img/social-square.jpg)
+**설계 결정:** `PageContainer`를 `RootLayout`에서 전체 감싸지 않고, **각 페이지가 직접 사용**하는 방식을 선택했어요. 나중에 풀너비 히어로 섹션 같은 예외를 유연하게 처리하려고요.
 
 ---
 
 ### Step 4 — 페이지 라우트 스텁
 
-네비게이션 링크가 404로 떨어지지 않도록 최소 스텁 페이지를 만들었다.
+네비게이션 링크가 404로 떨어지지 않도록 최소 스텁 페이지를 만들었어요.
 
 ```
 app/
-  page.tsx              ← 홈 (기본 템플릿 제거)
+  page.tsx              ← 홈
   blog/page.tsx         ← 블로그 목록 스텁
   blog/[slug]/page.tsx  ← 블로그 상세 스텁
   projects/page.tsx     ← 프로젝트 목록 스텁
@@ -187,7 +166,7 @@ app/
   about/page.tsx        ← 소개 스텁
 ```
 
-Next.js 15+에서는 동적 라우트의 `params`가 Promise로 바뀌었다.
+Next.js 15+에서는 동적 라우트의 `params`가 Promise로 바뀌었다는 거 아시죠?
 
 ```tsx
 // Next.js 15+ 방식
@@ -201,14 +180,12 @@ export default async function BlogPostPage({ params }: Props) {
 
 ## Cloudflare Preview 확인
 
-모든 작업 후 `pnpm preview`를 실행해 Cloudflare Workers 환경에서도 동작하는지 확인했다.
+모든 작업 후 `pnpm preview`를 실행해서 Cloudflare Workers 환경에서도 동작하는지 확인했어요.
 
 ```bash
 pnpm preview
 # → localhost:8787 에서 서버 기동
 ```
-
-![Cloudflare Workers](https://workers.cloudflare.com/resources/logo/logo.svg)
 
 빌드 결과:
 ```
@@ -221,13 +198,13 @@ Route (app)
 └ ○ /showcase
 ```
 
-6개 라우트 모두 정상 등록.
+6개 라우트 모두 정상 등록! 역시 이지!
 
 ---
 
 ## 커밋 이력
 
-Day 0–1 동안 쌓인 커밋 5개:
+Day 0~1 동안 쌓인 커밋 5개:
 
 | 해시 | 타입 | 내용 |
 |------|------|------|
@@ -237,35 +214,33 @@ Day 0–1 동안 쌓인 커밋 5개:
 | `0e85770` | feat | 공통 레이아웃 컴포넌트 골격 구성 |
 | `31145db` | feat | 공통 레이아웃 연결 및 페이지 라우트 스텁 생성 |
 
-커밋은 **기능 단위로 쪼개고**, 메시지 본문에 `무엇을 / 왜 / 검증 결과`를 담았다.
-나중에 히스토리를 볼 때 커밋 메시지만으로 맥락을 파악할 수 있게 하기 위함이다.
+커밋은 기능 단위로 쪼개고, 메시지 본문에 `무엇을 / 왜 / 검증 결과`를 담았어요. 나중에 히스토리를 볼 때 커밋 메시지만으로 맥락을 파악할 수 있게요.
 
 ---
 
 ## Claude Code와 협업하며 느낀 것
 
 **좋았던 점:**
-- "코드 작성 전에 계획을 먼저 설명해라" 규칙이 효과적이었다. 방향이 잘못됐을 때 코드 한 줄 없이 수정할 수 있었다.
-- 에러가 발생하면 공식 문서를 찾아서 근거 있는 해결책을 제시했다. 랜덤 추측이 아니었다.
-- 커밋 메시지를 일관된 형식으로 작성해줘서 협업하는 느낌이 났다.
+- "코드 작성 전에 계획을 먼저 설명해라" 규칙이 진짜 효과적이었어요. 방향이 잘못됐을 때 코드 한 줄 없이 수정할 수 있었거든요.
+- 에러가 발생하면 공식 문서를 찾아서 근거 있는 해결책을 제시했어요. 랜덤 추측이 아니라서 신뢰할 수 있었어요.
+- 커밋 메시지를 일관된 형식으로 작성해줘서 진짜 협업하는 느낌이었어요.
 
 **아쉬웠던 점:**
-- `pnpm preview` 재로드 이슈처럼, 환경 특이 케이스에서는 여러 번 시도가 필요했다.
-- 토큰 컨텍스트가 길어지면 앞 내용을 잊는 경우가 있었다. `CLAUDE.md` 규칙 파일의 중요성을 다시 느꼈다.
+- `pnpm preview` 재로드 이슈처럼, 환경 특이 케이스에서는 여러 번 시도가 필요했어요.
+- 토큰 컨텍스트가 길어지면 앞 내용을 잊는 경우가 있었어요. `CLAUDE.md` 규칙 파일의 중요성을 다시 느꼈어요.
 
 ---
 
 ## 다음은?
 
-Day 2에서는 **Velite + MDX 콘텐츠 파이프라인**을 구성한다.
-이 글 자체가 그 파이프라인의 첫 번째 테스트 케이스가 될 예정이다.
+Day 2에서는 **Velite + MDX 콘텐츠 파이프라인**을 구성해요. 이 글 자체가 그 파이프라인의 첫 번째 테스트 케이스가 될 거예요.
 
 - Velite 스키마 정의 (blog / projects / showcase)
 - MDX 렌더링 컴포넌트
 - 블로그 목록 + 상세 페이지 실제 구현
 - 홈에 최신 글 섹션 연결
 
-계속 기록할 예정이니, 관심 있으면 GitHub를 팔로우해 주세요.
+궁금한 점 있으면 편하게 댓글 남겨주세요. 기술을 만들고, 더 쉽게 삽시다! 🚀
 
 ---
 

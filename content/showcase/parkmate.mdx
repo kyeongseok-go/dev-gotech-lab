@@ -1,0 +1,43 @@
+---
+title: "ParkMate"
+slug: parkmate
+summary: "목적지 입력 한 번으로 매장 주차 여부 + 주변 주차장 TOP 3 + AI 요약까지. 스마트 주차 어시스턴트 PWA."
+type: "웹앱"
+status: "live"
+stack: ["Next.js 14", "FastAPI", "PostgreSQL", "PostGIS", "Redis", "Claude Haiku", "Naver Maps API", "Kakao API"]
+externalUrl: "https://park-mate-seven.vercel.app/"
+repoUrl: "https://github.com/kyeongseok-go/park-mate"
+featured: true
+draft: false
+---
+
+## 소개
+
+**ParkMate(파크메이트)** 는 목적지를 입력하면 매장 자체 주차 가능 여부, 주변 주차장 TOP 3 추천, Claude Haiku 기반 AI 주차 팁 요약을 한 화면에 보여주는 PWA 웹앱입니다.
+
+"강남역 스시코우지"를 검색하면 — 매장 주차 가능 여부 + 가장 가까운 주차장 3곳(거리/요금/주소) + AI가 리뷰를 분석한 주차 팁이 한 번에 나옵니다.
+
+## 핵심 기능
+
+- **스마트 주차 검색** — 네이버/카카오 시설정보 + 공공데이터 주차장 + Claude Haiku AI 분석을 통합
+- **주차장 TOP 3 랭킹** — PostGIS 반경 검색으로 거리/요금/잔여석 기반 최적 주차장 추천
+- **Geocoding Fallback Chain** — 네이버 Maps → 카카오 → 네이버 지역검색 3중 fallback
+- **네이버 지도 연동** — 접이식 지도 + 커스텀 마커 + nmap:// 딥링크 길찾기
+- **카테고리 장소 추천** — 데이트/아이/카페/맛집 등 AI 감성 분석 기반 장소 추천
+- **전국 주차장 13,501건** — 공공데이터포털 시드 데이터 + 실시간 잔여석 연동 준비
+
+## 기술 구성
+
+| 영역 | 기술 |
+|------|------|
+| 프론트엔드 | Next.js 14 App Router + shadcn/ui + Tailwind CSS + framer-motion |
+| 백엔드 | FastAPI (Python 3.11) + SQLAlchemy async |
+| DB | Supabase PostgreSQL + PostGIS 반경 검색 |
+| 캐시 | Upstash Redis (API 응답 TTL 기반 캐싱) |
+| AI | Claude Haiku (주차 분석 / 감성 분석 / 장소 요약 3종 프롬프트) |
+| 지도 | Naver Maps JS API v3 |
+| 배포 | Vercel (프론트) + Railway (백엔드) |
+
+## 현재 상태
+
+프로덕션 배포 완료. 주차 검색 핵심 기능 동작 확인. 검색어 자동완성, 소셜 로그인, 즐겨찾기 등 추가 기능 개발 진행 중.

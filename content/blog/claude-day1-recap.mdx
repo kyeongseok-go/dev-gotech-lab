@@ -1,40 +1,76 @@
 ---
-title: "Day 1 회고 — shadcn/ui 초기화와 레이아웃 구성"
+title: "Day 1 회고 — shadcn/ui 초기화부터 레이아웃까지, 하루 만에 뼈대 완성"
 slug: claude-day1-recap
 date: 2026-03-10
-description: "Claude Code로 프로젝트 기본 구조를 잡은 Day 1 과정 요약. shadcn/ui, ESLint 마이그레이션, 공통 레이아웃."
+description: "Claude Code와 함께 프로젝트 기본 구조를 잡은 Day 1. shadcn/ui, ESLint 마이그레이션, 공통 레이아웃 구성 과정을 짧게 정리합니다."
 category: devlog
-tags: ["Claude Code", "shadcn/ui", "devlog"]
+tags: ["Claude Code", "shadcn/ui", "Next.js", "devlog"]
 draft: false
 ---
 
-## Day 1에서 한 일
+안녕하세요, 고텍이예요! Day 1 회고를 짧게 남겨볼게요.
 
-Day 1의 목표는 **"Next.js + Cloudflare + Tailwind + shadcn 기본 구성"** 이었습니다.
+Day 0에서 프로젝트 뼈대(CLAUDE.md, 기획 문서)를 만들었고, **Day 1의 목표는 "Next.js + Cloudflare + Tailwind + shadcn 기본 구성"** 이었어요. 결론부터 말하면 — 커밋 4개로 완료! 이지하게 가볼게요.
 
-### shadcn/ui 초기화
+---
+
+## shadcn/ui 초기화
 
 ```bash
 pnpm dlx shadcn@latest init -y -f --css-variables -b radix -p nova
 ```
 
-CLI 플래그가 바뀌어서 여러 번 시도가 필요했습니다.
-결국 `radix` + `nova` 프리셋 조합으로 성공했습니다.
+CLI 최신 버전에서 `--base-color` 플래그가 사라져서 여러 번 시도가 필요했어요. `radix` + `nova` 프리셋 조합을 찾는 데 좀 걸렸는데, 알고 나면 한 줄이에요. 역시 이지!
 
-### ESLint 이슈
+생성된 것들:
+- `components.json` — shadcn 설정
+- `src/lib/utils.ts` — `cn()` 유틸 함수
+- `globals.css` — oklch 기반 CSS 변수 블록
 
-Next.js 16에서 `next lint`가 제거되었습니다.
-공식 codemod를 사용해 `eslint .`로 전환했습니다.
+---
 
-### 공통 레이아웃
+## ESLint 마이그레이션 — 예상치 못한 삽질
 
-세 개의 컴포넌트를 만들었습니다:
+`pnpm lint` 실행하자마자 에러가 뜨더라고요:
 
-1. `SiteHeader` — 로고 + 네비게이션
-2. `SiteFooter` — 저작권 + 링크
-3. `PageContainer` — 최대 너비 래퍼
+```
+Invalid project directory provided, no such directory: .../lint
+```
 
-### 배운 점
+**원인:** Next.js 16에서 `next lint` 명령이 완전히 제거됐어요. 공식 codemod로 해결:
 
-- 메이저 버전 업그레이드 시 **공식 마이그레이션 가이드를 먼저 확인**하는 게 가장 빠르다
-- Claude에게 계획을 먼저 설명하게 하면 방향이 잘못됐을 때 코드 없이 수정할 수 있다
+```bash
+npx @next/codemod@canary next-lint-to-eslint-cli . --force
+```
+
+이게 `package.json`의 `"lint": "next lint"`를 `"lint": "eslint ."`로 자동 변경해줘요. 근데 생성된 `eslint.config.mjs`에 ESM 확장자 누락, `eslint-config-next` 버전 불일치(15 → 16) 같은 추가 이슈가 있었어요.
+
+**교훈:** 메이저 버전 업그레이드 시 공식 마이그레이션 가이드를 먼저 확인하는 게 가장 빠릅니다. 삽질하다 알게 된 거지만요 ㅋㅋ
+
+---
+
+## 공통 레이아웃 3총사
+
+과한 디자인은 나중으로 미루고, 최소 골격만 잡았어요:
+
+| 컴포넌트 | 역할 |
+|----------|------|
+| `SiteHeader` | 로고 + 네비게이션 링크 5개 |
+| `SiteFooter` | 저작권 + GitHub/소개 링크 |
+| `PageContainer` | max-w-4xl 공통 래퍼 |
+
+**설계 포인트:** `PageContainer`를 `RootLayout`에서 전체 감싸지 않고, 각 페이지가 직접 사용하는 방식으로 했어요. 나중에 풀너비 히어로 섹션 같은 예외를 유연하게 처리하려고요.
+
+---
+
+## Day 1에서 배운 것
+
+1. **Claude에게 계획을 먼저 설명하게 하면** 방향이 잘못됐을 때 코드 한 줄 없이 수정할 수 있어요
+2. **메이저 업그레이드 = 공식 가이드 먼저** — 커뮤니티 글보다 공식 문서가 빠르고 정확해요
+3. **최소 골격 먼저, 꾸미기는 나중에** — 욕심 부리면 Day 1에서 진도가 안 나가요
+
+여기까지 따라오셨으면 벌써 절반은 온 거예요! Day 2에서는 Velite + MDX 콘텐츠 파이프라인을 구성할 거예요. 쉽죠? 🚀
+
+---
+
+*이 글은 Claude Opus 4.6과 함께 작성됐습니다.*

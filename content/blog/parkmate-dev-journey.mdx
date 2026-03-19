@@ -1,0 +1,315 @@
+---
+title: "ParkMate 개발기 — AI가 주차 고민을 해결해주는 PWA를 만들어봤어요"
+slug: parkmate-dev-journey
+date: 2026-03-19
+description: "목적지 입력 한 번으로 주차 정보 + 장소 추천까지. Next.js 14 + FastAPI + Claude Haiku + PostGIS로 만든 ParkMate의 개발 여정을 솔직하게 풀어봅니다."
+category: devlog
+tags: ["ParkMate", "Next.js", "FastAPI", "Claude Haiku", "PostGIS", "PWA", "Naver Maps", "Kakao API", "Supabase", "devlog"]
+draft: false
+---
+
+안녕하세요, 고텍이예요! 오늘은 좀 특별한 프로젝트 이야기를 들고 왔어요.
+
+운전하시는 분들은 공감하실 텐데요 — **"여기 주차 어디에 해?"** 이 한마디가 매번 스트레스거든요. 네이버 지도 켜서 주차장 검색하고, 요금 비교하고, 리뷰 뒤지고... 매장 자체 주차가 되는지도 확인해야 하고요. 이거 한 번에 해결하는 앱을 직접 만들어보자! 해서 시작한 게 **ParkMate(파크메이트)** 입니다.
+
+결론부터 말하면, **목적지 입력 한 번이면 매장 주차 여부 + 주변 주차장 TOP 3 + AI 요약까지 한 방에** 나옵니다. 같이 고!!
+
+---
+
+## ParkMate가 뭔가요?
+
+한 줄로 말하면 **"스마트 주차 어시스턴트 + 장소 추천 PWA"** 예요.
+
+목적지를 입력하면 이런 일이 벌어져요:
+
+1. 매장 자체 주차 가능한지 확인 (네이버 시설정보 태그 기반)
+2. 주변 500m 이내 공영/민영 주차장 TOP 3 추천
+3. Claude Haiku가 리뷰를 분석해서 주차 팁을 AI 요약
+4. 네이버 지도에서 바로 길찾기까지
+
+이걸로 "강남역 스시코우지" 검색하면, 매장 주차 가능 여부 + 가장 가까운 주차장 3곳 + "이 건물은 지하 2층 주차장이 있고, 2시간 무료입니다" 같은 AI 요약이 한 화면에 뜨는 거죠.
+
+---
+
+## 기술 스택
+
+이 프로젝트의 기술 스택이 꽤 알차거든요 ㅎㅎ
+
+| 영역 | 기술 | 역할 |
+|------|------|------|
+| 프론트엔드 | **Next.js 14** (App Router) | PWA 웹앱 |
+| UI | **shadcn/ui** + Tailwind CSS | Forest Guide 팔레트 |
+| 지도 | **Naver Maps JS API v3** | 마커, 인포윈도우, 딥링크 |
+| 백엔드 | **FastAPI** (Python 3.11) | 비동기 API 서버 |
+| DB | **Supabase PostgreSQL** + PostGIS | 반경 검색 + 주차장 13,501건 |
+| 캐시 | **Upstash Redis** | API 응답 캐싱 |
+| AI | **Claude Haiku** | 리뷰 분석, 감성 분석, 장소 요약 |
+| 배포 | **Vercel** + **Railway** | 프론트/백엔드 분리 배포 |
+
+비용도 중요했어요. 개인 프로젝트니까요:
+
+| 서비스 | 월 비용 |
+|--------|--------|
+| Vercel Hobby | ₩0 |
+| Railway Hobby | ~₩7,000 |
+| Supabase Free | ₩0 |
+| Upstash Free | ₩0 |
+| Claude Haiku API | ~₩3~5만 (DAU 1,000 기준) |
+
+월 4만원 정도면 전국 단위 서비스가 돌아가요. 베리 이지이지~
+
+---
+
+## 개발 여정 — 8단계로 진행했어요
+
+### Phase 1: 프로젝트 초기 셋업
+
+`create-next-app@14`로 시작해서 App Router + TypeScript + Tailwind CSS를 세팅했어요. 여기에 framer-motion, React Query, zustand, shadcn/ui까지 한번에 설치.
+
+특히 신경 쓴 게 **브랜드 색상**이에요. "Forest Guide"라는 팔레트를 만들어서 숲 느낌의 그린 계열(`forest-800: #14352A` ~ `forest-50: #F0FDF4`)로 통일했어요. 주차 가능은 초록, 불가는 빨강, 확인 필요는 노랑 — 신호등처럼 직관적이죠.
+
+PWA 설정도 이때 잡았어요. `manifest.json`, `next-pwa` 연동까지. 나중에 홈 화면에 추가하면 네이티브 앱처럼 돌아가게요.
+
+### Phase 2: 랜딩페이지
+
+framer-motion으로 스크롤 애니메이션을 넣은 히어로 섹션, 기능 소개, 카테고리 그리드, 사용 방법, CTA까지. 첫인상이 중요하니까 여기에 꽤 공들였어요.
+
+### Phase 3: 검색 결과 페이지
+
+이게 핵심이에요. 검색하면 나오는 화면:
+
+- **ParkingCard** — 매장 주차 가능 여부 + AI 요약 텍스트
+- **ParkingRankList** — 주변 주차장 TOP 3 (거리, 요금, 주소 표시)
+- **NaverMap** — 접이식 네이버 지도에 커스텀 마커 + 인포윈도우
+
+"찾아가기" 버튼을 누르면 Geolocation으로 현재 위치를 잡아서 네이버 지도 앱 `nmap://` 딥링크로 길찾기가 바로 실행돼요.
+
+### Phase 4: FastAPI 백엔드 — 여기서부터 본격 삽질 시작
+
+백엔드가 이 프로젝트의 심장이에요. 외부 API를 **5개**나 연동하거든요:
+
+```
+네이버 검색 API (지역) → 매장 시설정보 주차 태그
+카카오 로컬 API → 크로스체크 + Geocoding fallback
+네이버 Maps Geocoding → 주소/장소명 → 좌표 변환
+공공데이터포털 API → 전국 주차장 데이터
+Claude Haiku API → 리뷰 분석 + AI 요약
+```
+
+이 5개 API의 결과를 하나의 `parking_service.py`에서 오케스트레이션하는 구조예요. 실패 시 fallback 체인도 꼼꼼하게 잡았고요:
+
+```
+Redis 캐시 확인 → DB 최근 데이터 → 네이버 API → 카카오 API → 공공데이터만 사용
+Claude 호출 → 실패 시 템플릿 기반 텍스트
+```
+
+### Phase 5: 데이터 수집
+
+공공데이터포털에서 전국 주차장 데이터를 가져와서 DB에 시드했어요. **13,501건**. PostGIS `ST_MakePoint`로 좌표를 geography 타입으로 저장해서 반경 검색이 가능하게 했어요.
+
+```sql
+SELECT * FROM parking_lots
+WHERE ST_DWithin(
+  location,
+  ST_SetSRID(ST_MakePoint(:lng, :lat), 4326)::geography,
+  :radius
+)
+ORDER BY ST_Distance(location, ...)
+LIMIT 5;
+```
+
+### Phase 6: 장소 추천 기능
+
+데이트/아이와 함께/카페/맛집 같은 카테고리로 장소를 추천해주는 기능이에요. 카카오 키워드 검색 → 네이버 크로스체크 → Claude Haiku 감성 분석 순서로 처리해요.
+
+### Phase 7: 배포
+
+프론트는 Vercel, 백엔드는 Railway로 배포했어요. Supabase PostgreSQL에 PostGIS 활성화하고, Upstash Redis 연결하고, 환경변수 12개 세팅하고... 배포 자체는 이지했는데 환경변수 실수로 좀 고생했어요 ㅋㅋ
+
+### Phase 8: 통합 테스트 & 버그 수정 (현재 진행 중)
+
+여기서 진짜 재밌는(?) 일들이 벌어졌어요. 아래에서 자세히 풀어볼게요.
+
+---
+
+## 삽질 대방출 — 해결한 6가지 이슈
+
+이 프로젝트에서 제일 값진 경험이 삽질이에요. 제가 다 겪었으니까 여러분은 안 그러셔도 돼요!
+
+### 1. NCloud Geocoding "210 Permission Denied" 💀
+
+이거 제가 반나절 날렸어요...
+
+**증상:** 네이버 Maps Geocoding API 호출하면 무조건 210 Permission Denied.
+
+**삽질 과정:**
+- API 키 재발급? → 안 됨
+- NCloud 콘솔에서 Maps 구독 확인? → 이용 중으로 뜸
+- 결제수단 등록 확인? → 문제 없음
+
+**원인:** 엔드포인트가 바뀐 거였어요!
+
+```python
+# 구 엔드포인트 (AI NAVER API — 2025.03 폐지됨)
+url = "https://naveropenapi.apigw.ntruss.com/map-geocode/v2/geocode"
+
+# 신 엔드포인트 (Application Services > Maps)
+url = "https://maps.apigw.ntruss.com/map-geocode/v2/geocode"
+```
+
+NCloud가 "AI NAVER API" 경로를 폐지하고 "Application Services > Maps"로 이전했는데, 기존 문서에 구 URL이 남아있어서 삽질한 거예요. 같은 Client ID/Secret인데 도메인만 달라요.
+
+알고 나면 베리 이지이지~ 근데 모르면 진짜 고생해요.
+
+### 2. Supabase pgbouncer + asyncpg 충돌
+
+Supabase는 pgbouncer를 기본으로 쓰는데, asyncpg의 prepared statement와 충돌해요.
+
+```python
+# 해결: NullPool + statement_cache_size 비활성화
+engine = create_async_engine(
+    settings.database_url,
+    poolclass=NullPool,
+    connect_args={
+        "statement_cache_size": 0,
+        "prepared_statement_cache_size": 0,
+    },
+)
+```
+
+`NullPool`은 매 요청마다 새 커넥션을 만들어서 pgbouncer의 transaction mode와 호환돼요.
+
+### 3. SQLAlchemy 버전 호환성
+
+로컬에서는 잘 되는데 Railway 배포하면 크래시! `prepared_statement_cache_size`가 SQLAlchemy 최신 버전에서는 top-level 인자로 안 먹히고 `connect_args`에 넣어야 했어요.
+
+```
+TypeError: Invalid argument(s) 'prepared_statement_cache_size'
+```
+
+Railway 배포 로그를 보고 잡았는데, 로컬/프로덕션 환경 차이를 늘 조심해야 한다는 교훈을 얻었어요.
+
+### 4. 공공데이터 API — HTTPS가 안 돼요
+
+한국 정부 공공데이터포털 API가 **HTTP만** 지원해요. HTTPS로 호출하면 그냥 차단당합니다.
+
+```python
+# HTTPS — 차단됨
+url = "https://api.data.go.kr/openapi/tn_pubr_prkplce_info_api"
+
+# HTTP — 정상
+url = "http://api.data.go.kr/openapi/tn_pubr_prkplce_info_api"
+```
+
+2026년인데... 뭐 어쩔 수 없죠 ㅋㅋ
+
+### 5. asyncpg 타입 호환
+
+asyncpg가 Python `Decimal`과 `datetime.time` 타입을 바로 못 다뤄서 명시적 변환이 필요했어요.
+
+```python
+# Decimal → str → float 변환
+base_fee = float(Decimal(str(row.base_fee)))
+```
+
+### 6. JSON 컨트롤 문자 오류
+
+외부 API 응답에 간혹 컨트롤 문자(`\x00` 등)가 섞여 들어와서 JSON 파싱이 터졌어요. `re.sub`로 정리하는 코드를 추가했어요.
+
+---
+
+## 핵심 아키텍처 — Geocoding Fallback Chain
+
+이 프로젝트에서 제일 자랑하고 싶은 설계가 **Geocoding Fallback Chain**이에요.
+
+사용자가 "강남역 스시코우지"를 입력하면, 이걸 좌표로 변환해야 주변 주차장을 검색할 수 있잖아요. 근데 하나의 API만 믿으면 장애 때 서비스가 멈춰요.
+
+```
+1순위: 네이버 Maps Geocoding API
+  ↓ 실패 시
+2순위: 카카오 키워드 검색 (좌표 추출)
+  ↓ 실패 시
+3순위: 네이버 지역검색 mapx/mapy (TM128 좌표 변환)
+```
+
+세 겹으로 쌓아서, 하나가 죽어도 나머지가 살아있으면 서비스가 돌아가요. 실제로 네이버 Geocoding이 Permission Denied 뜨던 시점에도 카카오 fallback 덕분에 검색이 가능했어요.
+
+---
+
+## Claude Haiku AI 연동 — 3종 프롬프트 시스템
+
+AI가 이 서비스의 차별점이에요. Claude Haiku를 3가지 용도로 써요:
+
+**프롬프트 A: 주차정보 분석**
+네이버 + 카카오 리뷰를 모아서 "이 매장 주차 어떤가요?"를 JSON으로 응답받아요.
+
+**프롬프트 B: 리뷰 감성 분석**
+카테고리별 점수(0.0~1.0)로 장소의 분위기를 수치화해요.
+
+**프롬프트 C: 장소 추천 요약**
+존댓말, 이모지 없이, 2~3문장으로 깔끔하게 장소를 소개하는 텍스트를 생성해요.
+
+비용 최적화도 신경 썼어요:
+- 리뷰는 **최근 20개만**, 각 **100자 이내**로 잘라서 전달
+- 같은 매장 분석 결과는 Redis에 **24시간 캐싱**
+- Claude 호출 실패 시 **템플릿 기반 fallback**으로 최소한의 텍스트 제공
+
+---
+
+## 주차장 검색 — PostGIS 반경 자동 확장
+
+검색 결과가 3개 미만이면 자동으로 반경을 2배로 넓혀요 (최대 3,000m):
+
+```python
+radius = request.radius or 500
+lots = await search_nearby(lat, lng, radius)
+
+if len(lots) < 3:
+    expanded = min(radius * 2, 3000)
+    lots = await search_nearby(lat, lng, expanded)
+```
+
+교외 지역처럼 주차장이 듬성듬성한 곳에서도 최소 결과를 보장하는 거예요. 쉽죠?
+
+---
+
+## 프로덕션 배포 현황
+
+현재 라이브로 돌아가고 있어요!
+
+| 서비스 | URL |
+|--------|-----|
+| 프론트엔드 | [park-mate-seven.vercel.app](https://park-mate-seven.vercel.app) |
+| 백엔드 API | [park-mate-production.up.railway.app](https://park-mate-production.up.railway.app) |
+| Health Check | [/health](https://park-mate-production.up.railway.app/health) |
+
+DB에 전국 주차장 **13,501건**이 적재되어 있고, PostGIS 반경 검색으로 실시간 조회돼요. 서울 강남역 주변 검색하면 3개, 광교 백소정 검색하면 반경 확장되어 3개 — 잘 동작하는 거 확인했어요.
+
+---
+
+## 앞으로 할 일
+
+아직 갈 길이 남았어요:
+
+- **검색어 자동완성 드롭다운** — 네이버 지도처럼 입력하면서 연관 장소가 뜨는 기능
+- **네이버 Place 주차 데이터 연동** — "주차 가능, 무료, 2시간" 같은 상세 정보 (공개 API가 없어서 대안 검토 중)
+- **소셜 로그인** — 카카오/네이버 OAuth
+- **즐겨찾기** — 자주 가는 목적지 저장
+- **트렌드 페이지** — YouTube/블로그 분석으로 인기 장소 발굴
+- **PWA 아이콘** — 192x192, 512x512 제작
+
+---
+
+## 정리하며
+
+ParkMate를 만들면서 느낀 건, **"외부 API를 여러 개 엮는 서비스"** 가 생각보다 삽질이 많다는 거예요. API마다 응답 포맷이 다르고, 장애 패턴이 다르고, 인증 방식이 다르고... 하나하나 fallback을 쌓아야 프로덕션에서 안정적으로 돌아가요.
+
+그래도 이 경험을 통해 비동기 API 오케스트레이션, PostGIS 공간 검색, AI 프롬프트 엔지니어링, 그리고 무엇보다 **"장애를 전제로 설계하는 습관"** 을 많이 배웠어요.
+
+직접 써보고 싶으신 분은 [ParkMate](https://park-mate-seven.vercel.app)에서 목적지를 검색해보세요. 궁금한 점이나 피드백 있으시면 편하게 댓글 남겨주세요!
+
+기술을 만들고, 더 쉽게 삽시다! 🚀
+
+---
+
+*이 글은 Claude Opus 4.6과 함께 작성됐습니다.*
