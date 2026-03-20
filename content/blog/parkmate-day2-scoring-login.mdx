@@ -1,0 +1,293 @@
+---
+title: "ParkMate Day 2 — 소셜 로그인, AI 트렌드 스코어링, 그리고 pgbouncer 삽질기"
+slug: parkmate-day2-scoring-login
+date: 2026-03-20
+description: "카카오/네이버 OAuth 로그인, Claude Haiku 기반 AI 트렌드 장소 추출, 4-Signal 스코어링 시스템, pgbouncer 에러 해결까지. ParkMate 이틀차 개발 일지를 솔직하게 풀어봅니다."
+category: devlog
+tags: ["ParkMate", "OAuth", "Claude Haiku", "트렌드 스코어링", "pgbouncer", "asyncpg", "Railway", "Supabase", "devlog"]
+draft: false
+---
+
+안녕하세요, 고텍이예요! 오늘도 쉽게 가보자고!
+
+ParkMate 개발 이틀차인데요, 하루 만에 정말 많은 걸 넣었거든요. 소셜 로그인부터 AI가 "요즘 핫한 장소"를 자동으로 찾아주는 트렌드 스코어링 시스템까지. 근데 그 사이에 pgbouncer 에러로 3시간 삽질한 건 비밀이에요 ㅋㅋ
+
+결론부터 말하면 — **"카카오/네이버 로그인 + AI 트렌드 점수 시스템 + 주차 AI 분석 강화"** 를 하루에 다 넣었습니다. 같이 고!!
+
+---
+
+## 오늘 뭘 했냐면요
+
+크게 4가지를 진행했어요:
+
+1. **소셜 로그인** — 카카오/네이버 OAuth 2.0
+2. **AI 트렌드 장소 수집** — Claude Haiku가 YouTube/블로그에서 진짜 핫한 장소만 추출
+3. **4-Signal 트렌드 스코어링** — 단순 언급 수가 아닌 진짜 인기도 측정
+4. **주차 AI 분석 강화** — 네이버 블로그 리뷰를 Claude에게 먹여서 주차 정보 분석
+
+그리고 중간중간 pgbouncer 에러로 삽질한 이야기도요... 이게 제일 길 수도 있어요 😅
+
+---
+
+## 1. 소셜 로그인 — 카카오/네이버 OAuth 2.0
+
+### 왜 필요했냐면
+
+즐겨찾기 기능을 만들었는데, 사용자 식별이 필요하잖아요. 회원가입 폼을 만들기보단 소셜 로그인이 훨씬 이지하죠.
+
+### 구현 방식
+
+둘 다 **OAuth 2.0 Authorization Code Flow**를 사용해요:
+
+```
+사용자 → "카카오로 로그인" 클릭
+→ accounts.kakao.com 로그인 페이지
+→ 인가 코드(code) 발급
+→ 백엔드에서 code → access_token 교환
+→ access_token으로 사용자 정보 조회
+→ JWT 발급 (7일 유효)
+```
+
+핵심 코드는 백엔드 `auth_service.py`에 있어요:
+
+```python
+async def get_kakao_user_info(code: str, redirect_uri: str):
+    async with aiohttp.ClientSession() as session:
+        # 1) 인가코드 → 액세스 토큰
+        token_resp = await session.post(
+            "https://kauth.kakao.com/oauth/token",
+            data={
+                "grant_type": "authorization_code",
+                "client_id": settings.kakao_oauth_client_id,
+                "redirect_uri": redirect_uri,
+                "code": code,
+            },
+        )
+        # 2) 액세스 토큰 → 사용자 정보
+        user_resp = await session.get(
+            "https://kapi.kakao.com/v2/user/me",
+            headers={"Authorization": f"Bearer {access_token}"},
+        )
+```
+
+### 삽질 포인트
+
+카카오 개발자 콘솔 UI가 바뀌었더라고요. **Redirect URI 등록하는 곳**을 한참 찾았어요. 예전엔 "카카오 로그인" 메뉴 아래에 있었는데, 지금은 **앱 키 탭 → REST API 키** 쪽에 있어요. 그리고 카카오는 `client_secret`도 필수라서 토큰 요청에 포함시켜야 해요.
+
+네이버는 비교적 직관적이었는데, 앱을 실수로 2개 만들어버려서 ㅋㅋ 기존 앱에 로그인 기능을 추가하는 걸로 정리했어요.
+
+---
+
+## 2. pgbouncer + asyncpg 삽질기 — DuplicatePreparedStatementError
+
+이게 오늘의 하이라이트(?)예요. 제가 3시간 날렸으니까 여러분은 안 그러셔도 돼요.
+
+### 상황
+
+ParkMate 백엔드는 **Supabase PostgreSQL + asyncpg**를 쓰는데, Supabase는 내부적으로 **pgbouncer**를 transaction mode로 운영해요. 이 조합에서 이런 에러가 터져요:
+
+```
+asyncpg.exceptions.DuplicatePreparedStatementError:
+prepared statement "__asyncpg_stmt_5__" already exists
+```
+
+### 왜 이런 일이?
+
+asyncpg는 모든 쿼리를 **named prepared statement**로 실행해요. `__asyncpg_stmt_1__`, `__asyncpg_stmt_2__`... 이런 식으로요.
+
+문제는 pgbouncer가 **같은 PostgreSQL 백엔드 커넥션을 여러 클라이언트에게 돌려쓴다**는 거예요. A 클라이언트가 `__asyncpg_stmt_5__`를 만들고 나간 다음, B 클라이언트가 같은 백엔드에 연결되면 이미 그 이름의 prepared statement가 있으니까 충돌!
+
+### 시도한 것들 (다 실패)
+
+```python
+# 시도 1: statement_cache_size=0 → 캐시만 끄고 prepared statement는 여전히 씀
+connect_args={"statement_cache_size": 0}  # ❌
+
+# 시도 2: prepared_statement_cache_size=0도 추가 → 여전히 실패
+connect_args={
+    "statement_cache_size": 0,
+    "prepared_statement_cache_size": 0,
+}  # ❌
+
+# 시도 3: URL 파라미터로 추가 → 여전히 실패
+database_url + "?prepared_statement_cache_size=0"  # ❌
+```
+
+`statement_cache_size=0`이 캐시만 비활성화하고, **prepared statement 프로토콜 자체는 여전히 사용한다**는 걸 알기까지 오래 걸렸어요...
+
+### 최종 해결
+
+**Alembic 마이그레이션에는 asyncpg를 안 쓰면 됩니다.** psycopg2는 simple query protocol을 사용해서 pgbouncer transaction mode와 완벽 호환이거든요.
+
+```python
+# alembic/env.py — asyncpg → psycopg2 sync 엔진으로 전환
+_sync_url = (
+    settings.database_url
+    .replace("postgresql+asyncpg://", "postgresql+psycopg2://")
+    .split("?")[0]
+)
+
+engine = engine_from_config(
+    {"sqlalchemy.url": _sync_url},
+    poolclass=pool.NullPool,
+)
+```
+
+`requirements.txt`에 `psycopg2-binary` 추가하고, `env.py`를 sync 엔진으로 바꿨더니 깔끔하게 해결! 알고 나면 베리 이지이지~ 근데 모르면 진짜 고생해요.
+
+**교훈:** Supabase + asyncpg 쓰시는 분들, Alembic은 psycopg2 sync로 가세요!
+
+---
+
+## 3. AI 트렌드 장소 수집 — Claude Haiku의 눈
+
+### 기존 문제
+
+처음엔 YouTube/블로그 텍스트에서 **정규식으로 매장명을 추출**했거든요. 결과가... "토지를 매매합니다", "영업시간", "봄철 데이트코스 서울" 이런 게 트렌드 1위를 차지하는 참사가 벌어졌어요 ㅋㅋ
+
+### Claude Haiku가 해결
+
+정규식 대신 **Claude Haiku**에게 "이 텍스트에서 실제 방문 가능한 장소만 추출해줘"라고 시키는 거예요:
+
+```python
+TREND_EXTRACTION_SYSTEM = """당신은 한국의 실제 방문 가능한 장소/매장 추출 전문가입니다.
+
+추출해야 하는 것 (O):
+- 카페, 음식점, 베이커리 등 매장 이름
+- 공원, 전시관, 쇼핑몰 등 방문 장소
+
+절대 추출하면 안 되는 것 (X):
+- 유튜브 채널명 (예: "또간집", "맛있는 녀석들")
+- 일반 지역명 (서울, 강남, 성수)
+- TV 프로그램명, 음식 메뉴명
+
+JSON 배열로 응답:
+[{"name": "카페 온릴", "category": "카페", "reason": "성수 신상 카페, 인테리어 화제"}]
+"""
+```
+
+이제 "하우스 오브 신세계 청담", "아키바코믹스", "도토리오븐" 같은 **진짜 장소**가 추출돼요. 하루 8~70건의 Claude 호출로 비용도 $0.01 미만이에요.
+
+---
+
+## 4. 4-Signal 트렌드 스코어링 시스템
+
+### 왜 만들었냐면
+
+단순히 "많이 언급됨" = "핫하다"는 아니거든요. 협찬 블로그가 100개인 곳보다, YouTube 소형 채널에서 자발적으로 3번 소개된 곳이 진짜 핫한 거잖아요.
+
+### 4가지 신호 (Signal)
+
+| 신호 | 가중치 | 측정 방법 |
+|------|--------|----------|
+| **S2. 조회수 영향력** | 36% | YouTube 일 평균 조회수 (배치 내 최대 대비 정규화) |
+| **S3. 참여율** | 29% | (좋아요 + 댓글) / 조회수 |
+| **S4. 크로스 플랫폼** | 21% | YouTube + 블로그 동시 언급 시 가점 |
+| **S5. 자발적 비율** | 14% | 협찬/광고 키워드 없는 콘텐츠 비율 |
+
+(S1 버즈 급등률은 2주 이상 히스토리 데이터가 필요해서 아직 비활성화)
+
+### 스코어에서 등급으로
+
+```python
+def _tier_from_score(score: float) -> str:
+    if score >= 80: return "FIRE"    # 🔥 폭발적
+    elif score >= 60: return "HOT"   # 요즘 핫한
+    elif score >= 40: return "RISING" # 떠오르는
+    elif score >= 20: return "STEADY" # 꾸준한
+    return "NEW"                      # 신규 발굴
+```
+
+### 실제 결과
+
+키워드를 8개에서 **30개로 확장**(카테고리 × 서울 세부 지역)하고, YouTube 영상 통계(조회수/좋아요/댓글)까지 수집해서 스코어링한 결과:
+
+| 등급 | 장소 | 점수 | 이유 |
+|------|------|------|------|
+| HOT | 하우스 오브 신세계 청담 | 62.4 | 국내 최고가 마트로 SNS 화제 |
+| HOT | 아키바코믹스 | 61.0 | 홍대 만화카페 실내데이트 |
+| HOT | 서울숲 | 61.0 | 성수 데이트/팝업 명소 |
+| RISING | 소경계 | 48.4 | 파주 신상 호수뷰 카페 |
+
+"토지를 매매합니다"가 1위하던 시절과 비교하면... 역시 이지!
+
+---
+
+## 5. 블로그 리뷰 → Claude 주차 분석 연동
+
+### 기존 문제
+
+주차 검색 시 Claude AI에게 분석을 시키는데, **리뷰 데이터를 안 넘기고 있었어요**:
+
+```python
+ai_result = await ai_service.analyze_parking(
+    naver_reviews=[],   # ← 항상 빈 배열!
+    kakao_reviews=[],   # ← 항상 빈 배열!
+)
+```
+
+그래서 매번 "주차 정보를 확인하지 못했습니다" 템플릿만 나왔던 거예요.
+
+### 해결
+
+네이버 블로그 검색 API로 **"장소명 + 주차" 키워드**로 검색해서 리뷰를 수집하고, Claude에게 넘기도록 했어요:
+
+```python
+async def _fetch_blog_reviews(place_name: str, max_reviews: int = 10):
+    queries = [f"{place_name} 주차", place_name]
+    # 네이버 블로그 검색 → 제목+설명 150자씩 수집
+    ...
+```
+
+"수퍼판 주차"로 검색하면 **"발렛 가능 (3,000원)"**, **"건물에서 350m 떨어진 커피빈쪽 발렛"** 같은 구체적 정보가 블로그에서 바로 나오거든요. 이걸 Claude가 정리해서 "이 매장은 발렛 주차 가능하며 요금은 3,000원입니다" 같은 안내문을 만들어줘요.
+
+---
+
+## 6. 그 외 소소한 것들
+
+- **마이페이지** — 로그인 사용자 프로필, 즐겨찾기 수, 로그아웃
+- **트렌드 바텀시트** — 장소 클릭 시 상세 카드 + "YouTube에서 보기" / "주차정보 검색" 버튼
+- **최근 검색어** — 빈 검색창 클릭 시 최근 검색 8개 표시 (localStorage 기반)
+- **즐겨찾기 버그 수정** — SQLAlchemy FK 참조 오류로 500 에러 나던 것 해결
+
+---
+
+## 커밋 로그로 보는 하루
+
+```
+a43a476 fix: trending endpoints error handling
+cd3cb88 fix: alembic + kakao client_secret
+ebc11a6 feat: mypage + trend_places unique constraint
+5526d07 feat: admin trend collection trigger
+3fdb753 fix: alembic psycopg2 sync engine (pgbouncer fix!)
+8fd7215 feat: AI trend extraction with category/source links
+e4f8fb4 feat: admin clear trend noise endpoint
+8a92081 feat: blog review collection for Claude parking
+1d9a842 feat: trend detail bottom sheet
+f15a7af fix: Claude JSON parsing (markdown wrapping)
+8cefb2a feat: recent search history
+25e8aa4 fix: bookmark FK reference error
+48df239 feat: 4-signal trend scoring system
+d712864 fix: bottom sheet rerender + prompt strengthening
+```
+
+커밋 14개. 하루치고는 꽤 많죠? ㅋㅋ
+
+---
+
+## 오늘의 교훈
+
+1. **pgbouncer + asyncpg = 지뢰밭.** Alembic은 psycopg2 sync로 가세요.
+2. **정규식으로 장소 추출은 한계가 있다.** AI(Claude Haiku)에 맡기면 비용도 거의 안 들고 품질이 극적으로 올라가요.
+3. **트렌드 랭킹은 단순 카운트가 아니라 다차원 스코어링이 필요하다.** 조회수, 참여율, 크로스 플랫폼, 광고 필터까지 고려해야 "진짜 핫한 장소"가 올라와요.
+4. **Claude API 응답은 항상 JSON 파싱 방어를 해야 한다.** 마크다운으로 감싸서 오는 경우가 많아요.
+
+---
+
+여기까지 읽어주셔서 감사해요! 해보니까 이지~하잖아~ (라고 말하기엔 삽질이 좀 있었지만요 ㅎㅎ)
+
+궁금한 점 있으면 편하게 댓글 남겨주세요. 다음에는 카카오맵 API 심사 승인 후 주차 정보 크로스체크 고도화 이야기로 돌아올게요.
+
+기술을 만들고, 더 쉽게 삽시다! 🚀
+
+#고텍이 #ParkMate #트렌드스코어링 #OAuth로그인 #pgbouncer삽질 #ClaudeHaiku #닥고 #이지이지
