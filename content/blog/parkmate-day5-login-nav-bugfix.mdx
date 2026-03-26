@@ -1,0 +1,195 @@
+---
+title: "ParkMate Day 5 — 카카오 로그인 3연속 삽질, 네비게이션 리디자인, 버그 12개 잡기"
+slug: parkmate-day5-login-nav-bugfix
+date: 2026-03-26
+description: "Supabase와 카카오 로그인이 충돌하는 걸 3단계에 걸쳐 해결하고, 네비게이션을 전면 리디자인하고, 크고 작은 버그 12개를 하루에 잡은 ParkMate 5일차 개발기."
+category: devlog
+tags: ["ParkMate", "카카오 로그인", "Supabase", "PWA", "네비게이션", "버그픽스", "Next.js", "FastAPI", "개발일지", "devlog"]
+draft: false
+---
+
+**Go! Build the Technology !! Live Easier !!!**
+안녕하세요 더 쉽게 편리하게 세상을 살고싶은 고텍이 입니다!
+
+ParkMate 5일차인데요, 오늘은 "카카오 로그인이 왜 안 돼?!" 로 시작해서 에러 로그를 3번 갈아엎고, 네비게이션을 통째로 바꾸고, 버그를 12개 잡았어요. 하루에 커밋 15개... 같이 고!!
+
+---
+
+## 오늘의 하이라이트
+
+크게 4가지 전선에서 싸웠어요:
+
+1. **카카오 로그인 3연속 삽질** — Supabase 충돌 → Enum 타입 → timezone
+2. **네비게이션 전면 리디자인** — BottomNav + Header 구조 통일
+3. **검색 UX 버그 모음** — 드롭다운, 지도, 요금 계산
+4. **사용자 경험 개선** — PWA 설치, OG 이미지, 문의 링크
+
+---
+
+## 1. 카카오 로그인 — 3연속 삽질기
+
+이건 진짜 드라마였어요 ㅋㅋ "Login Failed"가 뜨는데 원인을 3번이나 바꿔야 했거든요.
+
+### 1차: Supabase auth.users 테이블 충돌
+
+Railway 에러 로그를 보니까 `500 Internal Server Error`, `auth.py line 35`에서 터지고 있었어요. DB를 뜯어보니까...
+
+```
+=== users 테이블 컬럼 ===
+  id, instance_id, email, aud, role, encrypted_password,
+  email_confirmed_at, is_sso_user, is_anonymous...
+  (30개+ 컬럼)
+```
+
+**Supabase가 자동으로 만든 `auth.users` 테이블**에 ParkMate가 INSERT를 하고 있었던 거예요. `encrypted_password` 같은 필수 컬럼이 빠지니까 당연히 실패...
+
+해결: `users` → `app_users`로 테이블 분리.
+
+### 2차: Enum vs varchar 타입 불일치
+
+테이블 바꿨더니 이번엔:
+
+```
+operator does not exist: character varying = auth_provider
+```
+
+`app_users.provider` 컬럼은 `varchar`인데, SQLAlchemy 모델이 `Enum("kakao", "naver", "google")`로 정의되어 있어서 `$1::auth_provider`로 캐스팅하는 거였어요.
+
+해결: `Enum` → `String(10)`으로 변경.
+
+### 3차: timezone-aware vs naive datetime
+
+이것까지 있을 줄은 몰랐는데...
+
+```
+can't subtract offset-naive and offset-aware datetimes
+```
+
+DB 컬럼이 `TIMESTAMP WITHOUT TIME ZONE`인데 Python에서 `datetime.now(timezone.utc)`(aware)를 넣고 있었어요.
+
+해결: Python default 제거, `server_default=func.now()`만 사용.
+
+3번 연속 배포하고 나서야 드디어 카카오 로그인 성공! 알고 나면 베리 이지이지~ 근데 모르면 진짜 고생해요.
+
+---
+
+## 2. 네비게이션 리디자인
+
+기존 문제가 있었어요:
+
+| | 웹 Header | 모바일 BottomNav |
+|---|---|---|
+| 장소 추천 | O | **X (없음)** |
+| 마이 | **X (없음)** | O |
+
+핵심 기능인 장소 추천(→ "추천"으로 이름 변경)이 모바일에서 접근이 안 되는 게 문제였죠.
+
+### 변경 후
+
+**모바일 BottomNav:**
+```
+🏠 홈  |  🔍 검색  |  💡 추천  |  📈 트렌드  |  👤 마이
+```
+\+ 헤더 우측에 ⭐ 즐겨찾기 아이콘
+
+**웹 Header:**
+```
+홈 | 추천 | 트렌드 | 즐겨찾기     🔍 [로그인]
+```
+
+"장소 추천" → "추천"으로 이름을 바꾼 이유는, 기획자 관점에서 **BottomNav 2~3글자**가 최적이고, 사용자가 "추천" 탭을 누르면 "뭔가 추천해주겠구나" 하고 바로 이해할 수 있어서예요.
+
+---
+
+## 3. 검색 드롭다운 — 끈질긴 버그
+
+검색 후 자동완성 드롭다운이 안 사라지는 버그가 있었는데, 이거 수정하는 데 **4번 시도**했어요 ㅋㅋ
+
+| 시도 | 방법 | 결과 |
+|------|------|------|
+| 1차 | `setShowDropdown(false)` | 비동기 응답이 나중에 다시 true로 |
+| 2차 | `inputRef.blur()` | 같은 문제 |
+| 3차 | `clearTimeout` + `setFocused(false)` | API 응답이 이미 진행 중 |
+| **4차** | **`searchedRef` 플래그** + focused 체크 | 성공! |
+
+근본 원인이 2개였거든요:
+
+1. **비동기**: `searchAutocomplete()` API 호출이 이미 날아간 상태에서 검색 버튼을 누르면, 나중에 응답이 도착하면서 `setShowDropdown(true)` 재호출
+2. **마운트**: `/search?q=검색어`로 이동하면 컴포넌트가 새로 마운트되면서 `query=defaultValue`로 자동완성이 다시 트리거
+
+```typescript
+// 최종 해결: searchedRef 플래그 + focused 체크
+const searchedRef = useRef(false);
+
+// 검색 실행 시
+searchedRef.current = true;
+
+// 자동완성 useEffect에서
+if (!focused || searchedRef.current) return;
+```
+
+---
+
+## 4. 그 외 수정 모음
+
+### iOS 찾아가기 수정
+`window.location.href = nmap://`으로 딥링크를 열면 현재 페이지가 교체되는 문제. iOS/Android 분기해서 iOS는 `location.href`, Android는 `iframe` 방식으로.
+
+### 주차 요금 계산 4가지 케이스
+"5분 0원"인데 2시간 13,800원? 실제 데이터를 보니 과금 케이스가 다양했어요:
+- 기본 무료 + 추가 과금
+- 균일 과금 (기본=추가)
+- 추가 데이터 없는 단위 과금
+- 일반 기본+추가
+
+### PWA 설치 유도 배너
+모바일에서 검색 1회 후 하단에 "홈 화면에 추가하세요" 배너. iOS는 공유→홈화면 추가 안내, Android는 `beforeinstallprompt` 활용.
+
+### OG 이미지 자동 생성
+`next/og`의 `ImageResponse`로 1200x630 OG 이미지를 Edge Runtime에서 동적 생성. 카카오톡/SNS 공유 시 브랜드 이미지가 보여요.
+
+### 마이페이지 문의 링크
+`parkmate-help@naver.com`으로 이메일 문의 + 이용약관/개인정보처리방침 링크.
+
+### 이전 로그인 방식 안내
+`localStorage`에 마지막 provider를 저장해서, 로그인 페이지 재방문 시 "지난번에 사용했어요" 배지 표시.
+
+### 장소추천 카카오 카테고리 검색 리팩토링
+네이버 크로스체크(장소당 API 1회) 제거 → 카카오 카테고리+키워드 병렬 검색. 7개 카테고리 프리페치로 탭 전환 즉시 표시.
+
+### GitHub private 전환
+코드 보호를 위해 레포를 private으로.
+
+---
+
+## 오늘의 교훈
+
+1. **Supabase를 쓴다면 테이블명 충돌을 주의하자** — `users`는 Supabase Auth가 쓰는 예약어나 다름없어요.
+
+2. **DB 컬럼 타입과 ORM 모델 타입을 일치시키자** — Enum vs varchar, timezone-aware vs naive 같은 미묘한 불일치가 런타임에 터져요.
+
+3. **비동기 코드에서 상태 관리는 ref가 답** — `useState`만으로는 타이밍 이슈를 못 잡아요. `useRef`로 동기적 플래그를 관리해야 할 때가 있어요.
+
+4. **iOS와 Android는 딥링크 동작이 다르다** — `iframe` 딥링크는 iOS에서 안 되고, `window.location.href`는 Android에서 페이지를 교체해요. 분기 필수.
+
+---
+
+## 5일간의 여정 정리
+
+| Day | 핵심 작업 |
+|-----|---------|
+| 1 | MVP 기본 구조 + 주차 검색 |
+| 2 | 트렌드 스코어링 + 소셜 로그인 |
+| 3 | 전국 트렌드 확장 + 한국 지도 히트맵 |
+| 4 | 실시간 잔여석 + 카카오톡 공유 + SEO |
+| **5** | **카카오 로그인 삽질 + 네비게이션 리디자인 + 버그 12개** |
+
+---
+
+여기까지 읽어주셔서 감사해요! 5일 만에 서비스 하나가 이만큼 발전할 수 있다는 게 신기하기도 하고, AI 협업 개발의 가능성을 체감하는 중이에요.
+
+궁금한 점이나 비슷한 경험 있으시면 편하게 댓글 남겨주세요. 기술을 만들고, 더 쉽게 삽시다! 🚀
+
+---
+
+#고텍이 #Gotekie #ParkMate #카카오로그인 #Supabase #PWA #네비게이션 #버그픽스 #Next.js #FastAPI #개발일지 #devlog
