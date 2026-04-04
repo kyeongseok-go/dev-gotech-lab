@@ -1,0 +1,240 @@
+---
+title: "핸드메이드 쇼핑몰 1인 개발기 — Ch.2 Supabase DB + 관리자 대시보드"
+slug: projectb-dev-chapter2
+description: "더미 데이터에서 실제 DB로! Supabase 13개 테이블 설계, RLS 정책, 관리자 대시보드 레이아웃과 인증 가드까지 하루 만에 구축한 과정."
+date: 2026-04-04
+category: devlog
+tags: ["Project B", "Supabase", "관리자 대시보드", "RLS", "인증", "Claude Code", "devlog"]
+draft: false
+---
+
+**Go! Build the Technology !! Live Easier !!!**
+안녕하세요 더 쉽게 편리하게 세상을 살고싶은 고텍이 입니다!
+
+[Ch.1](/blog/projectb-dev-chapter1)에서 18개 페이지를 더미 데이터로 완성했었죠? 이번에는 진짜 DB를 붙이고, 대표님이 직접 관리할 수 있는 **관리자 대시보드**를 만들어요. 오늘도 쉽게 가보자고!!
+
+---
+
+## 결제 시스템 변경 — 토스페이먼츠 → 포트원
+
+본격적으로 들어가기 전에, 결제 시스템부터 바꿨어요.
+
+처음에는 토스페이먼츠 SDK를 직접 연동했었는데, 대표님이 **포트원(PortOne)**을 쓰고 싶다고 하셔서 전환했습니다. 변경 범위를 확인해보니 파일 4개면 충분하더라고요.
+
+```diff
+- @tosspayments/tosspayments-sdk
++ @portone/browser-sdk
+```
+
+### 변경 포인트
+
+| 파일 | Before | After |
+|------|--------|-------|
+| `checkout/page.tsx` | `loadTossPayments()` | `PortOne.requestPayment()` |
+| `api/checkout/route.ts` | 토스 결제 승인 API | 포트원 V2 REST API |
+| `checkout/success` | paymentKey/orderId/amount | paymentId 단일 |
+| `.env` | TOSS_CLIENT_KEY/SECRET | PORTONE_STORE_ID/CHANNEL_KEY/SECRET |
+
+포트원의 장점은 여러 PG사를 하나의 API로 관리할 수 있다는 거예요. 나중에 카카오페이, 네이버페이 추가할 때도 채널만 추가하면 되거든요. 베리 이지이지~
+
+---
+
+## Supabase DB 설계 — 13개 테이블
+
+자, 여기서부터 진짜 고!! Supabase 무료 플랜(DB 500MB, Auth 50K MAU)으로 충분한 규모라서 바로 진행했어요.
+
+### 테이블 구조
+
+모든 테이블은 `pb_` prefix를 붙여요. 나중에 다른 프로젝트(Delfina)와 같은 Supabase 인스턴스를 공유할 거거든요.
+
+```
+pb_products          — 상품
+pb_product_images    — 상품 이미지 (1:N)
+pb_product_options   — 상품 옵션 (색상/사이즈)
+pb_hero_settings     — 히어로 텍스트/CTA (단일 row)
+pb_hero_slides       — 히어로 슬라이드 이미지 (복수)
+pb_brand_content     — 브랜드 페이지 섹션별 콘텐츠
+pb_orders            — 주문
+pb_order_items       — 주문 아이템
+pb_users_profile     — 유저 확장 프로필 (role: customer|admin)
+pb_reviews           — 상품 리뷰
+pb_cs_inquiries      — CS 문의
+pb_notices           — 공지사항
+pb_banners           — 마케팅 배너
+```
+
+### RLS (Row Level Security) 설계
+
+이 부분이 Supabase의 꽃이에요. 테이블마다 "누가 뭘 할 수 있는지" 정책을 걸어놓으면, API 레벨에서 따로 체크할 필요가 없거든요.
+
+```sql
+-- 공개된 상품만 일반 사용자에게 보이게
+CREATE POLICY "Public can read published products" ON pb_products
+  FOR SELECT USING (is_published = true);
+
+-- 관리자는 모든 걸 할 수 있게
+CREATE POLICY "Admin can read all products" ON pb_products
+  FOR ALL USING (
+    EXISTS (SELECT 1 FROM pb_users_profile
+            WHERE user_id = auth.uid() AND role = 'admin')
+  );
+```
+
+이렇게 하면 `is_published = false`인 상품은 일반 사용자 쿼리에 아예 안 나와요. 관리자만 볼 수 있죠. 쉽죠?
+
+### updated_at 자동 갱신 트리거
+
+매번 UPDATE 할 때 `updated_at`을 수동으로 넣기 귀찮잖아요. 트리거로 자동화했어요.
+
+```sql
+CREATE OR REPLACE FUNCTION update_updated_at()
+RETURNS TRIGGER AS $$
+BEGIN
+  NEW.updated_at = now();
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+-- 필요한 테이블마다 붙여주기
+CREATE TRIGGER set_updated_at BEFORE UPDATE ON pb_products
+  FOR EACH ROW EXECUTE FUNCTION update_updated_at();
+```
+
+---
+
+## 관리자 인증 가드
+
+대표님 혼자 쓰시는 관리자 페이지지만, 보안은 제대로 해야죠.
+
+### 인증 흐름
+
+```
+1. /admin 접근 → 미들웨어에서 세션 쿠키 확인
+2. 세션 없음 → /auth?redirect=/admin 리다이렉트
+3. 세션 있음 → AdminLayout에서 pb_users_profile.role 확인
+4. role !== "admin" → 403
+5. role === "admin" → 통과!
+```
+
+`getAdminUser()` 헬퍼 함수 하나로 서버 컴포넌트에서든 API Route에서든 admin 체크를 할 수 있어요.
+
+---
+
+## 관리자 대시보드 레이아웃
+
+디자인 컨셉은 **하이브리드** — 메인 사이트의 브랜드 톤(Archivo 폰트, 모노크롬, 각진 모서리)은 유지하면서, 레이아웃은 관리자에게 익숙한 사이드바 + 테이블 형태로.
+
+### 구조
+
+```
+┌─────────────────────────────────────────┐
+│ [PB Admin]         [대시보드]    [로그아웃] │
+├──────────┬──────────────────────────────┤
+│ 대시보드   │                              │
+│ 상품 관리  │   ┌──────┐ ┌──────┐         │
+│ 콘텐츠 편집 │   │ 상품  │ │ 주문  │         │
+│ 주문 관리  │   │  16  │ │  0   │         │
+│ 리뷰 관리  │   └──────┘ └──────┘         │
+│ 문의 관리  │                              │
+│ 공지사항   │   [Quick Actions]            │
+│           │   [상품 등록] [히어로 편집]     │
+├──────────┤                              │
+│← 사이트   │                              │
+└──────────┴──────────────────────────────┘
+```
+
+- 사이드바: `#0A0A0A` (Jet Black) — 메인 사이트 헤더와 동일
+- 배경: `#FAFAFA` (Snow)
+- 모바일: 사이드바 → 햄버거 메뉴 (매장에서 스마트폰으로 관리해야 하니까!)
+
+---
+
+## 상품 CRUD — 관리자의 핵심
+
+여기가 진짜 핵심이에요. 대표님이 상품을 직접 등록/수정/삭제할 수 있어야 하거든요.
+
+### API 구조
+
+```
+POST   /api/admin/products      → 상품 등록
+GET    /api/admin/products      → 목록 조회
+GET    /api/admin/products/[id] → 상세 조회
+PUT    /api/admin/products/[id] → 수정
+DELETE /api/admin/products/[id] → 삭제
+POST   /api/admin/upload        → 이미지 업로드 (Supabase Storage)
+```
+
+상품 등록 시 `pb_products` + `pb_product_images` + `pb_product_options`를 한번에 처리해요. 수정 시에는 이미지/옵션을 **delete-then-insert** 방식으로 교체. CASCADE 덕분에 상품 삭제하면 관련 이미지/옵션도 자동 정리!
+
+### 상품 등록 폼
+
+ProductForm 컴포넌트 하나로 등록/수정을 모두 처리해요. `initialData` prop이 있으면 수정 모드, 없으면 등록 모드.
+
+폼에 포함된 항목들:
+- 기본 정보: 상품명, slug(자동 생성), 가격, 할인가, 태그, 뱃지
+- 이미지: 드래그앤드롭 업로드, 순서 표시, 삭제
+- 상세 정보: 설명, Details, 배송 안내, 케어 방법
+- 옵션: 색상(컬러 피커 + 이름) / 사이즈 동적 추가·삭제
+- 공개 여부 체크박스
+
+---
+
+## 프론트엔드 DB 전환 — 더미 → 실제 데이터
+
+이 부분에서 좀 삽질했어요 ㅋㅋ
+
+기존에 `lib/data/products.ts`에서 더미 배열을 반환하던 5개 함수를 Supabase 쿼리로 교체했는데, **SearchOverlay가 클라이언트 컴포넌트**라서 서버 전용 `createClient()`를 직접 import하면 빌드가 터지더라고요.
+
+### 해결: 검색 API Route 분리
+
+```
+SearchOverlay (클라이언트)
+  → fetch("/api/search?q=...")  // API Route로 우회
+    → searchProducts() (서버에서 실행)
+      → Supabase 쿼리
+```
+
+알고 나면 베리 이지이지~ 근데 모르면 "왜 next/headers가 클라이언트에서 안 되지?" 하면서 고생해요.
+
+---
+
+## 여기까지 만든 것 정리
+
+### Phase 1 (기반) ✅
+- 13개 DB 테이블 + RLS + 트리거
+- Admin 인증 가드 + 레이아웃
+- 대시보드 홈 (통계 카드)
+
+### Phase 2 (상품 관리) ✅
+- 상품 CRUD API
+- 이미지 업로드 (Supabase Storage)
+- 관리자 상품 목록/등록/수정 UI
+- 프론트엔드 더미 → DB 전환
+- 더미 상품 16개 시드 SQL
+
+### 커밋 로그 (하루치!)
+
+```
+a3d8511 feat: PortOne payment, CS forms, footer update
+25c6591 feat: replace dummy product data with Supabase DB queries
+f722f77 feat: add admin product form with image upload and options
+45c92d2 feat: add admin product list page with table UI
+0c830c4 feat: add seed SQL for 16 dummy products
+8a14f3e feat: add admin product CRUD API routes
+353070a feat: add admin image upload API route
+17e5f3f feat: add admin layout with auth guard and dashboard home
+90733f5 feat: add admin Supabase client and update DB types
+cdfe57f feat: add admin sidebar, header, and nav constants
+11f33bc feat: add admin auth guard middleware and helper
+00c6eb2 feat: add Supabase DB schema for all pb_ tables with RLS
+```
+
+12개 커밋, 하루 만에! 역시 이지!
+
+---
+
+여기까지 읽어주셔서 감사해요!
+궁금한 점 있으면 편하게 댓글 남겨주세요.
+다음 Ch.3에서는 **콘텐츠 편집(히어로/브랜드) + 주문/리뷰/문의 관리** 완성까지 다룰게요. 기술을 만들고, 더 쉽게 삽시다! 🚀
+
+#고텍이 #Gotekie #ProjectB #Supabase #관리자대시보드 #1인개발 #ClaudeCode #닥고 #이지이지
