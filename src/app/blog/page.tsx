@@ -1,13 +1,13 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
 import Link from "next/link";
-import { PageContainer } from "@/components/layout/page-container";
 import { BlogFilter } from "@/components/blog/blog-filter";
 import {
   getPublishedBlogs,
   getAllCategories,
   getAllTags,
   formatDate,
+  getReadingTime,
 } from "@/lib/content";
 
 export const metadata: Metadata = {
@@ -33,63 +33,128 @@ export default async function BlogPage({ searchParams }: Props) {
     return true;
   });
 
-  return (
-    <PageContainer>
-      <h1 className="text-2xl font-semibold">블로그</h1>
-      <p className="mt-2 mb-8 text-muted-foreground">
-        개발 기록과 기술 이야기를 공유합니다.
-      </p>
+  const featured = filtered[0];
+  const rest = filtered.slice(1);
 
-      <Suspense>
-        <BlogFilter categories={categories} tags={tags} />
-      </Suspense>
+  return (
+    <main className="pt-32 pb-20 px-8 max-w-7xl mx-auto">
+      {/* Page Title */}
+      <header className="mb-16">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-8">
+          <div>
+            <h1 className="font-headline text-5xl md:text-7xl font-bold tracking-tighter mb-4 text-white">
+              Blog
+            </h1>
+            <p className="text-on-surface-variant max-w-xl text-lg leading-relaxed">
+              최신 기술 트렌드와 개발 경험을 공유합니다.
+              <br />
+              주로 Full-stack 개발, Cloud Infrastructure, 그리고 UI/UX에 대해
+              이야기합니다.
+            </p>
+          </div>
+        </div>
+
+        {/* Category Filters */}
+        <div className="mt-12">
+          <Suspense>
+            <BlogFilter categories={categories} tags={tags} />
+          </Suspense>
+        </div>
+      </header>
 
       {filtered.length === 0 ? (
-        <p className="text-muted-foreground">
+        <p className="text-on-surface-variant">
           {category || tag
             ? "해당 조건에 맞는 글이 없습니다."
             : "아직 작성된 글이 없습니다."}
         </p>
       ) : (
-        <ul className="space-y-6">
-          {filtered.map((post) => (
-            <li key={post.slug}>
-              <Link
-                href={`/blog/${post.slug}`}
-                className="block rounded-lg border border-border p-5 transition-colors hover:bg-muted/50"
-              >
-                <div className="flex items-center gap-3 text-xs text-muted-foreground">
-                  <time>{formatDate(post.date)}</time>
-                  {post.category && (
-                    <>
-                      <span>·</span>
-                      <span>{post.category}</span>
-                    </>
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
+          {/* Featured Article */}
+          {featured && (
+            <Link
+              href={`/blog/${featured.slug}`}
+              className="md:col-span-12 group obsidian-card overflow-hidden flex flex-col md:flex-row card-accent-bar"
+            >
+              <div className="p-8 flex-grow flex flex-col">
+                <div className="flex items-center gap-4 mb-4">
+                  {featured.category && (
+                    <span className="text-do-primary text-[10px] font-bold uppercase tracking-widest">
+                      {featured.category}
+                    </span>
                   )}
+                  <span className="text-on-surface-variant text-xs font-medium">
+                    {formatDate(featured.date)}
+                  </span>
+                  <span className="text-on-surface-variant text-xs font-medium">
+                    &bull; {getReadingTime(featured.body)} min read
+                  </span>
                 </div>
-                <h2 className="mt-2 text-lg font-semibold">{post.title}</h2>
-                {post.description && (
-                  <p className="mt-1 text-sm text-muted-foreground line-clamp-2">
-                    {post.description}
+                <h2 className="font-headline text-3xl font-bold tracking-tight text-white mb-4 group-hover:text-do-primary transition-colors">
+                  {featured.title}
+                </h2>
+                {featured.description && (
+                  <p className="text-on-surface-variant leading-relaxed mb-6 line-clamp-2">
+                    {featured.description}
                   </p>
                 )}
-                {post.tags.length > 0 && (
-                  <div className="mt-3 flex flex-wrap gap-1.5">
-                    {post.tags.map((t) => (
+                {featured.tags.length > 0 && (
+                  <div className="mt-auto flex flex-wrap gap-2">
+                    {featured.tags.map((t) => (
                       <span
                         key={t}
-                        className="rounded-full bg-secondary px-2.5 py-0.5 text-xs text-secondary-foreground"
+                        className="text-xs font-code text-do-primary bg-do-primary/10 px-2 py-1 rounded"
                       >
-                        {t}
+                        #{t}
                       </span>
                     ))}
                   </div>
                 )}
-              </Link>
-            </li>
+              </div>
+            </Link>
+          )}
+
+          {/* Rest of posts — Bento grid */}
+          {rest.map((post) => (
+            <Link
+              key={post.slug}
+              href={`/blog/${post.slug}`}
+              className="md:col-span-6 group obsidian-card overflow-hidden"
+            >
+              <div className="p-8">
+                <div className="flex items-center gap-3 mb-4">
+                  <span className="text-on-surface-variant text-xs">
+                    {formatDate(post.date)}
+                  </span>
+                  <span className="text-on-surface-variant text-xs">
+                    &bull; {getReadingTime(post.body)} min read
+                  </span>
+                </div>
+                <h3 className="font-headline text-xl font-bold tracking-tight text-white mb-4 group-hover:text-do-primary transition-colors">
+                  {post.title}
+                </h3>
+                {post.description && (
+                  <p className="text-on-surface-variant text-sm leading-relaxed mb-6 line-clamp-3">
+                    {post.description}
+                  </p>
+                )}
+                {post.tags.length > 0 && (
+                  <div className="flex flex-wrap gap-2">
+                    {post.tags.map((t) => (
+                      <span
+                        key={t}
+                        className="text-xs font-code text-do-primary bg-do-primary/10 px-2 py-1 rounded"
+                      >
+                        #{t}
+                      </span>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </Link>
           ))}
-        </ul>
+        </div>
       )}
-    </PageContainer>
+    </main>
   );
 }

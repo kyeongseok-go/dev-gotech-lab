@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { PageContainer } from "@/components/layout/page-container";
 import { getPublishedProjects } from "@/lib/content";
+import { ExternalLink, Code, ArrowRight } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "프로젝트",
@@ -13,47 +13,49 @@ export default function ProjectsPage() {
   const items = getPublishedProjects();
 
   return (
-    <PageContainer>
-      <h1 className="text-2xl font-semibold">프로젝트</h1>
-      <p className="mt-2 mb-8 text-muted-foreground">
-        직접 설계하고 구현한 프로젝트 목록입니다.
-      </p>
+    <main className="pt-32 pb-20 px-8 max-w-7xl mx-auto">
+      <header className="mb-20">
+        <h1 className="font-headline text-5xl md:text-7xl font-bold tracking-tighter mb-4 text-white">
+          Projects
+        </h1>
+        <p className="text-on-surface-variant max-w-2xl text-lg leading-relaxed">
+          직접 설계하고 구현한 프로젝트 목록입니다.
+        </p>
+      </header>
 
       {items.length === 0 ? (
-        <p className="text-muted-foreground">등록된 프로젝트가 없습니다.</p>
+        <p className="text-on-surface-variant">등록된 프로젝트가 없습니다.</p>
       ) : (
-        <ul className="space-y-6">
-          {items.map((project) => (
-            <li
+        <div className="grid gap-8 md:grid-cols-2">
+          {items.map((project, i) => (
+            <Link
               key={project.slug}
-              className="rounded-lg border border-border p-5"
+              href={`/projects/${project.slug}`}
+              className={`obsidian-card p-8 group flex flex-col ${i % 2 === 1 ? "md:mt-12" : ""}`}
             >
-              <div className="flex items-center gap-3 text-xs text-muted-foreground">
+              {/* Period & Role */}
+              <div className="flex items-center gap-3 text-xs text-on-surface-variant mb-4">
                 {project.period && <span>{project.period}</span>}
                 {project.role && (
                   <>
-                    <span>·</span>
+                    <span>&bull;</span>
                     <span>{project.role}</span>
                   </>
                 )}
                 {project.featured && (
-                  <span className="rounded-full bg-primary px-2 py-0.5 text-primary-foreground">
+                  <span className="badge-live text-[10px] font-bold px-2 py-0.5 ml-auto">
                     Featured
                   </span>
                 )}
               </div>
 
-              <h2 className="mt-2 text-lg font-semibold">{project.title}</h2>
-              <p className="mt-1 text-sm text-muted-foreground line-clamp-2">
-                {project.summary}
-              </p>
-
+              {/* Tech Stack */}
               {project.techStack.length > 0 && (
-                <div className="mt-3 flex flex-wrap gap-1.5">
+                <div className="flex gap-2 mb-4 flex-wrap">
                   {project.techStack.map((tech) => (
                     <span
                       key={tech}
-                      className="rounded-full bg-secondary px-2.5 py-0.5 text-xs text-secondary-foreground"
+                      className="bg-do-primary/10 text-do-primary text-[10px] font-bold px-2 py-1 rounded-sm uppercase tracking-wider"
                     >
                       {tech}
                     </span>
@@ -61,32 +63,33 @@ export default function ProjectsPage() {
                 </div>
               )}
 
-              <div className="mt-4 flex gap-3">
+              <h2 className="font-headline text-2xl font-bold mb-3 text-white group-hover:text-do-primary transition-colors">
+                {project.title}
+              </h2>
+              <p className="text-on-surface-variant text-sm leading-relaxed mb-6 line-clamp-2 flex-grow">
+                {project.summary}
+              </p>
+
+              {/* Links */}
+              <div className="flex items-center gap-4 mt-auto pt-6 border-t border-outline-variant/15">
+                <span className="text-do-primary text-xs font-bold uppercase tracking-widest flex items-center gap-1">
+                  View Detail <ArrowRight size={12} />
+                </span>
                 {project.repoUrl && (
-                  <Link
-                    href={project.repoUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-sm text-primary underline underline-offset-4 hover:text-primary/80"
-                  >
-                    GitHub
-                  </Link>
+                  <span className="text-on-surface-variant text-xs font-bold uppercase tracking-widest flex items-center gap-1">
+                    <Code size={12} /> Repo
+                  </span>
                 )}
                 {project.demoUrl && (
-                  <Link
-                    href={project.demoUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-sm text-primary underline underline-offset-4 hover:text-primary/80"
-                  >
-                    Demo
-                  </Link>
+                  <span className="text-on-surface-variant text-xs font-bold uppercase tracking-widest flex items-center gap-1">
+                    <ExternalLink size={12} /> Demo
+                  </span>
                 )}
               </div>
-            </li>
+            </Link>
           ))}
-        </ul>
+        </div>
       )}
-    </PageContainer>
+    </main>
   );
 }

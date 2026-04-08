@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { PageContainer } from "@/components/layout/page-container";
 import { MDXContent } from "@/components/mdx/mdx-content";
 import { Toc } from "@/components/mdx/toc";
 import {
@@ -12,6 +11,8 @@ import {
   extractToc,
   formatDate,
 } from "@/lib/content";
+import Image from "next/image";
+import { ArrowLeft, ArrowRight } from "lucide-react";
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -51,58 +52,83 @@ export default async function BlogPostPage({ params }: Props) {
   const toc = extractToc(post.body);
 
   return (
-    <PageContainer className="max-w-3xl">
-      <article>
-        {/* 메타 영역 */}
-        <header className="mb-8">
-          <div className="flex items-center gap-3 text-sm text-muted-foreground">
+    <main className="pt-32 pb-24">
+      <article className="max-w-4xl mx-auto px-8">
+        {/* Header */}
+        <header className="mb-12">
+          <div className="flex items-center gap-3 text-sm text-on-surface-variant mb-4">
             <time>{formatDate(post.date)}</time>
             {post.category && (
               <>
-                <span>·</span>
-                <span>{post.category}</span>
+                <span>&bull;</span>
+                <span className="text-do-primary font-bold uppercase tracking-widest text-[10px]">
+                  {post.category}
+                </span>
               </>
             )}
-            <span>·</span>
+            <span>&bull;</span>
             <span>{readingTime}분 읽기</span>
           </div>
-          <h1 className="mt-3 text-3xl font-bold">{post.title}</h1>
+          <h1 className="font-headline text-4xl md:text-5xl font-bold tracking-tighter text-white leading-tight mb-6">
+            {post.title}
+          </h1>
           {post.description && (
-            <p className="mt-3 text-muted-foreground">{post.description}</p>
+            <p className="text-on-surface-variant text-lg leading-relaxed mb-6">
+              {post.description}
+            </p>
           )}
           {post.tags.length > 0 && (
-            <div className="mt-4 flex flex-wrap gap-1.5">
+            <div className="flex flex-wrap gap-2">
               {post.tags.map((tag) => (
                 <span
                   key={tag}
-                  className="rounded-full bg-secondary px-2.5 py-0.5 text-xs text-secondary-foreground"
+                  className="text-xs font-code text-do-primary bg-do-primary/10 px-2 py-1 rounded"
                 >
-                  {tag}
+                  #{tag}
                 </span>
               ))}
             </div>
           )}
         </header>
 
-        {/* 목차 */}
+        {/* TOC */}
         {toc.length > 0 && <Toc items={toc} />}
 
-        {/* 본문 */}
+        {/* Body */}
         <div className="prose-custom">
           <MDXContent code={post.body} />
         </div>
+        {/* Author Block */}
+        <div className="mt-16 pt-8 border-t border-outline-variant/15 flex gap-6 items-center">
+          <div className="relative w-16 h-16 flex-shrink-0 overflow-hidden rounded-full">
+            <Image
+              src="/images/profile-career.jpg"
+              alt="고경석"
+              fill
+              className="object-cover object-[center_20%]"
+              sizes="64px"
+            />
+          </div>
+          <div>
+            <p className="font-headline font-bold text-on-surface">고경석</p>
+            <p className="text-sm text-on-surface-variant">AI Builder &middot; Full-stack Developer</p>
+            <p className="text-xs text-on-surface-variant mt-1">gotech.lab 운영자</p>
+          </div>
+        </div>
       </article>
 
-      {/* 이전/다음 글 네비게이션 */}
+      {/* Prev/Next Navigation */}
       {(prev || next) && (
-        <nav className="mt-12 grid gap-4 border-t border-border pt-8 sm:grid-cols-2">
+        <nav className="max-w-4xl mx-auto px-8 mt-16 grid gap-4 border-t border-outline-variant/15 pt-8 sm:grid-cols-2">
           {prev ? (
             <Link
               href={`/blog/${prev.slug}`}
-              className="group rounded-lg border border-border p-4 transition-colors hover:bg-muted/50"
+              className="obsidian-card p-6 group"
             >
-              <span className="text-xs text-muted-foreground">← 이전 글</span>
-              <p className="mt-1 font-medium group-hover:text-primary">
+              <span className="text-xs text-on-surface-variant flex items-center gap-1">
+                <ArrowLeft size={12} /> 이전 글
+              </span>
+              <p className="mt-2 font-headline font-bold text-white group-hover:text-do-primary transition-colors">
                 {prev.title}
               </p>
             </Link>
@@ -112,16 +138,18 @@ export default async function BlogPostPage({ params }: Props) {
           {next && (
             <Link
               href={`/blog/${next.slug}`}
-              className="group rounded-lg border border-border p-4 text-right transition-colors hover:bg-muted/50"
+              className="obsidian-card p-6 text-right group"
             >
-              <span className="text-xs text-muted-foreground">다음 글 →</span>
-              <p className="mt-1 font-medium group-hover:text-primary">
+              <span className="text-xs text-on-surface-variant flex items-center gap-1 justify-end">
+                다음 글 <ArrowRight size={12} />
+              </span>
+              <p className="mt-2 font-headline font-bold text-white group-hover:text-do-primary transition-colors">
                 {next.title}
               </p>
             </Link>
           )}
         </nav>
       )}
-    </PageContainer>
+    </main>
   );
 }

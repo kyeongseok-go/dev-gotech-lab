@@ -1,44 +1,95 @@
+"use client";
+
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { ThemeToggle } from "@/components/theme-toggle";
+import { Menu, X } from "lucide-react";
+import { useState } from "react";
 
 const NAV_LINKS = [
-  { href: "/blog", label: "블로그" },
-  { href: "/projects", label: "프로젝트" },
+  { href: "/", label: "Home" },
+  { href: "/blog", label: "Blog" },
+  { href: "/projects", label: "Projects" },
   { href: "/showcase", label: "Showcase" },
-  { href: "/services", label: "서비스" },
-  { href: "/about", label: "소개" },
+  { href: "/services", label: "Services" },
+  { href: "/about", label: "About" },
 ];
 
 export function SiteHeader() {
+  const pathname = usePathname();
+  const [mobileOpen, setMobileOpen] = useState(false);
+
+  const isActive = (href: string) => {
+    if (href === "/") return pathname === "/";
+    return pathname.startsWith(href);
+  };
+
   return (
-    <header className="site-header sticky top-0 z-50">
-      <div className="mx-auto flex h-14 max-w-4xl items-center justify-between px-4">
-        {/* 로고 */}
-        <Link href="/" className="flex items-center gap-2.5">
-          <div className="logo-icon flex h-8 w-8 items-center justify-center rounded-lg text-sm font-bold text-black">
-            ㄱ
-          </div>
-          <span className="logo-text text-base font-extrabold tracking-tight text-white">
-            고텍이
-          </span>
+    <nav className="glass-nav fixed top-0 w-full z-50">
+      <div className="flex justify-between items-center max-w-7xl mx-auto px-8 h-20">
+        {/* Logo */}
+        <Link
+          href="/"
+          className="text-xl font-bold tracking-tighter uppercase"
+          style={{ fontFamily: "var(--font-headline)" }}
+        >
+          <span className="text-white dark:text-white light:text-[#054345]">gotech</span>
+          <span className="text-do-primary logo-lab">.lab</span>
         </Link>
 
-        {/* 네비게이션 + 테마 토글 */}
-        <div className="flex items-center gap-1 sm:gap-2">
-          <nav className="flex items-center gap-1 overflow-x-auto sm:gap-2">
+        {/* Desktop Nav */}
+        <div
+          className="hidden md:flex items-center gap-8 tracking-tighter uppercase text-sm font-bold"
+          style={{ fontFamily: "var(--font-headline)" }}
+        >
+          {NAV_LINKS.map(({ href, label }) => (
+            <Link
+              key={href}
+              href={href}
+              className={`transition-all duration-300 ${
+                isActive(href)
+                  ? "text-do-primary border-b-2 border-do-primary pb-1"
+                  : "text-slate-400 hover:text-do-primary"
+              }`}
+            >
+              {label}
+            </Link>
+          ))}
+        </div>
+
+        {/* Right actions */}
+        <div className="flex items-center gap-4">
+          <ThemeToggle />
+          <button
+            className="md:hidden p-2 text-white"
+            onClick={() => setMobileOpen(!mobileOpen)}
+            aria-label="메뉴 토글"
+          >
+            {mobileOpen ? <X size={20} /> : <Menu size={20} />}
+          </button>
+        </div>
+      </div>
+
+      {/* Mobile Nav */}
+      {mobileOpen && (
+        <div className="md:hidden bg-surface-container px-8 pb-6 pt-2">
+          <div className="flex flex-col gap-3">
             {NAV_LINKS.map(({ href, label }) => (
               <Link
                 key={href}
                 href={href}
-                className="nav-link whitespace-nowrap rounded-md px-3 py-1.5 text-sm transition-colors"
+                onClick={() => setMobileOpen(false)}
+                className={`text-sm font-bold uppercase tracking-tighter py-2 transition-colors ${
+                  isActive(href) ? "text-do-primary" : "text-on-surface-variant hover:text-do-primary"
+                }`}
+                style={{ fontFamily: "var(--font-headline)" }}
               >
                 {label}
               </Link>
             ))}
-          </nav>
-          <ThemeToggle />
+          </div>
         </div>
-      </div>
-    </header>
+      )}
+    </nav>
   );
 }

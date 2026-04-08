@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { PageContainer } from "@/components/layout/page-container";
 import { getPublishedShowcase, STATUS_LABEL } from "@/lib/content";
+import { ExternalLink, Code, Sparkles } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "AI Showcase",
@@ -9,95 +9,106 @@ export const metadata: Metadata = {
   alternates: { canonical: "/showcase" },
 };
 
-const STATUS_COLOR: Record<string, string> = {
-  live: "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200",
-  wip: "bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200",
-  archived: "bg-muted text-muted-foreground",
+const STATUS_CLASS: Record<string, string> = {
+  live: "badge-live",
+  wip: "badge-wip",
+  archived: "badge-archived",
 };
 
 export default function ShowcasePage() {
   const items = getPublishedShowcase();
 
   return (
-    <PageContainer>
-      <h1 className="text-2xl font-semibold">AI Showcase</h1>
-      <p className="mt-2 mb-8 text-muted-foreground">
-        AI를 활용해 만든 실험적 도구와 미니앱 모음입니다.
-      </p>
+    <main className="pt-32 pb-20 px-8 max-w-7xl mx-auto">
+      <header className="mb-20">
+        <h1 className="font-headline text-5xl md:text-7xl font-bold tracking-tighter mb-4 text-white flex items-center gap-4">
+          <Sparkles size={48} className="text-do-primary" />
+          AI Showcase
+        </h1>
+        <p className="text-on-surface-variant max-w-2xl text-lg leading-relaxed">
+          AI를 활용해 만든 실험적 도구와 미니앱 모음입니다.
+        </p>
+      </header>
 
       {items.length === 0 ? (
-        <p className="text-muted-foreground">등록된 항목이 없습니다.</p>
+        <div className="obsidian-card p-12 text-center">
+          <p className="text-on-surface-variant">등록된 항목이 없습니다.</p>
+        </div>
       ) : (
-        <ul className="grid gap-6 sm:grid-cols-2">
-          {items.map((item) => (
-            <li
-              key={item.slug}
-              className="flex flex-col rounded-lg border border-border p-5"
-            >
-              <div className="flex items-center gap-2 text-xs">
-                <span
-                  className={`rounded-full px-2 py-0.5 font-medium ${STATUS_COLOR[item.status] ?? STATUS_COLOR.archived}`}
-                >
-                  {STATUS_LABEL[item.status] ?? item.status}
-                </span>
-                {item.type && (
-                  <span className="text-muted-foreground">{item.type}</span>
-                )}
-                {item.featured && (
-                  <span className="rounded-full bg-primary px-2 py-0.5 text-primary-foreground">
-                    Featured
+        <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+          {items.map((item) => {
+            const badgeClass = STATUS_CLASS[item.status] ?? STATUS_CLASS.archived;
+            return (
+              <div
+                key={item.slug}
+                className={`obsidian-card p-8 flex flex-col group ${item.status === "archived" ? "opacity-60" : ""}`}
+              >
+                {/* Status & Type */}
+                <div className="flex items-center gap-2 text-xs mb-6">
+                  <span className={`${badgeClass} font-bold px-2 py-1 text-[10px] uppercase tracking-wider`}>
+                    {STATUS_LABEL[item.status] ?? item.status}
                   </span>
-                )}
-              </div>
-
-              <Link href={`/showcase/${item.slug}`}>
-                <h2 className="mt-3 text-lg font-semibold hover:text-primary transition-colors">
-                  {item.title}
-                </h2>
-              </Link>
-              <p className="mt-1 flex-1 text-sm text-muted-foreground line-clamp-2">
-                {item.summary}
-              </p>
-
-              {item.stack.length > 0 && (
-                <div className="mt-3 flex flex-wrap gap-1.5">
-                  {item.stack.map((tech) => (
-                    <span
-                      key={tech}
-                      className="rounded-full bg-secondary px-2.5 py-0.5 text-xs text-secondary-foreground"
-                    >
-                      {tech}
+                  {item.type && (
+                    <span className="text-on-surface-variant">{item.type}</span>
+                  )}
+                  {item.featured && (
+                    <span className="badge-live font-bold px-2 py-0.5 text-[10px] ml-auto">
+                      Featured
                     </span>
-                  ))}
+                  )}
                 </div>
-              )}
 
-              <div className="mt-4 flex gap-3">
-                {item.externalUrl && (
-                  <Link
-                    href={item.externalUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-sm text-primary underline underline-offset-4 hover:text-primary/80"
-                  >
-                    사이트 보기
-                  </Link>
+                <Link href={`/showcase/${item.slug}`}>
+                  <h2 className="font-headline text-xl font-bold text-white mb-3 group-hover:text-do-primary transition-colors">
+                    {item.title}
+                  </h2>
+                </Link>
+                <p className="text-sm text-on-surface-variant leading-relaxed mb-6 line-clamp-2 flex-grow">
+                  {item.summary}
+                </p>
+
+                {/* Stack */}
+                {item.stack.length > 0 && (
+                  <div className="flex flex-wrap gap-2 mb-6">
+                    {item.stack.map((tech) => (
+                      <span
+                        key={tech}
+                        className="text-[10px] text-do-primary font-code"
+                      >
+                        {tech}
+                      </span>
+                    ))}
+                  </div>
                 )}
-                {item.repoUrl && (
-                  <Link
-                    href={item.repoUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-sm text-primary underline underline-offset-4 hover:text-primary/80"
-                  >
-                    GitHub
-                  </Link>
-                )}
+
+                {/* Links */}
+                <div className="flex items-center gap-4 mt-auto pt-6 border-t border-outline-variant/15">
+                  {item.externalUrl && (
+                    <Link
+                      href={item.externalUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-do-primary text-xs font-bold uppercase tracking-widest hover:underline underline-offset-4 flex items-center gap-1"
+                    >
+                      Demo <ExternalLink size={12} />
+                    </Link>
+                  )}
+                  {item.repoUrl && (
+                    <Link
+                      href={item.repoUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-on-surface-variant text-xs font-bold uppercase tracking-widest hover:text-white transition-colors flex items-center gap-1"
+                    >
+                      Repository <Code size={12} />
+                    </Link>
+                  )}
+                </div>
               </div>
-            </li>
-          ))}
-        </ul>
+            );
+          })}
+        </div>
       )}
-    </PageContainer>
+    </main>
   );
 }

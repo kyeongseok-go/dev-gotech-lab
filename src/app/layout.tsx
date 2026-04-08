@@ -9,7 +9,7 @@ import "./globals.css";
 const spaceGrotesk = Space_Grotesk({
 	variable: "--font-space-grotesk",
 	subsets: ["latin"],
-	weight: ["500", "700"],
+	weight: ["300", "400", "500", "600", "700"],
 });
 
 const geistMono = Geist_Mono({
@@ -60,7 +60,10 @@ export default function RootLayout({
 					crossOrigin="anonymous"
 				/>
 			</head>
-			<body className={`${spaceGrotesk.variable} ${geistMono.variable} antialiased flex min-h-screen flex-col`}>
+			<body
+				className={`${spaceGrotesk.variable} ${geistMono.variable} antialiased flex min-h-screen flex-col bg-surface text-on-surface`}
+				style={{ fontFamily: "'Pretendard', 'Inter', sans-serif" }}
+			>
 				<ThemeProvider>
 					<SiteHeader />
 					<div className="flex-1">{children}</div>

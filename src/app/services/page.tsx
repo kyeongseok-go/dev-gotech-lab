@@ -1,7 +1,16 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { PageContainer } from "@/components/layout/page-container";
 import { getServices } from "@/lib/db/services";
+import {
+  ExternalLink,
+  Code,
+  Database,
+  BarChart3,
+  Archive,
+  Image as ImageIcon,
+  Terminal,
+  Cpu,
+} from "lucide-react";
 
 export const metadata: Metadata = {
   title: "서비스",
@@ -10,96 +19,119 @@ export const metadata: Metadata = {
 };
 
 const STATUS_LABEL: Record<string, string> = {
-  live: "운영중",
-  wip: "준비중",
-  archived: "종료",
+  live: "배포완료",
+  wip: "개발중",
+  archived: "보관됨",
 };
 
-const STATUS_COLOR: Record<string, string> = {
-  live: "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200",
-  wip: "bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200",
-  archived: "bg-muted text-muted-foreground",
+const STATUS_CLASS: Record<string, string> = {
+  live: "badge-live",
+  wip: "badge-wip",
+  archived: "badge-archived",
 };
+
+const SERVICE_ICONS: Record<string, React.ReactNode> = {
+  database: <Database size={28} />,
+  monitoring: <BarChart3 size={28} />,
+  archive: <Archive size={28} />,
+  image: <ImageIcon size={28} />,
+  terminal: <Terminal size={28} />,
+  memory: <Cpu size={28} />,
+};
+
+function getServiceIcon(icon?: string | null) {
+  if (icon && SERVICE_ICONS[icon]) return SERVICE_ICONS[icon];
+  return <Database size={28} />;
+}
 
 export default async function ServicesPage() {
   const services = await getServices();
 
   return (
-    <PageContainer>
-      <h1 className="text-2xl font-semibold">서비스</h1>
-      <p className="mt-2 mb-8 text-muted-foreground">
-        gotech.lab에서 제공하는 도구와 서비스 모음입니다.
-      </p>
+    <main className="pt-32 pb-20 px-8 max-w-7xl mx-auto">
+      {/* Page Header */}
+      <header className="mb-20">
+        <h1 className="font-headline text-5xl md:text-7xl font-bold tracking-tighter mb-4 text-white">
+          Dynamic <span className="text-do-primary">Registry</span>
+        </h1>
+        <p className="text-on-surface-variant max-w-2xl text-lg leading-relaxed">
+          마이크로서비스, 내부 도구, 프로덕션 환경의 중앙 디렉토리입니다. D1과
+          Cloudflare Workers로 운영됩니다.
+        </p>
+      </header>
 
+      {/* Service Grid */}
       {services.length === 0 ? (
-        <div className="rounded-lg border border-border p-8 text-center">
-          <p className="text-muted-foreground">
+        <div className="obsidian-card p-12 text-center">
+          <p className="text-on-surface-variant">
             등록된 서비스가 없습니다.
           </p>
-          <p className="mt-2 text-sm text-muted-foreground">
+          <p className="mt-2 text-sm text-on-surface-variant">
             서비스가 준비되면 이곳에 표시됩니다.
           </p>
         </div>
       ) : (
-        <ul className="grid gap-6 sm:grid-cols-2">
-          {services.map((svc) => (
-            <li
-              key={svc.slug}
-              className="flex flex-col rounded-lg border border-border p-5 transition-colors hover:bg-muted/30"
-            >
-              {/* 상단 뱃지 */}
-              <div className="flex items-center gap-2 text-xs">
-                <span
-                  className={`rounded-full px-2 py-0.5 font-medium ${STATUS_COLOR[svc.status] ?? STATUS_COLOR.archived}`}
-                >
-                  {STATUS_LABEL[svc.status] ?? svc.status}
-                </span>
-                {svc.featured === 1 && (
-                  <span className="rounded-full bg-primary px-2 py-0.5 text-primary-foreground">
-                    Featured
-                  </span>
-                )}
-              </div>
-
-              {/* 제목 · 설명 */}
-              <h2 className="mt-3 text-lg font-semibold">{svc.title}</h2>
-              <p className="mt-1 flex-1 text-sm text-muted-foreground">
-                {svc.description}
-              </p>
-
-              {/* 링크 */}
-              <div className="mt-4">
-                {svc.url ? (
-                  <Link
-                    href={svc.url}
-                    className={
-                      svc.status === "live"
-                        ? "rounded-lg bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
-                        : "text-sm text-primary underline underline-offset-4 hover:text-primary/80"
-                    }
+        <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-32">
+          {services.map((svc) => {
+            const badgeClass =
+              STATUS_CLASS[svc.status] ?? STATUS_CLASS.archived;
+            return (
+              <div
+                key={svc.slug}
+                className="group obsidian-card p-8 flex flex-col h-full"
+              >
+                {/* Icon & Badge */}
+                <div className="flex justify-between items-start mb-6">
+                  <div className="p-3 bg-surface-container-highest rounded-sm text-do-primary group-hover:scale-110 transition-transform">
+                    {getServiceIcon(svc.icon)}
+                  </div>
+                  <span
+                    className={`${badgeClass} text-[0.6875rem] font-bold px-2 py-1 uppercase tracking-wider`}
                   >
-                    {svc.status === "live" ? "바로가기" : "미리보기"}
-                  </Link>
-                ) : (
-                  <span className="text-sm text-muted-foreground">
-                    곧 공개 예정
+                    {STATUS_LABEL[svc.status] ?? svc.status}
                   </span>
-                )}
-                {svc.repo_url && (
-                  <Link
-                    href={svc.repo_url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="ml-3 text-sm text-muted-foreground underline underline-offset-4 hover:text-foreground"
-                  >
-                    GitHub
-                  </Link>
-                )}
+                </div>
+
+                {/* Title & Description */}
+                <h3 className="font-headline text-xl font-bold text-white mb-3 group-hover:text-do-primary transition-colors">
+                  {svc.title}
+                </h3>
+                <p className="text-sm text-on-surface-variant mb-8 flex-grow leading-relaxed">
+                  {svc.description}
+                </p>
+
+                {/* Links */}
+                <div className="flex items-center gap-4 mt-auto pt-6 border-t border-outline-variant/15">
+                  {svc.url ? (
+                    <Link
+                      href={svc.url}
+                      className="text-do-primary text-xs font-bold uppercase tracking-widest hover:underline underline-offset-4 flex items-center gap-1"
+                    >
+                      {svc.status === "live" ? "Deployment" : "Preview"}
+                      <ExternalLink size={12} />
+                    </Link>
+                  ) : (
+                    <span className="text-on-surface-variant text-xs font-bold uppercase tracking-widest opacity-50">
+                      {svc.status === "archived" ? "Offline" : "Coming Soon"}
+                    </span>
+                  )}
+                  {svc.repo_url && (
+                    <Link
+                      href={svc.repo_url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-on-surface-variant text-xs font-bold uppercase tracking-widest hover:text-white transition-colors flex items-center gap-1"
+                    >
+                      Repository
+                      <Code size={12} />
+                    </Link>
+                  )}
+                </div>
               </div>
-            </li>
-          ))}
-        </ul>
+            );
+          })}
+        </section>
       )}
-    </PageContainer>
+    </main>
   );
 }
