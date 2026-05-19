@@ -23,7 +23,7 @@ export default function ShowcasePage() {
         size="xl"
         title={
           <>
-            <span className="display-accent">Tiny</span><br />
+            <span className="display-accent display-accent-cyan">Tiny</span><br />
             AI things.
           </>
         }
@@ -52,7 +52,7 @@ export default function ShowcasePage() {
                     className="p-7 md:p-8 h-full flex flex-col min-h-[300px]"
                   >
                     <div className="flex items-center justify-between mb-6">
-                      <span className="font-code text-[10px] uppercase tracking-widest opacity-85">
+                      <span className="font-code text-[10px] tracking-widest opacity-85">
                         {STATUS_LABEL[item.status] ?? item.status}
                         {item.type && ` · ${item.type}`}
                       </span>

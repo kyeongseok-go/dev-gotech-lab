@@ -54,7 +54,7 @@ export default function AboutPage() {
         title={
           <>
             Hello,<br />
-            <span className="display-accent">기술</span>자.
+            <span className="display-accent display-accent-violet">기술</span>자.
           </>
         }
         lead={
@@ -72,11 +72,11 @@ export default function AboutPage() {
             <div className="ambient-glow absolute -inset-2" />
             <div className="relative aspect-[4/5] rounded-2xl overflow-hidden ghost-border">
               <Image
-                src="/images/profile-career.jpg"
+                src="/images/profile-id.jpg"
                 alt="고경석"
                 fill
                 className="object-cover"
-                style={{ objectPosition: "50% 18%" }}
+                style={{ objectPosition: "50% 15%" }}
                 sizes="(max-width:768px) 100vw, 40vw"
                 priority
               />
@@ -128,10 +128,10 @@ export default function AboutPage() {
           <div className="grid grid-cols-12 rounded-2xl overflow-hidden ghost-border bg-surface-container-low">
             <div className="col-span-12 md:col-span-4 relative min-h-[200px]">
               <Image
-                src="/images/profile-hero.jpg"
+                src="/images/hero-main.jpg"
                 alt="Tmax A&C"
                 fill
-                className="object-cover object-[center_20%]"
+                className="object-cover object-[center_18%]"
                 sizes="(max-width: 768px) 100vw, 33vw"
               />
             </div>
@@ -159,7 +159,7 @@ export default function AboutPage() {
                 <div className="flex-1">
                   <div className="flex items-center gap-3 flex-wrap mb-1">
                     <h4 className="font-headline font-semibold text-lg">{c.title}</h4>
-                    <span className="font-code text-[10px] uppercase tracking-wider opacity-75 c-sub">
+                    <span className="font-code text-[10px] tracking-wider opacity-75 c-sub">
                       {c.year} · {c.role}
                     </span>
                   </div>
@@ -212,7 +212,7 @@ export default function AboutPage() {
           {INTERESTS.map((it, i) => (
             <Reveal key={it.label} index={i} as="div">
               <article className="process-row tilt-card">
-                <span className="idx">0{i + 1}</span>
+                <span className="idx">// 0{i + 1}</span>
                 <div className="flex-1">
                   <h4 className="font-headline font-semibold mb-1 text-on-surface">{it.label}</h4>
                   <p className="type-small c-sub">{it.desc}</p>

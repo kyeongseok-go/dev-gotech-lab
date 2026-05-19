@@ -102,7 +102,7 @@ export default async function BlogPostPage({ params }: Props) {
         <div className="mt-16 pt-8 border-t border-outline-variant/15 flex gap-6 items-center">
           <div className="relative w-16 h-16 flex-shrink-0 overflow-hidden rounded-full">
             <Image
-              src="/images/profile-career.jpg"
+              src="/images/profile-id.jpg"
               alt="고경석"
               fill
               className="object-cover object-[center_20%]"

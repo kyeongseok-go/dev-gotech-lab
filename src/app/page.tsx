@@ -62,11 +62,9 @@ export default async function Home() {
           <ArrowDownRight className="corner-arrow hidden md:block" strokeWidth={1} />
         </div>
 
-        {/* 1행: 큰 헤드라인 시작 */}
+        {/* 1행: 큰 헤드라인 시작 — 핀은 분리해서 자연스럽게 */}
         <h1 className="col-span-12 type-display-xl text-on-surface rise-in">
-          <span className="block">
-            Build the <span className="pill-tag pill-green ml-2 align-middle text-base">5y engine</span>
-          </span>
+          <span className="block">Build the</span>
           <span className="block">
             <span className="display-accent">Visual</span> Technology
           </span>
@@ -109,34 +107,56 @@ export default async function Home() {
             </div>
           </div>
 
-          {/* 인물 누끼 + 핀 */}
-          <div className="col-span-12 md:col-span-7 relative min-h-[420px] md:min-h-[520px]">
-            {/* 분위기 글로우 */}
-            <div aria-hidden className="ambient-glow absolute inset-8 rounded-full" />
-            <div aria-hidden className="grid-texture absolute inset-0 opacity-30" />
+          {/* 포트레이트 카드 + 떠다니는 핀 */}
+          <div className="col-span-12 md:col-span-7 relative min-h-[460px] md:min-h-[600px]">
+            {/* 분위기 글로우 (뒤로) */}
+            <div aria-hidden className="ambient-glow absolute -inset-6 z-0" />
 
-            <Image
-              src="/images/hero-cutout.png"
-              alt="고경석"
-              width={760}
-              height={886}
-              priority
-              className="absolute right-0 bottom-0 w-[88%] md:w-[78%] h-auto z-10 select-none pointer-events-none"
-            />
+            {/* 포트레이트 카드 — 라운드, 라이트한 톤은 그라데이션으로 자연 융합 */}
+            <div className="relative z-10 mx-auto md:ml-auto md:mr-2 w-[88%] md:w-[82%] aspect-[3/4] rounded-3xl overflow-hidden hero-portrait rise-in" style={{ animationDelay: "180ms" }}>
+              <Image
+                src="/images/hero-main.jpg"
+                alt="고경석"
+                fill
+                priority
+                sizes="(max-width: 768px) 88vw, 45vw"
+                className="object-cover object-[50%_15%]"
+              />
+              {/* 위/아래 그라데이션 페더 — 페이지와 자연 융합 */}
+              <div
+                aria-hidden
+                className="absolute inset-x-0 top-0 h-1/4 pointer-events-none"
+                style={{ background: "linear-gradient(180deg, var(--do-page), transparent)" }}
+              />
+              <div
+                aria-hidden
+                className="absolute inset-x-0 bottom-0 h-1/3 pointer-events-none"
+                style={{ background: "linear-gradient(0deg, var(--do-page) 5%, transparent 95%)" }}
+              />
+              {/* 컬러풀 액센트 링 (san 시그니처) */}
+              <div
+                aria-hidden
+                className="absolute inset-0 rounded-3xl pointer-events-none"
+                style={{ boxShadow: "inset 0 0 0 1px var(--do-hairline), inset 0 0 0 4px color-mix(in oklch, var(--do-primary) 22%, transparent)" }}
+              />
+            </div>
 
-            {/* 떠다니는 주석 핀 */}
-            <span className="pill-tag pill-coral absolute left-2 top-6 z-20 rise-in" style={{ animationDelay: "260ms" }}>
+            {/* 떠다니는 주석 핀 (san.framer 시그니처) */}
+            <span className="pill-tag pill-green absolute -top-2 left-4 z-20 rise-in" style={{ animationDelay: "200ms" }}>
+              ✦ 5y engine
+            </span>
+            <span className="pill-tag pill-coral absolute top-16 -left-2 z-20 rise-in" style={{ animationDelay: "260ms" }}>
               ⚡ AI prototyping
             </span>
-            <span className="pill-tag pill-violet absolute left-8 bottom-32 z-20 rise-in" style={{ animationDelay: "340ms" }}>
+            <span className="pill-tag pill-violet absolute left-2 bottom-24 z-20 rise-in" style={{ animationDelay: "340ms" }}>
               ✦ Cloudflare deploy
             </span>
-            <span className="pill-tag pill-surface absolute right-4 top-1/3 z-20 rise-in" style={{ animationDelay: "420ms" }}>
+            <span className="pill-tag pill-surface absolute right-2 top-1/3 z-20 rise-in" style={{ animationDelay: "420ms" }}>
               <span className="text-do-primary">●</span> Next.js 16
             </span>
 
-            {/* 좌하단 회전 배지 — 컷아웃 위 떠 있는 시그니처 */}
-            <div className="absolute -left-4 -bottom-4 z-30 hidden md:block">
+            {/* 좌하단 회전 배지 */}
+            <div className="absolute -left-2 md:-left-6 -bottom-4 z-30 hidden md:block">
               <SpinBadge text="BUILD · GOTECH · 2026" centerEmoji="✦" />
             </div>
           </div>
@@ -172,7 +192,7 @@ export default async function Home() {
                 <span className="idx">{o.idx}</span>
                 <div className="flex-1">
                   <h3 className="font-headline text-xl font-semibold mb-1 text-on-surface">{o.title}</h3>
-                  <p className="font-code text-xs text-on-surface-muted tracking-wide uppercase c-sub">{o.desc}</p>
+                  <p className="font-code text-xs text-on-surface-muted tracking-wide c-sub">{o.desc}</p>
                 </div>
                 <ArrowUpRight size={18} className="opacity-50" />
               </article>
@@ -263,7 +283,7 @@ export default async function Home() {
                   <span className="idx">// {p.idx}</span>
                   <div className="flex-1">
                     <h3 className="font-headline text-xl font-semibold">{p.title}</h3>
-                    <p className="font-code text-xs uppercase tracking-wide c-sub mt-1">{p.sub}</p>
+                    <p className="font-code text-xs tracking-wide c-sub mt-1">{p.sub}</p>
                   </div>
                 </div>
               </Reveal>

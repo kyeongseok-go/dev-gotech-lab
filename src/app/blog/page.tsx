@@ -46,7 +46,7 @@ export default async function BlogPage({ searchParams }: Props) {
         size="xl"
         title={
           <>
-            <span className="display-accent">Writing</span> the<br />
+            <span className="display-accent display-accent-emerald">Writing</span> the<br />
             craft.
           </>
         }

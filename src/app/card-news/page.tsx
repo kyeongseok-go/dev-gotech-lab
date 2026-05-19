@@ -134,7 +134,7 @@ export default function CardNewsPage() {
         title={
           <>
             What&apos;s<br />
-            <span className="display-accent">hot</span> today.
+            <span className="display-accent display-accent-coral">hot</span> today.
           </>
         }
         lead={

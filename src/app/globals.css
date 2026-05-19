@@ -592,13 +592,21 @@ tbody tr:hover {
 	color: var(--do-primary);
 	padding-right: 0.08em;
 }
+/* 페이지별 다채로운 액센트 컬러 (san.framer 풍 멀티 액센트) */
+.display-accent-cyan    { color: var(--accent-cyan); }
+.display-accent-emerald { color: var(--accent-green); }
+.display-accent-amber   { color: #F5A524; }
+.display-accent-coral   { color: var(--accent-coral); }
+.display-accent-violet  { color: var(--accent-lavender); }
 
 /* 본문 인라인 강조 구절 (이탤릭 컬러) */
-.text-em {
-	font-style: italic;
-	color: var(--do-primary);
-}
-.text-em-coral { font-style: italic; color: var(--accent-coral); }
+.text-em { font-style: italic; color: var(--do-primary); }
+.text-em-coral   { font-style: italic; color: var(--accent-coral); }
+.text-em-cyan    { font-style: italic; color: var(--accent-cyan); }
+.text-em-emerald { font-style: italic; color: var(--accent-green); }
+.text-em-amber   { font-style: italic; color: #F5A524; }
+.text-em-violet  { font-style: italic; color: var(--accent-lavender); }
+.light .display-accent-amber, .light .text-em-amber { color: #C97A05; }
 
 /* 섹션 라벨 — 작은 트래킹 대문자 + 카운트 */
 .section-label {
@@ -765,6 +773,16 @@ tbody tr:hover {
 	opacity: 0.35;
 	font-style: italic;
 }
+
+/* 히어로 포트레이트 카드 — 사진을 페이지 톤과 자연 융합 */
+.hero-portrait {
+	background: var(--do-surface-container-low);
+	box-shadow:
+		0 30px 60px -30px rgba(0, 0, 0, 0.5),
+		0 8px 20px -10px rgba(0, 0, 0, 0.3);
+}
+.dark .hero-portrait { filter: contrast(1.04) saturate(1.05); }
+.light .hero-portrait { filter: contrast(0.98); }
 
 /* 대형 타이틀 진입 마스크 리빌 (CSS, JS 불필요 폴백 포함) */
 @keyframes rise-in {

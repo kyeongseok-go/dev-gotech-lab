@@ -23,7 +23,7 @@ export default function ProjectsPage() {
         size="xl"
         title={
           <>
-            <span className="display-accent">Shipped</span><br />
+            <span className="display-accent display-accent-amber">Shipped</span><br />
             things.
           </>
         }
