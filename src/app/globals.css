@@ -4,6 +4,16 @@
 
 @custom-variant dark (&:is(.dark *));
 
+/* ══════════════════════════════════════════════════════════
+   gotech.lab — "Editorial Lab" Design System
+   레퍼런스 DNA: LaunchDarkly(다크) · Figma(라이트) · Honk(벤토)
+
+   ▸ 단일 BRAND 훅: 아래 --brand-* 3개만 바꾸면 전체 톤이 따라옴.
+     (고텍이 브랜드 색감 확정 시 여기만 교체)
+   ▸ 양 테마 동급. 다크=중성 near-black, 라이트=Figma 프레임형.
+   ▸ 기존 클래스/토큰 이름은 유지하고 값만 에디토리얼로 상향.
+══════════════════════════════════════════════════════════ */
+
 @theme inline {
 	--color-background: var(--background);
 	--color-foreground: var(--foreground);
@@ -38,15 +48,16 @@
 	--color-popover: var(--popover);
 	--color-card-foreground: var(--card-foreground);
 	--color-card: var(--card);
-	--radius-sm: calc(var(--radius) * 0.6);
+	--radius-sm: calc(var(--radius) * 0.5);
 	--radius-md: calc(var(--radius) * 0.8);
 	--radius-lg: var(--radius);
-	--radius-xl: calc(var(--radius) * 1.4);
-	--radius-2xl: calc(var(--radius) * 1.8);
-	--radius-3xl: calc(var(--radius) * 2.2);
-	--radius-4xl: calc(var(--radius) * 2.6);
+	--radius-xl: calc(var(--radius) * 1.5);
+	--radius-2xl: calc(var(--radius) * 2.2);
+	--radius-3xl: calc(var(--radius) * 3);
+	--radius-4xl: calc(var(--radius) * 3.6);
 
-	/* Digital Obsidian — Tonal Surface Colors */
+	/* Tonal surface scale */
+	--color-page: var(--do-page);
 	--color-surface: var(--do-surface);
 	--color-surface-container-lowest: var(--do-surface-container-lowest);
 	--color-surface-container-low: var(--do-surface-container-low);
@@ -56,10 +67,13 @@
 	--color-surface-bright: var(--do-surface-bright);
 	--color-on-surface: var(--do-on-surface);
 	--color-on-surface-variant: var(--do-on-surface-variant);
+	--color-on-surface-muted: var(--do-on-surface-muted);
+	--color-on-surface-faint: var(--do-on-surface-faint);
 	--color-outline: var(--do-outline);
 	--color-outline-variant: var(--do-outline-variant);
+	--color-hairline: var(--do-hairline);
 
-	/* Semantic accent colors */
+	/* Brand + semantic accents */
 	--color-do-primary: var(--do-primary);
 	--color-do-secondary: var(--do-secondary);
 	--color-do-tertiary: var(--do-tertiary);
@@ -67,352 +81,431 @@
 	--color-tertiary-container: var(--do-tertiary-container);
 	--color-on-primary-container: var(--do-on-primary-container);
 	--color-on-tertiary-container: var(--do-on-tertiary-container);
+	--color-accent-cyan: var(--accent-cyan);
+	--color-accent-coral: var(--accent-coral);
+	--color-accent-green: var(--accent-green);
+	--color-accent-lavender: var(--accent-lavender);
 
-	/* Font families */
+	/* Type scale tokens (fluid) */
+	--text-display-xl: var(--ts-display-xl);
+	--text-display: var(--ts-display);
+	--text-headline: var(--ts-headline);
+	--text-title: var(--ts-title);
+
 	--font-headline: var(--font-space-grotesk), 'Space Grotesk', sans-serif;
 	--font-body: 'Pretendard', 'Inter', sans-serif;
 	--font-code: var(--font-geist-mono), 'Geist Mono', monospace;
 }
 
 /* ──────────────────────────────────────────────────────
-   Transformative Teal — Tonal Architecture Tokens
-   Brand: 고텍이 (gotechle) · 2026 Color of the Year
+   ① BRAND HOOK — 여기 3개만 바꾸면 리브랜딩 완료
+   현재: gotechle Teal (틀). oklch라 hue/chroma 교체만으로 전체 파생.
 ────────────────────────────────────────────────────── */
 :root {
-	/* Surface Hierarchy — Storm Series (Dark) */
-	--do-surface: #1C2329;
-	--do-surface-container-lowest: #0F1419;
-	--do-surface-container-low: #2B343B;
-	--do-surface-container: #313C45;
-	--do-surface-container-high: #3A4750;
-	--do-surface-container-highest: #445560;
-	--do-surface-bright: #4E5E6A;
+	--brand-h: 195;        /* hue   — 브랜드 색조 */
+	--brand-c: 0.062;      /* chroma — 채도 강도 */
+	--brand-l-dark: 0.74;  /* 다크모드 프라이머리 명도 */
+	--brand-l-light: 0.50; /* 라이트모드 프라이머리 명도 */
 
-	/* On-Surface */
-	--do-on-surface: #E8E8E3;
-	--do-on-surface-variant: #A0ADB5;
-	--do-outline: #7A8A94;
-	--do-outline-variant: #3A4750;
+	--do-primary: oklch(var(--brand-l-dark) var(--brand-c) var(--brand-h));
+	--do-primary-container: oklch(0.42 calc(var(--brand-c) * 1.4) var(--brand-h));
+	--do-on-primary-container: oklch(0.93 0.03 var(--brand-h));
 
-	/* Primary: Transformative Teal */
-	--do-primary: #6FB3B8;
-	--do-primary-container: #0D7377;
-	--do-on-primary-container: #054345;
+	/* Type scale — fluid clamp. san.framer 초대형 압축 디스플레이 */
+	--ts-display-xl: clamp(3.25rem, 0.2rem + 12.5vw, 10rem);
+	--ts-display: clamp(2.5rem, 0.8rem + 7.6vw, 6.75rem);
+	--ts-headline: clamp(1.75rem, 1.15rem + 2vw, 3rem);
+	--ts-title: clamp(1.125rem, 1rem + 0.5vw, 1.5rem);
+	--ts-body: 1.0625rem;     /* 17px */
+	--ts-small: 0.9375rem;    /* 15px (한글 가독성: 14px 금지) */
+	--ts-label: 0.75rem;
+	--lh-body: 1.75;
+	--lh-tight: 0.98;
+	--track-display: -0.045em;  /* san 강압축 (-5.4px@180) */
+	--track-label: 0.16em;
 
-	/* Secondary: Soft Lavender */
-	--do-secondary: #B8B8D1;
+	/* Motion */
+	--ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+	--dur-fast: 150ms;
+	--dur-normal: 320ms;
+	--dur-slow: 600ms;
 
-	/* Tertiary: Sage Green */
-	--do-tertiary: #95D5B2;
-	--do-tertiary-container: #6BBF96;
-	--do-on-tertiary-container: #1A4D35;
+	/* Semantic accent set (브랜드 확정 전 임시 — 의미별 사용) */
+	--accent-cyan: #4CC9F0;
+	--accent-coral: #FF6B5E;
+	--accent-green: #5BD6A0;
+	--accent-lavender: #C4B5FD;
 
-	/* shadcn token overrides */
-	--background: #1C2329;
-	--foreground: #E8E8E3;
-	--card: #2B343B;
-	--card-foreground: #E8E8E3;
-	--popover: #313C45;
-	--popover-foreground: #E8E8E3;
-	--primary: #6FB3B8;
-	--primary-foreground: #054345;
-	--secondary: #2B343B;
-	--secondary-foreground: #E8E8E3;
-	--muted: #2B343B;
-	--muted-foreground: #A0ADB5;
-	--accent: #B8B8D1;
-	--accent-foreground: #E8E8E3;
-	--destructive: #FF6B6B;
-	--border: #3A475026;
-	--input: #313C45;
-	--ring: #6FB3B8;
-	--radius: 0.5rem;
-	--chart-1: oklch(0.809 0.105 251.813);
-	--chart-2: oklch(0.623 0.214 259.815);
-	--chart-3: oklch(0.546 0.245 262.881);
-	--chart-4: oklch(0.488 0.243 264.376);
-	--chart-5: oklch(0.424 0.199 265.638);
-	--sidebar: #2B343B;
-	--sidebar-foreground: #E8E8E3;
-	--sidebar-primary: #6FB3B8;
-	--sidebar-primary-foreground: #054345;
-	--sidebar-accent: #313C45;
-	--sidebar-accent-foreground: #E8E8E3;
-	--sidebar-border: #3A475026;
-	--sidebar-ring: #6FB3B8;
+	--do-secondary: var(--accent-lavender);
+	--do-tertiary: var(--accent-green);
+	--do-tertiary-container: oklch(0.42 0.09 162);
+	--do-on-tertiary-container: oklch(0.93 0.04 162);
 }
 
-/* ── 라이트 모드 오버라이드 — Cloud Dancer Series ── */
-.light {
-	--do-surface: #F7F7F5;
-	--do-surface-container-lowest: #FFFFFF;
-	--do-surface-container-low: #F0F0ED;
-	--do-surface-container: #E8E8E3;
-	--do-surface-container-high: #E0E0D9;
-	--do-surface-container-highest: #D5D5CE;
-	--do-surface-bright: #FFFFFF;
-	--do-on-surface: #054345;
-	--do-on-surface-variant: #5A6A70;
-	--do-outline: #7A8A8C;
-	--do-outline-variant: #C5C5BE;
-	--do-primary: #0D7377;
-	--do-primary-container: #E8F4F5;
-	--do-on-primary-container: #054345;
-	--do-secondary: #B8B8D1;
-	--do-tertiary: #2E8B57;
-	--do-tertiary-container: #D4EDDA;
-	--do-on-tertiary-container: #155724;
-
-	--background: #F7F7F5;
-	--foreground: #054345;
-	--card: #FFFFFF;
-	--card-foreground: #054345;
-	--popover: #FFFFFF;
-	--popover-foreground: #054345;
-	--primary: #0D7377;
-	--primary-foreground: #FFFFFF;
-	--secondary: #F0F0ED;
-	--secondary-foreground: #054345;
-	--muted: #F0F0ED;
-	--muted-foreground: #5A6A70;
-	--accent: #B8B8D1;
-	--accent-foreground: #054345;
-	--border: #C5C5BE33;
-	--input: #F0F0ED;
-	--ring: #0D7377;
-}
-
+/* ──────────────────────────────────────────────────────
+   ② DARK — 중성 near-black (LaunchDarkly 계열, 파란기 제거)
+────────────────────────────────────────────────────── */
+:root,
 .dark {
-	--background: #1C2329;
-	--foreground: #E8E8E3;
-	--card: #2B343B;
-	--card-foreground: #E8E8E3;
-	--popover: #313C45;
-	--popover-foreground: #E8E8E3;
-	--primary: #6FB3B8;
-	--primary-foreground: #054345;
-	--secondary: #2B343B;
-	--secondary-foreground: #E8E8E3;
-	--muted: #2B343B;
-	--muted-foreground: #A0ADB5;
-	--accent: #B8B8D1;
-	--accent-foreground: #E8E8E3;
-	--border: #3A475026;
-	--input: #313C45;
-	--ring: #6FB3B8;
+	/* san.framer 웜 슬레이트 — #22242E 시그니처를 카드/섹션 레벨에 */
+	--do-page: #1B1D26;
+	--do-surface: #1B1D26;
+	--do-surface-container-lowest: #15161D;
+	--do-surface-container-low: #22242E;   /* san 시그니처 카드/섹션 */
+	--do-surface-container: #282B37;
+	--do-surface-container-high: #313440;
+	--do-surface-container-highest: #3C4050;
+	--do-surface-bright: #494E61;
+
+	/* 4-tier 텍스트 (눈부심 방지 near-white, 웜 톤) */
+	--do-on-surface: #F4F5F7;          /* primary */
+	--do-on-surface-variant: #C7CAD4;  /* secondary — 본문 */
+	--do-on-surface-muted: #8E92A0;    /* tertiary — 메타 */
+	--do-on-surface-faint: #61657A;    /* quaternary — 타임스탬프 */
+	--do-outline: rgba(255, 255, 255, 0.18);
+	--do-outline-variant: rgba(255, 255, 255, 0.06);
+	--do-hairline: rgba(255, 255, 255, 0.08);  /* 반투명 화이트 보더 */
+
+	/* shadcn token bridge */
+	--background: #1B1D26;
+	--foreground: #F4F5F7;
+	--card: #22242E;
+	--card-foreground: #F4F5F7;
+	--popover: #282B37;
+	--popover-foreground: #F4F5F7;
+	--primary: var(--do-primary);
+	--primary-foreground: oklch(0.20 0.03 var(--brand-h));
+	--secondary: #282B37;
+	--secondary-foreground: #F4F5F7;
+	--muted: #282B37;
+	--muted-foreground: #8E92A0;
+	--accent: var(--accent-lavender);
+	--accent-foreground: #1B1D26;
+	--destructive: var(--accent-coral);
+	--border: rgba(255, 255, 255, 0.08);
+	--input: rgba(255, 255, 255, 0.10);
+	--ring: var(--do-primary);
+	--radius: 0.625rem;
+	--chart-1: var(--do-primary);
+	--chart-2: var(--accent-lavender);
+	--chart-3: var(--accent-green);
+	--chart-4: var(--accent-cyan);
+	--chart-5: var(--accent-coral);
+	--sidebar: #22242E;
+	--sidebar-foreground: #F4F5F7;
+	--sidebar-primary: var(--do-primary);
+	--sidebar-primary-foreground: #1B1D26;
+	--sidebar-accent: #282B37;
+	--sidebar-accent-foreground: #F4F5F7;
+	--sidebar-border: rgba(255, 255, 255, 0.08);
+	--sidebar-ring: var(--do-primary);
+}
+
+/* ──────────────────────────────────────────────────────
+   ③ LIGHT — Figma 프레임형: 회색 페이지 위 흰 시트, near-black 잉크
+────────────────────────────────────────────────────── */
+.light {
+	/* Vercel 갤러리 화이트 + Figma 극대비 잉크 */
+	--do-page: #EAEAE7;
+	--do-surface: #FFFFFF;
+	--do-surface-container-lowest: #FFFFFF;
+	--do-surface-container-low: #FAFAFA;     /* Vercel subtle tint */
+	--do-surface-container: #F4F4F2;
+	--do-surface-container-high: #EDEDEA;
+	--do-surface-container-highest: #E4E4E0;
+	--do-surface-bright: #FFFFFF;
+
+	--do-on-surface: #0A0A0A;            /* Figma 극대비 헤딩 잉크 */
+	--do-on-surface-variant: #404040;    /* 본문 (Vercel #4d4d4d ↑대비) */
+	--do-on-surface-muted: #666666;      /* tertiary */
+	--do-on-surface-faint: #808080;      /* quaternary */
+	--do-outline: rgba(0, 0, 0, 0.20);
+	--do-outline-variant: #EBEBEB;
+	--do-hairline: rgba(0, 0, 0, 0.08);  /* Vercel shadow-as-border */
+
+	--brand-l-light: 0.50;
+	--do-primary: oklch(var(--brand-l-light) calc(var(--brand-c) * 1.35) var(--brand-h));
+	--do-primary-container: oklch(0.95 0.03 var(--brand-h));
+	--do-on-primary-container: oklch(0.40 0.10 var(--brand-h));
+	--do-secondary: oklch(0.55 0.16 286);
+	--do-tertiary: oklch(0.52 0.13 162);
+	--do-tertiary-container: oklch(0.94 0.05 162);
+	--do-on-tertiary-container: oklch(0.38 0.10 162);
+
+	/* 라이트 대비용으로 액센트 심화 */
+	--accent-cyan: #0E7FA8;
+	--accent-coral: #D8442F;
+	--accent-green: #1E8C5E;
+	--accent-lavender: #6D5BD0;
+
+	--background: #FFFFFF;
+	--foreground: #0A0A0A;
+	--card: #FFFFFF;
+	--card-foreground: #0A0A0A;
+	--popover: #FFFFFF;
+	--popover-foreground: #0A0A0A;
+	--primary: var(--do-primary);
+	--primary-foreground: #FFFFFF;
+	--secondary: var(--do-surface-container);
+	--secondary-foreground: #0A0A0A;
+	--muted: var(--do-surface-container);
+	--muted-foreground: #666666;
+	--accent: var(--accent-lavender);
+	--accent-foreground: #FFFFFF;
+	--destructive: var(--accent-coral);
+	--border: var(--do-hairline);
+	--input: var(--do-surface-container);
+	--ring: var(--do-primary);
 }
 
 @layer base {
 	* {
 		@apply border-border outline-ring/50;
 	}
+	html {
+		background: var(--do-page);
+	}
 	body {
-		@apply bg-surface text-on-surface;
-		font-family: 'Pretendard', 'Inter', sans-serif;
+		background: var(--do-page);
+		color: var(--do-on-surface);
+		font-family: var(--font-body);
+		font-size: var(--ts-body);
+		line-height: var(--lh-body);
+		-webkit-font-smoothing: antialiased;
+		text-rendering: optimizeLegibility;
 	}
 	h1, h2, h3, h4, h5, h6 {
 		font-family: var(--font-headline);
+		line-height: var(--lh-tight);
+	}
+	::selection {
+		background: color-mix(in oklch, var(--do-primary) 30%, transparent);
+		color: var(--do-on-surface);
 	}
 }
 
 /* ──────────────────────────────────────────────────────
-   Glass Navigation
+   ④ TYPE SCALE — 시맨틱 유틸 (요소마다 임의 text-* 금지)
+────────────────────────────────────────────────────── */
+/* 3-웨이트 규율 (Linear max 590 / Vercel max 600): 400 읽기 · 500 UI · 600 선언.
+   700(bold)은 마이크로 라벨에만. 위계는 weight가 아니라 크기·압축으로. */
+.type-display {
+	font-family: var(--font-headline);
+	font-size: var(--ts-display);
+	font-weight: 600;
+	line-height: var(--lh-tight);
+	letter-spacing: var(--track-display);
+}
+.type-headline {
+	font-family: var(--font-headline);
+	font-size: var(--ts-headline);
+	font-weight: 600;
+	line-height: 1.1;
+	letter-spacing: -0.02em;
+}
+.type-title {
+	font-family: var(--font-headline);
+	font-size: var(--ts-title);
+	font-weight: 600;
+	line-height: 1.25;
+}
+.type-body {
+	font-size: var(--ts-body);
+	line-height: var(--lh-body);
+}
+.type-small {
+	font-size: var(--ts-small);
+	line-height: 1.65;
+}
+.type-label {
+	font-size: var(--ts-label);
+	font-weight: 700;
+	letter-spacing: var(--track-label);
+	text-transform: uppercase;
+}
+.font-headline { font-family: var(--font-headline); }
+.font-code { font-family: var(--font-code); }
+
+/* 에디토리얼 하이라이트 단어 (LaunchDarkly "managing" 류) */
+.hl { color: var(--do-primary); }
+.hl-cyan { color: var(--accent-cyan); }
+.hl-coral { color: var(--accent-coral); }
+.hl-green { color: var(--accent-green); }
+.hl-lavender { color: var(--accent-lavender); }
+
+/* ──────────────────────────────────────────────────────
+   ⑤ APP FRAME — 라이트=Figma 라운드 시트 / 다크=풀블리드
+────────────────────────────────────────────────────── */
+.app-frame {
+	background: var(--do-surface);
+	min-height: 100vh;
+}
+.light .app-frame {
+	border-radius: 1.5rem;
+	margin: 0 0.75rem;
+	overflow: clip;
+	box-shadow: 0 1px 0 color-mix(in srgb, #fff 60%, transparent) inset,
+		0 24px 60px -28px rgba(0, 0, 0, 0.22);
+}
+@media (min-width: 768px) {
+	.light .app-frame {
+		border-radius: 2rem;
+		margin: 0 1.5rem;
+	}
+}
+
+/* 톤 반전 섹션 (Figma 블랙 인서트 / 다크 브라이트 밴드) */
+.section-invert {
+	background: var(--do-on-surface);
+	color: var(--do-surface);
+}
+.section-invert .type-body,
+.section-invert p {
+	color: color-mix(in srgb, var(--do-surface) 72%, transparent);
+}
+.section-invert .hl { color: var(--do-primary); }
+
+/* ──────────────────────────────────────────────────────
+   ⑥ Glass Navigation
 ────────────────────────────────────────────────────── */
 .glass-nav {
-	background: rgba(28, 35, 41, 0.7);
-	backdrop-filter: blur(12px);
-	-webkit-backdrop-filter: blur(12px);
+	background: color-mix(in srgb, var(--do-surface) 68%, transparent);
+	backdrop-filter: blur(14px) saturate(160%);
+	-webkit-backdrop-filter: blur(14px) saturate(160%);
+	border-bottom: 1px solid var(--do-hairline);
 }
-
 .light .glass-nav {
-	background: rgba(247, 247, 245, 0.85);
+	background: color-mix(in srgb, var(--do-page) 82%, transparent);
 }
 
 /* ──────────────────────────────────────────────────────
-   Obsidian Card (no-border rule → tonal shift)
+   ⑦ Cards — No-Line Rule: 톤 시프트로 분리
 ────────────────────────────────────────────────────── */
+/* shadow-as-border: 보더를 그림자 레이어로 (Vercel/Linear) — 클리핑·전환 부드러움 */
 .obsidian-card {
 	background: var(--do-surface-container-low);
-	border-radius: 0.75rem;
-	border: 1px solid transparent;
-	transition: background-color 0.3s ease, border-color 0.3s ease;
+	border-radius: 0.875rem;
+	box-shadow: 0 0 0 1px var(--do-hairline);
+	transition: background-color var(--dur-normal) var(--ease-out-expo),
+		box-shadow var(--dur-normal) var(--ease-out-expo),
+		transform var(--dur-normal) var(--ease-out-expo);
 }
-
 .obsidian-card:hover {
-	background: var(--do-surface-container-highest);
-	border-color: color-mix(in srgb, var(--do-primary) 20%, transparent);
+	background: var(--do-surface-container-high);
+	box-shadow: 0 0 0 1px color-mix(in srgb, var(--do-primary) 32%, transparent),
+		0 16px 40px -20px rgba(0, 0, 0, 0.5);
+	transform: translateY(-3px);
+}
+.ghost-border {
+	box-shadow: 0 0 0 1px var(--do-hairline);
+}
+.card-accent-bar {
+	border-left: 3px solid var(--do-primary);
 }
 
 /* ──────────────────────────────────────────────────────
-   Status Badges (Korean hardware labels)
+   ⑧ Status Badges — 하드웨어 라벨 톤
 ────────────────────────────────────────────────────── */
 .badge-live {
 	background: var(--do-tertiary-container);
 	color: var(--do-on-tertiary-container);
-	border-radius: 0.125rem;
+	border-radius: 0.1875rem;
 }
-
 .badge-wip {
 	background: var(--do-primary-container);
 	color: var(--do-on-primary-container);
-	border-radius: 0.125rem;
+	border-radius: 0.1875rem;
 }
-
 .badge-archived {
 	background: var(--do-surface-container-highest);
 	color: var(--do-on-surface-variant);
-	border-radius: 0.125rem;
+	border-radius: 0.1875rem;
 }
 
 /* ──────────────────────────────────────────────────────
-   Typography Utilities
-────────────────────────────────────────────────────── */
-.font-headline {
-	font-family: var(--font-headline);
-}
-
-.font-code {
-	font-family: var(--font-code);
-}
-
-/* ──────────────────────────────────────────────────────
-   Ghost Border (for high-density data)
-────────────────────────────────────────────────────── */
-.ghost-border {
-	outline: 1px solid color-mix(in srgb, var(--do-outline-variant) 15%, transparent);
-}
-
-/* ──────────────────────────────────────────────────────
-   rehype-pretty-code (Shiki) 코드 블록
-────────────────────────────────────────────────────── */
-pre[data-theme] {
-	margin-bottom: 1rem;
-	overflow-x: auto;
-	border-radius: 0.75rem;
-	padding: 1.25rem;
-	font-size: 0.875rem;
-	line-height: 1.6;
-	background: var(--do-surface-container-lowest) !important;
-}
-
-pre[data-language]::before {
-	content: attr(data-language);
-	display: block;
-	margin-bottom: 0.5rem;
-	font-size: 0.7rem;
-	color: var(--do-on-surface-variant);
-	text-transform: uppercase;
-	letter-spacing: 0.08em;
-}
-
-pre[data-theme] code {
-	background: transparent;
-	padding: 0;
-	border-radius: 0;
-	font-size: inherit;
-	font-family: var(--font-code);
-}
-
-/* 테이블 행 호버 */
-tbody tr:hover {
-	background-color: var(--do-surface-container);
-}
-
-/* ──────────────────────────────────────────────────────
-   CTA Buttons
+   ⑨ CTA Buttons
 ────────────────────────────────────────────────────── */
 .btn-primary {
 	background: var(--do-primary);
 	color: var(--do-on-primary-container);
 	font-family: var(--font-headline);
 	font-weight: 700;
-	text-transform: uppercase;
-	letter-spacing: 0.05em;
-	transition: transform 0.15s ease, opacity 0.2s ease;
+	letter-spacing: 0.01em;
+	transition: transform var(--dur-fast) var(--ease-out-expo),
+		box-shadow var(--dur-normal) var(--ease-out-expo);
 }
-
 .btn-primary:hover {
-	transform: scale(1.03);
-	opacity: 0.95;
+	transform: translateY(-2px);
+	box-shadow: 0 12px 32px -12px color-mix(in srgb, var(--do-primary) 60%, transparent);
 }
-
-.btn-primary:active {
-	transform: scale(0.97);
-}
+.btn-primary:active { transform: translateY(0); }
 
 .btn-outline {
 	background: transparent;
 	color: var(--do-on-surface);
 	font-family: var(--font-headline);
 	font-weight: 700;
-	text-transform: uppercase;
-	letter-spacing: 0.05em;
-	border: 1px solid color-mix(in srgb, var(--do-outline-variant) 40%, transparent);
-	transition: background-color 0.2s ease;
+	letter-spacing: 0.01em;
+	border: 1px solid color-mix(in srgb, var(--do-outline) 45%, transparent);
+	transition: background-color var(--dur-normal) var(--ease-out-expo),
+		border-color var(--dur-normal) var(--ease-out-expo);
 }
-
 .btn-outline:hover {
 	background: var(--do-surface-container-high);
+	border-color: color-mix(in srgb, var(--do-primary) 40%, transparent);
 }
 
 /* ──────────────────────────────────────────────────────
-   Ambient Glow (hero profile)
+   ⑩ Ambient Glow (히어로 분위기 — 다크에서만 강하게)
 ────────────────────────────────────────────────────── */
 .ambient-glow {
-	background: linear-gradient(135deg, var(--do-primary), #F4A261);
-	border-radius: 0.75rem;
-	filter: blur(20px);
-	opacity: 0.25;
-	transition: opacity 0.5s ease;
+	background: radial-gradient(circle at 50% 50%,
+		color-mix(in srgb, var(--do-primary) 70%, transparent),
+		transparent 70%);
+	filter: blur(56px);
+	opacity: 0.45;
+	transition: opacity var(--dur-slow) var(--ease-out-expo);
 }
-
-.group:hover .ambient-glow {
-	opacity: 0.5;
-}
-
+.light .ambient-glow { opacity: 0.18; }
+.group:hover .ambient-glow { opacity: 0.65; }
 .ambient-glow-subtle {
-	background: linear-gradient(135deg, var(--do-primary), #F4A261);
-	border-radius: 1rem;
-	filter: blur(32px);
-	opacity: 0.15;
-	transition: opacity 0.5s ease;
+	background: radial-gradient(circle at 50% 0%,
+		color-mix(in srgb, var(--do-primary) 50%, transparent),
+		transparent 65%);
+	filter: blur(64px);
+	opacity: 0.22;
 }
+.light .ambient-glow-subtle { opacity: 0.1; }
 
-/* ──────────────────────────────────────────────────────
-   Section divider via tonal shift
-────────────────────────────────────────────────────── */
 .section-tonal {
 	background: var(--do-surface-container-low);
 }
 
+/* Grid texture (LaunchDarkly 배경 격자) */
+.grid-texture {
+	background-image:
+		linear-gradient(color-mix(in srgb, var(--do-outline-variant) 40%, transparent) 1px, transparent 1px),
+		linear-gradient(90deg, color-mix(in srgb, var(--do-outline-variant) 40%, transparent) 1px, transparent 1px);
+	background-size: 64px 64px;
+	mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, #000 30%, transparent 75%);
+}
+
 /* ──────────────────────────────────────────────────────
-   Scroll animation
+   ⑪ Reveal — framer-motion 없이도 깨지지 않는 기본값
 ────────────────────────────────────────────────────── */
-@keyframes float {
-	0%, 100% { transform: translateY(0); }
-	50% { transform: translateY(-5px); }
-}
-
-@media (prefers-reduced-motion: reduce) {
-	* { animation: none !important; }
+.reveal-init {
+	opacity: 0;
+	transform: translateY(16px);
 }
 
 /* ──────────────────────────────────────────────────────
-   Light mode overrides for header
-────────────────────────────────────────────────────── */
-.light .logo-lab {
-	color: var(--do-primary);
-}
-
-/* ──────────────────────────────────────────────────────
-   Timeline Connector (career section)
+   ⑫ Timeline (career)
 ────────────────────────────────────────────────────── */
 .timeline-connector {
 	position: relative;
 	padding-left: 2rem;
-	border-left: 2px solid color-mix(in srgb, var(--do-primary) 20%, transparent);
+	border-left: 2px solid color-mix(in srgb, var(--do-primary) 22%, transparent);
 }
-
 .timeline-dot {
 	position: absolute;
 	left: -5px;
@@ -423,8 +516,259 @@ tbody tr:hover {
 }
 
 /* ──────────────────────────────────────────────────────
-   Card Accent Bar (featured content)
+   ⑬ rehype-pretty-code (Shiki) 코드 블록
 ────────────────────────────────────────────────────── */
-.card-accent-bar {
-	border-left: 4px solid var(--do-primary);
+pre[data-theme] {
+	margin-bottom: 1rem;
+	overflow-x: auto;
+	border-radius: 0.75rem;
+	padding: 1.25rem;
+	font-size: 0.875rem;
+	line-height: 1.6;
+	background: var(--do-surface-container-lowest) !important;
+	border: 1px solid color-mix(in srgb, var(--do-outline-variant) 60%, transparent);
 }
+pre[data-language]::before {
+	content: attr(data-language);
+	display: block;
+	margin-bottom: 0.5rem;
+	font-size: 0.7rem;
+	color: var(--do-on-surface-variant);
+	text-transform: uppercase;
+	letter-spacing: 0.08em;
+}
+pre[data-theme] code {
+	background: transparent;
+	padding: 0;
+	border-radius: 0;
+	font-size: inherit;
+	font-family: var(--font-code);
+}
+tbody tr:hover {
+	background-color: var(--do-surface-container);
+}
+
+.light .logo-lab { color: var(--do-primary); }
+
+/* ──────────────────────────────────────────────────────
+   ⑭ Reduced motion — 접근성
+────────────────────────────────────────────────────── */
+@keyframes float {
+	0%, 100% { transform: translateY(0); }
+	50% { transform: translateY(-6px); }
+}
+@media (prefers-reduced-motion: reduce) {
+	*, *::before, *::after {
+		animation-duration: 0.001ms !important;
+		animation-iteration-count: 1 !important;
+		transition-duration: 0.001ms !important;
+		scroll-behavior: auto !important;
+	}
+	.reveal-init { opacity: 1; transform: none; }
+}
+
+/* ══════════════════════════════════════════════════════════
+   ⑮ san.framer LAYER — 전체 디자인 언어
+   초대형 압축 타이포 · 이탤릭 세리프 액센트 · 컬러풀 카드 ·
+   회전 배지 · 마퀴 · 틸트 · 그라데이션 CTA · 주석 핀
+══════════════════════════════════════════════════════════ */
+
+/* 초대형 히어로/페이지 타이틀 */
+.type-display-xl {
+	font-family: var(--font-headline);
+	font-size: var(--ts-display-xl);
+	font-weight: 700;
+	line-height: 0.92;
+	letter-spacing: var(--track-display);
+	text-wrap: balance;
+}
+
+/* 헤드라인 속 이탤릭 세리프 액센트 단어 ("Creative *Visual* Designer") */
+.display-accent {
+	font-family: Georgia, 'Times New Roman', 'Noto Serif KR', serif;
+	font-style: italic;
+	font-weight: 500;
+	letter-spacing: -0.02em;
+	color: var(--do-primary);
+	padding-right: 0.08em;
+}
+
+/* 본문 인라인 강조 구절 (이탤릭 컬러) */
+.text-em {
+	font-style: italic;
+	color: var(--do-primary);
+}
+.text-em-coral { font-style: italic; color: var(--accent-coral); }
+
+/* 섹션 라벨 — 작은 트래킹 대문자 + 카운트 */
+.section-label {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.6rem;
+	font-family: var(--font-code);
+	font-size: 0.7rem;
+	font-weight: 600;
+	letter-spacing: 0.18em;
+	text-transform: uppercase;
+	color: var(--do-on-surface-muted);
+}
+.section-label::before {
+	content: "";
+	width: 1.75rem;
+	height: 1px;
+	background: var(--do-primary);
+}
+.section-label .count { color: var(--do-primary); }
+
+/* 컬러풀 솔리드 카드 (san 메이슨리) — 양 테마 동일, 가독 대비 확보 */
+.card-c1 { background: #6C4DF6; color: #FFFFFF; }
+.card-c1 .c-sub { color: rgba(255,255,255,0.78); }
+.card-c2 { background: #10B981; color: #04231A; }
+.card-c2 .c-sub { color: rgba(4,35,26,0.72); }
+.card-c3 { background: #F5A524; color: #2A1A00; }
+.card-c3 .c-sub { color: rgba(42,26,0,0.70); }
+.card-c4 { background: #FF6B5E; color: #2A0A06; }
+.card-c4 .c-sub { color: rgba(42,10,6,0.70); }
+.card-c5 { background: #22B8CF; color: #042029; }
+.card-c5 .c-sub { color: rgba(4,32,41,0.72); }
+.card-color {
+	border-radius: 1.1rem;
+	transition: transform var(--dur-normal) var(--ease-out-expo),
+		box-shadow var(--dur-normal) var(--ease-out-expo);
+}
+.card-color:hover {
+	transform: translateY(-4px) rotate(-0.6deg);
+	box-shadow: 0 24px 50px -24px rgba(0,0,0,0.55);
+}
+
+/* 코너 화살표 데코 */
+.corner-arrow {
+	width: 2.25rem;
+	height: 2.25rem;
+	color: var(--do-on-surface-faint);
+	stroke-width: 1;
+}
+
+/* 회전 원형 배지 스탬프 */
+@keyframes spin-slow { to { transform: rotate(360deg); } }
+.spin-badge {
+	position: relative;
+	display: grid;
+	place-items: center;
+	width: 7rem;
+	height: 7rem;
+	border-radius: 9999px;
+	background: var(--do-primary);
+	color: var(--do-on-primary-container);
+}
+.spin-badge .ring {
+	position: absolute;
+	inset: 0;
+	animation: spin-slow 16s linear infinite;
+}
+.spin-badge .ring text {
+	font-family: var(--font-code);
+	font-size: 9px;
+	letter-spacing: 0.22em;
+	fill: var(--do-on-primary-container);
+	text-transform: uppercase;
+}
+
+/* 마퀴 (키워드/로고 스트립) */
+@keyframes marquee-x { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+.marquee {
+	overflow: hidden;
+	-webkit-mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+	mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+}
+.marquee-track {
+	display: inline-flex;
+	gap: 3.5rem;
+	white-space: nowrap;
+	animation: marquee-x 32s linear infinite;
+	will-change: transform;
+}
+.marquee:hover .marquee-track { animation-play-state: paused; }
+
+/* 틸트 카드 — san 부채꼴/기울임 hover */
+.tilt-card {
+	transition: transform var(--dur-normal) var(--ease-out-expo),
+		box-shadow var(--dur-normal) var(--ease-out-expo);
+}
+.tilt-card:hover {
+	transform: translateY(-6px) rotate(-1deg) scale(1.015);
+	box-shadow: 0 30px 60px -28px rgba(0,0,0,0.5);
+}
+
+/* 그라데이션 분위기 CTA */
+.cta-atmos {
+	position: relative;
+	overflow: hidden;
+	border-radius: 1.5rem;
+	background:
+		radial-gradient(120% 120% at 12% 8%, color-mix(in oklch, var(--do-primary) 34%, transparent), transparent 55%),
+		radial-gradient(120% 120% at 88% 92%, color-mix(in oklch, var(--accent-lavender) 30%, transparent), transparent 55%),
+		var(--do-surface-container-low);
+}
+.light .cta-atmos {
+	background:
+		radial-gradient(120% 120% at 12% 8%, color-mix(in oklch, var(--do-primary) 16%, transparent), transparent 55%),
+		radial-gradient(120% 120% at 88% 92%, color-mix(in oklch, var(--accent-lavender) 16%, transparent), transparent 55%),
+		var(--do-surface-container-low);
+}
+
+/* 떠다니는 주석 핀 (san hero) */
+.pill-tag {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.4rem;
+	padding: 0.4rem 0.85rem;
+	border-radius: 9999px;
+	font-family: var(--font-headline);
+	font-size: 0.78rem;
+	font-weight: 600;
+	white-space: nowrap;
+	box-shadow: 0 10px 24px -14px rgba(0,0,0,0.5);
+}
+.pill-green { background: #10B981; color: #04231A; }
+.pill-coral { background: #FF6B5E; color: #2A0A06; }
+.pill-violet { background: #6C4DF6; color: #FFFFFF; }
+.pill-surface {
+	background: var(--do-surface-container-high);
+	color: var(--do-on-surface);
+	box-shadow: 0 0 0 1px var(--do-hairline);
+}
+
+/* 프로세스/피처 행 — 1개만 액센트 채움 */
+.process-row {
+	display: flex;
+	align-items: center;
+	gap: 1.5rem;
+	padding: 1.5rem 2rem;
+	border-radius: 1rem;
+	background: var(--do-surface-container-low);
+	box-shadow: 0 0 0 1px var(--do-hairline);
+	transition: background-color var(--dur-normal) var(--ease-out-expo),
+		transform var(--dur-normal) var(--ease-out-expo);
+}
+.process-row:hover { transform: translateX(6px); }
+.process-row--active {
+	background: var(--do-primary);
+	color: var(--do-on-primary-container);
+	box-shadow: 0 20px 44px -22px color-mix(in oklch, var(--do-primary) 60%, transparent);
+}
+.process-row--active .c-sub { color: color-mix(in srgb, var(--do-on-primary-container) 75%, transparent); }
+.process-row .idx {
+	font-family: var(--font-code);
+	font-size: 1.5rem;
+	font-weight: 700;
+	opacity: 0.35;
+	font-style: italic;
+}
+
+/* 대형 타이틀 진입 마스크 리빌 (CSS, JS 불필요 폴백 포함) */
+@keyframes rise-in {
+	from { opacity: 0; transform: translateY(0.35em); }
+	to { opacity: 1; transform: translateY(0); }
+}
+.rise-in { animation: rise-in 0.9s var(--ease-out-expo) both; }

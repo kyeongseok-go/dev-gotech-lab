@@ -51,7 +51,7 @@ export default async function ServicesPage() {
     <main className="pt-32 pb-20 px-8 max-w-7xl mx-auto">
       {/* Page Header */}
       <header className="mb-20">
-        <h1 className="font-headline text-5xl md:text-7xl font-bold tracking-tighter mb-4 text-white">
+        <h1 className="font-headline text-5xl md:text-7xl font-bold tracking-tighter mb-4 text-on-surface">
           Dynamic <span className="text-do-primary">Registry</span>
         </h1>
         <p className="text-on-surface-variant max-w-2xl text-lg leading-relaxed">
@@ -93,7 +93,7 @@ export default async function ServicesPage() {
                 </div>
 
                 {/* Title & Description */}
-                <h3 className="font-headline text-xl font-bold text-white mb-3 group-hover:text-do-primary transition-colors">
+                <h3 className="font-headline text-xl font-bold text-on-surface mb-3 group-hover:text-do-primary transition-colors">
                   {svc.title}
                 </h3>
                 <p className="text-sm text-on-surface-variant mb-8 flex-grow leading-relaxed">
@@ -120,7 +120,7 @@ export default async function ServicesPage() {
                       href={svc.repo_url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-on-surface-variant text-xs font-bold uppercase tracking-widest hover:text-white transition-colors flex items-center gap-1"
+                      className="text-on-surface-variant text-xs font-bold uppercase tracking-widest hover:text-on-surface transition-colors flex items-center gap-1"
                     >
                       Repository
                       <Code size={12} />

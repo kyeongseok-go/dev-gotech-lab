@@ -69,7 +69,7 @@ export default async function BlogPostPage({ params }: Props) {
             <span>&bull;</span>
             <span>{readingTime}분 읽기</span>
           </div>
-          <h1 className="font-headline text-4xl md:text-5xl font-bold tracking-tighter text-white leading-tight mb-6">
+          <h1 className="font-headline text-4xl md:text-5xl font-bold tracking-tighter text-on-surface leading-tight mb-6">
             {post.title}
           </h1>
           {post.description && (
@@ -128,7 +128,7 @@ export default async function BlogPostPage({ params }: Props) {
               <span className="text-xs text-on-surface-variant flex items-center gap-1">
                 <ArrowLeft size={12} /> 이전 글
               </span>
-              <p className="mt-2 font-headline font-bold text-white group-hover:text-do-primary transition-colors">
+              <p className="mt-2 font-headline font-bold text-on-surface group-hover:text-do-primary transition-colors">
                 {prev.title}
               </p>
             </Link>
@@ -143,7 +143,7 @@ export default async function BlogPostPage({ params }: Props) {
               <span className="text-xs text-on-surface-variant flex items-center gap-1 justify-end">
                 다음 글 <ArrowRight size={12} />
               </span>
-              <p className="mt-2 font-headline font-bold text-white group-hover:text-do-primary transition-colors">
+              <p className="mt-2 font-headline font-bold text-on-surface group-hover:text-do-primary transition-colors">
                 {next.title}
               </p>
             </Link>

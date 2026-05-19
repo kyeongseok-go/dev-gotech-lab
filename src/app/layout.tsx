@@ -61,13 +61,14 @@ export default function RootLayout({
 				/>
 			</head>
 			<body
-				className={`${spaceGrotesk.variable} ${geistMono.variable} antialiased flex min-h-screen flex-col bg-surface text-on-surface`}
-				style={{ fontFamily: "'Pretendard', 'Inter', sans-serif" }}
+				className={`${spaceGrotesk.variable} ${geistMono.variable} antialiased flex min-h-screen flex-col`}
 			>
 				<ThemeProvider>
-					<SiteHeader />
-					<div className="flex-1">{children}</div>
-					<SiteFooter />
+					<div className="app-frame flex flex-1 flex-col">
+						<SiteHeader />
+						<div className="flex-1">{children}</div>
+						<SiteFooter />
+					</div>
 				</ThemeProvider>
 			</body>
 		</html>

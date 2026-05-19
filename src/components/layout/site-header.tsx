@@ -9,9 +9,9 @@ import { useState } from "react";
 const NAV_LINKS = [
   { href: "/", label: "Home" },
   { href: "/blog", label: "Blog" },
+  { href: "/card-news", label: "카드뉴스" },
   { href: "/projects", label: "Projects" },
   { href: "/showcase", label: "Showcase" },
-  { href: "/services", label: "Services" },
   { href: "/about", label: "About" },
 ];
 
@@ -30,29 +30,27 @@ export function SiteHeader() {
         {/* Logo */}
         <Link
           href="/"
-          className="text-xl font-bold tracking-tighter uppercase"
-          style={{ fontFamily: "var(--font-headline)" }}
+          className="font-headline text-xl font-semibold tracking-tighter lowercase text-on-surface"
         >
-          <span className="text-white dark:text-white light:text-[#054345]">gotech</span>
-          <span className="text-do-primary logo-lab">.lab</span>
+          gotech<span className="text-do-primary logo-lab">.lab</span>
         </Link>
 
         {/* Desktop Nav */}
-        <div
-          className="hidden md:flex items-center gap-8 tracking-tighter uppercase text-sm font-bold"
-          style={{ fontFamily: "var(--font-headline)" }}
-        >
+        <div className="hidden md:flex items-center gap-8 font-headline tracking-tight text-sm font-medium">
           {NAV_LINKS.map(({ href, label }) => (
             <Link
               key={href}
               href={href}
-              className={`transition-all duration-300 ${
+              className={`relative py-1 transition-colors duration-300 ${
                 isActive(href)
-                  ? "text-do-primary border-b-2 border-do-primary pb-1"
-                  : "text-slate-400 hover:text-do-primary"
+                  ? "text-do-primary"
+                  : "text-on-surface-muted hover:text-on-surface"
               }`}
             >
               {label}
+              {isActive(href) && (
+                <span className="absolute -bottom-0.5 left-0 h-px w-full bg-do-primary" />
+              )}
             </Link>
           ))}
         </div>
@@ -61,7 +59,7 @@ export function SiteHeader() {
         <div className="flex items-center gap-4">
           <ThemeToggle />
           <button
-            className="md:hidden p-2 text-white"
+            className="md:hidden p-2 text-on-surface"
             onClick={() => setMobileOpen(!mobileOpen)}
             aria-label="메뉴 토글"
           >

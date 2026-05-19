@@ -1,77 +1,103 @@
 import Link from "next/link";
+import { ArrowUpRight } from "lucide-react";
+import { Marquee } from "@/components/section/marquee";
 
 const SITE_LINKS = [
   { href: "/blog", label: "Blog" },
   { href: "/projects", label: "Projects" },
-  { href: "/about", label: "About" },
   { href: "/showcase", label: "Showcase" },
-  { href: "/services", label: "Services" },
+  { href: "/card-news", label: "Card News" },
+  { href: "/about", label: "About" },
+  { href: "/subscribe", label: "Subscribe" },
 ];
 
-const EXTERNAL_LINKS = [
+const CONNECT_LINKS = [
   { href: "https://github.com/kyeongseok-go", label: "GitHub", external: true },
   { href: "mailto:kugll9606@gmail.com", label: "Email", external: false },
   { href: "/rss.xml", label: "RSS", external: false },
 ];
 
+const MARQUEE_WORDS = [
+  "Build the technology",
+  "Live easier",
+  "기술을 만들고, 더 쉽게 살자",
+  "gotech.lab",
+] as const;
+
 export function SiteFooter() {
   return (
-    <footer className="w-full border-t border-do-primary/10 bg-surface">
-      <div className="max-w-7xl mx-auto px-8 py-12">
-        {/* 3-Column Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
-          {/* Column 1: Brand */}
-          <div>
-            <div
-              className="font-bold text-on-surface text-lg mb-2"
-              style={{ fontFamily: "var(--font-headline)" }}
+    <footer className="w-full mt-32">
+      {/* 상단 거대 마퀴 */}
+      <div className="border-y border-hairline">
+        <Marquee
+          durationSec={36}
+          items={MARQUEE_WORDS.map((w) => (
+            <span
+              key={w}
+              className="font-headline text-on-surface-muted"
+              style={{ fontSize: "clamp(2.5rem,7vw,5.5rem)", letterSpacing: "-0.03em", fontWeight: 600 }}
             >
+              {w}
+              <span className="text-do-primary"> ✦ </span>
+            </span>
+          ))}
+        />
+      </div>
+
+      <div className="max-w-7xl mx-auto px-6 md:px-10 py-16">
+        <div className="grid grid-cols-12 gap-6 md:gap-8 mb-12">
+          {/* Brand */}
+          <div className="col-span-12 md:col-span-5">
+            <Link href="/" className="font-headline text-3xl font-semibold text-on-surface inline-block mb-3">
               gotech<span className="text-do-primary">.lab</span>
-            </div>
-            <p className="text-xs text-on-surface-variant leading-relaxed">
-              Go !! Build the Technology, Live Easier.
+            </Link>
+            <p className="type-small text-on-surface-variant max-w-sm">
+              Go!! Build the technology, <span className="text-em">Live easier.</span>
+              <br />가자!! 기술을 만들고, 더 쉽게 살자.
             </p>
           </div>
 
-          {/* Column 2: Site Links */}
-          <div>
-            <h3
-              className="text-xs font-bold text-on-surface-variant uppercase tracking-widest mb-4"
-              style={{ fontFamily: "var(--font-headline)" }}
-            >
+          {/* Links */}
+          <div className="col-span-6 md:col-span-3">
+            <span className="font-code text-xs font-semibold tracking-widest uppercase text-on-surface-muted block mb-5">
               Links
-            </h3>
-            <ul className="space-y-2">
+            </span>
+            <ul className="space-y-2.5">
               {SITE_LINKS.map(({ href, label }) => (
                 <li key={href}>
                   <Link
                     href={href}
-                    className="text-sm text-on-surface-variant hover:text-do-primary transition-colors"
+                    className="font-headline font-medium text-base text-on-surface hover:text-do-primary transition-colors inline-flex items-center gap-1 group"
                   >
                     {label}
+                    <ArrowUpRight
+                      size={14}
+                      className="opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all"
+                    />
                   </Link>
                 </li>
               ))}
             </ul>
           </div>
 
-          {/* Column 3: External Links */}
-          <div>
-            <h3
-              className="text-xs font-bold text-on-surface-variant uppercase tracking-widest mb-4"
-              style={{ fontFamily: "var(--font-headline)" }}
-            >
+          {/* Connect */}
+          <div className="col-span-6 md:col-span-4">
+            <span className="font-code text-xs font-semibold tracking-widest uppercase text-on-surface-muted block mb-5">
               Connect
-            </h3>
-            <ul className="space-y-2">
-              {EXTERNAL_LINKS.map(({ href, label, external }) => (
+            </span>
+            <ul className="space-y-2.5">
+              {CONNECT_LINKS.map(({ href, label, external }) => (
                 <li key={href}>
                   <Link
                     href={href}
                     {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-                    className="text-sm text-on-surface-variant hover:text-do-primary transition-colors"
+                    className="font-headline font-medium text-base text-on-surface hover:text-do-primary transition-colors inline-flex items-center gap-1 group"
                   >
                     {label}
+                    <ArrowUpRight
+                      size={14}
+                      className="opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all"
+                    />
                   </Link>
                 </li>
               ))}
@@ -79,10 +105,15 @@ export function SiteFooter() {
           </div>
         </div>
 
-        {/* Copyright */}
-        <div className="border-t border-outline-variant/15 pt-6">
-          <p className="text-xs text-on-surface-variant text-center">
-            &copy; {new Date().getFullYear()} 고텍이(gotechle). All rights reserved.
+        {/* 하단 카피 */}
+        <div className="pt-8 border-t border-hairline flex flex-col md:flex-row items-start md:items-center justify-between gap-3">
+          <p className="font-code text-xs text-on-surface-faint">
+            Designed &amp; developed by{" "}
+            <span className="text-do-primary">고경석</span> · &copy; {new Date().getFullYear()}{" "}
+            gotech.lab. All rights reserved.
+          </p>
+          <p className="font-code text-xs text-on-surface-faint">
+            Next.js 16 · Tailwind v4 · Velite MDX · Cloudflare
           </p>
         </div>
       </div>

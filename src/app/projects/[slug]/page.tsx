@@ -39,7 +39,7 @@ export default async function ProjectDetailPage({ params }: Props) {
         <div className="grid lg:grid-cols-2 gap-16 items-center">
           <div className="space-y-8">
             <div className="space-y-4">
-              <h1 className="font-headline text-5xl md:text-7xl font-bold tracking-tighter leading-[0.9] text-white">
+              <h1 className="font-headline text-5xl md:text-7xl font-bold tracking-tighter leading-[0.9] text-on-surface">
                 {project.title}
               </h1>
               <p className="text-on-surface-variant text-lg max-w-xl leading-relaxed">
@@ -55,7 +55,7 @@ export default async function ProjectDetailPage({ params }: Props) {
                     <span className="block text-outline text-[10px] uppercase tracking-widest mb-1 font-bold">
                       Period
                     </span>
-                    <span className="font-headline text-white font-medium">
+                    <span className="font-headline text-on-surface font-medium">
                       {project.period}
                     </span>
                   </div>
@@ -65,7 +65,7 @@ export default async function ProjectDetailPage({ params }: Props) {
                     <span className="block text-outline text-[10px] uppercase tracking-widest mb-1 font-bold">
                       Role
                     </span>
-                    <span className="font-headline text-white font-medium">
+                    <span className="font-headline text-on-surface font-medium">
                       {project.role}
                     </span>
                   </div>

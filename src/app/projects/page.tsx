@@ -1,7 +1,10 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { getPublishedProjects } from "@/lib/content";
-import { ExternalLink, Code, ArrowRight } from "lucide-react";
+import { ExternalLink, Code, ArrowUpRight } from "lucide-react";
+import { PageHeading } from "@/components/section/page-heading";
+import { ColorCard, COLOR_VARIANTS } from "@/components/section/color-card";
+import { Reveal } from "@/components/motion/reveal";
 
 export const metadata: Metadata = {
   title: "프로젝트",
@@ -13,81 +16,93 @@ export default function ProjectsPage() {
   const items = getPublishedProjects();
 
   return (
-    <main className="pt-32 pb-20 px-8 max-w-7xl mx-auto">
-      <header className="mb-20">
-        <h1 className="font-headline text-5xl md:text-7xl font-bold tracking-tighter mb-4 text-white">
-          Projects
-        </h1>
-        <p className="text-on-surface-variant max-w-2xl text-lg leading-relaxed">
-          직접 설계하고 구현한 프로젝트 목록입니다.
-        </p>
-      </header>
+    <main className="pt-28 pb-24 px-6 md:px-10 max-w-7xl mx-auto">
+      <PageHeading
+        eyebrow="Projects · Portfolio"
+        count={items.length}
+        size="xl"
+        title={
+          <>
+            <span className="display-accent">Shipped</span><br />
+            things.
+          </>
+        }
+        lead={
+          <>
+            직접 설계하고 구현한 프로젝트 목록입니다.
+            <span className="text-em"> Office SW 엔진</span>부터
+            <span className="text-em"> AI 빠른 빌드</span>까지.
+          </>
+        }
+      />
 
       {items.length === 0 ? (
-        <p className="text-on-surface-variant">등록된 프로젝트가 없습니다.</p>
+        <p className="type-body text-on-surface-variant">등록된 프로젝트가 없습니다.</p>
       ) : (
-        <div className="grid gap-8 md:grid-cols-2">
-          {items.map((project, i) => (
-            <Link
-              key={project.slug}
-              href={`/projects/${project.slug}`}
-              className={`obsidian-card p-8 group flex flex-col ${i % 2 === 1 ? "md:mt-12" : ""}`}
-            >
-              {/* Period & Role */}
-              <div className="flex items-center gap-3 text-xs text-on-surface-variant mb-4">
-                {project.period && <span>{project.period}</span>}
-                {project.role && (
-                  <>
-                    <span>&bull;</span>
-                    <span>{project.role}</span>
-                  </>
-                )}
-                {project.featured && (
-                  <span className="badge-live text-[10px] font-bold px-2 py-0.5 ml-auto">
-                    Featured
-                  </span>
-                )}
-              </div>
+        <div className="grid grid-cols-12 gap-4 md:gap-5">
+          {items.map((project, i) => {
+            const pattern = ["md:col-span-7", "md:col-span-5", "md:col-span-5", "md:col-span-7"];
+            const colSpan = pattern[i % 4];
+            const colorIdx = i % COLOR_VARIANTS.length;
+            return (
+              <Reveal key={project.slug} index={i} className={`col-span-12 ${colSpan}`} as="div">
+                <Link href={`/projects/${project.slug}`} className="tilt-card block h-full">
+                  <ColorCard index={colorIdx} className="p-7 md:p-8 h-full flex flex-col min-h-[280px]">
+                    <div className="flex items-center justify-between mb-6">
+                      <span className="font-code text-[10px] uppercase tracking-widest opacity-85">
+                        {project.period ?? "Project"}
+                        {project.role && ` · ${project.role}`}
+                      </span>
+                      {project.featured ? (
+                        <span className="font-code text-[10px] uppercase tracking-widest px-2 py-1 rounded-full bg-black/20">
+                          Featured
+                        </span>
+                      ) : (
+                        <ArrowUpRight size={18} className="opacity-75" />
+                      )}
+                    </div>
 
-              {/* Tech Stack */}
-              {project.techStack.length > 0 && (
-                <div className="flex gap-2 mb-4 flex-wrap">
-                  {project.techStack.map((tech) => (
-                    <span
-                      key={tech}
-                      className="bg-do-primary/10 text-do-primary text-[10px] font-bold px-2 py-1 rounded-sm uppercase tracking-wider"
-                    >
-                      {tech}
-                    </span>
-                  ))}
-                </div>
-              )}
+                    <h2 className="font-headline text-2xl md:text-3xl font-semibold leading-tight mb-3">
+                      {project.title}
+                    </h2>
+                    <p className="type-small c-sub line-clamp-3 mb-5">
+                      {project.summary}
+                    </p>
 
-              <h2 className="font-headline text-2xl font-bold mb-3 text-white group-hover:text-do-primary transition-colors">
-                {project.title}
-              </h2>
-              <p className="text-on-surface-variant text-sm leading-relaxed mb-6 line-clamp-2 flex-grow">
-                {project.summary}
-              </p>
+                    {project.techStack.length > 0 && (
+                      <div className="flex flex-wrap gap-1.5 mt-auto mb-4">
+                        {project.techStack.slice(0, 5).map((tech) => (
+                          <span
+                            key={tech}
+                            className="font-code text-[10px] uppercase tracking-wider px-2 py-1 rounded-full bg-black/15"
+                          >
+                            {tech}
+                          </span>
+                        ))}
+                      </div>
+                    )}
 
-              {/* Links */}
-              <div className="flex items-center gap-4 mt-auto pt-6 border-t border-outline-variant/15">
-                <span className="text-do-primary text-xs font-bold uppercase tracking-widest flex items-center gap-1">
-                  View Detail <ArrowRight size={12} />
-                </span>
-                {project.repoUrl && (
-                  <span className="text-on-surface-variant text-xs font-bold uppercase tracking-widest flex items-center gap-1">
-                    <Code size={12} /> Repo
-                  </span>
-                )}
-                {project.demoUrl && (
-                  <span className="text-on-surface-variant text-xs font-bold uppercase tracking-widest flex items-center gap-1">
-                    <ExternalLink size={12} /> Demo
-                  </span>
-                )}
-              </div>
-            </Link>
-          ))}
+                    <div className="flex items-center gap-4 pt-4 border-t border-black/15">
+                      <span className="font-code text-[10px] uppercase tracking-widest font-semibold inline-flex items-center gap-1">
+                        View Detail
+                        <ArrowUpRight size={12} />
+                      </span>
+                      {project.repoUrl && (
+                        <span className="font-code text-[10px] uppercase tracking-widest inline-flex items-center gap-1 opacity-80">
+                          <Code size={12} /> Repo
+                        </span>
+                      )}
+                      {project.demoUrl && (
+                        <span className="font-code text-[10px] uppercase tracking-widest inline-flex items-center gap-1 opacity-80">
+                          <ExternalLink size={12} /> Demo
+                        </span>
+                      )}
+                    </div>
+                  </ColorCard>
+                </Link>
+              </Reveal>
+            );
+          })}
         </div>
       )}
     </main>

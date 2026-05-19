@@ -7,249 +7,445 @@ import {
   formatDate,
   STATUS_LABEL,
 } from "@/lib/content";
-import { ArrowRight, Sparkles } from "lucide-react";
+import { ArrowUpRight, ArrowDownRight } from "lucide-react";
+import { Reveal, Magnetic } from "@/components/motion/reveal";
+import { ColorCard } from "@/components/section/color-card";
+import { SectionLabel } from "@/components/section/section-label";
+import { Marquee } from "@/components/section/marquee";
+import { SpinBadge } from "@/components/section/spin-badge";
+
+const SKILLS = [
+  "TypeScript",
+  "Next.js",
+  "React",
+  "Tailwind CSS",
+  "Cloudflare",
+  "Node.js",
+  "Docker",
+  "Java",
+  "AI Prototyping",
+  "MDX",
+] as const;
+
+const OFFERS = [
+  { idx: "01", title: "Web & Mobile", desc: "Next.js · App Router · PWA" },
+  { idx: "02", title: "UI/UX", desc: "Editorial · 디자인 시스템" },
+  { idx: "03", title: "AI Prototyping", desc: "Claude · 빠른 MVP" },
+  { idx: "04", title: "Edge Deploy", desc: "Cloudflare · OpenNext" },
+] as const;
+
+const PROCESS = [
+  { idx: "01", title: "Discover", sub: "사용자 리서치 / 도메인 파악", active: false },
+  { idx: "02", title: "Define", sub: "스펙 · 유저 플로우 · 정보 구조", active: false },
+  { idx: "03", title: "Design", sub: "디자인 시스템 · 컴포넌트 빌드", active: true },
+  { idx: "04", title: "Deliver", sub: "Edge 배포 · 모니터링 · 회고", active: false },
+] as const;
+
+const CARD_NEWS_TEASER = [
+  { title: "Claude Sonnet 4 — 에이전트 메모리 시스템 공개", tag: "AI" },
+  { title: "Next.js 16 RC — PPR 정식 출시, LCP 3배 향상", tag: "개발" },
+  { title: "EU AI Act 1차 집행 — 48개 기업 조사 착수", tag: "뉴스" },
+] as const;
 
 export default async function Home() {
-  const blogs = getPublishedBlogs().slice(0, 3);
-  const projects = getPublishedProjects().slice(0, 2);
+  const blogs = getPublishedBlogs().slice(0, 4);
+  const projects = getPublishedProjects().slice(0, 4);
   const showcaseItems = getPublishedShowcase().slice(0, 3);
 
   return (
-    <main className="pt-32 pb-20 px-8 max-w-7xl mx-auto">
-      {/* ── Hero Section ── */}
-      <section className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center mb-32">
-        <div className="lg:col-span-7">
-          <h1
-            className="font-headline text-6xl md:text-8xl font-bold tracking-tighter leading-none mb-6"
-          >
-            Gotekie&apos;s
-            <br />
-            <span className="text-do-primary">Developer Hub</span>
-          </h1>
-          <p className="text-lg md:text-xl text-on-surface-variant max-w-xl leading-relaxed mb-8">
-            오피스 SW 엔진 5년 경험 위에,{" "}
-            <span className="text-white font-semibold">Next.js</span>와{" "}
-            <span className="text-white font-semibold">Cloudflare</span>로
-            고성능 디지털 환경을 구축합니다.
-          </p>
-          <div className="flex flex-wrap gap-4">
+    <main className="pt-28 pb-24 px-6 md:px-10 max-w-7xl mx-auto">
+      {/* ════════ HERO ════════ */}
+      <section className="relative grid grid-cols-12 gap-4 items-start mb-32 md:mb-44 min-h-[80vh]">
+        {/* top eyebrow row */}
+        <div className="col-span-12 flex items-center justify-between mb-2">
+          <SectionLabel count="2026">GOTECH·LAB</SectionLabel>
+          <ArrowDownRight className="corner-arrow hidden md:block" strokeWidth={1} />
+        </div>
+
+        {/* 1행: 큰 헤드라인 시작 */}
+        <h1 className="col-span-12 type-display-xl text-on-surface rise-in">
+          <span className="block">
+            Build the <span className="pill-tag pill-green ml-2 align-middle text-base">5y engine</span>
+          </span>
+          <span className="block">
+            <span className="display-accent">Visual</span> Technology
+          </span>
+        </h1>
+
+        {/* 인물 + 흩뿌린 핀 + 본문 */}
+        <div className="col-span-12 grid grid-cols-12 gap-4 items-end mt-4">
+          <div className="col-span-12 md:col-span-5 relative">
+            <p className="type-body text-on-surface-variant max-w-md mb-7 rise-in" style={{ animationDelay: "120ms" }}>
+              5년간 오피스 SW 엔진을 다룬 경험 위에,
+              <span className="text-em"> AI와 함께 빠르게 빌드</span>합니다.
+              한국어 본문은 <span className="text-on-surface font-semibold">Pretendard</span>,
+              영문 디스플레이는 <span className="text-on-surface font-semibold">Space Grotesk</span>.
+            </p>
+            <div className="flex flex-wrap gap-3 rise-in" style={{ animationDelay: "220ms" }}>
+              <Magnetic>
+                <Link href="/projects" className="btn-primary inline-flex px-7 py-3.5 rounded-full text-sm">
+                  프로젝트 보기
+                </Link>
+              </Magnetic>
+              <Link href="/about" className="btn-outline inline-flex px-7 py-3.5 rounded-full text-sm">
+                Make it Future
+              </Link>
+            </div>
+
+            {/* 인라인 스탯 */}
+            <div className="mt-12 flex items-end gap-10">
+              <div>
+                <div className="type-display text-on-surface" style={{ fontSize: "clamp(2rem,4vw,3.5rem)" }}>
+                  05<span className="text-do-primary">+</span>
+                </div>
+                <p className="font-code text-xs text-on-surface-muted tracking-wider uppercase">years experience</p>
+              </div>
+              <div>
+                <div className="type-display text-on-surface" style={{ fontSize: "clamp(2rem,4vw,3.5rem)" }}>
+                  12
+                </div>
+                <p className="font-code text-xs text-on-surface-muted tracking-wider uppercase">projects shipped</p>
+              </div>
+            </div>
+          </div>
+
+          {/* 인물 누끼 + 핀 */}
+          <div className="col-span-12 md:col-span-7 relative min-h-[420px] md:min-h-[520px]">
+            {/* 분위기 글로우 */}
+            <div aria-hidden className="ambient-glow absolute inset-8 rounded-full" />
+            <div aria-hidden className="grid-texture absolute inset-0 opacity-30" />
+
+            <Image
+              src="/images/hero-cutout.png"
+              alt="고경석"
+              width={760}
+              height={886}
+              priority
+              className="absolute right-0 bottom-0 w-[88%] md:w-[78%] h-auto z-10 select-none pointer-events-none"
+            />
+
+            {/* 떠다니는 주석 핀 */}
+            <span className="pill-tag pill-coral absolute left-2 top-6 z-20 rise-in" style={{ animationDelay: "260ms" }}>
+              ⚡ AI prototyping
+            </span>
+            <span className="pill-tag pill-violet absolute left-8 bottom-32 z-20 rise-in" style={{ animationDelay: "340ms" }}>
+              ✦ Cloudflare deploy
+            </span>
+            <span className="pill-tag pill-surface absolute right-4 top-1/3 z-20 rise-in" style={{ animationDelay: "420ms" }}>
+              <span className="text-do-primary">●</span> Next.js 16
+            </span>
+
+            {/* 좌하단 회전 배지 — 컷아웃 위 떠 있는 시그니처 */}
+            <div className="absolute -left-4 -bottom-4 z-30 hidden md:block">
+              <SpinBadge text="BUILD · GOTECH · 2026" centerEmoji="✦" />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ════════ MARQUEE — 스킬 ════════ */}
+      <Reveal className="mb-28 md:mb-36" as="section">
+        <div className="border-y border-hairline">
+          <Marquee
+            items={SKILLS.map((s) => (
+              <span key={s} className="type-display font-headline text-on-surface" style={{ fontSize: "clamp(1.5rem,3vw,2.5rem)" }}>
+                {s}
+                <span className="text-do-primary"> ✦ </span>
+              </span>
+            ))}
+          />
+        </div>
+      </Reveal>
+
+      {/* ════════ OFFERS — "things I can help with" ════════ */}
+      <section className="mb-28 md:mb-40">
+        <Reveal>
+          <div className="flex justify-between items-end mb-10">
+            <SectionLabel count="04">What I can help with</SectionLabel>
+            <ArrowDownRight className="corner-arrow" strokeWidth={1} />
+          </div>
+        </Reveal>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {OFFERS.map((o, i) => (
+            <Reveal key={o.idx} index={i} as="div">
+              <article className="process-row tilt-card">
+                <span className="idx">{o.idx}</span>
+                <div className="flex-1">
+                  <h3 className="font-headline text-xl font-semibold mb-1 text-on-surface">{o.title}</h3>
+                  <p className="font-code text-xs text-on-surface-muted tracking-wide uppercase c-sub">{o.desc}</p>
+                </div>
+                <ArrowUpRight size={18} className="opacity-50" />
+              </article>
+            </Reveal>
+          ))}
+        </div>
+      </section>
+
+      {/* ════════ FEAT WORKS ════════ */}
+      <section className="mb-28 md:mb-40">
+        <Reveal>
+          <div className="flex justify-between items-end mb-10">
+            <SectionLabel count={projects.length}>Feat works</SectionLabel>
             <Link
               href="/projects"
-              className="btn-primary px-8 py-4 rounded-lg text-sm"
+              className="font-headline font-medium text-sm tracking-tight text-do-primary inline-flex items-center gap-1 group"
             >
-              View Projects
+              전체 보기
+              <ArrowUpRight size={16} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
             </Link>
+          </div>
+        </Reveal>
+        {projects.length === 0 ? (
+          <p className="type-small text-on-surface-muted">등록된 프로젝트가 없습니다.</p>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+            {projects.map((project, i) => (
+              <Reveal key={project.slug} index={i} as="div">
+                <Link
+                  href={`/projects/${project.slug}`}
+                  className={`tilt-card ${i % 2 === 1 ? "md:mt-10" : ""}`}
+                >
+                  <ColorCard index={i} className="p-8 block h-full" as="article">
+                    <div className="flex items-center justify-between mb-6">
+                      <span className="font-code text-[10px] uppercase tracking-widest opacity-80">
+                        {project.period ?? "Project"}
+                      </span>
+                      <ArrowUpRight size={18} className="opacity-70" />
+                    </div>
+                    <h3 className="font-headline text-2xl md:text-3xl font-semibold leading-tight mb-3">
+                      {project.title}
+                    </h3>
+                    <p className="type-small c-sub mb-5 line-clamp-3">
+                      {project.summary}
+                    </p>
+                    {project.techStack.length > 0 && (
+                      <div className="flex flex-wrap gap-1.5">
+                        {project.techStack.slice(0, 4).map((tech) => (
+                          <span
+                            key={tech}
+                            className="font-code text-[10px] uppercase tracking-wider px-2 py-1 rounded-full bg-black/15"
+                          >
+                            {tech}
+                          </span>
+                        ))}
+                      </div>
+                    )}
+                  </ColorCard>
+                </Link>
+              </Reveal>
+            ))}
+          </div>
+        )}
+      </section>
+
+      {/* ════════ MY PROCESS ════════ */}
+      <section className="mb-28 md:mb-40">
+        <Reveal>
+          <div className="flex justify-between items-end mb-10">
+            <SectionLabel>My process</SectionLabel>
+            <span className="font-code text-xs text-on-surface-muted">Discover → Deliver</span>
+          </div>
+        </Reveal>
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-6 items-start">
+          <div className="md:col-span-4">
+            <h2 className="type-headline text-on-surface mb-3">
+              한 손엔 <span className="display-accent">엔진</span>,<br /> 한 손엔 AI.
+            </h2>
+            <p className="type-small text-on-surface-variant">
+              5년 엔진 개발의 정밀함과 AI 빠른 빌드 사이클을 결합합니다.
+              디자인부터 배포까지 한 사람이 책임지는 사이클.
+            </p>
+          </div>
+          <div className="md:col-span-8 space-y-3">
+            {PROCESS.map((p, i) => (
+              <Reveal key={p.idx} index={i} as="div">
+                <div className={`process-row ${p.active ? "process-row--active" : ""}`}>
+                  <span className="idx">// {p.idx}</span>
+                  <div className="flex-1">
+                    <h3 className="font-headline text-xl font-semibold">{p.title}</h3>
+                    <p className="font-code text-xs uppercase tracking-wide c-sub mt-1">{p.sub}</p>
+                  </div>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ════════ LATEST INSIGHTS — 컬러 메이슨리 ════════ */}
+      <section className="mb-28 md:mb-40">
+        <Reveal>
+          <div className="flex justify-between items-end mb-10">
+            <SectionLabel count={blogs.length}>Latest insights</SectionLabel>
             <Link
               href="/blog"
-              className="btn-outline px-8 py-4 rounded-lg text-sm"
+              className="font-headline font-medium text-sm tracking-tight text-do-primary inline-flex items-center gap-1 group"
             >
-              Read Blog
+              전체 보기
+              <ArrowUpRight size={16} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
             </Link>
           </div>
-        </div>
-
-        {/* Profile Image */}
-        <div className="lg:col-span-5 relative group">
-          <div className="ambient-glow absolute -inset-2" style={{ filter: "blur(28px)" }} />
-          <div className="relative bg-surface-container-low p-2 rounded-2xl overflow-hidden aspect-[3/4] max-h-[500px]">
-            <Image
-              src="/images/profile-hero.jpg"
-              alt="고경석 프로필"
-              width={400}
-              height={533}
-              className="w-full h-full object-cover object-[center_15%] rounded-xl"
-              priority
-            />
-            {/* 하단 fade-out 오버레이 */}
-            <div
-              className="absolute inset-x-0 bottom-0 h-1/3 rounded-b-xl pointer-events-none"
-              style={{ background: "linear-gradient(transparent, var(--do-surface))" }}
-            />
+        </Reveal>
+        {blogs.length === 0 ? (
+          <p className="type-small text-on-surface-muted">아직 작성된 글이 없습니다.</p>
+        ) : (
+          <div className="grid grid-cols-12 gap-4 md:gap-5">
+            {blogs.map((post, i) => {
+              const spans = ["md:col-span-7", "md:col-span-5", "md:col-span-5", "md:col-span-7"];
+              const colors: Array<"card-c2" | "card-c1" | "card-c3" | "card-c5"> = ["card-c2", "card-c1", "card-c3", "card-c5"];
+              return (
+                <Reveal key={post.slug} index={i} className={`col-span-12 ${spans[i % 4]}`} as="div">
+                  <Link href={`/blog/${post.slug}`} className="tilt-card block h-full">
+                    <ColorCard variant={colors[i % 4]} className="p-7 h-full flex flex-col">
+                      <div className="flex items-center justify-between mb-5">
+                        <span className="font-code text-[10px] uppercase tracking-widest opacity-80">
+                          {post.category ?? "Blog"} · {formatDate(post.date)}
+                        </span>
+                        <ArrowUpRight size={16} className="opacity-70" />
+                      </div>
+                      <h3 className="font-headline text-xl md:text-2xl font-semibold leading-tight mb-3">
+                        {post.title}
+                      </h3>
+                      {post.description && (
+                        <p className="type-small c-sub line-clamp-3 mt-auto">
+                          {post.description}
+                        </p>
+                      )}
+                    </ColorCard>
+                  </Link>
+                </Reveal>
+              );
+            })}
           </div>
-        </div>
+        )}
       </section>
 
-      {/* ── Featured Projects (Asymmetric) ── */}
-      <section className="mb-32">
-        <div className="flex justify-between items-end mb-12">
-          <h2 className="font-headline text-3xl font-bold tracking-tighter uppercase">
-            Featured Projects
-          </h2>
-          <Link
-            href="/projects"
-            className="text-do-primary font-headline font-bold text-sm tracking-widest uppercase flex items-center gap-2 group"
-          >
-            View All{" "}
-            <ArrowRight
-              size={16}
-              className="group-hover:translate-x-1 transition-transform"
-            />
-          </Link>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {projects.length === 0 ? (
-            <p className="text-on-surface-variant text-sm">
-              등록된 프로젝트가 없습니다.
-            </p>
-          ) : (
-            projects.map((project, i) => (
-              <Link
-                key={project.slug}
-                href={`/projects/${project.slug}`}
-                className={`obsidian-card p-8 group ${i === 1 ? "mt-0 md:mt-12" : ""}`}
-              >
-                {project.techStack.length > 0 && (
-                  <div className="flex gap-2 mb-4">
-                    {project.techStack.slice(0, 3).map((tech) => (
-                      <span
-                        key={tech}
-                        className="bg-do-primary/10 text-do-primary text-[10px] font-bold px-2 py-1 rounded-sm uppercase tracking-wider"
-                      >
-                        {tech}
-                      </span>
-                    ))}
-                  </div>
-                )}
-                <h3 className="font-headline text-2xl font-bold mb-3">
-                  {project.title}
-                </h3>
-                <p className="text-on-surface-variant text-sm leading-relaxed mb-6">
-                  {project.summary}
-                </p>
-              </Link>
-            ))
-          )}
-        </div>
-      </section>
-
-      {/* ── Bento Grid: Blog & AI Showcase ── */}
-      <section className="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-32">
-        {/* Blog Posts */}
-        <div className="lg:col-span-8 space-y-8">
-          <h2 className="font-headline text-3xl font-bold tracking-tighter uppercase mb-8">
-            Latest Insights
-          </h2>
-          {blogs.length === 0 ? (
-            <p className="text-on-surface-variant text-sm">
-              아직 작성된 글이 없습니다.
-            </p>
-          ) : (
-            blogs.map((post) => (
-              <Link
-                key={post.slug}
-                href={`/blog/${post.slug}`}
-                className="obsidian-card p-6 flex flex-col md:flex-row gap-6 items-center group block"
-              >
-                <div>
-                  <div className="flex items-center gap-3 mb-2">
-                    {post.category && (
-                      <span className="text-do-primary text-[10px] font-bold uppercase tracking-widest">
-                        {post.category}
-                      </span>
-                    )}
-                    <span className="text-on-surface-variant text-[10px]">
-                      {formatDate(post.date)}
-                    </span>
-                  </div>
-                  <h4 className="text-xl font-bold mb-2 text-white group-hover:text-do-primary transition-colors">
-                    {post.title}
-                  </h4>
-                  {post.description && (
-                    <p className="text-on-surface-variant text-sm leading-relaxed line-clamp-2">
-                      {post.description}
-                    </p>
-                  )}
-                </div>
-              </Link>
-            ))
-          )}
-        </div>
-
-        {/* AI Showcase Sidebar */}
-        <div className="lg:col-span-4 bg-surface-container-low rounded-xl p-8 border border-do-primary/10">
-          <h2
-            className="font-headline text-xl font-bold tracking-tighter uppercase mb-8 flex items-center gap-2"
-          >
-            <Sparkles size={18} className="text-do-primary" />
-            AI Showcase
-          </h2>
-          <div className="space-y-6">
-            {showcaseItems.length === 0 ? (
-              <p className="text-on-surface-variant text-xs">
-                등록된 항목이 없습니다.
-              </p>
-            ) : (
-              showcaseItems.map((item) => {
-                const statusClass =
-                  item.status === "live"
-                    ? "badge-live"
-                    : item.status === "wip"
-                      ? "badge-wip"
-                      : "badge-archived";
-                return (
-                  <Link
-                    key={item.slug}
-                    href={`/showcase/${item.slug}`}
-                    className={`block p-4 bg-surface-container-highest rounded-lg group ${
-                      item.status === "archived" ? "opacity-60" : ""
-                    }`}
-                  >
-                    <div className="flex justify-between items-start mb-3">
-                      <h5 className="font-bold text-white group-hover:text-do-primary transition-colors">
-                        {item.title}
-                      </h5>
-                      <span
-                        className={`${statusClass} text-[10px] font-bold px-2 py-0.5`}
-                      >
+      {/* ════════ AI SHOWCASE 컬러 메이슨리 ════════ */}
+      <section className="mb-28 md:mb-40">
+        <Reveal>
+          <div className="flex justify-between items-end mb-10">
+            <SectionLabel count={showcaseItems.length}>AI showcase</SectionLabel>
+            <Link
+              href="/showcase"
+              className="font-headline font-medium text-sm tracking-tight text-do-primary inline-flex items-center gap-1 group"
+            >
+              전체 보기
+              <ArrowUpRight size={16} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+            </Link>
+          </div>
+        </Reveal>
+        {showcaseItems.length === 0 ? (
+          <p className="type-small text-on-surface-muted">등록된 항목이 없습니다.</p>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            {showcaseItems.map((item, i) => (
+              <Reveal key={item.slug} index={i} as="div">
+                <Link href={`/showcase/${item.slug}`} className="tilt-card block h-full">
+                  <ColorCard index={i + 2} className="p-7 h-full flex flex-col">
+                    <div className="flex items-center justify-between mb-5">
+                      <span className="font-code text-[10px] uppercase tracking-widest opacity-80">
                         {STATUS_LABEL[item.status] ?? item.status}
                       </span>
+                      <ArrowUpRight size={16} className="opacity-70" />
                     </div>
-                    <p className="text-xs text-on-surface-variant leading-relaxed mb-4 line-clamp-2">
-                      {item.summary}
-                    </p>
+                    <h3 className="font-headline text-xl md:text-2xl font-semibold leading-tight mb-3">
+                      {item.title}
+                    </h3>
+                    <p className="type-small c-sub line-clamp-3 mb-4">{item.summary}</p>
                     {item.stack.length > 0 && (
-                      <div className="flex gap-2 flex-wrap">
+                      <div className="flex flex-wrap gap-1.5 mt-auto">
                         {item.stack.slice(0, 3).map((s) => (
-                          <span
-                            key={s}
-                            className="text-[10px] text-do-primary font-code"
-                          >
+                          <span key={s} className="font-code text-[10px] uppercase tracking-wider opacity-80">
                             {s}
                           </span>
                         ))}
                       </div>
                     )}
-                  </Link>
-                );
-              })
-            )}
+                  </ColorCard>
+                </Link>
+              </Reveal>
+            ))}
           </div>
+        )}
+      </section>
+
+      {/* ════════ 카드뉴스 티저 ════════ */}
+      <section className="mb-28 md:mb-40">
+        <Reveal>
+          <div className="flex justify-between items-end mb-10">
+            <SectionLabel count={CARD_NEWS_TEASER.length}>Card news</SectionLabel>
+            <Link
+              href="/card-news"
+              className="font-headline font-medium text-sm tracking-tight text-do-primary inline-flex items-center gap-1 group"
+            >
+              전체 보기
+              <ArrowUpRight size={16} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+            </Link>
+          </div>
+        </Reveal>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          {CARD_NEWS_TEASER.map((item, i) => (
+            <Reveal key={item.title} index={i} as="div">
+              <Link href="/card-news" className="tilt-card block h-full">
+                <ColorCard index={i + 1} className="p-7 h-full flex flex-col justify-between min-h-[180px]">
+                  <div className="flex items-center justify-between">
+                    <span className="font-code text-[10px] uppercase tracking-widest opacity-80">{item.tag}</span>
+                    <ArrowUpRight size={16} className="opacity-70" />
+                  </div>
+                  <h3 className="font-headline text-xl font-semibold leading-snug mt-6">{item.title}</h3>
+                </ColorCard>
+              </Link>
+            </Reveal>
+          ))}
         </div>
       </section>
 
-      {/* ── CTA Banner ── */}
-      <section className="obsidian-card p-12 text-center border border-do-primary/10">
-        <h2 className="font-headline text-3xl md:text-4xl font-bold tracking-tighter mb-4">
-          Go !! Build the Technology, Live Easier.
-        </h2>
-        <p className="text-on-surface-variant mb-8 max-w-lg mx-auto leading-relaxed">
-          가자!! 기술을 만들고, 더 쉽게 살자.
-        </p>
-        <div className="flex justify-center gap-4 flex-wrap">
-          <Link
-            href="/subscribe"
-            className="btn-primary px-8 py-4 rounded-lg text-sm"
-          >
-            소식 받기
-          </Link>
-          <Link
-            href="/about"
-            className="btn-outline px-8 py-4 rounded-lg text-sm"
-          >
-            더 알아보기
-          </Link>
-        </div>
-      </section>
+      {/* ════════ WORKED WITH — 키워드 마퀴 ════════ */}
+      <Reveal className="mb-28 md:mb-40" as="section">
+        <SectionLabel className="mb-6">Built with · 2019 — Now</SectionLabel>
+        <Marquee
+          durationSec={42}
+          items={[
+            "Tmax A&C",
+            "PieceTree Engine",
+            "React Architecture",
+            "Co-edit Engine",
+            "Theme System",
+            "PWA",
+            "Next.js + Cloudflare",
+            "Velite MDX",
+            "Claude Code",
+          ].map((w) => (
+            <span key={w} className="font-headline text-on-surface-muted" style={{ fontSize: "clamp(1.2rem,2.4vw,2rem)" }}>
+              {w}
+              <span className="text-do-primary"> · </span>
+            </span>
+          ))}
+        />
+      </Reveal>
+
+      {/* ════════ CTA — 그라데이션 분위기 ════════ */}
+      <Reveal>
+        <section className="cta-atmos px-8 py-16 md:py-24 text-center">
+          <p className="section-label justify-center mb-6">Need a developer?</p>
+          <h2 className="type-display text-on-surface mb-6">
+            Let&apos;s <span className="display-accent">build</span> together.
+          </h2>
+          <p className="type-body text-on-surface-variant max-w-md mx-auto mb-10">
+            가자!! 기술을 만들고, 더 쉽게 살자.
+          </p>
+          <div className="flex justify-center gap-3 flex-wrap">
+            <Magnetic>
+              <Link href="/subscribe" className="btn-primary inline-flex px-8 py-4 rounded-full text-sm">
+                소식 받기
+              </Link>
+            </Magnetic>
+            <Link href="/about" className="btn-outline inline-flex px-8 py-4 rounded-full text-sm">
+              Discuss project
+            </Link>
+          </div>
+        </section>
+      </Reveal>
     </main>
   );
 }

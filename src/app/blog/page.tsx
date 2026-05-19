@@ -9,6 +9,11 @@ import {
   formatDate,
   getReadingTime,
 } from "@/lib/content";
+import { PageHeading } from "@/components/section/page-heading";
+import { SectionLabel } from "@/components/section/section-label";
+import { ColorCard, COLOR_VARIANTS } from "@/components/section/color-card";
+import { Reveal } from "@/components/motion/reveal";
+import { ArrowUpRight } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "블로그",
@@ -33,126 +38,84 @@ export default async function BlogPage({ searchParams }: Props) {
     return true;
   });
 
-  const featured = filtered[0];
-  const rest = filtered.slice(1);
-
   return (
-    <main className="pt-32 pb-20 px-8 max-w-7xl mx-auto">
-      {/* Page Title */}
-      <header className="mb-16">
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-8">
-          <div>
-            <h1 className="font-headline text-5xl md:text-7xl font-bold tracking-tighter mb-4 text-white">
-              Blog
-            </h1>
-            <p className="text-on-surface-variant max-w-xl text-lg leading-relaxed">
-              최신 기술 트렌드와 개발 경험을 공유합니다.
-              <br />
-              주로 Full-stack 개발, Cloud Infrastructure, 그리고 UI/UX에 대해
-              이야기합니다.
-            </p>
-          </div>
-        </div>
+    <main className="pt-28 pb-24 px-6 md:px-10 max-w-7xl mx-auto">
+      <PageHeading
+        eyebrow="Blog · Insights"
+        count={filtered.length}
+        size="xl"
+        title={
+          <>
+            <span className="display-accent">Writing</span> the<br />
+            craft.
+          </>
+        }
+        lead={
+          <>
+            AI 실험, 개발 기록, 기술 인사이트를 공유합니다.
+            <br className="hidden md:inline" />
+            주로 <span className="text-em">Full-stack</span>,
+            <span className="text-em"> Cloud Infrastructure</span>, 그리고
+            <span className="text-em"> UI/UX</span>.
+          </>
+        }
+      />
 
-        {/* Category Filters */}
-        <div className="mt-12">
-          <Suspense>
-            <BlogFilter categories={categories} tags={tags} />
-          </Suspense>
-        </div>
-      </header>
+      <Reveal className="mb-14" as="section">
+        <SectionLabel className="mb-4">Filter</SectionLabel>
+        <Suspense>
+          <BlogFilter categories={categories} tags={tags} />
+        </Suspense>
+      </Reveal>
 
       {filtered.length === 0 ? (
-        <p className="text-on-surface-variant">
+        <p className="type-body text-on-surface-variant">
           {category || tag
             ? "해당 조건에 맞는 글이 없습니다."
             : "아직 작성된 글이 없습니다."}
         </p>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
-          {/* Featured Article */}
-          {featured && (
-            <Link
-              href={`/blog/${featured.slug}`}
-              className="md:col-span-12 group obsidian-card overflow-hidden flex flex-col md:flex-row card-accent-bar"
-            >
-              <div className="p-8 flex-grow flex flex-col">
-                <div className="flex items-center gap-4 mb-4">
-                  {featured.category && (
-                    <span className="text-do-primary text-[10px] font-bold uppercase tracking-widest">
-                      {featured.category}
-                    </span>
-                  )}
-                  <span className="text-on-surface-variant text-xs font-medium">
-                    {formatDate(featured.date)}
-                  </span>
-                  <span className="text-on-surface-variant text-xs font-medium">
-                    &bull; {getReadingTime(featured.body)} min read
-                  </span>
-                </div>
-                <h2 className="font-headline text-3xl font-bold tracking-tight text-white mb-4 group-hover:text-do-primary transition-colors">
-                  {featured.title}
-                </h2>
-                {featured.description && (
-                  <p className="text-on-surface-variant leading-relaxed mb-6 line-clamp-2">
-                    {featured.description}
-                  </p>
-                )}
-                {featured.tags.length > 0 && (
-                  <div className="mt-auto flex flex-wrap gap-2">
-                    {featured.tags.map((t) => (
-                      <span
-                        key={t}
-                        className="text-xs font-code text-do-primary bg-do-primary/10 px-2 py-1 rounded"
-                      >
-                        #{t}
+        <div className="grid grid-cols-12 gap-4 md:gap-5">
+          {filtered.map((post, i) => {
+            // 12-col 메이슨리 — 7/5/5/7 패턴 반복
+            const pattern = ["md:col-span-7", "md:col-span-5", "md:col-span-5", "md:col-span-7"];
+            const colSpan = pattern[i % 4];
+            const colorIdx = i % COLOR_VARIANTS.length;
+            return (
+              <Reveal key={post.slug} index={i} className={`col-span-12 ${colSpan}`} as="div">
+                <Link href={`/blog/${post.slug}`} className="tilt-card block h-full">
+                  <ColorCard index={colorIdx} className="p-7 md:p-8 h-full flex flex-col min-h-[260px]">
+                    <div className="flex items-center justify-between mb-6">
+                      <span className="font-code text-[10px] uppercase tracking-widest opacity-85">
+                        {post.category ?? "Blog"} · {formatDate(post.date)} · {getReadingTime(post.body)}min
                       </span>
-                    ))}
-                  </div>
-                )}
-              </div>
-            </Link>
-          )}
-
-          {/* Rest of posts — Bento grid */}
-          {rest.map((post) => (
-            <Link
-              key={post.slug}
-              href={`/blog/${post.slug}`}
-              className="md:col-span-6 group obsidian-card overflow-hidden"
-            >
-              <div className="p-8">
-                <div className="flex items-center gap-3 mb-4">
-                  <span className="text-on-surface-variant text-xs">
-                    {formatDate(post.date)}
-                  </span>
-                  <span className="text-on-surface-variant text-xs">
-                    &bull; {getReadingTime(post.body)} min read
-                  </span>
-                </div>
-                <h3 className="font-headline text-xl font-bold tracking-tight text-white mb-4 group-hover:text-do-primary transition-colors">
-                  {post.title}
-                </h3>
-                {post.description && (
-                  <p className="text-on-surface-variant text-sm leading-relaxed mb-6 line-clamp-3">
-                    {post.description}
-                  </p>
-                )}
-                {post.tags.length > 0 && (
-                  <div className="flex flex-wrap gap-2">
-                    {post.tags.map((t) => (
-                      <span
-                        key={t}
-                        className="text-xs font-code text-do-primary bg-do-primary/10 px-2 py-1 rounded"
-                      >
-                        #{t}
-                      </span>
-                    ))}
-                  </div>
-                )}
-              </div>
-            </Link>
-          ))}
+                      <ArrowUpRight size={18} className="opacity-75" />
+                    </div>
+                    <h2 className="font-headline text-2xl md:text-3xl font-semibold leading-tight mb-3">
+                      {post.title}
+                    </h2>
+                    {post.description && (
+                      <p className="type-small c-sub line-clamp-3 mb-5">
+                        {post.description}
+                      </p>
+                    )}
+                    {post.tags.length > 0 && (
+                      <div className="mt-auto flex flex-wrap gap-1.5">
+                        {post.tags.slice(0, 4).map((t) => (
+                          <span
+                            key={t}
+                            className="font-code text-[10px] uppercase tracking-wider px-2 py-1 rounded-full bg-black/15"
+                          >
+                            #{t}
+                          </span>
+                        ))}
+                      </div>
+                    )}
+                  </ColorCard>
+                </Link>
+              </Reveal>
+            );
+          })}
         </div>
       )}
     </main>
