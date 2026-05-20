@@ -55,109 +55,103 @@ export default async function Home() {
   return (
     <main className="pt-28 pb-24 px-6 md:px-10 max-w-7xl mx-auto">
       {/* ════════ HERO ════════ */}
-      <section className="relative grid grid-cols-12 gap-4 items-start mb-32 md:mb-44 min-h-[80vh]">
-        {/* top eyebrow row */}
-        <div className="col-span-12 flex items-center justify-between mb-2">
-          <SectionLabel count="2026">GOTECH·LAB</SectionLabel>
-          <ArrowDownRight className="corner-arrow hidden md:block" strokeWidth={1} />
+      <section className="hero-shell relative mb-32 md:mb-44 min-h-[80vh] md:min-h-[88vh]">
+        {/* 사진 백드롭 — 글자 뒤. 라디얼 마스크로 인물 중심부만 보이게, 양 테마 자연 융합 */}
+        <div aria-hidden className="hero-backdrop">
+          <Image
+            src="/images/hero-main.jpg"
+            alt=""
+            fill
+            priority
+            sizes="100vw"
+            className="object-cover object-[55%_18%]"
+          />
         </div>
 
-        {/* 1행: 큰 헤드라인 시작 — 핀은 분리해서 자연스럽게 */}
-        <h1 className="col-span-12 type-display-xl text-on-surface rise-in">
-          <span className="block">Build the</span>
-          <span className="block">
-            <span className="display-accent">Visual</span> Technology
-          </span>
-        </h1>
+        {/* 분위기 글로우 (뒤로) */}
+        <div aria-hidden className="ambient-glow absolute right-[8%] top-[20%] w-[420px] h-[420px] z-0 pointer-events-none" />
+        <div aria-hidden className="grid-texture absolute inset-0 z-0 opacity-25 pointer-events-none" />
 
-        {/* 인물 + 흩뿌린 핀 + 본문 */}
-        <div className="col-span-12 grid grid-cols-12 gap-4 items-end mt-4">
-          <div className="col-span-12 md:col-span-5 relative">
-            <p className="type-body text-on-surface-variant max-w-md mb-7 rise-in" style={{ animationDelay: "120ms" }}>
-              5년간 오피스 SW 엔진을 다룬 경험 위에,
-              <span className="text-em"> AI와 함께 빠르게 빌드</span>합니다.
-              한국어 본문은 <span className="text-on-surface font-semibold">Pretendard</span>,
-              영문 디스플레이는 <span className="text-on-surface font-semibold">Space Grotesk</span>.
-            </p>
-            <div className="flex flex-wrap gap-3 rise-in" style={{ animationDelay: "220ms" }}>
-              <Magnetic>
-                <Link href="/projects" className="btn-primary inline-flex px-7 py-3.5 rounded-full text-sm">
-                  프로젝트 보기
-                </Link>
-              </Magnetic>
-              <Link href="/about" className="btn-outline inline-flex px-7 py-3.5 rounded-full text-sm">
-                Make it Future
-              </Link>
-            </div>
-
-            {/* 인라인 스탯 */}
-            <div className="mt-12 flex items-end gap-10">
-              <div>
-                <div className="type-display text-on-surface" style={{ fontSize: "clamp(2rem,4vw,3.5rem)" }}>
-                  05<span className="text-do-primary">+</span>
-                </div>
-                <p className="font-code text-xs text-on-surface-muted tracking-wider uppercase">years experience</p>
-              </div>
-              <div>
-                <div className="type-display text-on-surface" style={{ fontSize: "clamp(2rem,4vw,3.5rem)" }}>
-                  12
-                </div>
-                <p className="font-code text-xs text-on-surface-muted tracking-wider uppercase">projects shipped</p>
-              </div>
-            </div>
+        {/* 콘텐츠 그리드 */}
+        <div className="relative z-10 grid grid-cols-12 gap-4">
+          {/* eyebrow */}
+          <div className="col-span-12 flex items-center justify-between mb-4">
+            <SectionLabel count="2026">GoTechy</SectionLabel>
+            <ArrowDownRight className="corner-arrow hidden md:block" strokeWidth={1} />
           </div>
 
-          {/* 포트레이트 카드 + 떠다니는 핀 */}
-          <div className="col-span-12 md:col-span-7 relative min-h-[460px] md:min-h-[600px]">
-            {/* 분위기 글로우 (뒤로) */}
-            <div aria-hidden className="ambient-glow absolute -inset-6 z-0" />
+          {/* 헤드라인 — 사진과 인터위빙 */}
+          <h1 className="col-span-12 type-display-xl text-on-surface rise-in relative">
+            <span className="block">
+              <span className="text-em-soft">Go</span> Build the
+            </span>
+            <span className="block">
+              <span className="display-accent">Technology,</span>
+            </span>
+            <span className="block">more easy.</span>
+          </h1>
 
-            {/* 포트레이트 카드 — 라운드, 라이트한 톤은 그라데이션으로 자연 융합 */}
-            <div className="relative z-10 mx-auto md:ml-auto md:mr-2 w-[88%] md:w-[82%] aspect-[3/4] rounded-3xl overflow-hidden hero-portrait rise-in" style={{ animationDelay: "180ms" }}>
-              <Image
-                src="/images/hero-main.jpg"
-                alt="고경석"
-                fill
-                priority
-                sizes="(max-width: 768px) 88vw, 45vw"
-                className="object-cover object-[50%_15%]"
-              />
-              {/* 위/아래 그라데이션 페더 — 페이지와 자연 융합 */}
-              <div
-                aria-hidden
-                className="absolute inset-x-0 top-0 h-1/4 pointer-events-none"
-                style={{ background: "linear-gradient(180deg, var(--do-page), transparent)" }}
-              />
-              <div
-                aria-hidden
-                className="absolute inset-x-0 bottom-0 h-1/3 pointer-events-none"
-                style={{ background: "linear-gradient(0deg, var(--do-page) 5%, transparent 95%)" }}
-              />
-              {/* 컬러풀 액센트 링 (san 시그니처) */}
-              <div
-                aria-hidden
-                className="absolute inset-0 rounded-3xl pointer-events-none"
-                style={{ boxShadow: "inset 0 0 0 1px var(--do-hairline), inset 0 0 0 4px color-mix(in oklch, var(--do-primary) 22%, transparent)" }}
-              />
+          {/* 본문 + CTA + Stats 하단 영역 */}
+          <div className="col-span-12 grid grid-cols-12 gap-4 items-end mt-10 md:mt-16">
+            <div className="col-span-12 md:col-span-6 relative">
+              <p className="type-body text-on-surface-variant max-w-md mb-7 rise-in" style={{ animationDelay: "140ms" }}>
+                Tmax A&amp;C에서 <span className="text-em-emerald">5년</span> 오피스 SW 엔진을 다룬 경험 위에,
+                <span className="text-em-coral"> AI와 함께 빠르게 빌드</span>합니다.
+              </p>
+              <div className="flex flex-wrap gap-3 rise-in" style={{ animationDelay: "240ms" }}>
+                <Magnetic>
+                  <Link href="/projects" className="btn-primary inline-flex px-7 py-3.5 rounded-full text-sm">
+                    프로젝트 보기
+                  </Link>
+                </Magnetic>
+                <Link href="/about" className="btn-outline inline-flex px-7 py-3.5 rounded-full text-sm">
+                  Make it Future
+                </Link>
+              </div>
+
+              {/* 인라인 스탯 — 레퍼런스 스타일: 큰 숫자 + 작은 단위 액센트 */}
+              <div className="mt-10 flex items-end gap-8">
+                <div className="flex items-baseline gap-1">
+                  <span className="type-display text-on-surface" style={{ fontSize: "clamp(2.25rem,4.4vw,3.8rem)", letterSpacing: "-0.04em" }}>
+                    05
+                  </span>
+                  <span className="font-headline font-semibold text-do-primary" style={{ fontSize: "clamp(1rem,1.4vw,1.25rem)" }}>
+                    yrs+
+                  </span>
+                </div>
+                <span aria-hidden className="w-px self-stretch bg-hairline" style={{ minHeight: "3.5rem" }} />
+                <div className="flex items-baseline gap-1">
+                  <span className="type-display text-on-surface" style={{ fontSize: "clamp(2.25rem,4.4vw,3.8rem)", letterSpacing: "-0.04em" }}>
+                    12
+                  </span>
+                  <span className="font-headline font-semibold text-do-primary" style={{ fontSize: "clamp(1rem,1.4vw,1.25rem)" }}>
+                    +
+                  </span>
+                </div>
+                <p className="font-code text-xs text-on-surface-muted tracking-wider self-end pb-2 hidden md:block">
+                  엔진 개발 · 프로젝트 완성
+                </p>
+              </div>
             </div>
 
-            {/* 떠다니는 주석 핀 (san.framer 시그니처) */}
-            <span className="pill-tag pill-green absolute -top-2 left-4 z-20 rise-in" style={{ animationDelay: "200ms" }}>
-              ✦ 5y engine
-            </span>
-            <span className="pill-tag pill-coral absolute top-16 -left-2 z-20 rise-in" style={{ animationDelay: "260ms" }}>
-              ⚡ AI prototyping
-            </span>
-            <span className="pill-tag pill-violet absolute left-2 bottom-24 z-20 rise-in" style={{ animationDelay: "340ms" }}>
-              ✦ Cloudflare deploy
-            </span>
-            <span className="pill-tag pill-surface absolute right-2 top-1/3 z-20 rise-in" style={{ animationDelay: "420ms" }}>
-              <span className="text-do-primary">●</span> Next.js 16
-            </span>
-
-            {/* 좌하단 회전 배지 */}
-            <div className="absolute -left-2 md:-left-6 -bottom-4 z-30 hidden md:block">
-              <SpinBadge text="BUILD · GOTECH · 2026" centerEmoji="✦" />
+            {/* 우측 빈 공간에 핀 + 회전 배지 */}
+            <div className="col-span-12 md:col-span-6 relative min-h-[200px] md:min-h-[260px]">
+              <span className="pill-tag pill-green absolute -top-4 right-12 md:right-20 rise-in" style={{ animationDelay: "200ms" }}>
+                ✦ 5y engine
+              </span>
+              <span className="pill-tag pill-coral absolute top-16 right-2 rise-in" style={{ animationDelay: "260ms" }}>
+                ⚡ AI prototyping
+              </span>
+              <span className="pill-tag pill-violet absolute right-24 md:right-40 top-32 rise-in" style={{ animationDelay: "340ms" }}>
+                ✦ Cloudflare deploy
+              </span>
+              <span className="pill-tag pill-surface absolute right-0 bottom-20 rise-in" style={{ animationDelay: "420ms" }}>
+                <span className="text-do-primary">●</span> Next.js 16
+              </span>
+              {/* 회전 배지 */}
+              <div className="absolute right-0 -bottom-2 hidden md:block">
+                <SpinBadge text="GO · BUILD · TECHNOLOGY · MORE EASY · " centerEmoji="✦" />
+              </div>
             </div>
           </div>
         </div>

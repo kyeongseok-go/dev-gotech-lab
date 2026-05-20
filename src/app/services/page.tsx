@@ -14,7 +14,7 @@ import {
 
 export const metadata: Metadata = {
   title: "서비스",
-  description: "gotech.lab에서 제공하는 도구와 서비스 모음입니다.",
+  description: "GoTechy에서 제공하는 도구와 서비스 모음입니다.",
   alternates: { canonical: "/services" },
 };
 

@@ -3,7 +3,7 @@ import CardNewsGallery, { type CardNewsItem } from "@/components/card-news/card-
 import { PageHeading } from "@/components/section/page-heading";
 
 export const metadata: Metadata = {
-  title: "카드뉴스 | gotech.lab",
+  title: "카드뉴스 | GoTechy",
   description: "Reddit r/artificial, r/technology에서 엄선한 AI & 기술 트렌드를 카드뉴스로 빠르게 만나보세요.",
   alternates: { canonical: "/card-news" },
 };

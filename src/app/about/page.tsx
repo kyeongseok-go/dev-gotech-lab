@@ -227,7 +227,7 @@ export default function AboutPage() {
       <Reveal className="mb-24" as="section">
         <SectionLabel className="mb-5">About this site</SectionLabel>
         <p className="type-body text-on-surface-variant leading-relaxed max-w-3xl">
-          <strong className="text-on-surface">gotech.lab</strong>은 기술 블로그,
+          <strong className="text-on-surface">GoTechy</strong>는 기술 블로그,
           포트폴리오, <span className="text-em">AI 실험 결과</span>, 그리고 작은 서비스들을
           한 곳에 모아 공유하기 위해 만들었습니다.
           <span className="text-em-coral"> Next.js 16 + Tailwind CSS v4 + Velite MDX</span>로

@@ -18,10 +18,10 @@ const CONNECT_LINKS = [
 ];
 
 const MARQUEE_WORDS = [
-  "Build the technology",
-  "Live easier",
+  "Go Build the Technology",
+  "more easy",
   "기술을 만들고, 더 쉽게 살자",
-  "gotech.lab",
+  "GoTechy",
 ] as const;
 
 export function SiteFooter() {
@@ -49,10 +49,10 @@ export function SiteFooter() {
           {/* Brand */}
           <div className="col-span-12 md:col-span-5">
             <Link href="/" className="font-headline text-3xl font-semibold text-on-surface inline-block mb-3">
-              gotech<span className="text-do-primary">.lab</span>
+              Go<span className="text-do-primary">Techy</span>
             </Link>
             <p className="type-small text-on-surface-variant max-w-sm">
-              Go!! Build the technology, <span className="text-em">Live easier.</span>
+              Go Build the Technology, <span className="text-em">more easy.</span>
               <br />가자!! 기술을 만들고, 더 쉽게 살자.
             </p>
           </div>
@@ -110,7 +110,7 @@ export function SiteFooter() {
           <p className="font-code text-xs text-on-surface-faint">
             Designed &amp; developed by{" "}
             <span className="text-do-primary">고경석</span> · &copy; {new Date().getFullYear()}{" "}
-            gotech.lab. All rights reserved.
+            GoTechy. All rights reserved.
           </p>
           <p className="font-code text-xs text-on-surface-faint">
             Next.js 16 · Tailwind v4 · Velite MDX · Cloudflare

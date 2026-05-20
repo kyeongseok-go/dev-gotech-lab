@@ -30,9 +30,10 @@ export function SiteHeader() {
         {/* Logo */}
         <Link
           href="/"
-          className="font-headline text-xl font-semibold tracking-tighter lowercase text-on-surface"
+          className="font-headline text-xl font-semibold tracking-tight text-on-surface"
+          aria-label="GoTechy 홈"
         >
-          gotech<span className="text-do-primary logo-lab">.lab</span>
+          Go<span className="text-do-primary logo-lab">Techy</span>
         </Link>
 
         {/* Desktop Nav */}

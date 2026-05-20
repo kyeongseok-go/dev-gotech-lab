@@ -784,6 +784,54 @@ tbody tr:hover {
 .dark .hero-portrait { filter: contrast(1.04) saturate(1.05); }
 .light .hero-portrait { filter: contrast(0.98); }
 
+/* 히어로 셸 — 글자가 사진 위에 올라가는 컴포지션 */
+.hero-shell {
+	isolation: isolate;
+	overflow: visible;
+}
+/* 사진 백드롭 — 인물이 글자 뒤에서 또렷이 보이는 에디토리얼 컴포지션 (san.framer 류) */
+.hero-backdrop {
+	position: absolute;
+	inset: -1rem 0 -3rem 25%;    /* 우측 75%에 크게, 약간 위/아래 여유 */
+	z-index: 0;
+	pointer-events: none;
+	/* 인물 전체를 살리되 가장자리는 페이지로 자연 페이드 */
+	-webkit-mask-image: radial-gradient(ellipse 70% 90% at 58% 45%, #000 55%, rgba(0,0,0,0.6) 75%, transparent 95%);
+	mask-image: radial-gradient(ellipse 70% 90% at 58% 45%, #000 55%, rgba(0,0,0,0.6) 75%, transparent 95%);
+}
+/* 다크: 모노크롬 톤 + 강한 콘트라스트 → 어둠에서 떠오르는 에디토리얼 인물 */
+.dark .hero-backdrop {
+	opacity: 0.95;
+	filter: grayscale(0.4) contrast(1.18) brightness(0.92) saturate(0.85);
+}
+/* 라이트: 사진 그대로 + 살짝 콘트라스트만 — 화이트 시트에 자연 합쳐짐 */
+.light .hero-backdrop {
+	opacity: 0.92;
+	filter: contrast(1.04) saturate(0.92);
+}
+
+/* 모바일: 백드롭을 가운데로 크게 */
+@media (max-width: 768px) {
+	.hero-backdrop {
+		inset: -1rem 0 0 0;
+		-webkit-mask-image: radial-gradient(ellipse 85% 55% at 50% 40%, #000 45%, rgba(0,0,0,0.5) 70%, transparent 92%);
+		mask-image: radial-gradient(ellipse 85% 55% at 50% 40%, #000 45%, rgba(0,0,0,0.5) 70%, transparent 92%);
+		opacity: 0.55;
+	}
+	.dark .hero-backdrop { opacity: 0.5; }
+}
+
+/* 텍스트 인지성 — 사진과 겹치는 영역에서 살짝 글로우.
+   글자는 솔리드 풀 컬러, 그림자가 사진 위에서도 텍스트 윤곽을 살림. */
+.hero-shell h1 {
+	text-shadow:
+		0 0 30px var(--do-page),
+		0 0 8px color-mix(in srgb, var(--do-page) 80%, transparent);
+}
+
+/* 부드러운 인라인 강조 — 'Go' 같이 살짝만 두드러지는 톤 */
+.text-em-soft { color: var(--do-on-surface-muted); font-weight: 500; }
+
 /* 대형 타이틀 진입 마스크 리빌 (CSS, JS 불필요 폴백 포함) */
 @keyframes rise-in {
 	from { opacity: 0; transform: translateY(0.35em); }

@@ -24,7 +24,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!post) return {};
   return {
     title: post.title,
-    description: post.description ?? `${post.title} — gotech.lab 블로그`,
+    description: post.description ?? `${post.title} — GoTechy 블로그`,
     alternates: { canonical: `/blog/${slug}` },
     openGraph: {
       type: "article",
@@ -112,7 +112,7 @@ export default async function BlogPostPage({ params }: Props) {
           <div>
             <p className="font-headline font-bold text-on-surface">고경석</p>
             <p className="text-sm text-on-surface-variant">AI Builder &middot; Full-stack Developer</p>
-            <p className="text-xs text-on-surface-variant mt-1">gotech.lab 운영자</p>
+            <p className="text-xs text-on-surface-variant mt-1">GoTechy 운영자</p>
           </div>
         </div>
       </article>
