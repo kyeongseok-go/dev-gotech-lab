@@ -62,6 +62,7 @@ export default function RootLayout({
 			</head>
 			<body
 				className={`${spaceGrotesk.variable} ${geistMono.variable} antialiased flex min-h-screen flex-col`}
+				suppressHydrationWarning
 			>
 				<ThemeProvider>
 					<div className="app-frame flex flex-1 flex-col">
