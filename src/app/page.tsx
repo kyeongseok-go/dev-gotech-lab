@@ -56,15 +56,14 @@ export default async function Home() {
     <main className="pt-28 pb-24 px-6 md:px-10 max-w-7xl mx-auto">
       {/* ════════ HERO ════════ */}
       <section className="hero-shell relative mb-32 md:mb-44 min-h-[80vh] md:min-h-[88vh]">
-        {/* 사진 백드롭 — 글자 뒤. 라디얼 마스크로 인물 중심부만 보이게, 양 테마 자연 융합 */}
-        <div aria-hidden className="hero-backdrop">
+        {/* 누끼 인물 — 우측 배치, 얼굴 또렷, 부드러운 부유 애니메이션 */}
+        <div className="hero-backdrop">
           <Image
-            src="/images/hero-main.jpg"
-            alt=""
+            src="/images/hero-nobg.png"
+            alt="고경석"
             fill
             priority
-            sizes="100vw"
-            className="object-cover object-[55%_18%]"
+            sizes="(max-width: 768px) 75vw, 56vw"
           />
         </div>
 
@@ -80,15 +79,18 @@ export default async function Home() {
             <ArrowDownRight className="corner-arrow hidden md:block" strokeWidth={1} />
           </div>
 
-          {/* 헤드라인 — 사진과 인터위빙 */}
-          <h1 className="col-span-12 type-display-xl text-on-surface rise-in relative">
-            <span className="block">
+          {/* 헤드라인 — 우측 인물 자리 비워두기 (얼굴 가리지 않게), 3줄 의도 유지 */}
+          <h1
+            className="col-span-12 md:col-span-8 type-display-xl text-on-surface rise-in relative"
+            style={{ fontSize: "clamp(2.75rem, 0.5rem + 9.5vw, 8rem)", lineHeight: 0.95 }}
+          >
+            <span className="block whitespace-nowrap">
               <span className="text-em-soft">Go</span> Build the
             </span>
-            <span className="block">
+            <span className="block whitespace-nowrap">
               <span className="display-accent">Technology,</span>
             </span>
-            <span className="block">more easy.</span>
+            <span className="block whitespace-nowrap">more easy.</span>
           </h1>
 
           {/* 본문 + CTA + Stats 하단 영역 */}
