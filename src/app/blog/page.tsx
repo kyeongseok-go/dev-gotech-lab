@@ -101,7 +101,7 @@ export default async function BlogPage({ searchParams }: Props) {
                     )}
                     {post.tags.length > 0 && (
                       <div className="mt-auto flex flex-wrap gap-1.5">
-                        {post.tags.slice(0, 4).map((t) => (
+                        {post.tags.slice(0, 4).map((t: string) => (
                           <span
                             key={t}
                             className="font-code text-[10px] uppercase tracking-wider px-2 py-1 rounded-full bg-black/15"

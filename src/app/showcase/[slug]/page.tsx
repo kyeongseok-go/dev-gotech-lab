@@ -69,7 +69,7 @@ export default async function ShowcaseDetailPage({ params }: Props) {
           {/* 기술 스택 */}
           {item.stack.length > 0 && (
             <div className="mt-4 flex flex-wrap gap-1.5">
-              {item.stack.map((tech) => (
+              {item.stack.map((tech: string) => (
                 <span
                   key={tech}
                   className="rounded-full bg-secondary px-2.5 py-0.5 text-xs text-secondary-foreground"

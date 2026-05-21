@@ -76,7 +76,7 @@ export default function ShowcasePage() {
 
                     {item.stack.length > 0 && (
                       <div className="flex flex-wrap gap-1.5 mb-5 mt-auto">
-                        {item.stack.slice(0, 4).map((tech) => (
+                        {item.stack.slice(0, 4).map((tech: string) => (
                           <span
                             key={tech}
                             className="font-code text-[10px] uppercase tracking-wider opacity-80"

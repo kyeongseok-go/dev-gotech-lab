@@ -268,7 +268,7 @@ export default async function Home() {
                     </p>
                     {project.techStack.length > 0 && (
                       <div className="flex flex-wrap gap-1.5">
-                        {project.techStack.slice(0, 4).map((tech) => (
+                        {project.techStack.slice(0, 4).map((tech: string) => (
                           <span
                             key={tech}
                             className="font-code text-[10px] uppercase tracking-wider px-2 py-1 rounded-full bg-black/15"
@@ -407,7 +407,7 @@ export default async function Home() {
                     <p className="type-small c-sub line-clamp-3 mb-4">{item.summary}</p>
                     {item.stack.length > 0 && (
                       <div className="flex flex-wrap gap-1.5 mt-auto">
-                        {item.stack.slice(0, 3).map((s) => (
+                        {item.stack.slice(0, 3).map((s: string) => (
                           <span key={s} className="font-code text-[10px] uppercase tracking-wider opacity-80">
                             {s}
                           </span>

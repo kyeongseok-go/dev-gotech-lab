@@ -76,7 +76,7 @@ export default async function ProjectDetailPage({ params }: Props) {
             {/* Tech Stack */}
             {project.techStack.length > 0 && (
               <div className="flex flex-wrap gap-2">
-                {project.techStack.map((tech) => (
+                {project.techStack.map((tech: string) => (
                   <span
                     key={tech}
                     className="px-3 py-1.5 bg-surface-container-high rounded-sm text-on-surface-variant font-code text-xs border border-outline-variant/10"

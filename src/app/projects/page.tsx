@@ -71,7 +71,7 @@ export default function ProjectsPage() {
 
                     {project.techStack.length > 0 && (
                       <div className="flex flex-wrap gap-1.5 mt-auto mb-4">
-                        {project.techStack.slice(0, 5).map((tech) => (
+                        {project.techStack.slice(0, 5).map((tech: string) => (
                           <span
                             key={tech}
                             className="font-code text-[10px] uppercase tracking-wider px-2 py-1 rounded-full bg-black/15"
