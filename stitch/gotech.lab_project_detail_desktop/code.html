@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=Inter:wght@300;400;500;600;700&amp;family=Geist+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary-container": "#06b6d4",
+                        "surface": "#131315",
+                        "surface-container-highest": "#353437",
+                        "secondary-fixed": "#e1e0ff",
+                        "tertiary": "#4edea3",
+                        "secondary-container": "#3131c0",
+                        "on-tertiary-container": "#00452e",
+                        "outline": "#869397",
+                        "secondary": "#c0c1ff",
+                        "surface-container": "#201f22",
+                        "on-error": "#690005",
+                        "surface-variant": "#353437",
+                        "on-tertiary-fixed": "#002113",
+                        "background": "#131315",
+                        "tertiary-container": "#1bbd85",
+                        "on-primary-container": "#00424f",
+                        "tertiary-fixed": "#6ffbbe",
+                        "surface-dim": "#131315",
+                        "outline-variant": "#3d494c",
+                        "inverse-primary": "#00687a",
+                        "on-secondary-container": "#b0b2ff",
+                        "on-tertiary-fixed-variant": "#005236",
+                        "on-tertiary": "#003824",
+                        "on-secondary-fixed-variant": "#2f2ebe",
+                        "surface-tint": "#4cd7f6",
+                        "surface-container-high": "#2a2a2c",
+                        "on-surface": "#e5e1e4",
+                        "on-primary": "#003640",
+                        "on-error-container": "#ffdad6",
+                        "surface-bright": "#39393b",
+                        "primary-fixed-dim": "#4cd7f6",
+                        "on-primary-fixed-variant": "#004e5c",
+                        "tertiary-fixed-dim": "#4edea3",
+                        "primary": "#4cd7f6",
+                        "error": "#ffb4ab",
+                        "inverse-surface": "#e5e1e4",
+                        "on-secondary": "#1000a9",
+                        "error-container": "#93000a",
+                        "on-background": "#e5e1e4",
+                        "primary-fixed": "#acedff",
+                        "on-surface-variant": "#bcc9cd",
+                        "on-primary-fixed": "#001f26",
+                        "on-secondary-fixed": "#07006c",
+                        "secondary-fixed-dim": "#c0c1ff",
+                        "surface-container-lowest": "#0e0e10",
+                        "surface-container-low": "#1c1b1d",
+                        "inverse-on-surface": "#313032"
+                    },
+                    fontFamily: {
+                        "headline": ["Space Grotesk"],
+                        "body": ["Inter"],
+                        "label": ["Inter"],
+                        "mono": ["Geist Mono"]
+                    },
+                    borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            background-color: #131315;
+            color: #e5e1e4;
+            font-family: 'Inter', sans-serif;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="selection:bg-primary/30 selection:text-primary">
+<!-- TopNavBar -->
+<nav class="fixed top-0 w-full z-50 bg-[#131315]/70 backdrop-blur-xl no-border bg-gradient-to-b from-[#131315] to-transparent">
+<div class="flex justify-between items-center max-w-7xl mx-auto px-8 h-20">
+<div class="text-xl font-bold font-['Space_Grotesk'] text-white dark:text-white [&amp;&gt;.lab]:text-[#4cd7f6]">
+                gotech<span class="lab">.lab</span>
+</div>
+<div class="hidden md:flex gap-8 items-center font-['Space_Grotesk'] tracking-tighter uppercase text-sm font-bold">
+<a class="text-slate-400 hover:text-white transition-colors hover:text-[#4cd7f6] transition-all duration-300" href="#">Home</a>
+<a class="text-slate-400 hover:text-white transition-colors hover:text-[#4cd7f6] transition-all duration-300" href="#">Blog</a>
+<a class="text-[#4cd7f6] border-b-2 border-[#4cd7f6] pb-1 scale-95 active:scale-90 transition-transform" href="#">Projects</a>
+<a class="text-slate-400 hover:text-white transition-colors hover:text-[#4cd7f6] transition-all duration-300" href="#">Showcase</a>
+<a class="text-slate-400 hover:text-white transition-colors hover:text-[#4cd7f6] transition-all duration-300" href="#">Services</a>
+<a class="text-slate-400 hover:text-white transition-colors hover:text-[#4cd7f6] transition-all duration-300" href="#">About</a>
+</div>
+<div class="flex items-center gap-4">
+<button class="text-[#4cd7f6] scale-95 active:scale-90 transition-transform p-2">
+<span class="material-symbols-outlined" data-icon="dark_mode">dark_mode</span>
+</button>
+</div>
+</div>
+</nav>
+<main class="pt-32 pb-24">
+<!-- Hero Section -->
+<section class="max-w-7xl mx-auto px-8 mb-20">
+<div class="grid lg:grid-cols-2 gap-16 items-center">
+<div class="space-y-8">
+<div class="space-y-4">
+<div class="inline-flex items-center gap-2 px-3 py-1 rounded-sm bg-tertiary-container/10 text-tertiary border border-tertiary/20 font-label text-[10px] uppercase tracking-widest font-bold">
+                            배포완료
+                        </div>
+<h1 class="font-headline text-5xl md:text-7xl font-bold tracking-tighter leading-[0.9] text-white">
+                            Nebula Cloud <br/>Dashboard
+                        </h1>
+<p class="text-on-surface-variant font-body text-lg max-w-xl leading-relaxed">
+                            A high-performance infrastructure monitoring suite designed for edge computing environments, featuring real-time telemetry and automated scaling protocols.
+                        </p>
+</div>
+<div class="grid grid-cols-2 gap-8 py-6 border-y border-outline-variant/15">
+<div>
+<span class="block text-outline font-label text-[10px] uppercase tracking-widest mb-1">Period</span>
+<span class="font-headline text-white font-medium">2023.10 — 2024.03</span>
+</div>
+<div>
+<span class="block text-outline font-label text-[10px] uppercase tracking-widest mb-1">Role</span>
+<span class="font-headline text-white font-medium">Lead Frontend Architect</span>
+</div>
+</div>
+<!-- Tech Stack -->
+<div class="flex flex-wrap gap-2">
+<span class="px-3 py-1.5 bg-surface-container-high rounded-sm text-on-surface-variant font-mono text-xs border border-outline-variant/10">Next.js 14</span>
+<span class="px-3 py-1.5 bg-surface-container-high rounded-sm text-on-surface-variant font-mono text-xs border border-outline-variant/10">Tailwind v4</span>
+<span class="px-3 py-1.5 bg-surface-container-high rounded-sm text-on-surface-variant font-mono text-xs border border-outline-variant/10">TypeScript</span>
+<span class="px-3 py-1.5 bg-surface-container-high rounded-sm text-on-surface-variant font-mono text-xs border border-outline-variant/10">Cloudflare D1</span>
+<span class="px-3 py-1.5 bg-surface-container-high rounded-sm text-on-surface-variant font-mono text-xs border border-outline-variant/10">shadcn/ui</span>
+<span class="px-3 py-1.5 bg-surface-container-high rounded-sm text-on-surface-variant font-mono text-xs border border-outline-variant/10">Framermotion</span>
+</div>
+<!-- Links -->
+<div class="flex flex-wrap gap-4">
+<button class="px-8 py-4 bg-primary text-on-primary font-headline font-bold uppercase tracking-tight rounded-sm hover:bg-primary-fixed transition-all active:scale-95 flex items-center gap-2">
+                            Live Demo
+                            <span class="material-symbols-outlined text-sm" data-icon="open_in_new">open_in_new</span>
+</button>
+<button class="px-8 py-4 bg-surface-container-high text-white font-headline font-bold uppercase tracking-tight rounded-sm border border-outline-variant/20 hover:bg-surface-container-highest transition-all active:scale-95 flex items-center gap-2">
+                            Source Code
+                            <span class="material-symbols-outlined text-sm" data-icon="code">code</span>
+</button>
+</div>
+</div>
+<!-- Hero Image -->
+<div class="relative aspect-square lg:aspect-video rounded-xl overflow-hidden group">
+<img alt="Project Hero" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="Futuristic software interface dashboard with complex data visualizations, glowing cyan lines, and dark metallic textures in a professional tech environment" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD17NRFmvgeuVS6qOmrFr-HCUoeQnohtWjUD5NPyQp_aLqMr0yXwBR6xcugrHIzX5I0VdVpJMf94F7QYz8WkEvgBmcg91AaluzZU5ixm9mNCnEO55Lprr5e4ClvMWyhdOuEFpzhotsxnQpHskOiOeDZtuyo3-aasnIKP2ChAXgktQRp__BGMb1JchecGiopdRysEGbu5frAIjP2iOqX7IpjObpX5KQw9gJpKyh_tdIB-pcFdCEcpmxXSRF652vkS8z4KcKEQClYXks"/>
+<div class="absolute inset-0 bg-gradient-to-t from-surface to-transparent opacity-40"></div>
+</div>
+</div>
+</section>
+<!-- Content Section -->
+<section class="max-w-4xl mx-auto px-8">
+<div class="space-y-24">
+<!-- Background/Goal -->
+<article class="space-y-6">
+<h2 class="font-headline text-3xl font-bold tracking-tight text-white flex items-center gap-3">
+<span class="w-8 h-[2px] bg-primary"></span> Background &amp; Goal
+                    </h2>
+<div class="font-body text-on-surface-variant leading-relaxed space-y-4">
+<p>
+                            Modern cloud infrastructure has become increasingly fragmented. Engineering teams often struggle with high-latency monitoring tools that provide data in minutes rather than milliseconds. Nebula was conceived to bridge this gap, focusing on <strong>Edge Observability</strong>.
+                        </p>
+<p>
+                            The goal was to create a zero-latency dashboard that could handle over 100,000 concurrent data points from distributed nodes across the globe, providing real-time visual feedback to DevOps teams during critical scaling events.
+                        </p>
+</div>
+</article>
+<!-- Featured Screenshot - Bento Style -->
+<div class="grid grid-cols-12 gap-4">
+<div class="col-span-8 rounded-lg overflow-hidden border border-outline-variant/10 bg-surface-container-low">
+<img alt="Interface 1" class="w-full h-full object-cover opacity-80 hover:opacity-100 transition-opacity" data-alt="Close up view of a dark themed analytics dashboard with vibrant neon charts and data tables representing server load" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDv-8OFkaJV1vrXSohuPT9w3h5Q77mQP34Mqsaf884lZ4h2DASkp7A6AJ99hEHnu89yXr5ughWNCx2few7IJbV9c0xT8vGmhjKitFqe5NbgO5Tt5H3r97uKhJh3wq33eFlImDmEseCICzwOFizO1SyNFphLlDe3DuOCea8e7I7T0_LdcBAkcxAEYKJ4BJiCUiSysGKU7IM2ttqvH9-50NRb2RtwJv8eRTwBZ893bBH7I3BOYlLmStzobirMnHqMTVDnc_4PPhCv3c8"/>
+</div>
+<div class="col-span-4 rounded-lg overflow-hidden border border-outline-variant/10 bg-surface-container-low">
+<img alt="Interface 2" class="w-full h-full object-cover opacity-80 hover:opacity-100 transition-opacity" data-alt="Technical code editor showing complex React components and styling structures with syntax highlighting in a dark mode environment" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBbKFokTqVpvIfXwVw77mWW7AjKSLAEW71P5h5r4Br-9WBRGqGe4_2CI3nIgOHh9KcHkx3-vDtGG2bai_twVDhZlzuvnPYjFV44TvUkufwzKk8EMHBpZ1YbFvDnX6Q6ut_BXuWP8SiEXUtZjStmPB36CyOs44jk8ykO1jOUss2hsVVVN8IFlRcFkQslUVPYepXWPY4T8jR4axfiJT1TAcFGKpO-wDRRVS_zIZVZe1LLX4uYoqeiF_1zT6NeFGlYSmoERxlZtN7Nupk"/>
+</div>
+</div>
+<!-- Key Features -->
+<article class="space-y-8">
+<h2 class="font-headline text-3xl font-bold tracking-tight text-white flex items-center gap-3">
+<span class="w-8 h-[2px] bg-primary"></span> Key Features
+                    </h2>
+<div class="grid md:grid-cols-2 gap-6">
+<div class="p-8 bg-surface-container-low rounded-lg border border-outline-variant/10 hover:border-primary/20 transition-colors group">
+<span class="material-symbols-outlined text-primary mb-4 block" data-icon="bolt">bolt</span>
+<h3 class="font-headline text-xl font-bold text-white mb-2 group-hover:text-primary transition-colors">Real-time Telemetry</h3>
+<p class="font-body text-sm text-on-surface-variant leading-relaxed">WebSocket integrated data streaming ensures sub-100ms latency for all critical system metrics and logs.</p>
+</div>
+<div class="p-8 bg-surface-container-low rounded-lg border border-outline-variant/10 hover:border-primary/20 transition-colors group">
+<span class="material-symbols-outlined text-primary mb-4 block" data-icon="auto_awesome">auto_awesome</span>
+<h3 class="font-headline text-xl font-bold text-white mb-2 group-hover:text-primary transition-colors">Predictive Scaling</h3>
+<p class="font-body text-sm text-on-surface-variant leading-relaxed">Integrated ML models analyze traffic patterns to suggest preemptive resource allocation before spikes occur.</p>
+</div>
+<div class="p-8 bg-surface-container-low rounded-lg border border-outline-variant/10 hover:border-primary/20 transition-colors group">
+<span class="material-symbols-outlined text-primary mb-4 block" data-icon="security">security</span>
+<h3 class="font-headline text-xl font-bold text-white mb-2 group-hover:text-primary transition-colors">Zero-Trust Access</h3>
+<p class="font-body text-sm text-on-surface-variant leading-relaxed">Hardware-level authentication and role-based access control for every individual node in the network.</p>
+</div>
+<div class="p-8 bg-surface-container-low rounded-lg border border-outline-variant/10 hover:border-primary/20 transition-colors group">
+<span class="material-symbols-outlined text-primary mb-4 block" data-icon="layers">layers</span>
+<h3 class="font-headline text-xl font-bold text-white mb-2 group-hover:text-primary transition-colors">Multi-Cloud Mesh</h3>
+<p class="font-body text-sm text-on-surface-variant leading-relaxed">Unified control plane that bridges AWS, GCP, and Azure instances into a single, cohesive visibility layer.</p>
+</div>
+</div>
+</article>
+<!-- Challenges & Learnings -->
+<article class="space-y-6">
+<h2 class="font-headline text-3xl font-bold tracking-tight text-white flex items-center gap-3">
+<span class="w-8 h-[2px] bg-primary"></span> Challenges &amp; Learnings
+                    </h2>
+<div class="space-y-8">
+<div class="bg-surface-container-lowest p-1 rounded-lg border border-outline-variant/10">
+<div class="bg-surface-container-low p-6 rounded-lg">
+<h4 class="font-mono text-primary text-xs mb-3 uppercase tracking-tighter">Challenge #01: Canvas Optimization</h4>
+<p class="font-body text-on-surface-variant leading-relaxed">
+                                    Rendering thousands of real-time data nodes simultaneously caused significant drops in frame rate on standard browsers.
+                                </p>
+<div class="mt-4 p-4 bg-surface-container-highest/30 rounded border-l-2 border-tertiary">
+<span class="font-label text-[10px] text-tertiary uppercase block mb-1">Solution</span>
+<p class="text-xs italic text-on-surface">Implemented a custom WebGL-based rendering engine for the network mesh, offloading visual computations to the GPU.</p>
+</div>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-1 rounded-lg border border-outline-variant/10">
+<div class="bg-surface-container-low p-6 rounded-lg">
+<h4 class="font-mono text-primary text-xs mb-3 uppercase tracking-tighter">Challenge #02: Data Consistency</h4>
+<p class="font-body text-on-surface-variant leading-relaxed">
+                                    Managing state synchronization across multiple regions with variable latency was causing UI jitters and inconsistent data views.
+                                </p>
+<div class="mt-4 p-4 bg-surface-container-highest/30 rounded border-l-2 border-tertiary">
+<span class="font-label text-[10px] text-tertiary uppercase block mb-1">Solution</span>
+<p class="text-xs italic text-on-surface">Adopted Cloudflare D1 with a stale-while-revalidate strategy at the edge to ensure high availability and predictable UI updates.</p>
+</div>
+</div>
+</div>
+</div>
+</article>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="w-full border-t border-[#4cd7f6]/10 bg-[#131315]">
+<div class="flex flex-col md:flex-row justify-between items-center py-12 px-8 max-w-7xl mx-auto gap-6">
+<div class="font-['Space_Grotesk'] font-bold text-slate-300">
+                gotech.lab
+            </div>
+<div class="flex gap-8 font-['Pretendard'] text-xs leading-relaxed text-slate-500">
+<a class="text-slate-500 hover:text-[#4cd7f6] underline-offset-4 hover:underline opacity-80 hover:opacity-100 transition-all" href="#">Github</a>
+<a class="text-slate-500 hover:text-[#4cd7f6] underline-offset-4 hover:underline opacity-80 hover:opacity-100 transition-all" href="#">LinkedIn</a>
+<a class="text-slate-500 hover:text-[#4cd7f6] underline-offset-4 hover:underline opacity-80 hover:opacity-100 transition-all" href="#">RSS</a>
+<a class="text-slate-500 hover:text-[#4cd7f6] underline-offset-4 hover:underline opacity-80 hover:opacity-100 transition-all" href="#">Privacy</a>
+</div>
+<div class="font-['Pretendard'] text-xs leading-relaxed text-slate-500">
+                © 2024 gotech.lab. All rights reserved.
+            </div>
+</div>
+</footer>
+</body></html>

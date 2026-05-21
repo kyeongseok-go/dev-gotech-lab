@@ -16,29 +16,61 @@ import { SpinBadge } from "@/components/section/spin-badge";
 
 const SKILLS = [
   "TypeScript",
-  "Next.js",
+  "Next.js 14",
   "React",
   "Tailwind CSS",
-  "Cloudflare",
   "Node.js",
-  "Docker",
+  "C++",
   "Java",
-  "AI Prototyping",
-  "MDX",
+  "Docker",
+  "PostgreSQL",
+  "pgvector",
+  "Claude API",
+  "Cloudflare",
 ] as const;
 
 const OFFERS = [
-  { idx: "01", title: "Web & Mobile", desc: "Next.js · App Router · PWA" },
-  { idx: "02", title: "UI/UX", desc: "Editorial · 디자인 시스템" },
-  { idx: "03", title: "AI Prototyping", desc: "Claude · 빠른 MVP" },
-  { idx: "04", title: "Edge Deploy", desc: "Cloudflare · OpenNext" },
+  { idx: "01", title: "Full-stack Web", desc: "Next.js 14 · App Router · TypeScript" },
+  { idx: "02", title: "AI Integration", desc: "Claude API · RAG · SSE Streaming" },
+  { idx: "03", title: "Doc / Format Engine", desc: "OOXML · HWP · HWPX · Parser" },
+  { idx: "04", title: "Edge Deploy", desc: "Vercel · Railway · Cloudflare Workers" },
 ] as const;
 
+/** 5년의 본인 개발 사이클(분석·설계·개발·안정화·배포)을
+ *  AI 협업 환경에 그대로 옮긴 5단계.
+ *  각 단계는 "5년의 무기" + "AI 가속" 두 줄로 표현. */
 const PROCESS = [
-  { idx: "01", title: "Discover", sub: "사용자 리서치 / 도메인 파악", active: false },
-  { idx: "02", title: "Define", sub: "스펙 · 유저 플로우 · 정보 구조", active: false },
-  { idx: "03", title: "Design", sub: "디자인 시스템 · 컴포넌트 빌드", active: true },
-  { idx: "04", title: "Deliver", sub: "Edge 배포 · 모니터링 · 회고", active: false },
+  {
+    idx: "01",
+    title: "Analyze",
+    kr: "분석",
+    sub: "외부 스펙과 도메인을 깊이 읽는다. Claude가 코드베이스 단서를 빠르게 좁힌다.",
+  },
+  {
+    idx: "02",
+    title: "Design",
+    kr: "설계",
+    sub: "DB부터 클라이언트까지 한 줄로 잇는다. AI 페어가 트레이드오프를 검증한다.",
+  },
+  {
+    idx: "03",
+    title: "Build",
+    kr: "개발",
+    sub: "한 사람이 끝까지 짠다. SDD(Spec-Driven Development) 플로우로 AI와 페어 코딩.",
+    active: true,
+  },
+  {
+    idx: "04",
+    title: "Stabilize",
+    kr: "테스트 · 안정화",
+    sub: "5년간 350건+ 케이스로 다진 감각으로 끝낸다. AI가 회귀·엣지 케이스를 발굴한다.",
+  },
+  {
+    idx: "05",
+    title: "Ship",
+    kr: "배포",
+    sub: "Docker · Vercel · Cloudflare로 끝맺는다. 배포와 동시에 블로그·Wiki로 자산화한다.",
+  },
 ] as const;
 
 const CARD_NEWS_TEASER = [
@@ -97,8 +129,8 @@ export default async function Home() {
           <div className="col-span-12 grid grid-cols-12 gap-4 items-end mt-10 md:mt-16">
             <div className="col-span-12 md:col-span-6 relative">
               <p className="type-body text-on-surface-variant max-w-md mb-7 rise-in" style={{ animationDelay: "140ms" }}>
-                Tmax A&amp;C에서 <span className="text-em-emerald">5년</span> 오피스 SW 엔진을 다룬 경험 위에,
-                <span className="text-em-coral"> AI와 함께 빠르게 빌드</span>합니다.
+                오피스 SW 엔진을 <span className="text-em-emerald">5년 5개월</span> 다룬 풀스택 엔지니어가,
+                <span className="text-em-coral"> AI를 페어 파트너로 빠르게 빌드</span>합니다.
               </p>
               <div className="flex flex-wrap gap-3 rise-in" style={{ animationDelay: "240ms" }}>
                 <Magnetic>
@@ -111,27 +143,27 @@ export default async function Home() {
                 </Link>
               </div>
 
-              {/* 인라인 스탯 — 레퍼런스 스타일: 큰 숫자 + 작은 단위 액센트 */}
+              {/* 인라인 스탯 — 5년 5개월 + AI 프로젝트 수 */}
               <div className="mt-10 flex items-end gap-8">
                 <div className="flex items-baseline gap-1">
                   <span className="type-display text-on-surface" style={{ fontSize: "clamp(2.25rem,4.4vw,3.8rem)", letterSpacing: "-0.04em" }}>
-                    05
+                    5
                   </span>
                   <span className="font-headline font-semibold text-do-primary" style={{ fontSize: "clamp(1rem,1.4vw,1.25rem)" }}>
-                    yrs+
+                    y 5m
                   </span>
                 </div>
                 <span aria-hidden className="w-px self-stretch bg-hairline" style={{ minHeight: "3.5rem" }} />
                 <div className="flex items-baseline gap-1">
                   <span className="type-display text-on-surface" style={{ fontSize: "clamp(2.25rem,4.4vw,3.8rem)", letterSpacing: "-0.04em" }}>
-                    12
+                    10
                   </span>
                   <span className="font-headline font-semibold text-do-primary" style={{ fontSize: "clamp(1rem,1.4vw,1.25rem)" }}>
                     +
                   </span>
                 </div>
                 <p className="font-code text-xs text-on-surface-muted tracking-wider self-end pb-2 hidden md:block">
-                  엔진 개발 · 프로젝트 완성
+                  엔진 개발 · AI 프로젝트
                 </p>
               </div>
             </div>
@@ -139,16 +171,16 @@ export default async function Home() {
             {/* 우측 빈 공간에 핀 + 회전 배지 */}
             <div className="col-span-12 md:col-span-6 relative min-h-[200px] md:min-h-[260px]">
               <span className="pill-tag pill-green absolute -top-4 right-12 md:right-20 rise-in" style={{ animationDelay: "200ms" }}>
-                ✦ 5y engine
+                ✦ Office Engine 5y 5m
               </span>
               <span className="pill-tag pill-coral absolute top-16 right-2 rise-in" style={{ animationDelay: "260ms" }}>
-                ⚡ AI prototyping
+                ⚡ Claude pair-coding
               </span>
               <span className="pill-tag pill-violet absolute right-24 md:right-40 top-32 rise-in" style={{ animationDelay: "340ms" }}>
-                ✦ Cloudflare deploy
+                ✦ HWPX · OOXML parser
               </span>
               <span className="pill-tag pill-surface absolute right-0 bottom-20 rise-in" style={{ animationDelay: "420ms" }}>
-                <span className="text-do-primary">●</span> Next.js 16
+                <span className="text-do-primary">●</span> Next.js 16 + Cloudflare
               </span>
               {/* 회전 배지 */}
               <div className="absolute right-0 -bottom-2 hidden md:block">
@@ -259,27 +291,32 @@ export default async function Home() {
         <Reveal>
           <div className="flex justify-between items-end mb-10">
             <SectionLabel>My process</SectionLabel>
-            <span className="font-code text-xs text-on-surface-muted">Discover → Deliver</span>
+            <span className="font-code text-xs text-on-surface-muted">Analyze → Ship</span>
           </div>
         </Reveal>
         <div className="grid grid-cols-1 md:grid-cols-12 gap-6 items-start">
           <div className="md:col-span-4">
             <h2 className="type-headline text-on-surface mb-3">
-              한 손엔 <span className="display-accent">엔진</span>,<br /> 한 손엔 AI.
+              발견에서 <span className="display-accent">배포</span>까지,<br />
+              <span className="text-em-coral">한 사람</span>이 끝낸다.
             </h2>
-            <p className="type-small text-on-surface-variant">
-              5년 엔진 개발의 정밀함과 AI 빠른 빌드 사이클을 결합합니다.
-              디자인부터 배포까지 한 사람이 책임지는 사이클.
+            <p className="type-small text-on-surface-variant leading-relaxed">
+              분석·설계·개발·안정화·배포 — 5년 5개월간 다듬은 사이클을
+              지금은 AI를 페어 파트너로 두고 동일하게 굴립니다.
+              <span className="text-em"> 한 사이클을 한 사람이 끝까지 책임지는 1인 개발.</span>
             </p>
           </div>
           <div className="md:col-span-8 space-y-3">
             {PROCESS.map((p, i) => (
               <Reveal key={p.idx} index={i} as="div">
-                <div className={`process-row ${p.active ? "process-row--active" : ""}`}>
+                <div className={`process-row ${"active" in p && p.active ? "process-row--active" : ""}`}>
                   <span className="idx">// {p.idx}</span>
                   <div className="flex-1">
-                    <h3 className="font-headline text-xl font-semibold">{p.title}</h3>
-                    <p className="font-code text-xs tracking-wide c-sub mt-1">{p.sub}</p>
+                    <div className="flex items-baseline gap-3 flex-wrap">
+                      <h3 className="font-headline text-xl font-semibold">{p.title}</h3>
+                      <span className="font-code text-[11px] tracking-wider text-do-primary uppercase">· {p.kr}</span>
+                    </div>
+                    <p className="font-code text-xs tracking-wide c-sub mt-1.5 leading-relaxed">{p.sub}</p>
                   </div>
                 </div>
               </Reveal>
@@ -422,15 +459,20 @@ export default async function Home() {
         <Marquee
           durationSec={42}
           items={[
-            "Tmax A&C",
-            "PieceTree Engine",
-            "React Architecture",
-            "Co-edit Engine",
-            "Theme System",
-            "PWA",
-            "Next.js + Cloudflare",
-            "Velite MDX",
-            "Claude Code",
+            "ToHangul",
+            "SuperWord",
+            "SuperPoint",
+            "HWPX Parser",
+            "OOXML",
+            "ColorMap · ClrMap",
+            "Co-edit 3-Command",
+            "ListStyle Schema",
+            "Tibero ODBC + Docker",
+            "Jest · TestLink",
+            "Next.js + Claude API",
+            "pgvector RAG",
+            "SSE Streaming",
+            "Vercel · Railway · Cloudflare",
           ].map((w) => (
             <span key={w} className="font-headline text-on-surface-muted" style={{ fontSize: "clamp(1.2rem,2.4vw,2rem)" }}>
               {w}

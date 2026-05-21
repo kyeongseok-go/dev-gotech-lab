@@ -1,0 +1,150 @@
+---
+title: "YouTube Shorts 자동 제작 파이프라인 — 9단계 영상 자동화 개발기"
+slug: youtube-shorts-automation-pipeline
+date: 2026-04-11
+description: "YouTube 영상 URL 하나로 3분짜리 오리지널 쇼츠를 자동 생성하는 9단계 파이프라인. FastAPI + Celery + Claude + Gemini + FFmpeg 풀스택 자동화."
+category: devlog
+tags: ["YouTube", "자동화", "FastAPI", "Celery", "Claude", "Gemini", "FFmpeg", "Docker"]
+draft: false
+---
+
+> 📌 **한 줄 요약:** YouTube URL 하나 넣으면, AI가 스크립트 쓰고 → 나레이션 만들고 → 자막 달고 → 이미지 생성하고 → 영상 합성해서 → 업로드까지. 9단계 완전 자동화 파이프라인을 만들었어요.
+
+안녕하세요, 고텍이예요! 오늘은 좀 야심찬 프로젝트 얘기를 해볼게요.
+
+YouTube 쇼츠 하나 만들려면 보통 어떻게 해요? 대본 쓰고, 녹음하고, 자막 달고, 썸네일 만들고, 편집하고… **한 편에 최소 2~3시간**은 걸리잖아요. 이걸 URL 하나로 자동화하면 어떨까? 결론부터 말하면요, **9단계 파이프라인으로 거의 다 자동화**했어요. 같이 고!!
+
+## 이 글에서 다룰 내용
+
+1. 왜 만들었는지
+2. 9단계 파이프라인 전체 흐름
+3. 각 단계별 기술 선택과 이유
+4. 비용 제약 아래에서의 설계
+5. 27개국어 자동 확장 전략
+
+## 왜 만들었나
+
+YouTube 쇼츠는 트래픽의 보물창고인데, 진입 장벽이 높아요 — 촬영 장비, 편집 스킬, 무엇보다 시간. 근데 생각해보면 "기존 영상의 핵심을 요약해서 새로운 포맷으로 재구성하는 것"은 AI가 잘하는 영역이잖아요.
+
+**핵심 원칙**: 기존 영상의 클립을 그대로 쓰지 않아요. 원본 영상에서 인사이트만 추출하고, **스크립트·나레이션·비주얼 전부 새로 생성**해서 저작권 세이프한 오리지널 콘텐츠를 만들어요.
+
+## 9단계 파이프라인 전체 흐름
+
+```
+[Stage 1] 영상 분석 — YouTube URL → 트랜스크립트 추출
+    ↓
+[Stage 2] 스크립트 생성 — Claude → 3분 분량 세그먼트 대본
+    ↓
+[Stage 3a] 한국어 나레이션 — ElevenLabs TTS
+[Stage 3b] 영어 나레이션 — Edge-TTS (무료 대안)
+    ↓
+[Stage 4] 자막 생성 — Faster Whisper → 단어 단위 타임스탬프
+    ↓
+[Stage 5] 이미지 생성 — Gemini 2.5 Flash → AI 비주얼
+    ↓
+[Stage 6] 영상 소스 수집 — Pexels/Pixabay 스톡 영상
+    ↓
+[Stage 7] 영상 합성 — 타임라인 조립
+    ↓
+[Stage 8] 렌더링 — FFmpeg → 9:16 + 16:9 듀얼 포맷
+    ↓
+[Stage 9] 업로드 — YouTube Data API v3 자동 게시
+```
+
+## 기술 스택
+
+### 백엔드 오케스트레이션
+
+- **FastAPI** — 비동기 API 서버, SSE로 파이프라인 진행 상태 실시간 전송
+- **Celery** — 9단계를 `chain()`으로 연결, 단계별 에러 핸들링(`link_error`), 체크포인트 저장
+- **Redis** — Celery 브로커 + 결과 백엔드 + 캐시 (3역할 1서비스)
+- **PostgreSQL** — 프로젝트·파이프라인 상태·체크포인트·에셋 메타데이터
+- **Docker Compose** — FastAPI + Celery Workers + Redis + PostgreSQL + n8n 한 방에
+
+### AI & 미디어
+
+| 역할 | 도구 | 선택 이유 |
+|------|------|----------|
+| 스크립트 | Claude (Anthropic SDK) | 구조화된 JSON 출력, 스트리밍 지원 |
+| 한국어 TTS | ElevenLabs | 자연스러운 한국어 음성, 보이스 클로닝 |
+| 영어 TTS | Edge-TTS | 무료, async 네이티브, SRT 자동 생성 |
+| 자막 | Faster Whisper | openai-whisper 대비 4배 속도, CPU 전용 |
+| 이미지 | Gemini 2.5 Flash | 500장/일 무료, 세그먼트별 비주얼 생성 |
+| 스톡 영상 | Pexels/Pixabay | 무료 상업용 라이선스 |
+| 렌더링 | FFmpeg (ffmpy) | 업계 표준, 프리셋으로 속도/품질 조절 |
+
+### 프론트엔드
+
+- **Next.js 15** + React 19 + Tailwind CSS 4
+- **Zustand** — 파이프라인 상태 관리
+- **TanStack Query** — 파이프라인 진행률 폴링
+- **@dnd-kit** — 세그먼트 순서 드래그 앤 드롭 편집
+- **react-player** — 결과 영상 미리보기
+
+## 비용 제약 설계
+
+**영상 1편당 $0.50 이하**가 목표였어요. 무료 API들을 최대한 활용하되, 품질은 유지해야 했죠.
+
+| 리소스 | 무료 한도 | 초과 시 대안 |
+|--------|----------|------------|
+| Gemini 이미지 | 500장/일 | Pexels/Pixabay 스톡 이미지로 폴백 |
+| ElevenLabs | 10K 자/월 | Edge-TTS로 폴백 (무료 무제한) |
+| YouTube Data API | 10,000 유닛/일 | 업로드 1건 = 1,600 유닛 → 일 6편 제한 |
+
+핵심은 **각 단계마다 폴백이 있다는 것**. Gemini 할당량 소진되면 스톡 이미지로, ElevenLabs 소진되면 Edge-TTS로 자동 전환돼요.
+
+## Celery 파이프라인의 핵심 — 체크포인트
+
+9단계나 되는 파이프라인에서 7단계에서 터지면? 처음부터 다시? 말도 안 되죠.
+
+**PostgreSQL JSONB에 단계별 체크포인트를 저장**해요. 실패하면 마지막 성공 체크포인트부터 남은 chain을 재디스패치해요. Stage 5에서 Gemini API가 죽어도 Stage 1~4 결과는 살아있으니까, Stage 5부터 다시 시작할 수 있어요.
+
+```python
+# Celery chain with per-stage error handling
+pipeline = chain(
+    analyze_video.s(url),
+    generate_script.s(),
+    generate_narration.s(),
+    generate_subtitles.s(),
+    generate_images.s(),
+    fetch_stock_video.s(),
+    compose_timeline.s(),
+    render_video.s(),
+    upload_to_youtube.s(),
+)
+pipeline.apply_async(link_error=handle_stage_error.s())
+```
+
+## 27개국어 확장 전략
+
+여기서 좀 신기한 건, **직접 27개 언어로 번역하지 않는다**는 거예요.
+
+YouTube에는 **자동 더빙(Auto-dubbing)** 기능이 있어요. 한국어 나레이션 + 영어 자막을 잘 올려두면, YouTube가 알아서 스페인어·일본어·포르투갈어 등으로 자동 더빙해줘요. 우리가 할 건 **한국어 + 영어 2개 트랙만 잘 만드는 것**이에요. 나머지는 YouTube가 알아서 해주니까 베리 이지이지~
+
+## 현재 상태와 한계
+
+### 수동 단계가 하나 있어요
+
+Google Veo (AI 영상 생성)가 아직 API를 제공하지 않아요. Flow 웹 UI에서 수동으로 클립을 생성해야 하는데, 월 ~90클립 한도도 있어요. 이게 유일한 수동 단계예요. API가 열리면 완전 자동화 달성이에요.
+
+### YouTube 정책 준수
+
+- AI 생성 콘텐츠 라벨 필수 표시
+- 원본 크리에이터 크레딧 명시
+- 음성은 자체 생성 (타인 음성 도용 금지)
+
+## 배운 점
+
+- **Celery chain() + 체크포인트 = 긴 파이프라인의 생명보험** — 단계별 실패 복구가 없으면 운영 불가능
+- **무료 API 폴백 전략** — 하나의 서비스에 의존하지 말고, 항상 B플랜을 준비
+- **Docker Compose로 로컬 전체 환경 구성** — 개발 속도를 비약적으로 올려줌
+- **FFmpeg은 직접 제어가 최고** — MoviePy 같은 래퍼보다 ffmpy로 CLI 직접 제어가 3~5배 빠름
+
+---
+
+솔직히 이 프로젝트는 아직 진행 중이에요. Veo API가 열리면 완전 자동화가 되는 날이 올 거예요.
+영상 자동화에 관심 있으시면 댓글로 이야기해요!
+
+다음에는 SafeShare — Cloudflare 풀스택으로 서버비 0원 문서 공유 서비스 이야기로 돌아올게요. 오늘도 이지하게, 고!! 🚀
+
+기술을 만들고, 더 쉽게 삽시다! 🚀

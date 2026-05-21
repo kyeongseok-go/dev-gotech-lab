@@ -1,0 +1,48 @@
+---
+title: "ParkMate — 스마트 주차 어시스턴트"
+slug: parkmate
+summary: "목적지를 검색하면 주차장 유무, 실시간 잔여석, AI 리뷰 분석까지 한 번에 보여주는 PWA 주차 도우미."
+type: "Web App (PWA)"
+status: "live"
+stack: ["Next.js 14", "FastAPI", "PostgreSQL", "PostGIS", "Redis", "Claude Haiku", "Naver Maps"]
+externalUrl: "https://park-mate-seven.vercel.app"
+featured: true
+draft: false
+---
+
+## 소개
+
+**ParkMate**는 "여기 주차 되나?"라는 단순한 질문 하나에서 시작된 주차 어시스턴트입니다. 목적지를 입력하면 해당 시설의 주차 가능 여부, 반경 500m 내 공영주차장 TOP 3, 그리고 AI가 리뷰를 분석한 주차 인사이트를 한 화면에 보여줍니다.
+
+## 핵심 기능
+
+- **스마트 주차 검색** — 네이버/카카오 API 교차 검증으로 정확한 주차 태그 판별
+- **실시간 잔여석** — 서울시 공영주차장 실시간 데이터 10분 주기 갱신
+- **AI 리뷰 분석** — Claude Haiku가 네이버·카카오 리뷰를 분석해 주차 난이도 요약
+- **카테고리별 장소 추천** — 데이트, 카페, 맛집 등 주차 편의 기반 랭킹
+- **네이버 지도 연동** — 원터치 길안내 (앱/웹 딥링크)
+- **PWA** — 홈 화면 설치, 오프라인 캐싱 지원
+
+## 기술 하이라이트
+
+- **5개 외부 API 무료 티어 연동** — 네이버 검색·지도, 카카오 로컬, 공공데이터포털, 서울열린데이터
+- **PostGIS 반경 검색** — GIST 인덱스 기반 500m 내 주차장 빠른 조회
+- **7단계 Redis 캐시 전략** — 검색·실시간·장소·감성분석·추천·트렌드 각각 최적 TTL 적용
+- **Claude Haiku 토큰 경제성** — 호출당 ~700 토큰, DAU 1,000 기준 월 3~5천원
+
+## 아키텍처
+
+```
+사용자 입력 → Geocoding → Naver/Kakao 태그 검증
+  → PostGIS 반경 검색 → Redis 실시간 매칭
+  → Claude Haiku 리뷰 분석 → 복합 랭킹 → TOP 3 결과
+```
+
+## 배포 환경
+
+| 서비스 | 플랫폼 | 비용 |
+|--------|--------|------|
+| 프론트엔드 | Vercel (Hobby) | 무료 |
+| 백엔드 API | Railway (Hobby) | ~7,000원/월 |
+| PostgreSQL | Supabase Free | 무료 |
+| Redis | Upstash Free | 무료 |

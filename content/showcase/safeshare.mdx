@@ -1,0 +1,41 @@
+---
+title: "SafeShare — 안전한 문서 공유 서비스"
+slug: safeshare
+summary: "가입 없이 PDF를 드래그 앤 드롭하면 만료 기한 있는 공유 링크가 즉시 생성되는 서버비 0원 문서 공유 서비스."
+type: "Web App"
+status: "live"
+stack: ["Next.js 15", "Cloudflare Pages", "Cloudflare R2", "Cloudflare D1", "Workers"]
+externalUrl: "https://pdfweblink.pages.dev"
+featured: false
+draft: false
+---
+
+## 소개
+
+**SafeShare**는 교사·공무원이 학부모에게 가정통신문 등 PDF 문서를 안전하게 공유할 수 있도록 만든 서비스입니다. 회원가입 없이, 드래그 앤 드롭으로 업로드하면 자동 만료되는 공유 링크가 즉시 생성됩니다.
+
+## 핵심 기능
+
+- **제로 가입** — 회원가입 없이 즉시 업로드·공유
+- **자동 만료** — 1일/7일/30일/90일 선택, 만료 후 자동 삭제
+- **모바일 최적화** — 카카오톡 인앱 브라우저에서 바로 PDF 열람 가능
+- **QR 코드 자동 생성** — 종이 문서에 인쇄용 QR 코드 제공
+- **보안** — MIME + 매직바이트 이중 검증, IP 기반 Rate Limiting
+
+## 기술 하이라이트
+
+- **Cloudflare 풀스택** — Pages + Workers + R2 + D1으로 서버비 완전 무료 운영
+- **R2 이그레스 비용 0원** — S3 호환 오브젝트 스토리지, 전송 비용 없음
+- **D1 SQLite** — 서버리스 데이터베이스, 메타데이터 관리
+- **시간당 CRON** — 만료 문서 자동 정리 (소프트 삭제 → 30일 후 하드 삭제)
+
+## 운영 비용
+
+| 서비스 | 무료 한도 | 용도 |
+|--------|----------|------|
+| Pages | 무제한 | 프론트엔드 호스팅 |
+| R2 | 10GB/월 | PDF 저장 |
+| D1 | 5GB, 500만 reads/일 | 메타데이터 DB |
+| Workers | 10만 req/일 | API 라우트 |
+
+**월 운영비: $0** (도메인 제외)

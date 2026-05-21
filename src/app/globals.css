@@ -334,24 +334,13 @@
 .hl-lavender { color: var(--accent-lavender); }
 
 /* ──────────────────────────────────────────────────────
-   ⑤ APP FRAME — 라이트=Figma 라운드 시트 / 다크=풀블리드
+   ⑤ APP FRAME — 라이트/다크 모두 풀블리드 (Figma 라운드 시트 제거)
+   ※ 라이트 모드 .app-frame 흰 카드가 헤더 좌상단에 박스처럼 보이던
+     이슈로 사용자 요청에 따라 라이트 모드 전용 프레임 디자인 전부 제거.
 ────────────────────────────────────────────────────── */
 .app-frame {
 	background: var(--do-surface);
 	min-height: 100vh;
-}
-.light .app-frame {
-	border-radius: 1.5rem;
-	margin: 0 0.75rem;
-	overflow: clip;
-	box-shadow: 0 1px 0 color-mix(in srgb, #fff 60%, transparent) inset,
-		0 24px 60px -28px rgba(0, 0, 0, 0.22);
-}
-@media (min-width: 768px) {
-	.light .app-frame {
-		border-radius: 2rem;
-		margin: 0 1.5rem;
-	}
 }
 
 /* 톤 반전 섹션 (Figma 블랙 인서트 / 다크 브라이트 밴드) */
@@ -367,15 +356,32 @@
 
 /* ──────────────────────────────────────────────────────
    ⑥ Glass Navigation
+   ─────────────────────────────────────────────────────
+   "가볍게 떠 있는" 느낌: 백그라운드는 살짝 더 투명하게,
+   블러는 강하지만 채도는 절제. 하단은 헤어라인 1px이 아니라
+   미세 그림자로 분리해 페이지와의 경계가 거칠지 않게.
 ────────────────────────────────────────────────────── */
 .glass-nav {
-	background: color-mix(in srgb, var(--do-surface) 68%, transparent);
-	backdrop-filter: blur(14px) saturate(160%);
-	-webkit-backdrop-filter: blur(14px) saturate(160%);
+	background: color-mix(in srgb, var(--do-surface) 60%, transparent);
+	backdrop-filter: blur(18px) saturate(140%);
+	-webkit-backdrop-filter: blur(18px) saturate(140%);
 	border-bottom: 1px solid var(--do-hairline);
+	box-shadow: 0 1px 0 0 color-mix(in srgb, var(--do-on-surface) 4%, transparent),
+		0 8px 24px -16px rgba(0, 0, 0, 0.25);
 }
 .light .glass-nav {
-	background: color-mix(in srgb, var(--do-page) 82%, transparent);
+	background: color-mix(in srgb, var(--do-page) 76%, transparent);
+	box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.04),
+		0 8px 24px -18px rgba(0, 0, 0, 0.10);
+}
+/* backdrop-filter 미지원 브라우저(주로 구형 안드로이드 WebView) 폴백 */
+@supports not (backdrop-filter: blur(1px)) {
+	.glass-nav {
+		background: color-mix(in srgb, var(--do-surface) 94%, transparent);
+	}
+	.light .glass-nav {
+		background: color-mix(in srgb, var(--do-page) 96%, transparent);
+	}
 }
 
 /* ──────────────────────────────────────────────────────
@@ -549,6 +555,25 @@ tbody tr:hover {
 }
 
 .light .logo-lab { color: var(--do-primary); }
+
+/* 브랜드 로고 — 사용자 제공 두 PNG 를 CSS opacity 로 전환
+   · gotechy-logo.png → 다크 모드
+   · logo-light.png   → 라이트 모드 (사용자 직접 제공)
+   ─────────────────────────────────────────────────────
+   콘텐츠 bbox 기준 시각 중심 보정은 BrandLogo 컴포넌트에서
+   object-cover + object-position 으로 처리한다. 이 곳은
+   오직 모드 전환 트랜지션과 미세 hover lift 만 담당. */
+.brand-logo {
+	transition: opacity 320ms ease, transform 240ms ease;
+	-webkit-user-drag: none;
+	/* object-cover 컷오프가 시각 중심을 잡으므로 추가 보정 없음 */
+}
+/* light/dark 두 PNG 를 겹쳐두고 모드 토글로 페이드 */
+.brand-logo-light { opacity: 1; }
+.brand-logo-dark  { opacity: 0; }
+.dark .brand-logo-light { opacity: 0; }
+.dark .brand-logo-dark  { opacity: 1; }
+.brand-logo-wrap:hover .brand-logo { transform: translateY(-1px); }
 
 /* ──────────────────────────────────────────────────────
    ⑭ Reduced motion — 접근성

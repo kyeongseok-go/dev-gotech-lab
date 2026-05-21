@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="ko"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&amp;family=Inter:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary-container": "#06b6d4",
+              "surface": "#131315",
+              "surface-container-highest": "#353437",
+              "secondary-fixed": "#e1e0ff",
+              "tertiary": "#4edea3",
+              "secondary-container": "#3131c0",
+              "on-tertiary-container": "#00452e",
+              "outline": "#869397",
+              "secondary": "#c0c1ff",
+              "surface-container": "#201f22",
+              "on-error": "#690005",
+              "surface-variant": "#353437",
+              "on-tertiary-fixed": "#002113",
+              "background": "#131315",
+              "tertiary-container": "#1bbd85",
+              "on-primary-container": "#00424f",
+              "tertiary-fixed": "#6ffbbe",
+              "surface-dim": "#131315",
+              "outline-variant": "#3d494c",
+              "inverse-primary": "#00687a",
+              "on-secondary-container": "#b0b2ff",
+              "on-tertiary-fixed-variant": "#005236",
+              "on-tertiary": "#003824",
+              "on-secondary-fixed-variant": "#2f2ebe",
+              "surface-tint": "#4cd7f6",
+              "surface-container-high": "#2a2a2c",
+              "on-surface": "#e5e1e4",
+              "on-primary": "#003640",
+              "on-error-container": "#ffdad6",
+              "surface-bright": "#39393b",
+              "primary-fixed-dim": "#4cd7f6",
+              "on-primary-fixed-variant": "#004e5c",
+              "tertiary-fixed-dim": "#4edea3",
+              "primary": "#4cd7f6",
+              "error": "#ffb4ab",
+              "inverse-surface": "#e5e1e4",
+              "on-secondary": "#1000a9",
+              "error-container": "#93000a",
+              "on-background": "#e5e1e4",
+              "primary-fixed": "#acedff",
+              "on-surface-variant": "#bcc9cd",
+              "on-primary-fixed": "#001f26",
+              "on-secondary-fixed": "#07006c",
+              "secondary-fixed-dim": "#c0c1ff",
+              "surface-container-lowest": "#0e0e10",
+              "surface-container-low": "#1c1b1d",
+              "inverse-on-surface": "#313032"
+            },
+            fontFamily: {
+              "headline": ["Space Grotesk"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+          },
+        },
+      }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; background-color: #131315; color: #e5e1e4; }
+        .font-space { font-family: 'Space Grotesk', sans-serif; }
+        .glass-nav { background: rgba(19, 19, 21, 0.7); backdrop-filter: blur(12px); }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+    </style>
+</head>
+<body class="bg-surface text-on-surface">
+<!-- TopNavBar -->
+<nav class="fixed top-0 w-full z-50 glass-nav no-border bg-gradient-to-b from-[#131315] to-transparent">
+<div class="flex justify-between items-center max-w-7xl mx-auto px-8 h-20">
+<div class="text-xl font-bold font-space text-white tracking-tighter uppercase">
+                gotech<span class="text-primary">.lab</span>
+</div>
+<div class="hidden md:flex items-center gap-8 font-space tracking-tighter uppercase text-sm font-bold">
+<a class="text-primary border-b-2 border-primary pb-1" href="#">Home</a>
+<a class="text-slate-400 hover:text-white transition-colors" href="#">Blog</a>
+<a class="text-slate-400 hover:text-white transition-colors" href="#">Projects</a>
+<a class="text-slate-400 hover:text-white transition-colors" href="#">Showcase</a>
+<a class="text-slate-400 hover:text-white transition-colors" href="#">Services</a>
+<a class="text-slate-400 hover:text-white transition-colors" href="#">About</a>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 text-primary hover:scale-95 active:scale-90 transition-all duration-300">
+<span class="material-symbols-outlined">dark_mode</span>
+</button>
+<button class="md:hidden p-2 text-white">
+<span class="material-symbols-outlined">menu</span>
+</button>
+</div>
+</div>
+</nav>
+<main class="pt-32 pb-20 px-8 max-w-7xl mx-auto">
+<!-- Hero Section -->
+<section class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center mb-32">
+<div class="lg:col-span-7">
+<h1 class="font-space text-6xl md:text-8xl font-bold tracking-tighter leading-none mb-6">
+                    Gotekie's<br/>
+<span class="text-primary">Developer Hub</span>
+</h1>
+<p class="text-lg md:text-xl text-on-surface-variant max-w-xl leading-relaxed mb-8">
+                    Building high-performance digital environments with <span class="text-white font-semibold">Next.js</span> and <span class="text-white font-semibold">Cloudflare</span>. Specialized in crafting pressurized UI and scalable cloud architectures.
+                </p>
+<div class="flex flex-wrap gap-4">
+<button class="bg-primary text-on-primary px-8 py-4 font-space font-bold uppercase tracking-widest rounded-lg hover:scale-105 transition-transform">
+                        View Projects
+                    </button>
+<button class="border border-outline-variant px-8 py-4 font-space font-bold uppercase tracking-widest rounded-lg hover:bg-surface-container-high transition-colors">
+                        Read Blog
+                    </button>
+</div>
+</div>
+<div class="lg:col-span-5 relative group">
+<div class="absolute -inset-1 bg-gradient-to-r from-primary to-secondary rounded-xl blur opacity-25 group-hover:opacity-50 transition duration-1000 group-hover:duration-200"></div>
+<div class="relative bg-surface-container-low p-4 rounded-xl overflow-hidden aspect-square flex items-center justify-center">
+<img alt="Gotekie profile" class="w-full h-full object-cover rounded-lg" data-alt="Stylized portrait of a developer with tech-wear aesthetics, neon cyan lighting highlights on dark background, cinematic digital art style" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD6fd7Xyqy4brZV7P-Zn4BNibHqVRmygaFDqt_gAHAnTynrn6DAgY4fyyBuhs2iNw41PcVzWOHe7-1WjigyZ27nAFVHsUC_7vDaF2ukm9Tj1Vwwqt5RjOetkSRAWAu0w86ohOVX3js93mhoS4UFuxGbt5NjH5bKA8zd9QA4zRwJCrXLTa8qn_5aEXyCoDWbkhMJmaePZUao9nQztTnaHjj0tz_pNe3JGlMHC0HsJJFN_XgqJBDi5GzcflOoksxri3t9x7sDGaIuCtA"/>
+</div>
+</div>
+</section>
+<!-- Featured Projects (Asymmetric Layout) -->
+<section class="mb-32">
+<div class="flex justify-between items-end mb-12">
+<h2 class="font-space text-3xl font-bold tracking-tighter uppercase">Featured Projects</h2>
+<a class="text-primary font-space font-bold text-sm tracking-widest uppercase flex items-center gap-2 group" href="#">
+                    View All <span class="material-symbols-outlined group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</a>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+<!-- Project 1 -->
+<div class="bg-surface-container-low rounded-xl p-8 border border-transparent hover:border-primary/20 transition-all duration-300 group">
+<div class="h-64 mb-8 bg-surface-container-highest rounded-lg overflow-hidden">
+<img alt="Project 1" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Screenshot of a sleek dashboard interface with glowing charts, dark mode UI, and abstract geometric patterns" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDCnclW2CmWiIBGa5a0Hk57w0czVfh1e77EjDnXGvlks8nboQLWG1KcVPDgK1SITnKauBCMFVBBxwipIAkRfj3dS0azhlpb8D80Fmh-3LZS8FRDiL0KX0tRdLV9QFSKF4htGrXSheBvuKOm7vh1DWPYlznuBAnZvXuzsDZM6JEKB4hCUt_VkJMA6XZFyw1yAh7Q62Y4IUHAsNrKeEea_BZFW4eQR_T4Bl87_lxKrJ1J8WgQQ-PkqQqggoAjUc7ouuirMX2Aj0vIsfg"/>
+</div>
+<div class="flex gap-2 mb-4">
+<span class="bg-primary-container/20 text-primary text-[10px] font-bold px-2 py-1 rounded-sm uppercase tracking-wider">TypeScript</span>
+<span class="bg-primary-container/20 text-primary text-[10px] font-bold px-2 py-1 rounded-sm uppercase tracking-wider">Next.js</span>
+</div>
+<h3 class="font-space text-2xl font-bold mb-3">Obsidian Cloud Sync</h3>
+<p class="text-on-surface-variant text-sm leading-relaxed mb-6">A real-time synchronization engine for markdown notes leveraging Cloudflare Workers and Durable Objects for zero-latency updates.</p>
+</div>
+<!-- Project 2 -->
+<div class="bg-surface-container-low rounded-xl p-8 mt-0 md:mt-12 border border-transparent hover:border-primary/20 transition-all duration-300 group">
+<div class="h-64 mb-8 bg-surface-container-highest rounded-lg overflow-hidden">
+<img alt="Project 2" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Abstract 3D rendering of interconnected data nodes in a dark void with cyan and purple light trails" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCBeJ4EtnhCOaxmw9QMEzf2kL-qWciaXFCf-XmodlfQ8HxhmUPIxvQVxm9YYcyzd0C27zynKTnqGOIBhV1lyd9z3VkgPaU_oCvHZftjDCKarZHJIqWHm-J4fSe19LAl1zpHdbdacLBtkNIcGnmMMaI7L7f3-CDNrdEK9xN0IV4BFIaeJ-VaKEdcUSCn6sp4Ag960xfW6bLXUIAXbrfGalV-NR2hd8PqforsUAaWr4zWQSxDDPLZ9Q9k5oIWsDH7pKOB8jccuP6wEAA"/>
+</div>
+<div class="flex gap-2 mb-4">
+<span class="bg-primary-container/20 text-primary text-[10px] font-bold px-2 py-1 rounded-sm uppercase tracking-wider">Tailwind v4</span>
+<span class="bg-primary-container/20 text-primary text-[10px] font-bold px-2 py-1 rounded-sm uppercase tracking-wider">Shadcn</span>
+</div>
+<h3 class="font-space text-2xl font-bold mb-3">Pressurized UI Components</h3>
+<p class="text-on-surface-variant text-sm leading-relaxed mb-6">An editorial-focused design system library that eliminates traditional borders for tonal depth and glassmorphism layering.</p>
+</div>
+</div>
+</section>
+<!-- Bento Grid: Blog & AI Showcase -->
+<section class="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-32">
+<!-- Blog Posts (Bento Main) -->
+<div class="lg:col-span-8 space-y-8">
+<h2 class="font-space text-3xl font-bold tracking-tighter uppercase mb-8">Latest Insights</h2>
+<article class="bg-surface-container-low p-6 rounded-xl hover:bg-surface-container-high transition-colors flex flex-col md:flex-row gap-6 items-center">
+<div class="w-full md:w-32 h-32 bg-surface-container-highest rounded-lg flex-shrink-0">
+<img alt="Next.js Blog" class="w-full h-full object-cover rounded-lg" data-alt="Minimalist abstract logo of Next.js floating in a dark room with soft volumetric light" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAfBMxCk50gwPFlbTUTp47CHi1dP3Ja3cD1QqDPCpmo40GpvJ2fJv5lXy7kgqlQyIPRilHZALvEvmBUv5KOoV5f54pNauOUUe-nhQsZnLBHFuE8dscjUkAFR8_vK-YUcxUJ_FH5YblMx8fIMJkE-fvikX8dsGuGHe-_Hnbat1H5SLZod3xQf7sZ1zbM9E4hLxOfOMzHAQgY58vQqRPhPmk7_eyEC9gU0FJM84uSD1h46DL1UFQkkm52n4ny8xlG5m3hIXuKn8QMyeE"/>
+</div>
+<div>
+<div class="flex items-center gap-3 mb-2">
+<span class="text-primary text-[10px] font-bold uppercase tracking-widest">Next.js</span>
+<span class="text-on-surface-variant text-[10px]">2024.11.24</span>
+</div>
+<h4 class="text-xl font-bold mb-2">Mastering Server Components in App Router</h4>
+<p class="text-on-surface-variant text-sm leading-relaxed">How to architect data fetching patterns for maximum performance and zero client-side JS...</p>
+</div>
+</article>
+<article class="bg-surface-container-low p-6 rounded-xl hover:bg-surface-container-high transition-colors flex flex-col md:flex-row gap-6 items-center">
+<div class="w-full md:w-32 h-32 bg-surface-container-highest rounded-lg flex-shrink-0">
+<img alt="Cloudflare Blog" class="w-full h-full object-cover rounded-lg" data-alt="Glowing orange cloud icon on a deep blue server rack background with bokeh lights" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDVF1gHPv9xndrABWh3q5FY_QL3vU-aOw7e4lfVzLqZl1UB94BHy5_Cm5WG276RsqYOz5imbvu8Y7okvu7gHQIv00nOrS3Vjz5xOr-K9pLATPQ5NdAwg5FKw5J1u4aycfzgBVr5wwE-rWxftPuOnTz2UFzsDgsWNafjHxOdIio4bYtZOMaGKLlmMq_by4a8V8agYKGBhbT0d-qJK5LDtVpfs2W68ZkZa7dWWmbBD_325SUrfNDumxIEOX3iFN1CYJnNtoMNO91ShNw"/>
+</div>
+<div>
+<div class="flex items-center gap-3 mb-2">
+<span class="text-primary text-[10px] font-bold uppercase tracking-widest">Cloudflare</span>
+<span class="text-on-surface-variant text-[10px]">2024.11.12</span>
+</div>
+<h4 class="text-xl font-bold mb-2">Edge Computing with Workers AI</h4>
+<p class="text-on-surface-variant text-sm leading-relaxed">Deploying large language models on the edge using Cloudflare's global network infrastucture...</p>
+</div>
+</article>
+<article class="bg-surface-container-low p-6 rounded-xl hover:bg-surface-container-high transition-colors flex flex-col md:flex-row gap-6 items-center">
+<div class="w-full md:w-32 h-32 bg-surface-container-highest rounded-lg flex-shrink-0">
+<img alt="UI Blog" class="w-full h-full object-cover rounded-lg" data-alt="Close up of a keyboard with custom artisan keycaps and soft RGB underglow in a dim studio" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAknBjvc8Nme3-Vz_z1uSbSlGTLcrlKJcfl3gjzaqV2uysTuX6Dp-jnJ_A_YqKheEQ9GX1s9uXh0gugOhFO8nVRr3FB-sdZPu8Eu_7B6ZgdQMmC60mx2xCJEHU80CQ3_p_DyVdhz-ZbtO8Iv9CLNSHgg3LjVuZ5INFQ6NOm66-le0zAf0i5gLbkz6IcjZnHreSwnZ04NsC6uYWxM6TQuVomAq1WXBhBYgGf5nUyibePMTkWji3yV8zvZeeQUsPaMRcoi-rSl1VurHs"/>
+</div>
+<div>
+<div class="flex items-center gap-3 mb-2">
+<span class="text-primary text-[10px] font-bold uppercase tracking-widest">UI Design</span>
+<span class="text-on-surface-variant text-[10px]">2024.10.30</span>
+</div>
+<h4 class="text-xl font-bold mb-2">The Digital Obsidian: Tonal Depth UX</h4>
+<p class="text-on-surface-variant text-sm leading-relaxed">Why 1px borders are dying and how to use background shifts to create professional hierarchies...</p>
+</div>
+</article>
+</div>
+<!-- AI Showcase (Bento Sidebar) -->
+<div class="lg:col-span-4 bg-surface-container-low rounded-xl p-8 border border-primary/10">
+<h2 class="font-space text-xl font-bold tracking-tighter uppercase mb-8 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">auto_awesome</span>
+                    AI Showcase
+                </h2>
+<div class="space-y-6">
+<div class="p-4 bg-surface-container-highest rounded-lg group">
+<div class="flex justify-between items-start mb-3">
+<h5 class="font-bold text-white">CommitGenie.ai</h5>
+<span class="bg-tertiary-container text-on-tertiary-container text-[10px] font-bold px-2 py-0.5 rounded-sm">배포완료</span>
+</div>
+<p class="text-xs text-on-surface-variant leading-relaxed mb-4">AI agent that writes meaningful semantic commit messages from your diffs.</p>
+<div class="flex gap-2">
+<span class="text-[10px] text-primary font-mono">GPT-4o</span>
+<span class="text-[10px] text-primary font-mono">HuggingFace</span>
+</div>
+</div>
+<div class="p-4 bg-surface-container-highest rounded-lg group">
+<div class="flex justify-between items-start mb-3">
+<h5 class="font-bold text-white">EdgeVision LLM</h5>
+<span class="bg-primary-container text-on-primary-container text-[10px] font-bold px-2 py-0.5 rounded-sm">개발중</span>
+</div>
+<p class="text-xs text-on-surface-variant leading-relaxed mb-4">Real-time object detection running on Cloudflare Workers AI.</p>
+<div class="flex gap-2">
+<span class="text-[10px] text-primary font-mono">Llama 3</span>
+<span class="text-[10px] text-primary font-mono">ONNX</span>
+</div>
+</div>
+<div class="p-4 bg-surface-container-highest rounded-lg opacity-60">
+<div class="flex justify-between items-start mb-3">
+<h5 class="font-bold text-white">BotDraft v1</h5>
+<span class="bg-surface-variant text-on-surface-variant text-[10px] font-bold px-2 py-0.5 rounded-sm">보관됨</span>
+</div>
+<p class="text-xs text-on-surface-variant leading-relaxed">Legacy automation tool for early-stage API testing.</p>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="w-full border-t border-primary/10 bg-[#131315]">
+<div class="flex flex-col md:flex-row justify-between items-center py-12 px-8 max-w-7xl mx-auto gap-6">
+<div class="font-space font-bold text-slate-300">
+                gotech<span class="text-primary">.lab</span>
+</div>
+<div class="flex gap-8">
+<a class="text-slate-500 hover:text-primary transition-all duration-300 opacity-80 hover:opacity-100" href="#">Github</a>
+<a class="text-slate-500 hover:text-primary transition-all duration-300 opacity-80 hover:opacity-100" href="#">LinkedIn</a>
+<a class="text-slate-500 hover:text-primary transition-all duration-300 opacity-80 hover:opacity-100" href="#">RSS</a>
+<a class="text-slate-500 hover:text-primary transition-all duration-300 opacity-80 hover:opacity-100" href="#">Privacy</a>
+</div>
+<p class="font-body text-xs leading-relaxed text-slate-500">
+                © 2024 gotech.lab. All rights reserved.
+            </p>
+</div>
+</footer>
+</body></html>

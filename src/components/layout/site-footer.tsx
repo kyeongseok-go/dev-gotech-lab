@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { Marquee } from "@/components/section/marquee";
+import { BrandLogo } from "@/components/brand/brand-logo";
 
 const SITE_LINKS = [
   { href: "/blog", label: "Blog" },
@@ -48,8 +49,12 @@ export function SiteFooter() {
         <div className="grid grid-cols-12 gap-6 md:gap-8 mb-12">
           {/* Brand */}
           <div className="col-span-12 md:col-span-5">
-            <Link href="/" className="font-headline text-3xl font-semibold text-on-surface inline-block mb-3">
-              Go<span className="text-do-primary">Techy</span>
+            <Link
+              href="/"
+              aria-label="GoTechy 홈"
+              className="inline-flex items-center -ml-2 mb-3 transition-opacity hover:opacity-85"
+            >
+              <BrandLogo size="lg" />
             </Link>
             <p className="type-small text-on-surface-variant max-w-sm">
               Go Build the Technology, <span className="text-em">more easy.</span>

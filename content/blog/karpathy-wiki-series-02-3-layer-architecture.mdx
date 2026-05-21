@@ -1,0 +1,155 @@
+---
+title: "2편: 3-layer 아키텍처 — raw / wiki / Output 분리하기"
+slug: karpathy-wiki-series-02-3-layer-architecture
+date: 2026-04-24
+description: "한 폴더에 다 두면 어떻게 망하는가. raw(불변 원본) → wiki(AI 컴파일) → Output(결과물) 한 방향 흐름의 실제 구조와 삽질 포인트."
+category: knowledge-management
+tags: ["지식관리", "LLMWiki", "아키텍처", "Obsidian", "ClaudeCode"]
+draft: false
+---
+
+안녕하세요 고텍이예요! 지난 화요일 글에서 약속한 대로 오늘은 3-layer 들어갈게요. 사흘 동안 실제로 굴려보니 생각보다 헷갈리는 포인트가 있었거든요. 같이 고!!
+
+## 한 폴더에 다 두면 왜 망하는가
+
+화요일 글 올리고 나서 바로 ingest 두 번 돌렸어요. LY Corp MCP 아티클 하나랑 GPT Image 2 영상 하나. 근데 폴더 구조 없이 막 넣으니까 세 번째 파일부터 이미 헷갈리더라고요.
+
+"이게 원본이었나 내가 요약한 건가?"
+"이건 자소서에 쓴 초안인가, 참고용 자료인가?"
+"Claude가 만든 wiki 페이지인가, 내가 복붙한 건가?"
+
+출처가 섞이면 무너져요. 특히 Claude가 "이 내용은 어디서 왔어?"라고 물어봤을 때 대답 못 하면 자산화가 안 되는 거예요. 결국 신뢰할 수 없는 데이터 더미가 돼요.
+
+그래서 나온 게 3-layer예요.
+
+## Layer 1: raw/ — 불변 원본
+
+`raw/`는 **절대 수정 금지 계층**이에요. 클리핑한 아티클, 유튜브 요약, PDF 하이라이트 — 모든 원본이 여기 들어와요.
+
+```
+raw/
+├── articles/     # 웹 아티클, 블로그, 뉴스레터
+├── videos/       # 유튜브 트랜스크립트
+├── projects/     # 이직 프로젝트, 채용 공고
+├── books/
+├── podcasts/
+└── CLAUDE.md     # "이 폴더는 읽기만 한다" 규칙
+```
+
+각 파일엔 frontmatter가 필수예요:
+
+```yaml
+---
+title: 원본 제목
+source_url: https://...
+author: 저자
+ingested: 2026-04-23T13:00+09:00
+category: articles
+wiki_status: pending   # ← 이게 핵심
+---
+```
+
+`wiki_status`가 `pending`이면 "아직 wiki로 소화 안 됨", `processed`면 "완료". 이게 처리 큐 역할을 해요. Obsidian Dataview로 pending 파일만 뽑아볼 수 있어요.
+
+```
+FROM "raw"
+WHERE wiki_status = "pending"
+```
+
+제일 중요한 규칙: **raw/는 오타 수정도 금지**예요. 원본은 원본 그대로. 해석은 wiki/에서만.
+
+유일하게 허용된 수정이 `wiki_status: pending → processed`로 바꾸는 것 딱 하나예요.
+
+## Layer 2: wiki/ — AI 컴파일 지식 계층
+
+여기가 핵심이에요. raw/의 소스를 읽고 Claude가 재해석해서 만드는 공간이에요.
+
+```
+wiki/
+├── Entities/     # 인물·기업·제품
+├── Concepts/     # 기술·이론·방법론
+├── Topics/       # 상위 주제 클러스터
+├── Learnings/    # 내재화 교훈 (원자 노트)
+├── Patterns/     # 반복 설계 패턴
+├── Issues/       # 겪은 문제 + 해결
+├── References/   # 외부 자료 요약
+├── Projects/     # 프로젝트 인덱스
+└── CLAUDE.md
+```
+
+여기서 제일 헷갈리는 게 **Concept vs Pattern 구분**이에요.
+
+저도 처음엔 다 Concept으로 넣었다가 나중에 재분류했거든요.
+
+- **Concept**: "이게 뭔가" — 정의·특성 (예: MCP — AI↔외부도구 통합 표준 프로토콜)
+- **Pattern**: "언제·어떻게 쓰는가" — 적용 블루프린트 (예: Multi-Agent Code Review — Sonnet × GPT-5 2단계 PR 리뷰 패턴)
+
+"재현 가능한 구조로 추출되면 Pattern이 더 적합하다"가 지금 제 기준이에요.
+
+모든 wiki 페이지엔 이 frontmatter가 필요해요:
+
+```yaml
+---
+title: ...
+type: entity | concept | pattern | learning | ...
+tags: [...]
+created: YYYY-MM-DD
+updated: YYYY-MM-DD
+sources:
+  - "[[raw/articles/아티클명]]"
+related:
+  - "[[다른 wiki 페이지]]"
+---
+```
+
+`sources`와 `related`가 wiki의 신경망이에요. 이게 빠지면 그냥 고립된 메모예요.
+
+내부 참조는 **wikilink `[[...]]`만** 써야 해요. `[텍스트](경로)` 형식 절대 금지. 파일이 이동하면 마크다운 링크는 깨지거든요. wikilink는 파일명 기반이라 폴더 이동해도 안 깨져요.
+
+## Layer 3: Output/ — 결과물 계층
+
+wiki/의 지식을 기반으로 실제 쓸 것들이 나오는 공간이에요.
+
+```
+Output/
+├── blog/         # 기술 블로그 글 초안
+├── resume/       # 이력서·자소서
+├── slides/       # 발표자료
+└── CLAUDE.md
+```
+
+한 방향 흐름: `raw/ → wiki/ → Output/`
+
+역방향은 금지예요. Output/에서 raw/를 직접 수정하면 안 돼요. 단, **Output 작성 중에 새로운 통찰이 생기면 그걸 wiki/ 신규 페이지로 역류시키는 건 OK**예요. 탐색이 자산이 되는 방향은 허용이에요.
+
+## 삽질 포인트: 파일명 정책
+
+사흘 동안 삽질한 것 중에 파일명이 있었어요.
+
+처음엔 한국어 파일명으로 막 만들었어요. `MCP 거버넌스.md`, `이미지 투 비디오 파이프라인.md` 이런 식으로요. 근데 Claude가 wikilink 생성할 때 일관성이 없어지더라고요. 어떤 건 `[[MCP 거버넌스]]`, 어떤 건 `[[mcp-governance]]`로 쓰고.
+
+결국 정착한 정책:
+
+- 기본은 **영문 kebab-case** (`model-context-protocol.md`)
+- 한국어 제목이 더 자연스러운 경우만 한글 허용 (`티맥스가이아.md`)
+- 공백 대신 `_` 또는 `-` 권장
+
+이게 알고 나면 베리 이지이지~인데 모르면 나중에 정리하면서 진짜 고생해요 ㅋㅋ
+
+## 3-layer가 있어야 Claude를 믿을 수 있다
+
+이 구조를 만들고 나서 Claude한테 "raw/를 절대 수정하지 마"라고 CLAUDE.md에 못 박을 수 있게 됐어요. 폴더 자체에 의미가 생겼으니까요.
+
+규칙이 명확하면 Claude가 실수해도 raw/에는 영향이 없어요. wiki/를 잘못 만들어도 raw/만 보면 원본으로 돌아갈 수 있고요.
+
+개발로 치면 **불변 원본 + 파생 아티팩트 분리**예요. 소스코드와 빌드 아티팩트를 같은 폴더에 두지 않는 것처럼요. 쉽죠?
+
+## 다음 편 예고
+
+다음 주 화요일쯤 3편 갈게요 — Claude를 Librarian으로 부리는 법이에요. CLAUDE.md를 계층별로 어떻게 구성하는지, 맥락 상수가 왜 중요한지 파고들 거예요.
+
+이지하게 가볼게요!
+
+---
+
+#고텍이 #LLMWiki #아키텍처 #Obsidian #ClaudeCode #지식관리 #BuildTechLiveEasy
