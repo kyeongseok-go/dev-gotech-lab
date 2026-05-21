@@ -1,0 +1,55 @@
+---
+title: "SafeShare — 서버리스 PDF 공유 서비스"
+slug: safe-share
+summary: "가입 없이 PDF를 올리면 만료되는 공유 링크를 즉시 생성. Cloudflare R2 + D1 + Edge Runtime 기반 서버비 $0/월 SaaS."
+period: "2026.02 ~ 2026.03"
+role: "기획 · 설계 · 개발 (1인)"
+techStack: ["Next.js 15", "TypeScript", "Cloudflare Pages", "Cloudflare R2", "Cloudflare D1", "Edge Runtime", "pdfjs-dist"]
+repoUrl: "https://github.com/kyeongseok-go/pdf-link-share"
+demoUrl: "https://pdfweblink.pages.dev"
+featured: false
+draft: false
+---
+
+## 프로젝트 소개
+
+"선생님이 학부모에게 가정통신문 PDF를 보낼 때 쉬운 방법이 없다"는 문제에서 시작했습니다.
+카카오톡 파일은 만료되고, 구글 드라이브는 권한 설정이 복잡하고, MYBOX는 가입이 필요합니다.
+
+드래그 앤 드롭 → 공유 링크 즉시 생성 → 만료 후 자동 삭제. 이 세 가지를 서버비 $0/월로 구현했습니다.
+
+## 핵심 플로우
+
+```
+PDF 드래그 앤 드롭
+  → 매직 바이트 이중 검증 (클라이언트 + 서버)
+  → IP rate-limit 체크 (D1, 10/시 · 50/일)
+  → Cloudflare R2 저장 (버킷 비공개)
+  → D1 메타데이터 insert
+  → nanoid(8) 공유 URL 생성
+  → 카카오톡 공유
+수신자: /v/{shareId} → R2 proxy → PDF 뷰어
+만료: CRON → R2 삭제 + soft-delete → 30일 후 hard-delete
+```
+
+## 기술 결정
+
+**Edge Runtime 전체 채택** — Node.js 의존성을 완전히 제거해 Cloudflare Workers에서 직접 실행되도록 했습니다. nanoid의 `crypto` 의존도 Edge 호환 커스텀 구현으로 대체했습니다.
+
+**R2 직접 URL 비공개 + proxy 서빙** — 파일을 presigned URL로 직접 노출하지 않고 API 레이어에서 만료·삭제 정책을 강제합니다.
+
+**소프트 → 하드 삭제 2단계 GC** — 만료 시 R2 삭제 + `deleted_at` 마킹, 30일 후 D1 hard-delete로 유예 기간을 제공합니다.
+
+**magic bytes 이중 검증** — MIME 타입은 클라이언트에서 조작 가능하므로, 서버에서 `%PDF` 매직 바이트를 재검증해 신뢰 경계를 지킵니다.
+
+**클라이언트 PDF Canvas 렌더링** — iOS Safari의 네이티브 PDF 뷰어를 우회하고, 핀치 줌과 stale render 취소(`renderIdRef`)를 직접 제어합니다.
+
+## 트러블슈팅
+
+- pdf.js worker CDN 차단 → `postinstall` 스크립트로 self-host
+- 카카오 인앱 브라우저 clipboard fallback 체인 (Kakao SDK → Web Share API → execCommand)
+- `headers().host`로 뷰어 메타 URL 동적 생성
+
+## 현재 상태
+
+서비스 운영 중 (`pdfweblink.pages.dev`). QR 코드 생성, 문서함, 신고 기능은 Phase 2 예정.

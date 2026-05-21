@@ -1,0 +1,67 @@
+---
+title: "YouTube Shorts 자동화 파이프라인"
+slug: youtube-short-automation
+summary: "YouTube URL 하나로 스크립트·음성·자막·영상·썸네일을 자동 생성하는 11단계 Celery 파이프라인. 6개 AI 모델을 단일 시스템에서 오케스트레이션."
+period: "2026.02 ~ 2026.03"
+role: "기획 · 설계 · 개발 (1인)"
+techStack: ["Python 3.12", "FastAPI", "Celery", "Redis", "PostgreSQL", "Claude Sonnet", "Gemini Pro", "ElevenLabs", "Veo 3.1", "FFmpeg", "Next.js 15", "Docker Compose"]
+repoUrl: "https://github.com/kyeongseok-go/youtube-short-automation"
+featured: true
+draft: false
+---
+
+## 프로젝트 소개
+
+YouTube URL 하나를 입력하면 11단계 Celery 파이프라인이 자동으로 돌아가며 스크립트를 쓰고, 나레이션을 녹음하고, 자막을 붙이고, 비주얼을 생성해 9:16 / 16:9 듀얼 포맷 쇼츠를 완성합니다.
+
+기존 영상 클립을 그대로 쓰지 않아요. 원본 영상에서 인사이트만 추출하고 스크립트·음성·비주얼 전부를 새로 생성하는 오리지널 콘텐츠입니다.
+
+## 11단계 파이프라인
+
+```
+S1 메타데이터 (yt-dlp + 댓글)
+  → S2 분석 → S3 전략
+  → S4 스크립트 (Claude 3단계: 기획 → 집필 → 검수, 최대 2회 리비전)
+  → S5 음성 (ElevenLabs ko / Edge TTS en, actual_duration 확정)
+  → S6 자막 (faster-whisper word-level → SRT)
+  → S7 비주얼 (ai_image / stock / veo / text 분기)
+  → S8 썸네일 → S9 타임라인
+  → S10 렌더 (FFmpeg 9:16 + 16:9 boxblur)
+  → S11 CapCut 프로젝트
+```
+
+각 Stage 완료 시 PostgreSQL JSONB 체크포인트를 기록하여 실패한 Stage부터 재개 가능합니다.
+
+## AI 모델 오케스트레이션
+
+| 모델 | 역할 |
+|------|------|
+| Claude Sonnet 4 | 스크립트 3단계 생성 + 검수 |
+| Gemini Pro + Search | 실시간 트렌드 기반 카테고리 처리 |
+| Gemini Flash Image | 비주얼 이미지 생성 (500/일 무료 쿼터) |
+| Veo 3.1 | 시네마틱 영상 생성 |
+| ElevenLabs Voice Clone | 한국어 나레이션 |
+| faster-whisper | 워드레벨 자막 추출 |
+
+14가지 카테고리를 키워드 스코어링으로 자동 감지해 Claude(심층 창작) 또는 Gemini(실시간 데이터) 중 최적 모델로 라우팅합니다.
+
+## 핵심 기술 결정
+
+**DB 체크포인트 복구** — Celery 태스크 실패 시 처음부터 다시 돌리지 않고 PostgreSQL JSONB에 저장된 체크포인트에서 해당 Stage만 재실행합니다.
+
+**actual_duration 타이밍 앵커** — S5에서 실제 음성 길이를 확정하면 이후 자막·타임라인·렌더 단계 모두 이 값을 절대 기준으로 삼아 추정치 불일치를 흡수합니다.
+
+**TTS 어댑터 분리** — `BaseTTSClient` 추상화 위에 ElevenLabs(ko, 유료)와 Edge TTS(en, 무료)를 교체 가능하게 분리해 월 비용 상한을 제어합니다.
+
+**Veo 수동 개입 설계** — Veo는 10 RPM 한계가 있어 완전 자동화 대신 `STAGE_6_WAITING` 상태로 일시중단 → 수동 업로드 → resume 흐름으로 실용성을 우선했습니다.
+
+## 트러블슈팅
+
+- TTS 무음 구간 압축(`compress_silence()`) 후 actual_duration 재측정 로직
+- Claude JSON 실패 시 assistant prefix 주입 후 1회 재요청
+- `google-genai 1.67.0` 버그 감지 → `1.66.0` 핀닝
+- Celery 재개 시 `load_checkpoint()`로 JSONB flat dict 복원
+
+## 현재 상태
+
+Milestone v1.0 완료. Stage 12(YouTube 자동 업로드)는 v2 로드맵에 포함되어 있습니다.

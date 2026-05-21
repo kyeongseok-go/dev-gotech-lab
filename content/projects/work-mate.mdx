@@ -1,0 +1,57 @@
+---
+title: "Workmate AI Lab — 그룹웨어 AI 기능 탐구"
+slug: work-mate
+summary: "그룹웨어 메신저에 AI 8가지 기능을 ON/OFF 토글로 비교 체험하는 vendor-neutral 데모. Edge Runtime에서 Claude API를 직접 fetch로 호출하며 LLM 장애 대응 패턴을 구현."
+period: "2026.04 ~ 2026.05"
+role: "기획 · 설계 · 개발 (1인)"
+techStack: ["Next.js 14", "TypeScript", "Claude API", "Zustand", "Tailwind CSS", "shadcn/ui", "Edge Runtime", "Vercel"]
+repoUrl: "https://github.com/kyeongseok-go/work-mate"
+demoUrl: "https://work-mate-two.vercel.app"
+featured: false
+draft: false
+---
+
+## 프로젝트 소개
+
+요즘 그룹웨어 메신저에 AI 기능을 붙이면 어떤 기능이 실질적인 가치를 줄 수 있을지 궁금해서 만들었습니다.
+
+AI가 있을 때와 없을 때를 **토글 하나로 즉시 비교**할 수 있는 데모를 만들어, 어떤 기능이 실제로 체감 차이를 만드는지 직접 실험했습니다.
+
+## 8가지 AI 기능
+
+| 기능 | 설명 |
+|------|------|
+| 대화 요약 | 안읽은 메시지를 핵심 결정사항 + 액션아이템으로 요약 |
+| 메시지 분류 | P0~P3 심각도 자동 태깅 |
+| 미팅 노트 | 회의 채팅에서 회의록 자동 생성 |
+| 답변 초안 | 수신 메시지에 맞는 답변 초안 제안 |
+| 의미 기반 검색 | 키워드가 아닌 의미로 대화 검색 |
+| 워크-라이프 모드 | 업무/사생활 메시지 자동 분류 |
+| 우선순위 학습 | 개인 패턴 기반 알림 우선순위 조정 (시뮬레이션) |
+| 데일리 다이제스트 | 다중 소스 종합 에이전트 요약 |
+
+## 핵심 기술 결정
+
+**Edge Runtime에서 SDK 없이 Claude API 직접 호출** — `@anthropic-ai/sdk`가 Node.js `crypto` 모듈에 의존해 Vercel Edge Runtime에서 사용 불가입니다. `fetch()` 직접 호출로 retry·폴백·에러 파싱을 완전히 제어했습니다.
+
+**모델 폴백 체인** — `haiku-4-5`가 특정 요청에서 persistent 529를 반환하는 현상을 확인. 원인 분석 후 기본값을 `sonnet-4-5`로 변경하고, `ANTHROPIC_MODEL` 환경변수로 환경별 복원을 열어뒀습니다. 지수 백오프(600ms~10s, 최대 3회)를 적용했습니다.
+
+**`parseLenientJson` truncation 복구** — max_tokens 4096에도 대형 채팅방(87개 메시지)에서 응답이 잘리는 경우가 있었습니다. `repairTruncatedJson()`이 safeEnd 포인터로 트리밍 후 열린 컨테이너를 역순으로 닫고, 실패 시 빈 컨테이너로 degradation합니다.
+
+**P0~P3 공유 심각도 모델** — classify·workLife·digest 3개 라우트가 동일한 심각도 기준을 공유합니다. `legacyFromSeverity()`로 UI 변경 없이 하위호환을 유지합니다.
+
+**catch-up 서명 캐시** — `roomId + 안읽음수 + 구간`으로 동일 상태면 재호출 없이 캐시를 반환합니다. API 비용을 줄이고 응답 속도를 높입니다.
+
+## 트러블슈팅
+
+- `claude-3-5-haiku-20241022` 모델 retired → 404 핫픽스 → haiku-4-5 persistent 529 → 원인 분석 → 모델 폴백 체인 설계
+- search citations 환각 → `validIds` Set 교차검증 필터링
+- Zustand persist `migrate()`로 신규 토글 키 하위호환
+
+## 화이트라벨 구조
+
+`config/brand.ts`(문자열) + `globals.css`(토큰) 두 파일만 교체하면 다른 그룹웨어 환경 버전 데모로 재구성됩니다.
+
+## 현재 상태
+
+8가지 기능 구현 완료, 라이브 데모 운영 중. 실 DB·인증·실시간은 Phase 2 예정.

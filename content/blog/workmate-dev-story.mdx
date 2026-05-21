@@ -1,0 +1,185 @@
+---
+title: "그룹웨어에 AI를 붙이면 어떨까 — Workmate AI Lab 개발기"
+slug: workmate-dev-story
+date: 2026-05-15
+description: "요즘 AI 기술이 빠르게 발전하는데, 그룹웨어 메신저에 붙이면 어떤 기능이 실질적인 가치를 줄 수 있을까? Claude API + Edge Runtime으로 8가지 AI 토글을 직접 만들어봤어요."
+category: devlog
+tags: ["Workmate", "그룹웨어", "Claude API", "Edge Runtime", "Next.js", "AI", "Zustand", "LLM"]
+draft: false
+---
+
+> 📌 **한 줄 요약:** 그룹웨어 메신저에 AI 8기능을 ON/OFF 토글로 붙여보며 "어떤 AI가 실제로 유용한가"를 직접 실험해봤어요.
+
+안녕하세요, 고텍이예요! 오늘도 이지하게 가보자고!
+
+---
+
+## 동기 — "AI 붙이면 뭐가 달라질까?"
+
+요즘 AI가 정말 빠르게 발전하고 있잖아요. 특히 LLM 성능이 폭발적으로 올라오면서 "이걸 어디에 어떻게 붙이면 실질적인 도움이 될까?"가 계속 머릿속에 맴돌았어요.
+
+그 중에서 특히 **그룹웨어 메신저**가 궁금했어요. 하루에도 수백 개의 메시지가 오가는데, AI가 여기에 어떻게 녹아들 수 있을지 탐구해보고 싶었거든요.
+
+- 안읽은 메시지가 쌓였을 때 AI가 요약해준다면?
+- 긴급 메시지를 자동으로 분류해준다면?
+- 회의 채팅에서 회의록을 자동으로 뽑아준다면?
+
+이걸 그냥 상상만 하지 말고 **직접 만들어서 토글 하나로 ON/OFF 비교**해보기로 했어요.
+
+## 어떻게 만들었나
+
+### 핵심 아이디어: 토글 하나로 비교
+
+AI가 유용한지 아닌지는 말만으로는 모르잖아요. 그래서 **AI 없는 버전 ↔ AI 있는 버전**을 토글 하나로 즉시 전환할 수 있게 만들었어요.
+
+```tsx
+// AI 토글 예시
+{features.summarize ? (
+  <AiSummarySidebar messages={messages} />
+) : (
+  <PlainMessageList messages={messages} />
+)}
+```
+
+토글 상태는 Zustand persist(localStorage)로 저장해서 새로고침해도 유지돼요.
+
+### 8가지 기능
+
+| 기능 | 동작 |
+|------|------|
+| 대화 요약 | 안읽은 메시지 → 핵심 결정사항 + 액션아이템 |
+| 메시지 분류 | P0(긴급) ~ P3(참고) 자동 태깅 |
+| 미팅 노트 | 회의 채팅 → 회의록 자동 생성 |
+| 답변 초안 | 수신 메시지 → 답변 초안 제안 |
+| 의미 기반 검색 | 키워드가 아닌 의미로 대화 검색 |
+| 워크-라이프 모드 | 업무/사생활 메시지 자동 분류 |
+| 우선순위 학습 | 개인 패턴 기반 알림 우선순위 (시뮬레이션) |
+| 데일리 다이제스트 | 전체 채팅방 종합 브리핑 에이전트 |
+
+## 기술적으로 재밌었던 것들
+
+### Edge Runtime에서 Anthropic SDK를 못 써요
+
+이 프로젝트에서 처음 맞닥뜨린 제약이었어요.
+
+Vercel Edge Runtime은 Cloudflare Workers처럼 Node.js 런타임이 제한돼요. `@anthropic-ai/sdk`가 내부적으로 Node.js `crypto` 모듈을 쓰는데, Edge에서는 이게 없어요.
+
+해결책은 `fetch()` 직접 호출이에요:
+
+```typescript
+async function callClaude(prompt: string): Promise<string> {
+  const response = await fetch('https://api.anthropic.com/v1/messages', {
+    method: 'POST',
+    headers: {
+      'x-api-key': process.env.ANTHROPIC_API_KEY!,
+      'anthropic-version': '2023-06-01',
+      'content-type': 'application/json',
+    },
+    body: JSON.stringify({
+      model: process.env.ANTHROPIC_MODEL ?? 'claude-sonnet-4-5',
+      max_tokens: 4096,
+      messages: [{ role: 'user', content: prompt }],
+    }),
+  })
+  // ...
+}
+```
+
+SDK 없이 직접 구현하니까 retry, 폴백, 에러 파싱을 완전히 제어할 수 있었어요.
+
+### 모델 폴백 체인 — 실제 장애를 겪고 나서 만든 것
+
+개발하다가 갑자기 `haiku-4-5`에서 persistent 529가 쏟아졌어요. 처음엔 "일시적인 거겠지" 했는데 계속되더라고요.
+
+원인을 분석해보니 특정 요청 패턴에서 haiku-4-5가 지속적으로 과부하 응답을 보냈어요. 그래서 폴백 체인을 설계했어요:
+
+```typescript
+const MODEL_FALLBACK_CHAIN = [
+  process.env.ANTHROPIC_MODEL ?? 'claude-sonnet-4-5',
+  'claude-sonnet-4-5',
+]
+
+async function callWithFallback(prompt: string) {
+  for (const model of MODEL_FALLBACK_CHAIN) {
+    for (let attempt = 0; attempt < 3; attempt++) {
+      try {
+        return await callClaude(prompt, model)
+      } catch (e) {
+        if (isFatalError(e)) throw e // 4xx는 재시도 안 함
+        const delay = 600 * Math.pow(2, attempt) // 600ms, 1.2s, 2.4s
+        await sleep(delay)
+      }
+    }
+  }
+  throw new Error('All models failed')
+}
+```
+
+이 경험이 "LLM API는 언제든 장애날 수 있다"는 걸 몸으로 알게 해줬어요.
+
+### JSON 잘림 문제 — 87개 메시지짜리 채팅방
+
+대화 요약 기능을 테스트하다가 87개 메시지짜리 채팅방에서 JSON이 잘리는 현상을 발견했어요. max_tokens를 4096으로 늘려도 여전히 잘렸어요.
+
+근본 원인은 입력 프롬프트가 너무 길어서 출력 공간이 부족해진 것이었어요.
+
+`repairTruncatedJson()`을 만들었어요:
+
+```typescript
+function repairTruncatedJson(raw: string): unknown {
+  // 1. 잘린 지점 찾기 (safeEnd)
+  const safeEnd = findSafeEnd(raw)
+  const trimmed = raw.slice(0, safeEnd)
+
+  // 2. 열린 컨테이너 역순으로 닫기
+  const stack = getOpenContainers(trimmed)
+  const closing = stack.reverse().map(c => c === '{' ? '}' : ']').join('')
+
+  try {
+    return JSON.parse(trimmed + closing)
+  } catch {
+    // 실패 시 빈 컨테이너로 degradation
+    return {}
+  }
+}
+```
+
+이렇게 하면 JSON이 잘려도 빈 값보다는 더 많은 정보를 살릴 수 있어요.
+
+## 직접 체험해본 결과
+
+8가지 기능 중에서 가장 실질적인 가치를 느낀 건 **대화 요약**과 **미팅 노트**였어요.
+
+안읽은 채팅방 100개가 쌓여있을 때, 각 채팅방에서 "핵심 결정사항 2개, 액션아이템 3개"를 뽑아주는 게 진짜 유용했어요. 메시지를 하나하나 읽지 않아도 중요한 것만 파악할 수 있었거든요.
+
+반면 **우선순위 학습**은 시뮬레이션만 구현해서 실질적인 개인화까지는 못 갔어요. 실제 사용 패턴을 학습하려면 훨씬 더 많은 데이터와 설계가 필요하다는 걸 깨달았어요.
+
+## 화이트라벨 구조
+
+`config/brand.ts` 파일 하나로 서비스명, 로고, 컬러 팔레트를 바꿀 수 있게 설계했어요:
+
+```typescript
+// config/brand.ts
+export const brand = {
+  name: 'Workmate AI Lab',
+  tagline: '그룹웨어 AI 기능 탐구',
+  primaryColor: '#0070f3',
+}
+```
+
+`globals.css`의 CSS 변수도 바꾸면 완전히 다른 브랜드 버전으로 재구성할 수 있어요. 이 구조는 다양한 그룹웨어 환경에 맞게 빠르게 커스터마이징할 수 있게 해줘요.
+
+## 배운 것들
+
+1. **LLM API 장애는 언제든 온다** — 폴백 체인과 지수 백오프는 선택이 아닌 필수
+2. **JSON 잘림은 예상보다 자주 발생한다** — 방어적 파싱 로직을 처음부터 넣어야 함
+3. **Edge Runtime 제약은 오히려 깊은 이해를 강제한다** — SDK 뒤에 숨지 않고 HTTP 레벨을 직접 다루게 됨
+4. **토글 비교 UX가 강력하다** — "이게 유용한가?"를 말로 설득하는 것보다 직접 켜고 꺼보는 게 훨씬 효과적
+
+---
+
+라이브 데모는 [work-mate-two.vercel.app](https://work-mate-two.vercel.app)에서 직접 체험해볼 수 있어요. 토글 켜보면서 AI가 있을 때 없을 때 차이를 느껴보세요!
+
+그룹웨어 AI 기능에 관심 있으신 분들, 어떤 기능이 가장 유용할 것 같으세요? 댓글로 이야기해요!
+
+오늘도 이지하게, 고!! 기술을 만들고, 더 쉽게 삽시다! 🚀

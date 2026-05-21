@@ -1,0 +1,68 @@
+---
+title: "타임트래킹 앱 — 함수형 아키텍처 학습"
+slug: time-record
+summary: "오픈소스 타임트래킹 앱을 분석하며 Result 타입, Branded Types, 순수 도메인 레이어 분리 등 함수형 아키텍처 패턴을 직접 배포하며 학습한 코드 탐구 프로젝트."
+period: "2026.03"
+role: "코드 분석 · 배포 설정 · 패턴 학습"
+techStack: ["React", "Vite", "Hono", "Cloudflare Workers", "D1", "Drizzle ORM", "TypeScript"]
+featured: false
+draft: false
+---
+
+## 프로젝트 소개
+
+하루 24슬롯(04:00~익일 03:59)을 기록하고 시각화하는 타임트래킹 앱을 탐구한 프로젝트입니다.
+
+앱 자체보다 **코드 구조에서 배운 것들**이 핵심입니다. 직접 포크해서 Cloudflare Workers + D1 배포 설정을 마치고, 아키텍처를 한 줄씩 읽으며 함수형 패턴들을 몸으로 익혔습니다.
+
+## 배운 패턴들
+
+### Impure-Pure-Impure Sandwich
+
+```
+DB 읽기 (impure) → 순수 도메인 로직 (pure) → DB 쓰기 (impure)
+```
+
+side effect를 바깥으로 밀어내고 비즈니스 로직을 순수 함수로 유지합니다. 테스트할 때 DB 없이 도메인 로직만 검증할 수 있어서 효과적이었습니다.
+
+### Result 타입 (태그드 유니온)
+
+```typescript
+type Result<T, E> =
+  | { _tag: 'Ok'; value: T }
+  | { _tag: 'Err'; error: E }
+```
+
+`throw` 대신 `Result`를 반환하면 호출부에서 exhaustive check를 강제할 수 있습니다. 에러 케이스를 타입 시스템이 알려주니 런타임 깜짝 오류가 없어집니다.
+
+### Branded Types
+
+```typescript
+type SlotDay = string & { readonly _brand: 'SlotDay' }
+type SlotHour = number & { readonly _brand: 'SlotHour' }
+```
+
+원시값을 도메인 타입으로 감싸서 컴파일 타임에 혼용을 방지합니다. "날짜 문자열인데 슬롯 ID 자리에 실수로 넣어버리는" 버그가 빌드 단계에서 차단됩니다.
+
+### Custom Day Boundary
+
+하루 시작을 자정(00:00)이 아닌 04:00으로 정의합니다. 달력 날짜(calendar date)와 논리적 하루(logical day)를 타입으로 분리해서 "새벽 2시에 기록한 건 어제 날짜"라는 요구사항을 타입 안전하게 처리합니다.
+
+### DI via deps 객체
+
+```typescript
+function createTimeRecord(
+  deps: { db: DB; clock: Clock },
+  input: Input
+): Result<Record, Error>
+```
+
+인프라 의존성을 함수 인자로 주입합니다. 테스트에서 DB를 stub으로 교체하기가 훨씬 쉬워집니다.
+
+## 배포 경험
+
+Cloudflare Workers + D1 바인딩 설정, wrangler.toml 구성, Vite + Hono 번들링 최적화를 직접 해봤습니다. 이 경험이 이후 SafeShare와 gotech.lab의 Cloudflare 풀스택 프로젝트에 직접 연결됩니다.
+
+## 적용한 것들
+
+이 코드 탐구에서 배운 Result 타입과 순수 레이어 분리 원칙은 이후 프로젝트들의 에러 핸들링 설계에 영향을 줬습니다.
