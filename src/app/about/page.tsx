@@ -231,7 +231,7 @@ export default function AboutPage() {
           {STRENGTHS.map((s, i) => (
             <Reveal key={s.idx} index={i} as="div">
               <article className="process-row tilt-card h-full">
-                <span className="idx">// {s.idx}</span>
+                <span className="idx">{'// '}{s.idx}</span>
                 <div className="flex-1">
                   <h3 className="font-headline text-lg font-semibold mb-1 text-on-surface">{s.title}</h3>
                   <p className="type-small c-sub leading-relaxed">{s.desc}</p>
@@ -282,7 +282,7 @@ export default function AboutPage() {
           {CAREER.map((c, i) => (
             <Reveal key={c.idx} index={i} as="div">
               <article className={`process-row ${"active" in c && c.active ? "process-row--active" : ""}`}>
-                <span className="idx">// {c.idx}</span>
+                <span className="idx">{'// '}{c.idx}</span>
                 <div className="flex-1">
                   <div className="flex items-center gap-3 flex-wrap mb-1">
                     <h4 className="font-headline font-semibold text-lg">{c.title}</h4>
@@ -367,7 +367,7 @@ export default function AboutPage() {
           {AI_TOOLS.map((g, i) => (
             <Reveal key={g.label} index={i} as="div">
               <article className="process-row tilt-card h-full">
-                <span className="idx">// 0{i + 1}</span>
+                <span className="idx">{'// '}0{i + 1}</span>
                 <div className="flex-1">
                   <h4 className="font-headline font-semibold mb-2 text-on-surface">{g.label}</h4>
                   <p className="font-code text-[11px] tracking-wide c-sub leading-relaxed">

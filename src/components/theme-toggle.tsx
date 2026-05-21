@@ -8,7 +8,8 @@ export function ThemeToggle() {
   const [mounted, setMounted] = useState(false);
 
   // 하이드레이션 불일치 방지
-  useEffect(() => setMounted(true), []);
+  // eslint-disable-next-line react-hooks/set-state-in-effect
+  useEffect(() => { setMounted(true); }, []);
   if (!mounted) return <div className="h-8 w-8" />;
 
   const isDark = theme === "dark";

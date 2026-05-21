@@ -310,7 +310,7 @@ export default async function Home() {
             {PROCESS.map((p, i) => (
               <Reveal key={p.idx} index={i} as="div">
                 <div className={`process-row ${"active" in p && p.active ? "process-row--active" : ""}`}>
-                  <span className="idx">// {p.idx}</span>
+                  <span className="idx">{'// '}{p.idx}</span>
                   <div className="flex-1">
                     <div className="flex items-baseline gap-3 flex-wrap">
                       <h3 className="font-headline text-xl font-semibold">{p.title}</h3>
