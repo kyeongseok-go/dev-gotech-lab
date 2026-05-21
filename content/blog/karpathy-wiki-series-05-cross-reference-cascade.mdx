@@ -1,0 +1,131 @@
+---
+title: "5편: 한 번의 캡처가 N개 페이지를 자동 갱신하는 패턴"
+slug: karpathy-wiki-series-05-cross-reference-cascade
+date: 2026-05-05
+description: "LY Corp 아티클 1개를 ingest했더니 10개 페이지가 동시에 만들어졌다. 크로스 레퍼런스가 복리로 쌓이는 LLM Wiki의 진짜 힘과 RAG와의 본질 차이."
+category: knowledge-management
+tags: ["지식관리", "LLMWiki", "크로스레퍼런스", "Karpathy", "ClaudeCode"]
+draft: false
+---
+
+안녕하세요 고텍이예요! 어린이날이고 시리즈 마지막 편이에요. 4월 21일에 이 여정 시작했는데 벌써 2주가 됐네요.
+
+오늘 이 글 쓰기 전에 wiki/log.md를 봤더니 지금까지 wiki 페이지가 25개를 넘었어요. 2주 전에 "오늘 막 시작했어요"라고 했던 게 맞나 싶을 정도로. 그 과정에서 제일 인상적이었던 패턴을 오늘 마지막으로 정리할게요. 같이 고!!
+
+## 실증 데이터: 1 ingest → N pages
+
+2주 동안 ingest를 여러 번 돌렸어요. 그중에서 제일 임팩트 컸던 두 케이스를 비교할게요.
+
+### 케이스 1: LY Corp MCP 아티클 (4월 23일)
+
+LY Corp이 사내 MCP 서버 도입 사례를 정리한 아티클 하나를 ingest했어요. 결과:
+
+- wiki/References/mcp-secure-usage-ly-corp.md (소스 요약)
+- wiki/Concepts/Model Context Protocol (MCP).md (허브 개념)
+- wiki/Concepts/Enterprise MCP Governance.md (4요소 패턴)
+- wiki/Concepts/Claude Code Subagents.md
+- wiki/Patterns/Multi-Agent Code Review.md ← 첫 Pattern 페이지
+- wiki/Entities/Claude Code.md
+- wiki/Entities/Anthropic.md
+- wiki/Entities/LY Corporation.md
+- wiki/Topics/AI 개발 워크플로.md ← 새 Topic 창발
+- wiki/Projects/Personal MCP Server.md ← "직접 만들어보고 싶다" 답변에서 파생
+
+**아티클 1개 → 페이지 10개 동시 생성.**
+
+### 케이스 2: GPT Image 2 + Higgsfield 영상 (4월 23일)
+
+유튜브 영상 하나. 총 7개 페이지:
+
+- wiki/References/gpt-image-2-higgsfield-workflow.md
+- wiki/Entities/GPT Image 2.md
+- wiki/Entities/Higgsfield AI.md
+- wiki/Entities/OpenAI.md (기존 페이지 업데이트)
+- wiki/Concepts/Image-to-Video Pipeline.md
+- wiki/Topics/고텍이 유튜브 & 쇼츠.md ← 새 Topic 창발
+- wiki/Projects/ProjectB 쇼핑몰.md (stub 생성)
+
+**영상 1개 → 페이지 7개.**
+
+두 ingest로만 벌써 17개가 동시에 만들어졌어요. 이게 LLM Wiki의 복리예요.
+
+## 왜 1개가 아니라 N개를 갱신하는가
+
+구조적인 이유가 네 가지 있어요.
+
+**첫째, 소스는 여러 개의 개념을 동시에 언급해요.**
+MCP 아티클이 MCP 개념도 언급하고, Claude Code도 언급하고, 보안 거버넌스도 언급하잖아요. 각각이 wiki 페이지가 돼요. RAG는 이걸 청크로 쪼개서 흩어버리지만, wiki는 각각을 독립적인 노드로 만들어요.
+
+**둘째, 기존 페이지들이 채워져요.**
+OpenAI 페이지가 이미 있었다면, 새 소스가 거기에 "GPT Image 2" 정보를 추가해줘요. 빈 칸이 메워지는 거예요. 새 페이지만 만드는 게 아니라 기존 지식 그래프를 풍요롭게 해요.
+
+**셋째, 내 답변이 새 페이지를 파생시켜요.**
+"이걸로 뭘 해보고 싶어?" 질문에 "MCP 서버 직접 만들어보고 싶다"고 답하면 → `wiki/Projects/Personal MCP Server.md`가 생겨요. 소스 자체엔 없던 페이지가 내 의도에서 나오는 거예요. 이게 RAG와 결정적으로 다른 점이에요.
+
+**넷째, 크로스 레퍼런스가 복리로 쌓여요.**
+`sources`·`related` 링크가 쌓이면서 다음 ingest 때 연결고리가 더 많이 발생해요. 20번째 ingest는 5번째 ingest보다 훨씬 많은 기존 페이지를 업데이트해요. 지식이 누적되면서 각 노드의 밀도가 높아지는 거예요.
+
+## RAG와 본질적으로 다른 것
+
+RAG는 검색해요. LLM Wiki는 재해석해요.
+
+RAG에 "MCP 거버넌스란 뭐야?"라고 물으면, LY Corp 아티클의 해당 청크가 나와요. 그 청크를 읽고 답해줘요. 원문의 조각이에요.
+
+wiki에 같은 질문을 하면, `wiki/Concepts/Enterprise MCP Governance.md`를 읽어요. 그 페이지엔 이미:
+- 내가 왜 이걸 캡처했는지
+- 내 상황(Claude Code 주력 사용자)과 어떻게 연결되는지
+- 어떤 다른 개념(MCP, Claude Code Subagents, Multi-Agent Code Review)과 엮이는지
+
+이게 다 들어있어요. 청크가 아니라 **재해석된 지식 그래프**예요. 내 맥락이 녹아있는 거예요.
+
+"이 두 회사 면접 전략의 차이가 뭐야?" 같은 합성 질문엔 특히 차이가 커요. RAG는 두 회사 관련 청크를 가져오는데 그게 내 면접 준비와 어떻게 연결되는지 모르거든요.
+
+## 다른 디바이스·다른 세션에서 활용
+
+이 wiki는 GitHub에 private repo로 올라가 있어요. obsidian-git 플러그인이 10분마다 자동 sync를 해줘요.
+
+그래서:
+- 맥미니에서 ingest 돌리면 → 자동 push
+- 맥북에서 열면 → 자동 pull → 같은 wiki
+
+Claude Code에서 다른 세션 열 때 vault 디렉터리를 추가 컨텍스트로 지정하면, 그 세션도 같은 지식 베이스로 질문에 답해줘요. 세션마다 처음부터 설명하는 비효율이 없어지는 거예요.
+
+이게 Karpathy가 말한 "LLM이 wiki를 컴파일러처럼 다룬다"는 것의 실전 구현이에요.
+
+## 한계도 솔직하게
+
+완전 자동화는 아니에요.
+
+ingest의 3가지 질문 단계는 내가 직접 답해야 해요. "이 글을 왜 캡처했어?" — AI가 대신 답할 수 없어요. 내 의도가 들어가야 "내 맥락"이 있는 wiki가 돼요. 이 인간 큐레이션이 LLM Wiki의 병목이자, 동시에 가장 중요한 가치이기도 해요.
+
+lint도 제안만 하고 수정은 내가 승인해야 해요. 자동 수정이 더 망가뜨리는 경우가 있어서요.
+
+향후 wiki를 MCP 서버로 만들면 외부 Claude 세션에서 바로 쿼리할 수 있겠지만, 지금은 그 단계까진 안 갔어요. 그게 필요한 시점이 오면 그때 만들면 돼요.
+
+## 당장 시작하려면 이것만
+
+5편 읽고 "나도 해볼까?" 싶으신 분을 위해 최소 단계만 정리할게요.
+
+1. **Obsidian 설치** + vault 폴더 하나 만들기
+2. **`raw/`, `wiki/`, `Output/` 3개 폴더** 만들기
+3. **루트 `CLAUDE.md` 1개** — Librarian 역할 + 금지사항 + 맥락 상수 3가지만 넣기
+4. **Claude Code 설치** + vault 디렉터리에서 열기
+5. **raw/에 첫 파일 하나** 넣고 `/ingest` 불러보기
+
+이게 전부예요. 벡터 DB 없고, 서버 없고, 복잡한 파이프라인 없어요. Obsidian + Claude Code + GitHub. 이지~하잖아~
+
+## 2주 여정 마무리
+
+4월 21일에 "흥분 식기 전에 첫 글 쓴다"고 했어요. 지금 돌아보면 그때 바로 시작하길 잘했어요.
+
+1편에서 "RAG보다 wiki가 낫다"고 했는데, 2주 동안 직접 써보니까 맞았어요. 적어도 제 상황(1인 개발 + 이직 준비 + AI 협업)에선 확실히요.
+
+지식이 파편으로 흩어지지 않고 연결되고, 질문이 자산이 되고, 다른 세션에서도 이어지는 경험. 이게 이 2주의 수확이에요.
+
+외전은 따로 모아서 돌아올게요 — 한국어 파일명 정책 삽질, multi-session 활용 패턴, obsidian-git 설정 트러블슈팅.
+
+기술을 만들고, 더 쉽게 삽시다! 🚀
+
+---
+
+#고텍이 #LLMWiki #Karpathy #크로스레퍼런스 #Obsidian #ClaudeCode #지식관리 #BuildTechLiveEasy

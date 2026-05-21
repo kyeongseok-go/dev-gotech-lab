@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="ko"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=Pretendard:wght@100;200;300;400;500;600;700;800;900&amp;family=Geist+Mono:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        body {
+            font-family: 'Pretendard', sans-serif;
+            background-color: #131315;
+            color: #e5e1e4;
+        }
+        .font-headline { font-family: 'Space Grotesk', sans-serif; }
+        .font-code { font-family: 'Geist Mono', monospace; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary-container": "#06b6d4",
+                        "surface": "#131315",
+                        "surface-container-highest": "#353437",
+                        "secondary-fixed": "#e1e0ff",
+                        "tertiary": "#4edea3",
+                        "secondary-container": "#3131c0",
+                        "on-tertiary-container": "#00452e",
+                        "outline": "#869397",
+                        "secondary": "#c0c1ff",
+                        "surface-container": "#201f22",
+                        "on-error": "#690005",
+                        "surface-variant": "#353437",
+                        "on-tertiary-fixed": "#002113",
+                        "background": "#131315",
+                        "tertiary-container": "#1bbd85",
+                        "on-primary-container": "#00424f",
+                        "tertiary-fixed": "#6ffbbe",
+                        "surface-dim": "#131315",
+                        "outline-variant": "#3d494c",
+                        "inverse-primary": "#00687a",
+                        "on-secondary-container": "#b0b2ff",
+                        "on-tertiary-fixed-variant": "#005236",
+                        "on-tertiary": "#003824",
+                        "on-secondary-fixed-variant": "#2f2ebe",
+                        "surface-tint": "#4cd7f6",
+                        "surface-container-high": "#2a2a2c",
+                        "on-surface": "#e5e1e4",
+                        "on-primary": "#003640",
+                        "on-error-container": "#ffdad6",
+                        "surface-bright": "#39393b",
+                        "primary-fixed-dim": "#4cd7f6",
+                        "on-primary-fixed-variant": "#004e5c",
+                        "tertiary-fixed-dim": "#4edea3",
+                        "primary": "#4cd7f6",
+                        "error": "#ffb4ab",
+                        "inverse-surface": "#e5e1e4",
+                        "on-secondary": "#1000a9",
+                        "error-container": "#93000a",
+                        "on-background": "#e5e1e4",
+                        "primary-fixed": "#acedff",
+                        "on-surface-variant": "#bcc9cd",
+                        "on-primary-fixed": "#001f26",
+                        "on-secondary-fixed": "#07006c",
+                        "secondary-fixed-dim": "#c0c1ff",
+                        "surface-container-lowest": "#0e0e10",
+                        "surface-container-low": "#1c1b1d",
+                        "inverse-on-surface": "#313032"
+                    },
+                    fontFamily: {
+                        "headline": ["Space Grotesk"],
+                        "body": ["Pretendard"],
+                        "label": ["Pretendard"]
+                    },
+                    borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-surface text-on-surface">
+<!-- TopNavBar -->
+<nav class="fixed top-0 w-full z-50 bg-[#131315]/70 backdrop-blur-xl no-border bg-gradient-to-b from-[#131315] to-transparent">
+<div class="flex justify-between items-center max-w-7xl mx-auto px-8 h-20">
+<div class="text-xl font-bold font-['Space_Grotesk'] text-white [&amp;&gt;.lab]:text-[#4cd7f6]">
+                gotech<span class="lab">.lab</span>
+</div>
+<div class="hidden md:flex items-center gap-8 font-['Space_Grotesk'] tracking-tighter uppercase text-sm font-bold">
+<a class="text-slate-400 hover:text-white transition-colors hover:text-[#4cd7f6] transition-all duration-300 scale-95 active:scale-90 transition-transform" href="#">Home</a>
+<a class="text-[#4cd7f6] border-b-2 border-[#4cd7f6] pb-1 hover:text-[#4cd7f6] transition-all duration-300 scale-95 active:scale-90 transition-transform" href="#">Blog</a>
+<a class="text-slate-400 hover:text-white transition-colors hover:text-[#4cd7f6] transition-all duration-300 scale-95 active:scale-90 transition-transform" href="#">Projects</a>
+<a class="text-slate-400 hover:text-white transition-colors hover:text-[#4cd7f6] transition-all duration-300 scale-95 active:scale-90 transition-transform" href="#">Showcase</a>
+<a class="text-slate-400 hover:text-white transition-colors hover:text-[#4cd7f6] transition-all duration-300 scale-95 active:scale-90 transition-transform" href="#">Services</a>
+<a class="text-slate-400 hover:text-white transition-colors hover:text-[#4cd7f6] transition-all duration-300 scale-95 active:scale-90 transition-transform" href="#">About</a>
+</div>
+<div class="flex items-center gap-4">
+<button class="text-[#4cd7f6] scale-95 active:scale-90 transition-transform p-2">
+<span class="material-symbols-outlined" data-icon="dark_mode">dark_mode</span>
+</button>
+<button class="md:hidden text-white">
+<span class="material-symbols-outlined" data-icon="menu">menu</span>
+</button>
+</div>
+</div>
+</nav>
+<main class="pt-32 pb-20 px-8 max-w-7xl mx-auto">
+<!-- Page Title & Search Section -->
+<header class="mb-16">
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-8">
+<div>
+<h1 class="font-headline text-5xl md:text-7xl font-bold tracking-tighter mb-4 text-white">
+                        Blog
+                    </h1>
+<p class="text-on-surface-variant max-w-xl text-lg leading-relaxed">
+                        최신 기술 트렌드와 개발 경험을 공유합니다. <br/>
+                        주로 Full-stack 개발, Cloud Infrastructure, 그리고 UI/UX에 대해 이야기합니다.
+                    </p>
+</div>
+<div class="w-full md:w-96">
+<div class="relative group">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-outline-variant group-focus-within:text-primary transition-colors" data-icon="search">search</span>
+<input class="w-full bg-surface-container-low border-none rounded-lg pl-12 pr-4 py-4 text-on-surface placeholder-outline-variant focus:ring-1 focus:ring-primary transition-all outline-none" placeholder="Search articles..." type="text"/>
+</div>
+</div>
+</div>
+<!-- Categories / Filters -->
+<div class="mt-12 flex flex-wrap gap-3">
+<button class="px-6 py-2 rounded-full text-sm font-bold bg-primary text-on-primary transition-all hover:opacity-90">All</button>
+<button class="px-6 py-2 rounded-full text-sm font-medium bg-surface-container-high text-on-surface-variant hover:bg-surface-container-highest hover:text-on-surface transition-all">Next.js</button>
+<button class="px-6 py-2 rounded-full text-sm font-medium bg-surface-container-high text-on-surface-variant hover:bg-surface-container-highest hover:text-on-surface transition-all">Cloudflare</button>
+<button class="px-6 py-2 rounded-full text-sm font-medium bg-surface-container-high text-on-surface-variant hover:bg-surface-container-highest hover:text-on-surface transition-all">TypeScript</button>
+<button class="px-6 py-2 rounded-full text-sm font-medium bg-surface-container-high text-on-surface-variant hover:bg-surface-container-highest hover:text-on-surface transition-all">UI Design</button>
+<button class="px-6 py-2 rounded-full text-sm font-medium bg-surface-container-high text-on-surface-variant hover:bg-surface-container-highest hover:text-on-surface transition-all">Database</button>
+</div>
+</header>
+<!-- Post List: Bento Grid style for featured, list for rest -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-8">
+<!-- Featured Article -->
+<article class="md:col-span-8 group relative bg-surface-container-low rounded-xl overflow-hidden flex flex-col hover:bg-surface-container-highest transition-all duration-500 border border-transparent hover:border-primary/20">
+<div class="aspect-video w-full overflow-hidden">
+<img alt="Technical visualization of a cloud network" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" data-alt="Cyberpunk style visualization of distributed cloud server network with glowing cyan data lines and deep obsidian background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD8ktT4lwE7iQGcFxQX44YFIDxuCKO3ushjOfsPD5vHAAElloAGyP6qC-7RbLDE5-zL9A3516OKkzALKhPvkbeUBI9T8ezuFmhMGtrPK3kUvxxRgG1l9Rmyn9t8nWfkpjHhZL405XDRv8tohLWWYmCnfwh_vfUflGeLh7iUp--HD-cXBgGS6sy6lmbZtarS3FGZ88vPOYSVnXK6nU6iS3zUrFn-dYGHEx3Q3aftCWmLExQK0QodVLOwrfFR11kZ78MhfK7X5_rkYgE"/>
+</div>
+<div class="p-8 flex flex-col flex-grow">
+<div class="flex items-center gap-4 mb-4">
+<span class="bg-tertiary-container text-on-tertiary-container text-[10px] font-bold px-2 py-0.5 rounded-sm uppercase tracking-wider">배포완료</span>
+<span class="text-label text-on-surface-variant text-xs font-medium">Oct 24, 2024</span>
+<span class="text-label text-on-surface-variant text-xs font-medium">• 12 min read</span>
+</div>
+<h2 class="font-headline text-3xl font-bold tracking-tight text-white mb-4 group-hover:text-primary transition-colors">
+                        Next.js 15와 Cloudflare Pages로 구축하는 초고속 엣지 런타임 가이드
+                    </h2>
+<p class="text-on-surface-variant leading-relaxed mb-6 line-clamp-2">
+                        서버리스 환경을 넘어 엣지에서 실행되는 어플리케이션의 성능 최적화 전략에 대해 심도 있게 다룹니다. Cold Start를 0에 가깝게 유지하며 전 세계 사용자에게 동일한 속도를 제공하는 방법을 알아봅니다.
+                    </p>
+<div class="mt-auto flex flex-wrap gap-2">
+<span class="text-xs font-code text-primary bg-primary/10 px-2 py-1 rounded">#nextjs</span>
+<span class="text-xs font-code text-primary bg-primary/10 px-2 py-1 rounded">#cloudflare</span>
+<span class="text-xs font-code text-primary bg-primary/10 px-2 py-1 rounded">#edge-computing</span>
+</div>
+</div>
+</article>
+<!-- Sidebar / Secondary Post -->
+<article class="md:col-span-4 group bg-surface-container-low rounded-xl overflow-hidden flex flex-col hover:bg-surface-container-highest transition-all duration-500 border border-transparent hover:border-primary/20">
+<div class="aspect-square w-full overflow-hidden">
+<img alt="Abstract code patterns" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" data-alt="Macro photography of a computer screen showing vibrant blue and purple syntax highlighted code with shallow depth of field" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAXDEaTXcIhUOqcN6BxKX4uSUeMN2JgpPsOzuxpqh76QDCz8SJneedsAj3nWZm1RKq1CZJqE8GWImmP3xI2GkBMBJdinDzokrA4d-QAmQf4Js2IkTfyUOdCMdC43yT0rZ1Sw1QvK-0un5SjP1OcbBDajliHkpCFw9uxwCV_78xXtMfcc9M37Oup4wepYPISjx68LzMn4O0uE2Bdq9gU9v5VieOE_w_0Tk1w0rt8XSCuAJaeHvbb1CFZwFDaJPlfSkefBA8_r9M2z6A"/>
+</div>
+<div class="p-6">
+<div class="flex items-center gap-3 mb-3">
+<span class="bg-primary-container text-on-primary-container text-[10px] font-bold px-2 py-0.5 rounded-sm uppercase tracking-wider">개발중</span>
+<span class="text-label text-on-surface-variant text-xs">Oct 20, 2024</span>
+</div>
+<h3 class="font-headline text-xl font-bold tracking-tight text-white mb-3 group-hover:text-primary transition-colors">
+                        TypeScript 5.5의 새로운 기능들: 타입 안전성의 진화
+                    </h3>
+<div class="flex items-center gap-2">
+<span class="text-xs font-code text-secondary bg-secondary/10 px-2 py-1 rounded">#typescript</span>
+</div>
+</div>
+</article>
+<!-- Row 2 -->
+<article class="md:col-span-4 group bg-surface-container-low rounded-xl overflow-hidden hover:bg-surface-container-highest transition-all duration-500 border border-transparent hover:border-primary/20">
+<div class="p-8">
+<div class="flex items-center gap-3 mb-4">
+<span class="text-label text-on-surface-variant text-xs">Oct 15, 2024</span>
+<span class="text-label text-on-surface-variant text-xs">• 5 min read</span>
+</div>
+<h3 class="font-headline text-xl font-bold tracking-tight text-white mb-4 group-hover:text-primary transition-colors">
+                        Tailwind CSS v4: 무엇이 바뀌고 어떻게 준비해야 할까?
+                    </h3>
+<p class="text-on-surface-variant text-sm leading-relaxed mb-6">
+                        엔진의 완전한 재작성, CSS-first 방식의 설정 등 새로운 패러다임에 대한 고찰.
+                    </p>
+<div class="flex flex-wrap gap-2">
+<span class="text-xs font-code text-primary bg-primary/10 px-2 py-1 rounded">#css</span>
+<span class="text-xs font-code text-primary bg-primary/10 px-2 py-1 rounded">#tailwind</span>
+</div>
+</div>
+</article>
+<article class="md:col-span-4 group bg-surface-container-low rounded-xl overflow-hidden hover:bg-surface-container-highest transition-all duration-500 border border-transparent hover:border-primary/20">
+<div class="p-8">
+<div class="flex items-center gap-3 mb-4">
+<span class="text-label text-on-surface-variant text-xs">Oct 12, 2024</span>
+<span class="text-label text-on-surface-variant text-xs">• 8 min read</span>
+</div>
+<h3 class="font-headline text-xl font-bold tracking-tight text-white mb-4 group-hover:text-primary transition-colors">
+                        PostgreSQL 성능 튜닝: 인덱싱 그 이상의 기법들
+                    </h3>
+<p class="text-on-surface-variant text-sm leading-relaxed mb-6">
+                        실제 프로덕션 환경에서 마주친 쿼리 병목 현상을 해결한 경험담.
+                    </p>
+<div class="flex flex-wrap gap-2">
+<span class="text-xs font-code text-primary bg-primary/10 px-2 py-1 rounded">#database</span>
+<span class="text-xs font-code text-primary bg-primary/10 px-2 py-1 rounded">#sql</span>
+</div>
+</div>
+</article>
+<article class="md:col-span-4 group bg-surface-container-low rounded-xl overflow-hidden hover:bg-surface-container-highest transition-all duration-500 border border-transparent hover:border-primary/20">
+<div class="p-8">
+<div class="flex items-center gap-3 mb-4">
+<span class="text-label text-on-surface-variant text-xs">Oct 08, 2024</span>
+<span class="text-label text-on-surface-variant text-xs">• 15 min read</span>
+</div>
+<h3 class="font-headline text-xl font-bold tracking-tight text-white mb-4 group-hover:text-primary transition-colors">
+                        Digital Obsidian: 디자인 시스템 구축기
+                    </h3>
+<p class="text-on-surface-variant text-sm leading-relaxed mb-6">
+                        gotech.lab에 적용된 Tonal Depth 디자인 원칙과 구현 디테일.
+                    </p>
+<div class="flex flex-wrap gap-2">
+<span class="text-xs font-code text-primary bg-primary/10 px-2 py-1 rounded">#uiux</span>
+<span class="text-xs font-code text-primary bg-primary/10 px-2 py-1 rounded">#design-system</span>
+</div>
+</div>
+</article>
+<!-- Row 3: Wide item -->
+<article class="md:col-span-12 group flex flex-col md:flex-row bg-surface-container-low rounded-xl overflow-hidden hover:bg-surface-container-highest transition-all duration-500 border border-transparent hover:border-primary/20">
+<div class="md:w-1/3 h-48 md:h-auto overflow-hidden">
+<img alt="Minimalist tech desk" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" data-alt="Top down view of a minimalist clean workspace with a mechanical keyboard, a single monitor showing dark IDE, and soft ambient cyan lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAAoFMrrfryMZWKkisyrwLxeuIO_8_3P2AzXkg8N0ZlJkvmxpNuTpKDoZr4_y41JS57jZVZZhY7QMkAwV7hGVFHH7shKHlPTEjbnd3PMV2gZN4B0kyCPT-_mFmrFtAr4Hi8lWo8cMqeioPo8JBdlSaIB23-qc8ofa7QVk9R_-AKHPNeVgKIDliNyS-ZQ7lebpu1E8IgiLKZ8FJNpKpTlN4aGc_tVsN_PQfRntS6yDJzFi8gdOKp2lkSjq630z7fOhUOrJe1oYA3gjc"/>
+</div>
+<div class="p-8 flex-grow">
+<div class="flex items-center gap-4 mb-4">
+<span class="text-label text-on-surface-variant text-xs">Sep 28, 2024</span>
+<span class="text-label text-on-surface-variant text-xs">• 10 min read</span>
+</div>
+<h3 class="font-headline text-2xl font-bold tracking-tight text-white mb-4 group-hover:text-primary transition-colors">
+                        효율적인 원격 근무를 위한 개발자 생산성 도구 모음
+                    </h3>
+<p class="text-on-surface-variant leading-relaxed mb-6 max-w-2xl">
+                        커스텀 IDE 설정부터 자동화 스크립트까지, 매일 1시간을 아껴주는 도구들을 소개합니다.
+                    </p>
+<div class="flex flex-wrap gap-2">
+<span class="text-xs font-code text-primary bg-primary/10 px-2 py-1 rounded">#productivity</span>
+<span class="text-xs font-code text-primary bg-primary/10 px-2 py-1 rounded">#setup</span>
+</div>
+</div>
+</article>
+</div>
+<!-- Pagination -->
+<div class="mt-20 flex justify-center items-center gap-2">
+<button class="w-10 h-10 flex items-center justify-center rounded-lg bg-surface-container-low text-on-surface-variant hover:bg-primary hover:text-on-primary transition-all">
+<span class="material-symbols-outlined" data-icon="chevron_left">chevron_left</span>
+</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-lg bg-primary text-on-primary font-bold">1</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-lg bg-surface-container-low text-on-surface-variant hover:bg-surface-container-highest transition-all">2</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-lg bg-surface-container-low text-on-surface-variant hover:bg-surface-container-highest transition-all">3</button>
+<span class="px-2 text-outline-variant">...</span>
+<button class="w-10 h-10 flex items-center justify-center rounded-lg bg-surface-container-low text-on-surface-variant hover:bg-surface-container-highest transition-all">8</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-lg bg-surface-container-low text-on-surface-variant hover:bg-primary hover:text-on-primary transition-all">
+<span class="material-symbols-outlined" data-icon="chevron_right">chevron_right</span>
+</button>
+</div>
+</main>
+<!-- Footer -->
+<footer class="w-full border-t border-[#4cd7f6]/10 bg-[#131315]">
+<div class="flex flex-col md:flex-row justify-between items-center py-12 px-8 max-w-7xl mx-auto gap-6">
+<div class="flex flex-col gap-2">
+<div class="font-['Space_Grotesk'] font-bold text-slate-300">gotech.lab</div>
+<p class="font-['Pretendard'] text-xs leading-relaxed text-slate-500 max-w-xs text-center md:text-left">
+                    © 2024 gotech.lab. All rights reserved. <br/>
+                    Crafting digital experiences through modern engineering.
+                </p>
+</div>
+<div class="flex items-center gap-8">
+<a class="font-['Pretendard'] text-xs text-slate-500 hover:text-[#4cd7f6] underline-offset-4 hover:underline opacity-80 hover:opacity-100 transition-all" href="#">Github</a>
+<a class="font-['Pretendard'] text-xs text-slate-500 hover:text-[#4cd7f6] underline-offset-4 hover:underline opacity-80 hover:opacity-100 transition-all" href="#">LinkedIn</a>
+<a class="font-['Pretendard'] text-xs text-slate-500 hover:text-[#4cd7f6] underline-offset-4 hover:underline opacity-80 hover:opacity-100 transition-all" href="#">RSS</a>
+<a class="font-['Pretendard'] text-xs text-slate-500 hover:text-[#4cd7f6] underline-offset-4 hover:underline opacity-80 hover:opacity-100 transition-all" href="#">Privacy</a>
+</div>
+</div>
+</footer>
+</body></html>

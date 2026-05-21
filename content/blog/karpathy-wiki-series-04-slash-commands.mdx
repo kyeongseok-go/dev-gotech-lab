@@ -1,0 +1,152 @@
+---
+title: "4편: /ingest /query /lint — 슬래시 커맨드로 자동화하기"
+slug: karpathy-wiki-series-04-slash-commands
+date: 2026-05-01
+description: "MCP 없이, 복잡한 서버 없이. .claude/skills/ 폴더에 SKILL.md 몇 개 두면 끝. /ingest 4단계와 3가지 질문 패턴이 왜 핵심인지 코드 워크스루."
+category: knowledge-management
+tags: ["ClaudeCode", "자동화", "슬래시커맨드", "ingest", "Obsidian"]
+draft: false
+---
+
+안녕하세요 고텍이예요! 근로자의 날이라 쉬는 김에 그동안 약속만 하고 못 쓴 슬래시 커맨드 코드 워크스루 정리합니다. 닥고!!
+
+## .claude/skills/ 구조가 전부예요
+
+복잡한 거 없어요. `.claude/skills/` 폴더 안에 스킬 이름으로 디렉터리 만들고 `SKILL.md` 파일 하나 넣으면 끝이에요.
+
+```
+.claude/
+└── skills/
+    ├── ingest/
+    │   └── SKILL.md      # /ingest 워크플로 명세
+    ├── query/
+    │   └── SKILL.md      # /query 워크플로 명세
+    └── lint/
+        └── SKILL.md      # /lint 워크플로 명세
+```
+
+Claude Code에서 `/ingest`라고 치면 Claude가 `ingest/SKILL.md`를 자동으로 로드해요. MCP 서버 따로 안 만들어도 되고, API 따로 안 뚫어도 돼요. 파일이에요. 그냥 마크다운 파일. 베리 이지이지~
+
+이게 중요한 이유: `git pull`만 하면 어떤 디바이스·어떤 Claude 세션에서도 즉시 쓸 수 있어요. 설치 없음, 환경 설정 없음.
+
+## /ingest — 4단계 흐름
+
+이게 가장 자주 쓰는 워크플로예요. 새 소스를 wiki로 변환하는 파이프라인이에요.
+
+### 1단계: raw 파일 탐지
+
+```bash
+# wiki_status=pending 파일 먼저
+grep -l 'wiki_status: "pending"' raw/**/*.md
+
+# wiki_status 필드 자체 없는 구 스키마
+for f in raw/**/*.md; do
+  grep -q "wiki_status:" "$f" || echo "$f"
+done
+
+# 최신 mtime 순 (fallback)
+find raw -type f -name "*.md" -exec stat -f "%m %N" {} \; | sort -rn | head -5
+```
+
+### 2단계: 소스 요약 + 3가지 질문
+
+여기서 **반드시 멈춰요.** 자동으로 wiki 만들지 않고, 먼저 저한테 물어봐요:
+
+1. 이 글을 왜 캡처했어?
+2. 지금 하고 있는 일과 어떻게 연결돼?
+3. 이걸로 뭘 해보고 싶어?
+
+이게 핵심이에요. 이 3가지 질문 없이 만든 wiki 페이지는 "내 맥락"이 없는 거예요. 범용 요약이 되어버려요.
+
+예를 들어 LY Corp MCP 아티클을 ingest할 때:
+
+- 캡처 이유: "Claude Code 주력 사용자로서 MCP 안전 활용법 관심"
+- 현재 연결: "커리어 + 1인 개발 워크플로 + 블로그 모두 연관"
+- 활용 의도: "MCP 서버 직접 만들어보기"
+
+이 답변이 있어야 wiki 페이지에 "경석님 맥락과의 접점" 섹션을 제대로 채울 수 있어요. 이 섹션이 없으면 그냥 아티클 요약이에요. 있으면 내 자산이 돼요.
+
+### 3단계: 답변 기반 wiki 페이지 생성
+
+답변 받은 뒤에 비로소 시작해요:
+
+- `wiki/References/` — 소스 요약 (필수, 항상)
+- `wiki/Entities/` — 언급된 주요 인물·기업·제품
+- `wiki/Concepts/` — 개념 페이지
+- `wiki/Patterns/` — 재현 가능한 패턴 추출
+- `wiki/Topics/` — 새 주제 클러스터 발생 시 신규
+
+여러 페이지를 Write tool로 병렬 생성해요. 순서대로 하면 느리거든요. 한 ingest가 10개 페이지 동시 생성하는 게 정상이에요.
+
+### 4단계: index/log/wiki_status 업데이트
+
+마지막에:
+
+- `wiki/index.md` 해당 섹션에 한 줄 추가
+- `wiki/log.md`에 엔트리 append (append-only, 절대 편집·삭제 금지)
+- raw 원본 `wiki_status: pending → processed`
+
+이게 유일하게 raw/를 수정하는 순간이에요.
+
+## /query — Knowledge Flywheel
+
+`/query`의 핵심 아이디어는 "질문이 다시 wiki를 풍요롭게 한다"예요.
+
+흐름:
+
+1. `wiki/index.md` 먼저 스캔
+2. 후보 페이지 drill-down
+3. 답변에 wikilink 인용 포함
+4. 질문 자체가 가치 있는 합성이면 → **새 wiki 페이지로 파일링**
+
+예를 들어 "내 한화 면접 준비와 LG CNS 면접 전략의 차이가 뭐야?"라고 물으면, 그 합성 결과를 `wiki/Learnings/`에 저장해요. 질문이 자산이 되는 거예요.
+
+RAG라면 청크를 가져와서 답해주고 끝이에요. 근데 wiki 기반이면 그 합성 자체가 새로운 지식 노드가 돼요. 다음 ingest 때 그 노드에 또 연결이 생기고요. 복리예요.
+
+## /lint — 8체크 × 3단계 심각도
+
+wiki가 쌓일수록 어딘가 썩어요. /lint가 막아줘요.
+
+| 심각도 | 체크 항목 |
+|---|---|
+| 🔴 Error | 깨진 wikilink, index ↔ 실제 파일 불일치 |
+| 🟡 Warning | 모순 페이지 쌍, orphan 페이지, stale claims, stub 후보 |
+| 📘 Info | 빠진 크로스레퍼런스, 미처리 raw 파일 |
+
+핵심 원칙: **수정을 바로 실행하지 않는다.** 먼저 리포트만 보여주고, 제가 승인 후 fix. 자동 수정이 오히려 더 망가뜨리는 경우가 있어요. Claude가 선의로 엉뚱한 파일을 건드리는 것처럼요.
+
+## 삽질 포인트 모음
+
+이건 제가 직접 당한 것들이에요.
+
+**frontmatter 누락**: 새 페이지 만들 때 `sources` 빠뜨리면 나중에 출처 추적이 안 돼요. SKILL.md에 "frontmatter 필수 필드 체크리스트"를 박아뒀어요.
+
+**wikilink 깨짐**: 파일명 변경하면 wikilink도 같이 업데이트해야 하는데, Obsidian은 자동으로 해주지만 Claude Code는 안 해줘요. 파일명은 한 번 정하면 최대한 안 바꾸는 게 좋아요.
+
+**index 갱신 까먹기**: 새 페이지 만들고 index.md 업데이트를 빠뜨리면, 다음 세션 Claude가 그 페이지를 모르고 새로 만들어버려요. 중복 생성이에요. SKILL.md 마지막에 체크리스트를 붙여뒀어요.
+
+체크리스트:
+- [ ] raw 파일 Read 완료, 원본 수정 없음
+- [ ] Reference 페이지 1건 이상 생성
+- [ ] 모든 페이지 frontmatter 필수 필드 존재
+- [ ] wiki/index.md 업데이트
+- [ ] wiki/log.md append-only 엔트리 추가
+- [ ] raw 원본 `wiki_status: processed` 설정
+
+## 다른 디바이스에서도 즉시 쓸 수 있어요
+
+이 스킬들은 vault와 함께 GitHub에 올라가 있어요. obsidian-git 플러그인이 10분마다 자동 sync를 해줘요.
+
+다른 맥에서 열어도 `git pull`만 하면 `.claude/skills/` 폴더가 그대로 있어서 `/ingest`, `/query`, `/lint` 바로 쓸 수 있어요. 다른 Claude 세션에서도 동일한 스킬로 일관되게 작동해요.
+
+이게 Obsidian + Claude Code + Git 조합의 강점이에요. 서버 없이, 설치 없이, 그냥 파일로 자동화가 돼요.
+
+## 다음 편 예고
+
+어린이날 즈음 마지막 편 올립니다 — 한 캡처가 어떻게 N개 페이지를 동시에 갱신하는지, 그게 RAG와 어떻게 본질적으로 다른지예요. 2주 운영의 실증 데이터로 마무리할게요.
+
+이지하게 고!
+
+---
+
+#고텍이 #ClaudeCode #자동화 #슬래시커맨드 #ingest #Obsidian #LLMWiki #BuildTechLiveEasy

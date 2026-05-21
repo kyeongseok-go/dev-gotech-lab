@@ -1,0 +1,42 @@
+---
+title: "Project B — 핸드메이드 소품샵 쇼핑몰"
+slug: projectb-shop
+summary: "인더스트리얼 미니멀 디자인의 핸드메이드 액세서리 쇼핑몰. Supabase + PortOne V2 결제 연동."
+type: "E-Commerce"
+status: "live"
+stack: ["Next.js 14", "Supabase", "Cloudflare R2", "PortOne V2", "Zustand", "Tailwind CSS"]
+featured: false
+draft: false
+---
+
+## 소개
+
+**Project B**는 핸드메이드 액세서리를 판매하는 소규모 쇼핑몰입니다. 비개발자 사장님의 의뢰로 1인 개발하였으며, "인더스트리얼 미니멀" 디자인 컨셉을 엄격히 적용했습니다 — 모든 요소에 border-radius 0, 모노크롬 팔레트, 와이드 레터스페이싱.
+
+## 핵심 기능
+
+- **상품 목록 & 태그 필터** — 핸드메이드/패브릭/메탈/우드/스톤/글라스 카테고리
+- **PortOne V2 결제** — 카드, 계좌이체, 카카오페이, 네이버페이, 토스페이
+- **소셜 로그인** — 카카오, 네이버, 구글, 애플 + 비회원 주문
+- **주문 관리** — 주문 내역, 배송 추적, 위시리스트
+- **포토 리뷰** — 구매 후 사진 리뷰 작성
+- **고객센터** — FAQ, 1:1 문의, 반품/교환
+- **매거진** — 브랜드 스토리 & 블로그 콘텐츠
+
+## 디자인 시스템
+
+| 요소 | 규칙 |
+|------|------|
+| 모서리 | border-radius: 0 (예외 없음) |
+| 컬러 | Jet Black (#0A0A0A) ↔ Snow (#FAFAFA) |
+| 헤딩 폰트 | Archivo (uppercase, wide tracking) |
+| 본문 폰트 | Pretendard (한국어 최적화) |
+| 상품 이미지 | 1:1 정사각형 비율 고정 |
+
+## 기술 구조
+
+- **인증**: Supabase Auth (소셜 로그인 4종 + 이메일)
+- **DB**: Supabase PostgreSQL (`pb_` 접두사 테이블)
+- **파일**: Cloudflare R2 (상품 이미지)
+- **상태관리**: Zustand (클라이언트), RSC (서버)
+- **배포**: Vercel (main/develop 자동 배포)

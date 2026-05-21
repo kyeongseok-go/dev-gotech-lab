@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="ko"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=Inter:wght@300;400;500;600;700&amp;family=Geist+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary-container": "#06b6d4",
+              "surface": "#131315",
+              "surface-container-highest": "#353437",
+              "secondary-fixed": "#e1e0ff",
+              "tertiary": "#4edea3",
+              "secondary-container": "#3131c0",
+              "on-tertiary-container": "#00452e",
+              "outline": "#869397",
+              "secondary": "#c0c1ff",
+              "surface-container": "#201f22",
+              "on-error": "#690005",
+              "surface-variant": "#353437",
+              "on-tertiary-fixed": "#002113",
+              "background": "#131315",
+              "tertiary-container": "#1bbd85",
+              "on-primary-container": "#00424f",
+              "tertiary-fixed": "#6ffbbe",
+              "surface-dim": "#131315",
+              "outline-variant": "#3d494c",
+              "inverse-primary": "#00687a",
+              "on-secondary-container": "#b0b2ff",
+              "on-tertiary-fixed-variant": "#005236",
+              "on-tertiary": "#003824",
+              "on-secondary-fixed-variant": "#2f2ebe",
+              "surface-tint": "#4cd7f6",
+              "surface-container-high": "#2a2a2c",
+              "on-surface": "#e5e1e4",
+              "on-primary": "#003640",
+              "on-error-container": "#ffdad6",
+              "surface-bright": "#39393b",
+              "primary-fixed-dim": "#4cd7f6",
+              "on-primary-fixed-variant": "#004e5c",
+              "tertiary-fixed-dim": "#4edea3",
+              "primary": "#4cd7f6",
+              "error": "#ffb4ab",
+              "inverse-surface": "#e5e1e4",
+              "on-secondary": "#1000a9",
+              "error-container": "#93000a",
+              "on-background": "#e5e1e4",
+              "primary-fixed": "#acedff",
+              "on-surface-variant": "#bcc9cd",
+              "on-primary-fixed": "#001f26",
+              "on-secondary-fixed": "#07006c",
+              "secondary-fixed-dim": "#c0c1ff",
+              "surface-container-lowest": "#0e0e10",
+              "surface-container-low": "#1c1b1d",
+              "inverse-on-surface": "#313032"
+            },
+            fontFamily: {
+              "headline": ["Space Grotesk"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .glass-nav {
+            background: rgba(19, 19, 21, 0.7);
+            backdrop-filter: blur(12px);
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface font-body selection:bg-primary/30 selection:text-primary">
+<!-- TopNavBar -->
+<nav class="fixed top-0 w-full z-50 no-border bg-gradient-to-b from-[#131315] to-transparent">
+<div class="flex justify-between items-center max-w-7xl mx-auto px-8 h-20">
+<div class="text-xl font-bold font-['Space_Grotesk'] text-white dark:text-white">
+                gotech<span class="text-[#4cd7f6] lab">.lab</span>
+</div>
+<div class="hidden md:flex items-center gap-8 font-['Space_Grotesk'] tracking-tighter uppercase text-sm font-bold">
+<a class="text-slate-400 hover:text-white transition-colors hover:text-[#4cd7f6] transition-all duration-300" href="#">Home</a>
+<a class="text-slate-400 hover:text-white transition-colors hover:text-[#4cd7f6] transition-all duration-300" href="#">Blog</a>
+<a class="text-slate-400 hover:text-white transition-colors hover:text-[#4cd7f6] transition-all duration-300" href="#">Projects</a>
+<a class="text-slate-400 hover:text-white transition-colors hover:text-[#4cd7f6] transition-all duration-300" href="#">Showcase</a>
+<a class="text-[#4cd7f6] border-b-2 border-[#4cd7f6] pb-1 hover:text-[#4cd7f6] transition-all duration-300" href="#">Services</a>
+<a class="text-slate-400 hover:text-white transition-colors hover:text-[#4cd7f6] transition-all duration-300" href="#">About</a>
+</div>
+<div class="flex items-center gap-4">
+<button class="text-[#4cd7f6] scale-95 active:scale-90 transition-transform">
+<span class="material-symbols-outlined" data-icon="dark_mode">dark_mode</span>
+</button>
+<button class="md:hidden text-white">
+<span class="material-symbols-outlined" data-icon="menu">menu</span>
+</button>
+</div>
+</div>
+</nav>
+<main class="pt-32 pb-20 px-8 max-w-7xl mx-auto">
+<!-- Page Title & Header -->
+<header class="mb-20">
+<h1 class="font-headline text-5xl md:text-7xl font-bold tracking-tighter mb-4 text-white">
+                Dynamic <span class="text-primary">Registry</span>
+</h1>
+<p class="text-on-surface-variant max-w-2xl text-lg leading-relaxed">
+                A centralized directory of micro-services, internal tools, and production environments powered by D1 and Cloudflare Workers.
+            </p>
+</header>
+<!-- Service Grid -->
+<section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-32">
+<!-- Service Card 1: Live -->
+<div class="group bg-surface-container-low p-8 rounded-lg transition-all duration-300 hover:bg-surface-container-highest flex flex-col h-full border border-transparent hover:border-primary/20">
+<div class="flex justify-between items-start mb-6">
+<div class="p-3 bg-surface-container-highest rounded-sm text-primary group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-3xl" data-icon="database">database</span>
+</div>
+<span class="bg-tertiary-container text-on-tertiary-container text-[0.6875rem] font-bold px-2 py-1 rounded-sm uppercase tracking-wider">배포완료</span>
+</div>
+<h3 class="font-headline text-xl font-bold text-white mb-3 group-hover:text-primary transition-colors">D1 Query Engine</h3>
+<p class="text-sm text-on-surface-variant mb-8 flex-grow leading-relaxed">
+                    Custom SQL abstraction layer for high-performance edge data fetching and caching with global replication.
+                </p>
+<div class="flex items-center gap-4 mt-auto pt-6 border-t border-outline-variant/15">
+<a class="text-primary text-xs font-bold uppercase tracking-widest hover:underline underline-offset-4 flex items-center gap-1" href="#">
+                        Deployment <span class="material-symbols-outlined text-sm" data-icon="open_in_new">open_in_new</span>
+</a>
+<a class="text-on-surface-variant text-xs font-bold uppercase tracking-widest hover:text-white transition-colors flex items-center gap-1" href="#">
+                        Repository <span class="material-symbols-outlined text-sm" data-icon="code">code</span>
+</a>
+</div>
+</div>
+<!-- Service Card 2: WIP -->
+<div class="group bg-surface-container-low p-8 rounded-lg transition-all duration-300 hover:bg-surface-container-highest flex flex-col h-full border border-transparent hover:border-primary/20">
+<div class="flex justify-between items-start mb-6">
+<div class="p-3 bg-surface-container-highest rounded-sm text-primary group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-3xl" data-icon="monitoring">monitoring</span>
+</div>
+<span class="bg-primary-container text-on-primary-container text-[0.6875rem] font-bold px-2 py-1 rounded-sm uppercase tracking-wider">개발중</span>
+</div>
+<h3 class="font-headline text-xl font-bold text-white mb-3 group-hover:text-primary transition-colors">Edge Analytics</h3>
+<p class="text-sm text-on-surface-variant mb-8 flex-grow leading-relaxed">
+                    Real-time traffic monitoring and event streaming for Cloudflare Workers using Durable Objects.
+                </p>
+<div class="flex items-center gap-4 mt-auto pt-6 border-t border-outline-variant/15">
+<a class="text-primary text-xs font-bold uppercase tracking-widest hover:underline underline-offset-4 flex items-center gap-1" href="#">
+                        Beta View <span class="material-symbols-outlined text-sm" data-icon="open_in_new">open_in_new</span>
+</a>
+<a class="text-on-surface-variant text-xs font-bold uppercase tracking-widest hover:text-white transition-colors flex items-center gap-1" href="#">
+                        Repository <span class="material-symbols-outlined text-sm" data-icon="code">code</span>
+</a>
+</div>
+</div>
+<!-- Service Card 3: Archived -->
+<div class="group bg-surface-container-low p-8 rounded-lg transition-all duration-300 hover:bg-surface-container-highest flex flex-col h-full border border-transparent hover:border-primary/20">
+<div class="flex justify-between items-start mb-6">
+<div class="p-3 bg-surface-container-highest rounded-sm text-outline group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-3xl" data-icon="archive">archive</span>
+</div>
+<span class="bg-surface-variant text-on-surface-variant text-[0.6875rem] font-bold px-2 py-1 rounded-sm uppercase tracking-wider">보관됨</span>
+</div>
+<h3 class="font-headline text-xl font-bold text-white mb-3 group-hover:text-primary transition-colors">Legacy Auth</h3>
+<p class="text-sm text-on-surface-variant mb-8 flex-grow leading-relaxed">
+                    Old authentication module based on standard JWT flows. Replaced by the new Edge-Auth protocol.
+                </p>
+<div class="flex items-center gap-4 mt-auto pt-6 border-t border-outline-variant/15 opacity-50">
+<span class="text-on-surface-variant text-xs font-bold uppercase tracking-widest cursor-not-allowed">Offline</span>
+<a class="text-on-surface-variant text-xs font-bold uppercase tracking-widest hover:text-white transition-colors flex items-center gap-1" href="#">
+                        Repository <span class="material-symbols-outlined text-sm" data-icon="code">code</span>
+</a>
+</div>
+</div>
+<!-- Service Card 4: Live -->
+<div class="group bg-surface-container-low p-8 rounded-lg transition-all duration-300 hover:bg-surface-container-highest flex flex-col h-full border border-transparent hover:border-primary/20">
+<div class="flex justify-between items-start mb-6">
+<div class="p-3 bg-surface-container-highest rounded-sm text-primary group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-3xl" data-icon="image">image</span>
+</div>
+<span class="bg-tertiary-container text-on-tertiary-container text-[0.6875rem] font-bold px-2 py-1 rounded-sm uppercase tracking-wider">배포완료</span>
+</div>
+<h3 class="font-headline text-xl font-bold text-white mb-3 group-hover:text-primary transition-colors">Asset CDN</h3>
+<p class="text-sm text-on-surface-variant mb-8 flex-grow leading-relaxed">
+                    Global asset optimization and delivery pipeline with automatic WebP conversion and caching.
+                </p>
+<div class="flex items-center gap-4 mt-auto pt-6 border-t border-outline-variant/15">
+<a class="text-primary text-xs font-bold uppercase tracking-widest hover:underline underline-offset-4 flex items-center gap-1" href="#">
+                        Dashboard <span class="material-symbols-outlined text-sm" data-icon="open_in_new">open_in_new</span>
+</a>
+<a class="text-on-surface-variant text-xs font-bold uppercase tracking-widest hover:text-white transition-colors flex items-center gap-1" href="#">
+                        Repository <span class="material-symbols-outlined text-sm" data-icon="code">code</span>
+</a>
+</div>
+</div>
+<!-- Service Card 5: Live -->
+<div class="group bg-surface-container-low p-8 rounded-lg transition-all duration-300 hover:bg-surface-container-highest flex flex-col h-full border border-transparent hover:border-primary/20">
+<div class="flex justify-between items-start mb-6">
+<div class="p-3 bg-surface-container-highest rounded-sm text-primary group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-3xl" data-icon="terminal">terminal</span>
+</div>
+<span class="bg-tertiary-container text-on-tertiary-container text-[0.6875rem] font-bold px-2 py-1 rounded-sm uppercase tracking-wider">배포완료</span>
+</div>
+<h3 class="font-headline text-xl font-bold text-white mb-3 group-hover:text-primary transition-colors">CLI Toolbelt</h3>
+<p class="text-sm text-on-surface-variant mb-8 flex-grow leading-relaxed">
+                    Unified command-line interface for managing gotech.lab deployments and secret rotation.
+                </p>
+<div class="flex items-center gap-4 mt-auto pt-6 border-t border-outline-variant/15">
+<a class="text-primary text-xs font-bold uppercase tracking-widest hover:underline underline-offset-4 flex items-center gap-1" href="#">
+                        NPM Package <span class="material-symbols-outlined text-sm" data-icon="open_in_new">open_in_new</span>
+</a>
+<a class="text-on-surface-variant text-xs font-bold uppercase tracking-widest hover:text-white transition-colors flex items-center gap-1" href="#">
+                        Repository <span class="material-symbols-outlined text-sm" data-icon="code">code</span>
+</a>
+</div>
+</div>
+<!-- Service Card 6: WIP -->
+<div class="group bg-surface-container-low p-8 rounded-lg transition-all duration-300 hover:bg-surface-container-highest flex flex-col h-full border border-transparent hover:border-primary/20">
+<div class="flex justify-between items-start mb-6">
+<div class="p-3 bg-surface-container-highest rounded-sm text-primary group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-3xl" data-icon="memory">memory</span>
+</div>
+<span class="bg-primary-container text-on-primary-container text-[0.6875rem] font-bold px-2 py-1 rounded-sm uppercase tracking-wider">개발중</span>
+</div>
+<h3 class="font-headline text-xl font-bold text-white mb-3 group-hover:text-primary transition-colors">Neural Edge</h3>
+<p class="text-sm text-on-surface-variant mb-8 flex-grow leading-relaxed">
+                    Lightweight inference engine for running quantized machine learning models directly on the edge.
+                </p>
+<div class="flex items-center gap-4 mt-auto pt-6 border-t border-outline-variant/15">
+<a class="text-primary text-xs font-bold uppercase tracking-widest hover:underline underline-offset-4 flex items-center gap-1" href="#">
+                        Documentation <span class="material-symbols-outlined text-sm" data-icon="open_in_new">open_in_new</span>
+</a>
+<a class="text-on-surface-variant text-xs font-bold uppercase tracking-widest hover:text-white transition-colors flex items-center gap-1" href="#">
+                        Repository <span class="material-symbols-outlined text-sm" data-icon="code">code</span>
+</a>
+</div>
+</div>
+</section>
+<!-- News Aggregator Section (Bento Style) -->
+<section class="bg-surface-container-low rounded-xl overflow-hidden mb-20 border border-outline-variant/10">
+<div class="p-8 border-b border-outline-variant/15 flex justify-between items-center">
+<h2 class="font-headline text-2xl font-bold text-white flex items-center gap-3">
+<span class="material-symbols-outlined text-primary" data-icon="rss_feed">rss_feed</span>
+                    Tech News Feed
+                </h2>
+<span class="text-[0.6875rem] font-label text-on-surface-variant bg-surface-container-high px-2 py-1 rounded-sm">LIVE UPDATES</span>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-2">
+<!-- Main Featured News -->
+<div class="p-8 border-b lg:border-b-0 lg:border-r border-outline-variant/15 group relative overflow-hidden">
+<div class="absolute inset-0 z-0 opacity-10 grayscale group-hover:grayscale-0 transition-all duration-700">
+<img class="w-full h-full object-cover" data-alt="abstract high-tech server room with glowing blue neon lights and futuristic circuitry patterns in dark atmosphere" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBKobsWANjMWdTqoMVIIR5voCkifg0Av82OUKwqNZ-JVoRNBsaETRAJ-88_Mx9f6I3pEvFhsHi5LM1FjqLbMgkN56tD4_OjqR0Yjj3a6FPTVNtnCPjQDRglop00qp8cmewPY_YWgMsNtG-rje2uF-KGWP9tWQunJ-P0rIMHt5kK75R30f27wuBqQL7_FNf7fhUhvWCLeEg_bSlZHmkN2RXx5vU-BiCnLTxpqIDWKctic2coDeCVi56AXMY2t7PC6K41ImqBbwk8Ktg"/>
+</div>
+<div class="relative z-10">
+<div class="flex items-center gap-2 mb-4">
+<span class="bg-primary/20 text-primary text-[0.6rem] font-bold px-2 py-0.5 rounded-full uppercase">Cloud Computing</span>
+<span class="text-on-surface-variant text-[0.6875rem]">2 hours ago</span>
+</div>
+<h3 class="text-2xl font-headline font-bold text-white mb-4 leading-tight group-hover:text-primary transition-colors">Cloudflare Announces D1 Database General Availability with Vector Search</h3>
+<p class="text-on-surface-variant text-sm mb-6 leading-relaxed max-w-lg">
+                            The edge-native SQL database finally sheds its beta tag, introducing revolutionary vector search capabilities for AI applications at the edge.
+                        </p>
+<a class="inline-flex items-center gap-2 text-white text-sm font-bold group-hover:gap-4 transition-all" href="#">
+                            Read on TechCrunch <span class="material-symbols-outlined" data-icon="arrow_forward">arrow_forward</span>
+</a>
+</div>
+</div>
+<!-- Compact List Feed -->
+<div class="flex flex-col divide-y divide-outline-variant/15">
+<div class="p-6 hover:bg-surface-container-high transition-colors group cursor-pointer">
+<div class="flex gap-4 items-start">
+<div class="text-on-surface-variant pt-1">
+<span class="material-symbols-outlined text-lg" data-icon="terminal">terminal</span>
+</div>
+<div>
+<h4 class="text-white font-medium text-sm mb-1 group-hover:text-primary transition-colors">TypeScript 5.4 Released: NoInfer Utility Type &amp; Improved Narrowing</h4>
+<div class="flex items-center gap-3 text-[0.6875rem] text-on-surface-variant font-label">
+<span>GitHub Blog</span>
+<span>•</span>
+<span>4h ago</span>
+</div>
+</div>
+</div>
+</div>
+<div class="p-6 hover:bg-surface-container-high transition-colors group cursor-pointer">
+<div class="flex gap-4 items-start">
+<div class="text-on-surface-variant pt-1">
+<span class="material-symbols-outlined text-lg" data-icon="neurology">neurology</span>
+</div>
+<div>
+<h4 class="text-white font-medium text-sm mb-1 group-hover:text-primary transition-colors">Mistral AI Unveils Large 2: The Next Frontier of Open Weights</h4>
+<div class="flex items-center gap-3 text-[0.6875rem] text-on-surface-variant font-label">
+<span>Mistral News</span>
+<span>•</span>
+<span>Yesterday</span>
+</div>
+</div>
+</div>
+</div>
+<div class="p-6 hover:bg-surface-container-high transition-colors group cursor-pointer">
+<div class="flex gap-4 items-start">
+<div class="text-on-surface-variant pt-1">
+<span class="material-symbols-outlined text-lg" data-icon="security">security</span>
+</div>
+<div>
+<h4 class="text-white font-medium text-sm mb-1 group-hover:text-primary transition-colors">Post-Quantum Cryptography: New Standards for Edge Security</h4>
+<div class="flex items-center gap-3 text-[0.6875rem] text-on-surface-variant font-label">
+<span>Infosec Today</span>
+<span>•</span>
+<span>Yesterday</span>
+</div>
+</div>
+</div>
+</div>
+<div class="p-6 hover:bg-surface-container-high transition-colors group cursor-pointer flex-grow flex items-center justify-center">
+<a class="text-primary text-xs font-bold uppercase tracking-widest flex items-center gap-2 hover:scale-105 transition-transform" href="#">
+                            View All Feed <span class="material-symbols-outlined text-sm" data-icon="expand_more">expand_more</span>
+</a>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="w-full border-t border-[#4cd7f6]/10 bg-[#131315]">
+<div class="flex flex-col md:flex-row justify-between items-center py-12 px-8 max-w-7xl mx-auto gap-6">
+<div class="font-['Space_Grotesk'] font-bold text-slate-300">
+                gotech<span class="text-primary">.lab</span>
+</div>
+<div class="flex flex-wrap justify-center gap-8">
+<a class="text-slate-500 font-['Pretendard'] text-xs hover:text-[#4cd7f6] underline-offset-4 hover:underline transition-all opacity-80 hover:opacity-100" href="#">Github</a>
+<a class="text-slate-500 font-['Pretendard'] text-xs hover:text-[#4cd7f6] underline-offset-4 hover:underline transition-all opacity-80 hover:opacity-100" href="#">LinkedIn</a>
+<a class="text-slate-500 font-['Pretendard'] text-xs hover:text-[#4cd7f6] underline-offset-4 hover:underline transition-all opacity-80 hover:opacity-100" href="#">RSS</a>
+<a class="text-slate-500 font-['Pretendard'] text-xs hover:text-[#4cd7f6] underline-offset-4 hover:underline transition-all opacity-80 hover:opacity-100" href="#">Privacy</a>
+</div>
+<p class="font-['Pretendard'] text-xs leading-relaxed text-slate-500">
+                © 2024 gotech.lab. All rights reserved.
+            </p>
+</div>
+</footer>
+</body></html>

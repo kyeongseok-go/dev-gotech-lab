@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
-import { PageContainer } from "@/components/layout/page-container";
 import { SubscribeForm } from "@/components/subscribe-form";
+import { PageHeading } from "@/components/section/page-heading";
+import { Reveal } from "@/components/motion/reveal";
 
 export const metadata: Metadata = {
   title: "구독",
@@ -10,16 +11,30 @@ export const metadata: Metadata = {
 
 export default function SubscribePage() {
   return (
-    <PageContainer className="max-w-xl">
-      <h1 className="text-2xl font-semibold">구독</h1>
-      <p className="mt-3 mb-8 leading-7 text-muted-foreground">
-        AI 실험 결과, 개발 기록, 새로운 서비스 업데이트 소식을 이메일로
-        받아보세요. 스팸 없이, 의미 있는 내용만 보내드립니다.
-      </p>
-      <SubscribeForm />
-      <p className="mt-6 text-xs text-muted-foreground">
-        구독은 언제든 해지할 수 있습니다.
-      </p>
-    </PageContainer>
+    <main className="pt-28 pb-24 px-6 md:px-10 max-w-3xl mx-auto">
+      <PageHeading
+        eyebrow="Newsletter · Subscribe"
+        size="xl"
+        title={
+          <>
+            소식 <span className="display-accent">받기</span>.
+          </>
+        }
+        lead={
+          <>
+            <span className="text-em">AI 실험 결과</span>, 개발 기록, 새 서비스 업데이트를
+            이메일로 보내드립니다. 스팸 없이, 의미 있는 내용만.
+          </>
+        }
+      />
+      <Reveal>
+        <div className="cta-atmos p-8 md:p-12">
+          <SubscribeForm />
+          <p className="mt-6 font-code text-xs text-on-surface-muted">
+            구독은 언제든 해지할 수 있습니다.
+          </p>
+        </div>
+      </Reveal>
+    </main>
   );
 }

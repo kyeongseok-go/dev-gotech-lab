@@ -29,62 +29,60 @@ export function BlogFilter({ categories, tags }: BlogFilterProps) {
   );
 
   return (
-    <div className="mb-8 space-y-3">
-      {/* 카테고리 필터 */}
-      {categories.length > 0 && (
-        <div className="flex flex-wrap items-center gap-2">
-          <span className="text-xs font-medium text-muted-foreground">카테고리</span>
-          <button
-            onClick={() => setFilter("category", "")}
-            className={`rounded-full px-3 py-1 text-xs transition-colors ${
-              !activeCategory
-                ? "bg-primary text-primary-foreground"
-                : "bg-secondary text-secondary-foreground hover:bg-secondary/80"
-            }`}
-          >
-            전체
-          </button>
-          {categories.map((cat) => (
-            <button
-              key={cat}
-              onClick={() => setFilter("category", cat)}
-              className={`rounded-full px-3 py-1 text-xs transition-colors ${
-                activeCategory === cat
-                  ? "bg-primary text-primary-foreground"
-                  : "bg-secondary text-secondary-foreground hover:bg-secondary/80"
-              }`}
-            >
-              {cat}
-            </button>
-          ))}
-        </div>
+    <div className="flex flex-wrap gap-3">
+      {/* All button */}
+      <button
+        onClick={() => {
+          setFilter("category", "");
+          setFilter("tag", "");
+        }}
+        className={`px-6 py-2 rounded-full text-sm font-bold transition-all ${
+          !activeCategory && !activeTag
+            ? "bg-do-primary text-[#054345]"
+            : "bg-surface-container-high text-on-surface-variant hover:bg-surface-container-highest hover:text-white"
+        }`}
+      >
+        All
+      </button>
+
+      {/* Category pills */}
+      {categories.map((cat) => (
+        <button
+          key={cat}
+          onClick={() => setFilter("category", cat)}
+          className={`px-6 py-2 rounded-full text-sm font-medium transition-all ${
+            activeCategory === cat
+              ? "bg-do-primary text-[#054345]"
+              : "bg-surface-container-high text-on-surface-variant hover:bg-surface-container-highest hover:text-white"
+          }`}
+        >
+          {cat}
+        </button>
+      ))}
+
+      {/* Active tag */}
+      {activeTag && (
+        <button
+          onClick={() => setFilter("tag", "")}
+          className="px-6 py-2 rounded-full text-sm font-medium bg-do-primary text-[#054345]"
+        >
+          #{activeTag} &times;
+        </button>
       )}
 
-      {/* 태그 필터 */}
-      {tags.length > 0 && (
-        <div className="flex flex-wrap items-center gap-2">
-          <span className="text-xs font-medium text-muted-foreground">태그</span>
-          {activeTag && (
-            <button
-              onClick={() => setFilter("tag", "")}
-              className="rounded-full px-3 py-1 text-xs bg-primary text-primary-foreground"
-            >
-              {activeTag} ✕
-            </button>
-          )}
-          {tags
-            .filter((t) => t !== activeTag)
-            .map((tag) => (
-              <button
-                key={tag}
-                onClick={() => setFilter("tag", tag)}
-                className="rounded-full px-3 py-1 text-xs bg-secondary text-secondary-foreground hover:bg-secondary/80 transition-colors"
-              >
-                {tag}
-              </button>
-            ))}
-        </div>
-      )}
+      {/* Tag pills */}
+      {tags
+        .filter((t) => t !== activeTag)
+        .slice(0, 6)
+        .map((tag) => (
+          <button
+            key={tag}
+            onClick={() => setFilter("tag", tag)}
+            className="px-6 py-2 rounded-full text-sm font-medium bg-surface-container-high text-on-surface-variant hover:bg-surface-container-highest hover:text-white transition-all"
+          >
+            #{tag}
+          </button>
+        ))}
     </div>
   );
 }
