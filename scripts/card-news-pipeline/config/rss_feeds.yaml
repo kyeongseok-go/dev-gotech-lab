@@ -1,0 +1,104 @@
+# 한국 기업 테크 블로그 RSS 피드 매핑.
+# rss_aggregator.py 가 이 파일을 읽어 enabled=true 인 피드만 수집한다.
+#
+# 추가하려면:
+#   1. 회사 블로그 메인 페이지에서 <link rel="alternate" type="application/rss+xml"> 확인
+#   2. 또는 흔한 경로 시도: /rss, /feed, /feed/, /rss.xml, /atom.xml, /index.xml
+#   3. curl -sI <URL> 로 200 확인 후 enabled=true
+#
+# 참고: https://github.com/maczniak/awesome-korean-techblog
+# 참고: https://github.com/seongkyu-lim/TechBlogs
+
+feeds:
+  # ───── 확정 (verified working) ─────
+  - name: "토스 테크"
+    publisher: "토스 (Viva Republica)"
+    url: "https://toss.tech/rss.xml"
+    enabled: true
+    weight: 1.0
+    tags: [finance, frontend, backend, mobile]
+
+  - name: "카카오 테크"
+    publisher: "카카오"
+    url: "https://tech.kakao.com/feed/"
+    enabled: true
+    weight: 1.0
+    tags: [platform, backend, ai, mobile]
+
+  - name: "카카오엔터프라이즈"
+    publisher: "카카오엔터프라이즈"
+    url: "https://tech.kakaoenterprise.com/feed"
+    enabled: true
+    weight: 0.8
+    tags: [enterprise, cloud, ai]
+
+  - name: "NAVER D2"
+    publisher: "네이버"
+    url: "https://d2.naver.com/d2.atom"
+    enabled: true
+    weight: 1.0
+    tags: [platform, search, ai, frontend, backend]
+
+  - name: "우아한형제들 기술블로그"
+    publisher: "우아한형제들"
+    url: "https://techblog.woowahan.com/feed"
+    enabled: true
+    weight: 1.0
+    tags: [delivery, backend, devops]
+
+  - name: "MUSINSA Tech"
+    publisher: "무신사"
+    url: "https://medium.com/feed/musinsa-tech"
+    enabled: true
+    weight: 0.8
+    tags: [commerce, frontend, mobile]
+
+  - name: "LINE Engineering (KR)"
+    publisher: "LY Corporation"
+    url: "https://techblog.lycorp.co.jp/ko/feed/index.xml"
+    enabled: true
+    weight: 1.0
+    tags: [messenger, infrastructure, ai]
+
+  # ───── 검증 완료 (2026-05-21) ─────
+  - name: "당근 테크"
+    publisher: "당근"
+    url: "https://medium.com/feed/daangn"
+    enabled: true
+    weight: 0.8
+    tags: [local, mobile, platform]
+
+  - name: "쿠팡 엔지니어링"
+    publisher: "쿠팡"
+    url: "https://medium.com/feed/coupang-engineering"
+    enabled: true
+    weight: 0.5  # 마지막 포스트 2024-10-14 — 비활성 블로그, 낮은 weight 유지
+    tags: [commerce, infrastructure]
+
+  - name: "여기어때 기술블로그"
+    publisher: "여기어때 (GC Company)"
+    url: "https://techblog.gccompany.co.kr/feed"
+    enabled: true
+    weight: 0.7
+    tags: [travel, backend]
+
+  - name: "AWS Korea Blog"
+    publisher: "AWS"
+    url: "https://aws.amazon.com/ko/blogs/korea/feed/"
+    enabled: true
+    weight: 0.6
+    tags: [cloud, infrastructure]
+
+  # ───── RSS 없음 (no feed available) ─────
+  - name: "DEVOCEAN (SK)"
+    publisher: "SK ICT"
+    url: ""  # RSS 피드 미지원 확인 (2026-05-21) — 모든 일반 경로 404
+    enabled: false
+    weight: 0.0
+    tags: [telecom, cloud, ai]
+
+# 수집 설정
+collection:
+  max_age_hours: 168         # 7일. 한국 테크 블로그는 주 단위 게시가 많음
+  max_items_per_feed: 5
+  total_pool_target: 30      # 큐레이션 후보 풀 크기

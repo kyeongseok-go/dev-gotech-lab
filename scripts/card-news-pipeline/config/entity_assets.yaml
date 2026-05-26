@@ -1,0 +1,239 @@
+# entity_assets.yaml — 카드 일러스트의 시각 요소 라이브러리.
+# entity_detector.py 가 카드 콘텐츠에서 추출한 이름을 여기 매칭하여
+# 후합성용 PNG 자산을 찾는다.
+#
+# Schema:
+#   entities:
+#     - canonical_name: 표준 영문/한글 표기
+#       type: person | logo | product | team | object
+#       aliases: [기사에 등장할 가능성 있는 다양한 표기]
+#       asset: assets/<type>/<filename>.png   # 누락 시 ai_with_entity_prompt 모드
+#       context: 카드 콘텐츠에 이 단어가 보이면 매칭 신뢰도 상승 (옵션)
+#       prompt_hint: AI 폴백 시 사용할 묘사 (옵션)
+#
+# 매칭 알고리즘 (asset_resolver.py):
+#   1. canonical_name + aliases 에 대해 카드 텍스트 부분 문자열 검사
+#   2. context 키워드가 함께 보이면 신뢰도 가중
+#   3. 다중 매칭 시: primary = 신뢰도 1위, secondary = 2위 (옵션)
+#
+# 자산 수급 원칙:
+#   - 1순위: Wikimedia Commons (CC 라이선스)
+#   - 2순위: 공식 보도자료/Press kit
+#   - 3순위: 없음 → AI 프롬프트 폴백
+
+entities:
+  # ───── AI 기업 로고 ─────
+  - canonical_name: "Anthropic"
+    type: logo
+    aliases: ["Claude", "Claude AI", "claude", "Anthropic"]
+    asset: assets/logos/anthropic.png
+    brand_color: "#D97757"      # Anthropic 코랄·오렌지
+    context: ["AI", "LLM", "Constitutional AI"]
+    prompt_hint: "modern AI research lab atmosphere, orange and beige tones"
+
+  - canonical_name: "OpenAI"
+    type: logo
+    aliases: ["OpenAI", "ChatGPT", "GPT", "DALL-E", "Sora"]
+    brand_color: "#10A37F"
+    asset: assets/logos/openai.png
+    context: ["GPT", "Altman", "ChatGPT"]
+    prompt_hint: "futuristic AI laboratory, black and white minimalist"
+
+  - canonical_name: "Google DeepMind"
+    type: logo
+    aliases: ["Google", "Gemini", "DeepMind", "Bard", "Veo"]
+    brand_color: "#4285F4"
+    asset: assets/logos/google.png
+    context: ["Gemini", "DeepMind"]
+    prompt_hint: "colorful gradient tech atmosphere, Google brand colors"
+
+  - canonical_name: "Meta AI"
+    type: logo
+    aliases: ["Meta", "Llama", "LLaMA", "Facebook AI"]
+    brand_color: "#0467DF"
+    asset: assets/logos/meta.png
+    context: ["Llama", "Meta"]
+    prompt_hint: "blue gradient open-source AI atmosphere"
+
+  - canonical_name: "NVIDIA"
+    type: logo
+    aliases: ["NVIDIA", "Jensen Huang", "H100", "B200", "CUDA"]
+    brand_color: "#76B900"
+    asset: assets/logos/nvidia.png
+    context: ["GPU", "AI chip", "데이터센터"]
+    prompt_hint: "green-themed GPU rack, data center"
+
+  # ───── 인물 ─────
+  - canonical_name: "Sam Altman"
+    type: person
+    aliases: ["샘 알트먼", "Altman", "Sam Altman"]
+    brand_color: "#10A37F"
+    asset: assets/people/sam_altman.png    # TODO (Wikimedia Commons)
+    context: ["OpenAI", "CEO"]
+    prompt_hint: "tech CEO portrait, San Francisco office background"
+
+  - canonical_name: "Elon Musk"
+    type: person
+    aliases: ["일론 머스크", "Musk", "Elon"]
+    brand_color: "#E31937"
+    asset: assets/people/elon_musk.png     # TODO
+    context: ["Tesla", "SpaceX", "xAI", "X"]
+    prompt_hint: "tech entrepreneur, futuristic factory background"
+
+  # ───── 제품 ─────
+  - canonical_name: "ChatGPT"
+    type: product
+    aliases: ["ChatGPT", "GPT-5", "GPT-4o", "GPT-4"]
+    brand_color: "#10A37F"
+    asset: assets/products/chatgpt.png     # TODO
+    context: ["대화형 AI", "챗봇"]
+    prompt_hint: "chat interface mockup, conversation bubbles"
+
+  # ───── 한국 기업 로고 ─────
+  - canonical_name: "Toss"
+    type: logo
+    aliases: ["토스", "Toss", "Viva Republica", "토스테크"]
+    brand_color: "#0064FF"
+    asset: assets/logos/toss.png           # TODO
+    context: ["핀테크", "송금", "결제"]
+    prompt_hint: "fintech app, clean blue interface"
+
+  - canonical_name: "Kakao"
+    type: logo
+    aliases: ["카카오", "Kakao", "카카오톡", "카카오뱅크", "Honeybee"]
+    brand_color: "#FEE500"
+    asset: assets/logos/kakao.png          # TODO
+    context: ["메신저", "플랫폼"]
+    prompt_hint: "yellow Kakao brand atmosphere"
+
+  - canonical_name: "Naver"
+    type: logo
+    aliases: ["네이버", "Naver", "NAVER", "HyperCLOVA", "하이퍼클로바"]
+    brand_color: "#03C75A"
+    asset: assets/logos/naver.png
+    context: ["검색", "포털"]
+
+  - canonical_name: "LINE"
+    type: logo
+    aliases: ["LINE", "라인", "라이코프", "LY Corporation"]
+    brand_color: "#06C755"
+    asset: assets/logos/line.png
+    context: ["메신저", "QA"]
+
+  - canonical_name: "Musinsa"
+    type: logo
+    aliases: ["무신사", "MUSINSA", "Musinsa"]
+    brand_color: "#000000"
+    asset: assets/logos/musinsa.png
+
+  - canonical_name: "Woowahan"
+    type: logo
+    aliases: ["우아한형제들", "Woowahan", "배달의민족", "배민"]
+    brand_color: "#2AC1BC"
+    asset: assets/logos/woowahan.png
+
+  # ───── 글로벌 테크 ─────
+  - canonical_name: "Vercel"
+    type: logo
+    aliases: ["Vercel", "Next.js", "Next", "AI SDK"]
+    brand_color: "#000000"
+    context: ["프론트엔드", "배포"]
+
+  - canonical_name: "React"
+    type: logo
+    aliases: ["React", "React Native", "RSC", "Server Actions"]
+    brand_color: "#61DAFB"
+    context: ["프론트엔드", "UI"]
+
+  - canonical_name: "TypeScript"
+    type: logo
+    aliases: ["TypeScript", "TS"]
+    brand_color: "#3178C6"
+    context: ["언어", "정적타입"]
+
+  - canonical_name: "Python"
+    type: logo
+    aliases: ["Python", "파이썬", "GIL", "free-threading"]
+    brand_color: "#FFD43B"
+    context: ["언어", "scripting"]
+
+  - canonical_name: "GitHub"
+    type: logo
+    aliases: ["GitHub", "Copilot", "Workspace"]
+    brand_color: "#181717"
+    context: ["저장소", "코드리뷰"]
+
+  - canonical_name: "Apple"
+    type: logo
+    aliases: ["Apple", "애플", "Apple Intelligence", "iPhone"]
+    brand_color: "#A2AAAD"
+    context: ["iOS", "맥"]
+
+  - canonical_name: "Tesla"
+    type: logo
+    aliases: ["Tesla", "테슬라", "FSD", "Cybertruck"]
+    brand_color: "#CC0000"
+    context: ["자율주행", "EV"]
+
+  - canonical_name: "Stability"
+    type: logo
+    aliases: ["Stability AI", "Stability", "Stable Diffusion", "StableLM"]
+    brand_color: "#7E22CE"
+    context: ["이미지생성", "오픈소스"]
+
+  - canonical_name: "HuggingFace"
+    type: logo
+    aliases: ["HuggingFace", "허깅페이스", "Gradio", "Spaces"]
+    brand_color: "#FFD21E"
+    context: ["오픈소스", "허브"]
+
+  - canonical_name: "xAI"
+    type: logo
+    aliases: ["xAI", "Grok", "그록"]
+    brand_color: "#000000"
+    context: ["Musk", "X"]
+
+  - canonical_name: "MCP"
+    type: logo
+    aliases: ["MCP", "Model Context Protocol"]
+    brand_color: "#FF6B35"
+    context: ["표준", "도구"]
+
+  - canonical_name: "EU"
+    type: logo
+    aliases: ["EU", "유럽연합", "AI Act", "EU AI Act", "DMA"]
+    brand_color: "#003399"
+    context: ["규제", "법"]
+
+  - canonical_name: "Broadcom"
+    type: logo
+    aliases: ["Broadcom", "브로드컴", "VMware", "BRCM"]
+    brand_color: "#CC0000"
+    context: ["반도체", "칩", "네트워크", "TPU", "인프라"]
+    prompt_hint: "semiconductor chip, red corporate tech"
+
+  - canonical_name: "Frontier Model Forum"
+    type: logo
+    aliases: ["Frontier Model Forum", "FMF", "프론티어 모델 포럼"]
+    brand_color: "#1E3A5F"
+    context: ["AI 안전", "안보", "공동대응", "distillation", "중국"]
+    prompt_hint: "global AI safety cooperation, dark blue professional"
+
+  - canonical_name: "Billboard"
+    type: logo
+    aliases: ["Billboard", "빌보드", "RIAA"]
+    brand_color: "#000000"
+    context: ["음악", "차트"]
+
+# 매칭 임계값
+matching:
+  min_confidence: 0.6          # 이 이하면 매칭 무시
+  case_sensitive: false
+  partial_match: true          # "토스 테크" 텍스트에서 "토스" 매칭 허용
+
+# Wikimedia Commons 자동 폴백 (asset_resolver.py 가 사용)
+auto_fetch:
+  enabled: true
+  source: "wikimedia_commons"
+  license_filter: ["cc-by", "cc-by-sa", "public-domain"]
+  cache_dir: "assets/_auto_fetched/"
