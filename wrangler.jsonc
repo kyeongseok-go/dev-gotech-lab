@@ -40,7 +40,7 @@
 		{
 			"binding": "DB",
 			"database_name": "gotech-lab-db",
-			"database_id": "LOCAL_ONLY",
+			"database_id": "76f95668-7ebe-4c8f-8a4b-9fef8cf34b80",
 			"migrations_dir": "migrations"
 		}
 	],
