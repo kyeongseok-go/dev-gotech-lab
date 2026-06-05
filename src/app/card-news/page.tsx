@@ -12,6 +12,19 @@ export const metadata: Metadata = {
 const CARD_NEWS_DATA: CardNewsItem[] = [
 /* TECH-NEWS-PIPELINE-DATA:START */
   {
+    id: 56,
+    slug: "토스팀이-ai-파도를-마주하는-방법-ai-surf-day",
+    title: "토스팀이 AI 파도를 마주하는 방법: AI Surf Day",
+    summary: "파도를 멈출 수는 없지만, 서핑하는 방법은 배울 수 있다.",
+    content: "",
+    category: "news",
+    image_url: "/card-news/토스팀이-ai-파도를-마주하는-방법-ai-surf-day.png",
+    external_link: "https://toss.tech/article/ai-surf-day",
+    tags: ["AI", "AI", "Surf"],
+    created_at: "2026-06-05",
+    span: "",
+  },
+  {
     id: 55,
     slug: "hyundai-boston-dynamics-atlas-learn-by-watching",
     title: "Hyundai·Boston Dynamics — Atlas, 인간 시연 영상으로 학습",
