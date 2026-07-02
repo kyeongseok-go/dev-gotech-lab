@@ -28,6 +28,33 @@ python3 scripts/card-news-pipeline/lib/merge_and_publish.py entries_done.json al
 uv run scripts/card-news-pipeline/lib/publish.py --entries all.json
 ```
 
+## Reddit OAuth 설정 (403 해결)
+
+Reddit 은 2023년 API 정책 변경 이후 비인증 공개 `.json` 접근을 403 으로 차단한다.
+OAuth 토큰을 발급받아 `oauth.reddit.com` 으로 수집하면 정상 동작한다.
+
+1. https://www.reddit.com/prefs/apps 접속 → 하단 **create another app...**
+   - name: `tech-news-pipeline` (자유)
+   - 타입: **script** 선택
+   - redirect uri: `http://localhost:8080` (사용 안 하지만 필수)
+2. 생성 후 표시되는 값 확인
+   - **client_id**: 앱 이름 바로 아래 짧은 문자열
+   - **secret**: `secret` 항목 값
+3. 자격증명 파일 작성 (이 파일은 `.gitignore` 처리되어 커밋되지 않음)
+   ```bash
+   cd scripts/card-news-pipeline/config
+   cp reddit_oauth.env.example reddit_oauth.env
+   # reddit_oauth.env 에 client_id / secret 입력
+   ```
+   - 기본은 **app-only(client_credentials)** 모드라 Reddit 비밀번호 불필요.
+   - 환경변수(`REDDIT_CLIENT_ID` 등)로 줘도 되며, 환경변수가 파일보다 우선한다.
+4. 확인
+   ```bash
+   uv run scripts/card-news-pipeline/lib/sources/reddit.py --limit 3
+   ```
+   자격증명이 없으면 공개 엔드포인트로 폴백(대개 403 → 해당 서브레딧 skip)하며,
+   RSS 수집은 영향받지 않는다.
+
 ## 의존성
 모든 스크립트는 PEP 723 inline 메타데이터로 의존성을 선언. `uv` 가 자동 격리 환경 구성.
 

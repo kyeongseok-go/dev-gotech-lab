@@ -1,3 +1,6 @@
 # 임시 출력만 제외 (테마 bg 캐시는 포함해야 원격에서도 빠르게 동작)
 __pycache__/
 *.pyc
+
+# Reddit OAuth 자격증명 (절대 커밋 금지)
+config/reddit_oauth.env
