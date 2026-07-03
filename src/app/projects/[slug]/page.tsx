@@ -35,11 +35,11 @@ export default async function ProjectDetailPage({ params }: Props) {
   return (
     <main className="pt-32 pb-24">
       {/* Hero Section */}
-      <section className="max-w-7xl mx-auto px-8 mb-20">
+      <section className="max-w-7xl mx-auto px-4 md:px-8 mb-20">
         <div className="grid lg:grid-cols-2 gap-16 items-center">
           <div className="space-y-8">
             <div className="space-y-4">
-              <h1 className="font-headline text-5xl md:text-7xl font-bold tracking-tighter leading-[0.9] text-on-surface">
+              <h1 className="font-headline text-4xl sm:text-5xl md:text-7xl font-bold tracking-tighter leading-[0.9] text-on-surface">
                 {project.title}
               </h1>
               <p className="text-on-surface-variant text-lg max-w-xl leading-relaxed">
@@ -119,14 +119,14 @@ export default async function ProjectDetailPage({ params }: Props) {
       </section>
 
       {/* Content */}
-      <section className="max-w-4xl mx-auto px-8">
+      <section className="max-w-4xl mx-auto px-4 md:px-8">
         <div className="prose-custom">
-          <MDXContent code={project.body} />
+          <MDXContent collection="projects" slug={slug} />
         </div>
       </section>
 
       {/* Back Link */}
-      <div className="max-w-4xl mx-auto px-8 mt-16 pt-8 border-t border-outline-variant/15">
+      <div className="max-w-4xl mx-auto px-4 md:px-8 mt-16 pt-8 border-t border-outline-variant/15">
         <Link
           href="/projects"
           className="text-sm text-on-surface-variant transition-colors hover:text-do-primary font-headline uppercase tracking-wider"

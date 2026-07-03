@@ -3,8 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "predev": "velite build && node scripts/compile-mdx.mjs",
     "dev": "next dev",
-    "build": "next build",
+    "build": "velite build && node scripts/compile-mdx.mjs && next build",
     "start": "next start",
     "lint": "eslint .",
     "deploy": "opennextjs-cloudflare build && opennextjs-cloudflare deploy",

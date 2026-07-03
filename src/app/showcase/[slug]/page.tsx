@@ -109,7 +109,7 @@ export default async function ShowcaseDetailPage({ params }: Props) {
 
         {/* 본문 */}
         <div className="prose-custom">
-          <MDXContent code={item.body} />
+          <MDXContent collection="showcase" slug={slug} />
         </div>
       </article>
 

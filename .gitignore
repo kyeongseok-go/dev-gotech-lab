@@ -47,6 +47,9 @@ next-env.d.ts
 # Velite (자동 생성 데이터 레이어)
 /.velite
 
+# 프리컴파일된 MDX ESM 모듈 (scripts/compile-mdx.mjs 가 빌드 타임 생성)
+/src/generated
+
 # wrangler files
 .wrangler
 .dev.vars*

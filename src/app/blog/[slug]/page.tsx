@@ -53,7 +53,7 @@ export default async function BlogPostPage({ params }: Props) {
 
   return (
     <main className="pt-32 pb-24">
-      <article className="max-w-4xl mx-auto px-8">
+      <article className="max-w-4xl mx-auto px-4 md:px-8">
         {/* Header */}
         <header className="mb-12">
           <div className="flex items-center gap-3 text-sm text-on-surface-variant mb-4">
@@ -96,7 +96,7 @@ export default async function BlogPostPage({ params }: Props) {
 
         {/* Body */}
         <div className="prose-custom">
-          <MDXContent code={post.body} />
+          <MDXContent collection="blogs" slug={slug} />
         </div>
         {/* Author Block */}
         <div className="mt-16 pt-8 border-t border-outline-variant/15 flex gap-6 items-center">
@@ -119,7 +119,7 @@ export default async function BlogPostPage({ params }: Props) {
 
       {/* Prev/Next Navigation */}
       {(prev || next) && (
-        <nav className="max-w-4xl mx-auto px-8 mt-16 grid gap-4 border-t border-outline-variant/15 pt-8 sm:grid-cols-2">
+        <nav className="max-w-4xl mx-auto px-4 md:px-8 mt-16 grid gap-4 border-t border-outline-variant/15 pt-8 sm:grid-cols-2">
           {prev ? (
             <Link
               href={`/blog/${prev.slug}`}

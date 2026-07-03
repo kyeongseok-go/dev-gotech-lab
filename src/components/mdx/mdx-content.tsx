@@ -1,11 +1,10 @@
-"use client";
-
-import * as runtime from "react/jsx-runtime";
-import { type ComponentPropsWithoutRef, useMemo } from "react";
+import { type ComponentPropsWithoutRef, type ComponentType, type ReactNode } from "react";
+import { notFound } from "next/navigation";
 import { Callout } from "./callout";
+import { getMdxModule } from "@/generated/mdx/registry";
 
 /** children에서 텍스트만 추출하여 id용 slug 생성 */
-function toId(children: React.ReactNode): string {
+function toId(children: ReactNode): string {
   const text = typeof children === "string"
     ? children
     : Array.isArray(children)
@@ -104,15 +103,27 @@ const defaultComponents = {
 };
 
 interface MDXContentProps {
-  code: string;
-  components?: Record<string, React.ComponentType>;
+  /** velite 컬렉션 이름: blogs | projects | showcase */
+  collection: string;
+  /** 렌더할 문서 slug */
+  slug: string;
+  components?: Record<string, ComponentType>;
 }
 
-export function MDXContent({ code, components }: MDXContentProps) {
-  const Component = useMemo(() => {
-    const fn = new Function(code);
-    return fn({ ...runtime }).default;
-  }, [code]);
+/**
+ * 빌드 타임에 프리컴파일된 MDX 모듈(src/generated/mdx)을 로드해 렌더한다.
+ *
+ * 과거에는 velite body(function-body 문자열)를 `new Function` 으로 실행했으나,
+ * Cloudflare Workers 는 런타임 코드 생성을 차단하여 상세 페이지가 500 이 됐다.
+ * 이제 registry 의 dynamic import 로 표준 ESM 모듈을 불러오므로 eval 이 없다.
+ */
+export async function MDXContent({ collection, slug, components }: MDXContentProps) {
+  const loader = getMdxModule(collection, slug);
+  if (!loader) {
+    notFound();
+  }
+  const mod = await loader();
+  const Component = mod.default;
 
   return <Component components={{ ...defaultComponents, ...components }} />;
 }
