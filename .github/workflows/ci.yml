@@ -27,8 +27,8 @@ jobs:
       - name: 의존성 설치
         run: pnpm install --frozen-lockfile
 
-      - name: Velite 빌드
-        run: pnpm exec velite build
+      - name: 콘텐츠 빌드 (Velite + MDX 프리컴파일)
+        run: pnpm content
 
       - name: 타입 체크
         run: pnpm exec tsc --noEmit

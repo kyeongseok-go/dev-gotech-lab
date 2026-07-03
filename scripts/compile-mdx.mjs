@@ -72,7 +72,10 @@ async function main() {
   registryLines.push("// 이 파일은 scripts/compile-mdx.mjs 가 생성합니다. 직접 수정하지 마세요.");
   registryLines.push("import type { ComponentType } from \"react\";");
   registryLines.push("");
-  registryLines.push("type MDXModule = { default: ComponentType<{ components?: Record<string, ComponentType> }> };");
+  registryLines.push("// MDX 컴포넌트 맵: HTML 태그/커스텀 컴포넌트마다 props 시그니처가 달라");
+  registryLines.push("// 개별 타입을 강제하지 않는다 (velite 컴파일 컴포넌트는 임의 맵을 받음).");
+  registryLines.push("type MDXComponents = Record<string, unknown>;");
+  registryLines.push("type MDXModule = { default: ComponentType<{ components?: MDXComponents }> };");
   registryLines.push("");
   registryLines.push("const registry: Record<string, Record<string, () => Promise<MDXModule>>> = {");
 
