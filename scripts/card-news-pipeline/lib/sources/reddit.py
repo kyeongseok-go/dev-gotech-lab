@@ -170,7 +170,7 @@ def fetch_all(
             posts = fetch_subreddit(sr, limit=limit_per_sub, time_filter=time_filter)
             filtered = [p for p in posts if p.score >= min_score]
             all_posts.extend(filtered)
-        except requests.HTTPError as e:
+        except requests.exceptions.RequestException as e:
             print(f"[reddit] {sr} skipped: {e}", file=sys.stderr)
         time.sleep(1)
     all_posts.sort(key=lambda p: p.score, reverse=True)
