@@ -11,16 +11,21 @@ Reddit 핫 글을 OAuth 토큰으로 `oauth.reddit.com`에서 수집한다.
 인증:
   - app-only OAuth (`client_credentials` grant) — Reddit 비밀번호 불필요, client_id/secret만 필요
   - 자격증명은 환경변수 또는 gitignore된 `config/reddit_oauth.env` 파일에서 로드
-  - 자격증명이 없으면 공개 엔드포인트로 폴백(대개 403 → 호출자가 skip 처리)
+  - 자격증명이 없으면 공개 `.rss`(Atom) 엔드포인트로 폴백 — `.json`과 달리
+    비인증 접근이 허용됨. 단 upvote score 는 없으므로 랭킹 순서 기반 합성 score 사용.
 등록 방법: README.md 의 "Reddit OAuth 설정" 참고.
 """
 from __future__ import annotations
 
 import argparse
+import datetime as _dt
+import html as _html
 import json
 import os
+import re
 import sys
 import time
+import xml.etree.ElementTree as ET
 from dataclasses import asdict, dataclass
 from pathlib import Path
 from typing import Iterable
@@ -119,16 +124,75 @@ class RedditPost:
     flair: str | None
 
 
+_ATOM_NS = {"a": "http://www.w3.org/2005/Atom"}
+# .rss 폴백용 합성 score 기준값 — 랭킹 순서를 보존하면서 min_score 필터를 통과시킨다
+_RSS_SYNTHETIC_SCORE_BASE = 999
+
+
+def _fetch_subreddit_rss(subreddit: str, limit: int, time_filter: str) -> list[RedditPost]:
+    """비인증 `.rss`(Atom) 엔드포인트에서 top 글 수집. 429 시 점증 백오프로 재시도."""
+    url = f"{BASE}/r/{subreddit}/top/.rss?t={time_filter}&limit={limit}"
+    resp = None
+    for attempt in range(3):
+        resp = requests.get(url, headers={"User-Agent": USER_AGENT}, timeout=15)
+        if resp.status_code == 429 and attempt < 2:
+            time.sleep(30 * (attempt + 1))  # 30s → 60s
+            continue
+        break
+    resp.raise_for_status()
+
+    root = ET.fromstring(resp.content)
+    posts: list[RedditPost] = []
+    for i, entry in enumerate(root.findall("a:entry", _ATOM_NS)):
+        if len(posts) >= limit:
+            break
+        title = entry.findtext("a:title", "", _ATOM_NS).strip()
+        link_el = entry.find("a:link", _ATOM_NS)
+        permalink = link_el.get("href", "") if link_el is not None else ""
+        content = entry.findtext("a:content", "", _ATOM_NS) or ""
+
+        # 링크 포스트의 외부 URL: content 안의 [link] 앵커
+        m = re.search(r'href="([^"]+)"\s*>\s*\[link\]', content)
+        ext_url = _html.unescape(m.group(1)) if m else permalink
+
+        # 본문 텍스트: HTML 제거 + 푸터(submitted by ... [link] [comments]) 제거
+        text = re.sub(r"<[^>]+>", " ", _html.unescape(content))
+        text = re.sub(r"\s+", " ", text).strip()
+        text = re.sub(r"submitted by\s+/u/\S+.*$", "", text).strip()
+
+        updated = entry.findtext("a:updated", "", _ATOM_NS)
+        try:
+            created_utc = _dt.datetime.fromisoformat(updated).timestamp()
+        except ValueError:
+            created_utc = 0.0
+
+        author_raw = entry.findtext("a:author/a:name", "", _ATOM_NS)
+        posts.append(
+            RedditPost(
+                id=(entry.findtext("a:id", "", _ATOM_NS) or "").removeprefix("t3_"),
+                subreddit=subreddit,
+                title=title,
+                selftext=text[:1500],
+                score=_RSS_SYNTHETIC_SCORE_BASE - i,  # 실제 upvote 미제공 → 순위 기반
+                num_comments=0,
+                created_utc=created_utc,
+                permalink=permalink,
+                url=ext_url,
+                author=author_raw.removeprefix("/u/"),
+                flair=None,
+            )
+        )
+    return posts
+
+
 def fetch_subreddit(subreddit: str, limit: int = 10, time_filter: str = "day") -> list[RedditPost]:
-    """인증된 oauth.reddit.com(토큰 있을 때) 또는 공개 엔드포인트(폴백)에서 핫 글 수집."""
+    """인증된 oauth.reddit.com(토큰 있을 때) 또는 공개 `.rss` 엔드포인트(폴백)에서 수집."""
     token = _get_token()
-    headers = {"User-Agent": USER_AGENT}
-    if token:
-        host = OAUTH_BASE
-        headers["Authorization"] = f"bearer {token}"
-    else:
-        host = BASE
-    url = f"{host}/r/{subreddit}/top.json?t={time_filter}&limit={limit}"
+    if not token:
+        return _fetch_subreddit_rss(subreddit, limit, time_filter)
+
+    headers = {"User-Agent": USER_AGENT, "Authorization": f"bearer {token}"}
+    url = f"{OAUTH_BASE}/r/{subreddit}/top.json?t={time_filter}&limit={limit}"
     resp = requests.get(url, headers=headers, timeout=15)
     resp.raise_for_status()
     data = resp.json()
@@ -163,7 +227,11 @@ def fetch_all(
     time_filter: str = "day",
     min_score: int = 50,
 ) -> list[RedditPost]:
-    """모든 서브레딧을 순회하며 핫 글을 수집. 서브레딧 간 1s 간격 (rate-limit 회피)."""
+    """모든 서브레딧을 순회하며 핫 글을 수집. 서브레딧 간 간격으로 rate-limit 회피.
+
+    비인증 `.rss` 폴백은 rate-limit 이 훨씬 빡빡해서(연속 요청 시 429) 간격을 늘린다.
+    """
+    delay_s = 1 if _get_token() else 15
     all_posts: list[RedditPost] = []
     for sr in subreddits:
         try:
@@ -172,7 +240,9 @@ def fetch_all(
             all_posts.extend(filtered)
         except requests.exceptions.RequestException as e:
             print(f"[reddit] {sr} skipped: {e}", file=sys.stderr)
-        time.sleep(1)
+        except ET.ParseError as e:
+            print(f"[reddit] {sr} skipped (rss parse): {e}", file=sys.stderr)
+        time.sleep(delay_s)
     all_posts.sort(key=lambda p: p.score, reverse=True)
     return all_posts
 

@@ -89,6 +89,57 @@ feeds:
     weight: 0.6
     tags: [cloud, infrastructure]
 
+  # ───── 글로벌 AI 개발사 공식 채널 (verified 2026-07-28) ─────
+  # Reddit Data API 신규 승인 중단(2025~)에 따라 공식 소스 중심으로 보강
+  - name: "OpenAI News"
+    publisher: "OpenAI"
+    url: "https://openai.com/news/rss.xml"
+    enabled: true
+    weight: 1.0
+    tags: [ai, openai, research]
+
+  - name: "Hacker News Best"
+    publisher: "Hacker News"
+    url: "https://hnrss.org/best"
+    enabled: true
+    weight: 0.9
+    tags: [ai, dev, trending]
+
+  - name: "HN — Anthropic 소식 (100pt+)"
+    publisher: "Hacker News"
+    url: "https://hnrss.org/newest?q=anthropic&points=100"
+    enabled: true
+    weight: 1.0  # Anthropic 은 공식 RSS 미제공 (2026-07-28 확인) — HN 경유로 대체
+    tags: [ai, anthropic, claude]
+
+  - name: "Claude Code 릴리즈"
+    publisher: "Anthropic"
+    url: "https://github.com/anthropics/claude-code/releases.atom"
+    enabled: true
+    weight: 0.8
+    tags: [ai, anthropic, claude, devtools]
+
+  - name: "GitHub Blog — AI & ML"
+    publisher: "GitHub"
+    url: "https://github.blog/ai-and-ml/feed/"
+    enabled: true
+    weight: 0.8
+    tags: [ai, devtools, copilot]
+
+  - name: "Google AI Blog"
+    publisher: "Google"
+    url: "https://blog.google/technology/ai/rss/"
+    enabled: true
+    weight: 0.8
+    tags: [ai, google, gemini]
+
+  - name: "Simon Willison"
+    publisher: "Simon Willison"
+    url: "https://simonwillison.net/atom/everything/"
+    enabled: true
+    weight: 0.9  # LLM 실전 팁·실험 공유로 유명한 개발자 블로그
+    tags: [ai, llm, tips]
+
   # ───── RSS 없음 (no feed available) ─────
   - name: "DEVOCEAN (SK)"
     publisher: "SK ICT"
