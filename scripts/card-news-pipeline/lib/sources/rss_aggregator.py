@@ -104,10 +104,16 @@ def fetch_all(config: dict[str, Any] | None = None) -> list[RssPost]:
     for feed_cfg in cfg.get("feeds", []):
         if not feed_cfg.get("enabled"):
             continue
-        try:
-            all_posts.extend(fetch_feed(feed_cfg, max_age, per_feed))
-        except Exception as e:
-            print(f"[rss] {feed_cfg['name']} skipped: {e}", file=sys.stderr)
+        # 일시적 오류(502 등) 대비 1회 재시도 — 하루 1건 보장을 위해 수집 견고성 우선
+        for attempt in range(2):
+            try:
+                all_posts.extend(fetch_feed(feed_cfg, max_age, per_feed))
+                break
+            except Exception as e:
+                if attempt == 0:
+                    time.sleep(5)
+                    continue
+                print(f"[rss] {feed_cfg['name']} skipped: {e}", file=sys.stderr)
         time.sleep(0.3)
 
     # 가중치 적용 후 정렬 (단순히 weight 기준; 후속 단계에서 Claude 가 큐레이션)

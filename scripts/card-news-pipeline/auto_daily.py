@@ -74,8 +74,50 @@ def detect_theme(title: str, summary: str) -> str:
     return "ai_general"
 
 
+# ── 개발자 관점 우선순위 스코어링 ──────────────────────────────
+# 목표: "개발자에게 가장 중요한 소식"을 하루 1건 선정.
+# 출처 점수(0~40) + 키워드 가점/감점의 합으로 순위를 매긴다. LLM 없이 결정적으로 동작.
+PRIORITY_BOOSTS: list[tuple[int, list[str]]] = [
+    # 모델/제품 출시·발표 — 개발자에게 가장 실질적인 뉴스
+    (25, ["release", "launch", "announc", "출시", "발표", "공개", "unveil", "ships",
+          "now available", "weights"]),
+    # 주요 AI 개발사/모델
+    (20, ["claude", "anthropic", "openai", "gpt", "gemini", "llama", "deepseek",
+          "mistral", "qwen", "kimi"]),
+    # 개발 도구·생태계
+    (15, ["open source", "open-source", "오픈소스", "sdk", "api", "mcp", "agent",
+          "cli", "framework", "dev tool", "copilot", "ide"]),
+    # 기술 심층/연구
+    (10, ["benchmark", "paper", "research", "연구", "아키텍처", "최적화", "성능 개선"]),
+]
+PRIORITY_PENALTIES: list[tuple[int, list[str]]] = [
+    # 개발과 거리가 먼 소재
+    (-25, ["politic", "regulation", "lawsuit", "sues", "billionaire", "election",
+           "stock", "share price", "주가", "소송"]),
+    (-10, ["opinion", "unpopular", "meme", "rant"]),
+]
+
+_REDDIT_SCORE_CAP = 40      # reddit upvote → 0~40 정규화 상한
+_RSS_WEIGHT_SCALE = 40      # rss feed weight(0.0~1.0) → 0~40
+
+
+def priority_score(c: dict) -> float:
+    """출처 기본 점수 + 키워드 가점/감점."""
+    if c.get("source") == "reddit":
+        # 실제 upvote(수백~수천) 와 .rss 폴백 합성 score(999-i) 모두 40점 근처로 수렴
+        base = min(c.get("score", 0) / 25, _REDDIT_SCORE_CAP)
+    else:
+        base = float(c.get("weight", 0.5)) * _RSS_WEIGHT_SCALE
+
+    blob = f"{c.get('title', '')} {c.get('summary', '') or c.get('selftext', '')}".lower()
+    for points, keywords in PRIORITY_BOOSTS + PRIORITY_PENALTIES:
+        if any(kw in blob for kw in keywords):
+            base += points
+    return base
+
+
 def pick_best(candidates: list[dict], existing_slugs: set[str]) -> dict | None:
-    """중복 안 되는 후보 중 Reddit 우선 + score 최고."""
+    """중복되지 않는 후보 중 개발자 우선순위 점수 최고 항목 선정."""
     def normalize(c: dict) -> dict | None:
         title = c.get("title", "").strip()
         if not title:
@@ -86,17 +128,23 @@ def pick_best(candidates: list[dict], existing_slugs: set[str]) -> dict | None:
         src = c.get("source")
         if src == "reddit":
             url = c.get("url") or c.get("permalink")
-            score = c.get("score", 0)
         elif src == "rss":
             url = c.get("link") or c.get("url")
-            score = -1  # rss는 score 없음, 후순위
         else:
             return None
-        return {**c, "_slug": slug, "_url": url, "_score": score}
+        return {**c, "_slug": slug, "_url": url, "_score": priority_score(c)}
 
     pool = [x for x in (normalize(c) for c in candidates) if x is not None]
     pool.sort(key=lambda x: x["_score"], reverse=True)
-    return pool[0] if pool else None
+    if pool:
+        top = pool[0]
+        print(
+            f"[auto_daily] priority top3: "
+            + " | ".join(f"{p['_score']:.0f}:{p['title'][:40]}" for p in pool[:3]),
+            file=sys.stderr,
+        )
+        return top
+    return None
 
 
 def build_entry(picked: dict, new_id: int, today: str) -> dict:
