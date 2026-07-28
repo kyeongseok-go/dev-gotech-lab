@@ -77,25 +77,37 @@ def detect_theme(title: str, summary: str) -> str:
 # ── 개발자 관점 우선순위 스코어링 ──────────────────────────────
 # 목표: "개발자에게 가장 중요한 소식"을 하루 1건 선정.
 # 출처 점수(0~40) + 키워드 가점/감점의 합으로 순위를 매긴다. LLM 없이 결정적으로 동작.
+# 패턴은 단어 경계로 매칭한다. 부분 문자열로 두면 "launching"(앱 실행)이
+# 출시 가점을 먹는 식의 오탐이 생긴다.
 PRIORITY_BOOSTS: list[tuple[int, list[str]]] = [
     # 모델/제품 출시·발표 — 개발자에게 가장 실질적인 뉴스
-    (25, ["release", "launch", "announc", "출시", "발표", "공개", "unveil", "ships",
-          "now available", "weights"]),
+    (25, [r"released?\b", r"launches\b", r"launched\b", r"launch of\b", r"announces?\b",
+          r"announced\b", r"unveils?\b", r"introducing\b", r"now available\b",
+          r"generally available\b", r"weights\b", r"출시", r"발표", r"공개"]),
     # 주요 AI 개발사/모델
-    (20, ["claude", "anthropic", "openai", "gpt", "gemini", "llama", "deepseek",
-          "mistral", "qwen", "kimi"]),
+    (20, [r"claude", r"anthropic", r"openai", r"\bgpt", r"gemini", r"llama",
+          r"deepseek", r"mistral", r"qwen", r"kimi", r"\bllm"]),
     # 개발 도구·생태계
-    (15, ["open source", "open-source", "오픈소스", "sdk", "api", "mcp", "agent",
-          "cli", "framework", "dev tool", "copilot", "ide"]),
+    (15, [r"open[- ]source", r"오픈소스", r"\bsdk\b", r"\bapi\b", r"\bmcp\b",
+          r"\bagents?\b", r"\bcli\b", r"framework", r"copilot", r"\bide\b",
+          r"^show hn:", r"compiler", r"kernel", r"database"]),
     # 기술 심층/연구
-    (10, ["benchmark", "paper", "research", "연구", "아키텍처", "최적화", "성능 개선"]),
+    (10, [r"benchmark", r"\bpaper\b", r"research", r"연구", r"아키텍처", r"최적화",
+          r"성능 개선", r"performance"]),
 ]
 PRIORITY_PENALTIES: list[tuple[int, list[str]]] = [
     # 개발과 거리가 먼 소재
-    (-25, ["politic", "regulation", "lawsuit", "sues", "billionaire", "election",
-           "stock", "share price", "주가", "소송"]),
-    (-10, ["opinion", "unpopular", "meme", "rant"]),
+    (-30, [r"\bs&p\b", r"stock\b", r"share price", r"주가", r"\bipo\b",
+           r"valuation", r"market cap", r"\bfunding round\b"]),
+    (-25, [r"politic", r"regulation", r"lawsuit", r"\bsues?\b", r"billionaire",
+           r"election", r"소송", r"\beconomy\b", r"\brecession\b"]),
+    (-20, [r"\bhiring\b", r"employment", r"recruiter", r"job search", r"\bsalary\b",
+           r"\blayoffs?\b"]),
+    (-10, [r"opinion", r"unpopular", r"\bmeme\b", r"\brant\b"]),
 ]
+
+_BOOST_RE = [(pts, re.compile("|".join(pats), re.IGNORECASE)) for pts, pats in PRIORITY_BOOSTS]
+_PENALTY_RE = [(pts, re.compile("|".join(pats), re.IGNORECASE)) for pts, pats in PRIORITY_PENALTIES]
 
 _REDDIT_SCORE_CAP = 40      # reddit upvote → 0~40 정규화 상한
 _RSS_WEIGHT_SCALE = 40      # rss feed weight(0.0~1.0) → 0~40
@@ -109,9 +121,9 @@ def priority_score(c: dict) -> float:
     else:
         base = float(c.get("weight", 0.5)) * _RSS_WEIGHT_SCALE
 
-    blob = f"{c.get('title', '')} {c.get('summary', '') or c.get('selftext', '')}".lower()
-    for points, keywords in PRIORITY_BOOSTS + PRIORITY_PENALTIES:
-        if any(kw in blob for kw in keywords):
+    blob = f"{c.get('title', '')} {c.get('summary', '') or c.get('selftext', '')}"
+    for points, pattern in _BOOST_RE + _PENALTY_RE:
+        if pattern.search(blob):
             base += points
     return base
 
