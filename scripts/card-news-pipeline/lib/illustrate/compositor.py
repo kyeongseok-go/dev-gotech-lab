@@ -26,18 +26,23 @@ CATEGORY_STYLE: dict[str, dict[str, str]] = {
 }
 CATEGORY_FALLBACK_STYLE = {"color": "#6B7280", "label": "TECH"}
 
-# macOS 시스템 폰트 (우선순위 순, .ttc 는 (path, subfont_index) 튜플).
-# 영문: Helvetica Neue Bold (1) → Futura Bold (2) → Avenir Next Heavy (8) → Arial Bold
-# 한글: Apple SD Gothic Neo ExtraBold (14) → Bold (6)
+# 시스템 폰트 (우선순위 순, .ttc 는 (path, subfont_index) 튜플).
+# macOS — 영문: Helvetica Neue Bold (1) → Futura Bold (2) → Avenir Next Heavy (8) → Arial Bold
+#         한글: Apple SD Gothic Neo ExtraBold (14) → Bold (6)
+# Linux(GitHub Actions 러너) — fonts-noto-cjk 패키지의 Noto Sans CJK Bold (KR subfont=1)
 FONT_CANDIDATES_EN: list[tuple[str, int]] = [
     ("/System/Library/Fonts/HelveticaNeue.ttc", 1),         # Helvetica Neue Bold
     ("/System/Library/Fonts/Futura.ttc", 2),                # Futura Bold
     ("/System/Library/Fonts/Avenir Next.ttc", 8),           # Avenir Next Heavy
     ("/System/Library/Fonts/Supplemental/Arial Bold.ttf", 0),
+    ("/usr/share/fonts/opentype/noto/NotoSansCJK-Bold.ttc", 1),
+    ("/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf", 0),
 ]
 FONT_CANDIDATES_KO: list[tuple[str, int]] = [
     ("/System/Library/Fonts/AppleSDGothicNeo.ttc", 14),     # Apple SD Gothic Neo ExtraBold
     ("/System/Library/Fonts/AppleSDGothicNeo.ttc", 6),      # Bold (fallback)
+    ("/usr/share/fonts/opentype/noto/NotoSansCJK-Bold.ttc", 1),  # Noto Sans CJK KR Bold
+    ("/usr/share/fonts/opentype/noto/NotoSansCJK-Bold.ttc", 0),
 ]
 
 
