@@ -12,6 +12,19 @@ export const metadata: Metadata = {
 const CARD_NEWS_DATA: CardNewsItem[] = [
 /* TECH-NEWS-PIPELINE-DATA:START */
   {
+    id: 68,
+    slug: "더-작고-강해진-kanana-slm-개발",
+    title: "더 작고 강해진 Kanana SLM 개발",
+    summary: "안녕하세요. 카카오의 AI 모델 개발을 담당하는 카나나 LLM 조직에서 언어모델을 개발하고 있는 Kaya, Ryan, Wavy 입니다. 지난 “작지만 강한 Kanana Nano 효율적으로 개발하기”에서 비용 효율적으로 SLM(Small Language Model)을 개발하는 방법에 대해서 소개드렸었는데요, 이번 글에서는 더 강력해져서 돌아온 카카오의 두 번째 SLM 시리즈를 소개드리고자 합니다. 이번에 소개해드릴 모델은 Kan",
+    content: "",
+    category: "news",
+    image_url: "/card-news/더-작고-강해진-kanana-slm-개발.png",
+    external_link: "https://tech.kakao.com/posts/826",
+    tags: ["Kanana", "SLM"],
+    created_at: "2026-07-28",
+    span: "",
+  },
+  {
     id: 57,
     slug: "누군가는-토스를-테스트하는-동안-우리는-테스트하는-법을-만듭니다",
     title: "누군가는 토스를 테스트하는 동안, 우리는 테스트하는 법을 만듭니다.",
