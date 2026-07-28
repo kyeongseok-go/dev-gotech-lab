@@ -1,0 +1,88 @@
+name: 카드뉴스 데일리
+
+# 매일 09:00 KST(= 00:00 UTC)에 카드뉴스 1건을 수집·생성해 main 에 커밋하고 배포한다.
+# GITHUB_TOKEN 푸시는 ci.yml 을 트리거하지 않으므로 배포까지 이 워크플로에서 수행.
+on:
+  schedule:
+    - cron: "0 0 * * *"
+  workflow_dispatch:
+
+concurrency:
+  group: card-news-daily
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  daily:
+    runs-on: ubuntu-latest
+    env:
+      TZ: Asia/Seoul
+      REDDIT_CLIENT_ID: ${{ secrets.REDDIT_CLIENT_ID }}
+      REDDIT_CLIENT_SECRET: ${{ secrets.REDDIT_CLIENT_SECRET }}
+    steps:
+      - name: 체크아웃
+        uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: 한글 폰트 설치 (카드 이미지 렌더링용)
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq fonts-noto-cjk
+
+      - name: uv 설치
+        uses: astral-sh/setup-uv@v5
+
+      - name: 카드뉴스 파이프라인 실행
+        run: uv run scripts/card-news-pipeline/auto_daily.py
+
+      - name: 변경 여부 확인
+        id: changes
+        run: |
+          git add src/app/card-news/page.tsx public/card-news/*.png 2>/dev/null || true
+          if git diff --cached --quiet; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            echo "새 카드 없음 — 종료"
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: pnpm 설치
+        if: steps.changes.outputs.changed == 'true'
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
+      - name: Node 설치
+        if: steps.changes.outputs.changed == 'true'
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: 의존성 설치
+        if: steps.changes.outputs.changed == 'true'
+        run: pnpm install --frozen-lockfile
+
+      - name: 콘텐츠 빌드 검증 (Velite + MDX)
+        if: steps.changes.outputs.changed == 'true'
+        run: pnpm content
+
+      - name: 커밋 & 푸시
+        if: steps.changes.outputs.changed == 'true'
+        run: |
+          TODAY=$(date '+%Y-%m-%d')
+          TITLE=$(grep -A2 'id: ' src/app/card-news/page.tsx | grep -m1 'title:' | sed 's/.*title: "\([^"]*\)".*/\1/')
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "chore(card-news): ${TODAY} 자동 업데이트 — ${TITLE}"
+          git push origin main
+
+      - name: Cloudflare 빌드 + 배포
+        if: steps.changes.outputs.changed == 'true'
+        run: pnpm run deploy
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
