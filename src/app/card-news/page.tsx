@@ -25,7 +25,20 @@ const CARD_NEWS_DATA: CardNewsItem[] = [
     span: "",
   },
   {
-    id: 118,
+    id: 69,
+    slug: "the-chinese-labs-everyone-lumps-together-are-making-four-pre",
+    title: "The Chinese labs everyone lumps together are making four pretty different bets",
+    summary: "Still composing my thoughts, i will edit thisEvery time a model drops from a Chinese lab the thread fills with people who already know who made it, and the guess is usually Alibaba. There was a thread here recently asking what separates the",
+    content: "",
+    category: "news",
+    image_url: "/card-news/the-chinese-labs-everyone-lumps-together-are-making-four-pre.png",
+    external_link: "https://i.redd.it/h6fid2vmsrfh1.jpeg",
+    tags: ["The", "Chinese"],
+    created_at: "2026-07-28",
+    span: "",
+  },
+  {
+    id: 119,
     slug: "pgsimcity---how-postgresql-works",
     title: "PGSimCity - How PostgreSQL Works",
     summary: "An independent, non-commercial educational visualization of PostgreSQL internals. Not affiliated with Electronic Arts.",
@@ -38,7 +51,7 @@ const CARD_NEWS_DATA: CardNewsItem[] = [
     span: "",
   },
   {
-    id: 117,
+    id: 118,
     slug: "scriptc-by-vercel-typescript-to-native-compiler-no-javascrip",
     title: "Scriptc by Vercel: TypeScript-to-Native compiler, no JavaScript engine in binary",
     summary: "TypeScript-to-Native Compiler. Contribute to vercel-labs/scriptc development by creating an account on GitHub.",
@@ -51,7 +64,7 @@ const CARD_NEWS_DATA: CardNewsItem[] = [
     span: "",
   },
   {
-    id: 116,
+    id: 117,
     slug: "the-new-rules-of-context-engineering-for-claude-5-generation",
     title: "The new rules of context engineering for Claude 5 generation models",
     summary: "We removed over 80% of Claude Code's system prompt for more advanced models. How to apply the lessons we learned to your own context engineering in Claude Code and with your own agents.",
@@ -64,7 +77,7 @@ const CARD_NEWS_DATA: CardNewsItem[] = [
     span: "",
   },
   {
-    id: 115,
+    id: 116,
     slug: "claude-opus-5",
     title: "Claude Opus 5",
     summary: "Opus 5 is a step change improvement for the Opus tier powering long-running agents while delivering improvements in coding and professional work.",
@@ -77,7 +90,7 @@ const CARD_NEWS_DATA: CardNewsItem[] = [
     span: "",
   },
   {
-    id: 114,
+    id: 115,
     slug: "kimi-k3-exploited-the-latest-redis-server",
     title: "Kimi K3 exploited the latest Redis server",
     summary: "Kimi K3 exploited the latest Redis server with a 0day it discovered. All it took was 27min with 32 agents. https://t.co/ZOKA2wchLa",
@@ -90,7 +103,7 @@ const CARD_NEWS_DATA: CardNewsItem[] = [
     span: "",
   },
   {
-    id: 113,
+    id: 114,
     slug: "show-hn-bento---an-entire-powerpoint-in-one-html-file-editvi",
     title: "Show HN: Bento - An entire PowerPoint in one HTML file (edit+view+data+collab)",
     summary: "Over the past few months, our team has been building more and more slidedecks using web frontend technologies with coding harnesses like Claude Code, but a common complaint is to make even small edits we need to edit the code either manuall",
@@ -103,7 +116,7 @@ const CARD_NEWS_DATA: CardNewsItem[] = [
     span: "",
   },
   {
-    id: 112,
+    id: 113,
     slug: "gemini-36-flash-35-flash-lite-and-35-flash-cyber",
     title: "Gemini 3.6 Flash, 3.5 Flash-Lite, and 3.5 Flash Cyber",
     summary: "We’re introducing new Gemini models, including Gemini 3.6 Flash, 3.5 Flash-Lite and 3.5 Flash Cyber.",
@@ -116,7 +129,7 @@ const CARD_NEWS_DATA: CardNewsItem[] = [
     span: "",
   },
   {
-    id: 111,
+    id: 112,
     slug: "i-found-a-wordpress-rces-with-gpt56-and-25",
     title: "I found a WordPress RCEs with GPT5.6 and $25",
     summary: "Stay current: Get research alerts for newly disclosed vulnerabilities and exposures If you're running WordPress and want to check if your instance is vulnerable, you can use our tool we've hosted here: https://wp2shell.com/. We held off on ",
@@ -129,7 +142,7 @@ const CARD_NEWS_DATA: CardNewsItem[] = [
     span: "",
   },
   {
-    id: 110,
+    id: 111,
     slug: "show-hn-i-replaced-a-120k-bowling-center-system-with-1600-in",
     title: "Show HN: I replaced a $120k bowling center system with $1,600 in ESP32s",
     summary: "I might be the only SRE on Earth with his own bowling center. It&#x27;s a more in-depth gig than you&#x27;d think. My family and I bought an abandoned 8-lane bowling center in the rural mid-west. In our small town there weren&#x27;t many re",
@@ -142,7 +155,7 @@ const CARD_NEWS_DATA: CardNewsItem[] = [
     span: "",
   },
   {
-    id: 109,
+    id: 110,
     slug: "gpt-56-used-a-prompt-to-close-a-30-year-gap-in-convex-optimi",
     title: "GPT-5.6 used a prompt to close a 30-year gap in convex optimization",
     summary: "TL;DR: In a single 148 min session, with a prompt modeled after the one OpenAI used to prove CDC, GPT 5.6 Sol Pro supplied a proof that closed a...",
@@ -155,7 +168,7 @@ const CARD_NEWS_DATA: CardNewsItem[] = [
     span: "",
   },
   {
-    id: 108,
+    id: 109,
     slug: "kimi-k3-and-what-we-can-still-learn-from-the-pelican-benchma",
     title: "Kimi K3, and what we can still learn from the pelican benchmark",
     summary: "Chinese AI lab Moonshot AI announced Kimi K3 this morning, describing it as their “most capable model to date, with 2.8 trillion parameters”. It’s currently available via their website and …",
@@ -168,7 +181,7 @@ const CARD_NEWS_DATA: CardNewsItem[] = [
     span: "",
   },
   {
-    id: 107,
+    id: 108,
     slug: "kimi-k3-open-frontier-intelligence",
     title: "Kimi K3: Open Frontier Intelligence",
     summary: "Kimi K3 is the world's first open 3T-class model — frontier performance across coding, knowledge work, and reasoning, with native multimodality and 1M context.",
@@ -181,7 +194,7 @@ const CARD_NEWS_DATA: CardNewsItem[] = [
     span: "",
   },
   {
-    id: 106,
+    id: 107,
     slug: "show-hn-firefox-in-webassembly",
     title: "Show HN: Firefox in WebAssembly",
     summary: "This is the entire Firefox browser rendering to a &lt;canvas&gt; element. Gecko, all UI components, and the Spidermonkey JS engine are all compiled and running in WebAssembly. Here are a few things you might find interesting: - This is full",
@@ -194,7 +207,7 @@ const CARD_NEWS_DATA: CardNewsItem[] = [
     span: "",
   },
   {
-    id: 105,
+    id: 106,
     slug: "bonsai-27b-a-27b-class-model-that-runs-on-a-phone",
     title: "Bonsai 27B: A 27B-Class model that runs on a phone",
     summary: "27B급 성능을 유지하면서 스마트폰에서 구동 가능하도록 설계된 모델. 온디바이스 추론을 목표로 메모리 사용량과 연산량을 대폭 줄였다.",
@@ -207,7 +220,7 @@ const CARD_NEWS_DATA: CardNewsItem[] = [
     span: "",
   },
   {
-    id: 104,
+    id: 105,
     slug: "apples-new-speechanalyzer-api-benchmarked-against-whisper-an",
     title: "Apple's new SpeechAnalyzer API, benchmarked against Whisper and its predecessor",
     summary: "SpeechAnalyzer vs SFSpeechRecognizer vs Whisper on 5,559 LibriSpeech utterances. Apple never published accuracy numbers. Here they are, with raw transcripts you can rescore.",
@@ -220,7 +233,7 @@ const CARD_NEWS_DATA: CardNewsItem[] = [
     span: "",
   },
   {
-    id: 103,
+    id: 104,
     slug: "claude-code-sends-33k-tokens-before-reading-the-prompt-openc",
     title: "Claude Code sends 33k tokens before reading the prompt; OpenCode sends 7k",
     summary: "Claude Code vs OpenCode token overhead measured at the API boundary. Out-of-the-box baselines, instruction file weight, MCP schema tax, subagent multipliers, and cache-write behaviour.",
@@ -233,7 +246,7 @@ const CARD_NEWS_DATA: CardNewsItem[] = [
     span: "",
   },
   {
-    id: 102,
+    id: 103,
     slug: "show-hn-ant-a-javascript-runtime-and-ecosystem",
     title: "Show HN: Ant – A JavaScript runtime and ecosystem",
     summary: "Run real npm packages and TypeScript - all from a single 9 MB binary. Ant is a lightweight JavaScript runtime built from scratch on its own engine, with a Node-compatible API, a VM-isolated sandbox, and Wasm support built-in.",
@@ -246,7 +259,7 @@ const CARD_NEWS_DATA: CardNewsItem[] = [
     span: "",
   },
   {
-    id: 101,
+    id: 102,
     slug: "gpt-56-sol-ultra-produces-proof-of-the-cycle-double-cover-co",
     title: "GPT-5.6 Sol Ultra produces proof of the Cycle Double Cover Conjecture [pdf]",
     summary: "https:&#x2F;&#x2F;x.com&#x2F;__eknight__&#x2F;status&#x2F;2075643450196971805 ,  https:&#x2F;&#x2F;xcancel.com&#x2F;__eknight__&#x2F;status&#x2F;2075643450196971805  Prompt:  https:&#x2F;&#x2F;cdn.openai.com&#x2F;pdf&#x2F;04d1d1e4-bc75-476a",
@@ -259,7 +272,7 @@ const CARD_NEWS_DATA: CardNewsItem[] = [
     span: "",
   },
   {
-    id: 100,
+    id: 101,
     slug: "gpt-56",
     title: "GPT-5.6",
     summary: "More intelligence from every token, stronger performance per dollar, and more capability on demand for your hardest work.",
@@ -272,7 +285,7 @@ const CARD_NEWS_DATA: CardNewsItem[] = [
     span: "",
   },
   {
-    id: 99,
+    id: 100,
     slug: "gitlost-we-tricked-githubs-ai-agent-into-leaking-private-rep",
     title: "GitLost: We Tricked GitHub's AI Agent into Leaking Private Repos",
     summary: "GitLost: We Tricked GitHub's AI Agent into Leaking Private Repos",
@@ -285,7 +298,7 @@ const CARD_NEWS_DATA: CardNewsItem[] = [
     span: "",
   },
   {
-    id: 98,
+    id: 99,
     slug: "show-hn-rowboat-open-source-local-first-alternative-to-claud",
     title: "Show HN: Rowboat – Open-source, local-first alternative to Claude Desktop",
     summary: "Open-source AI coworker, with memory. Contribute to rowboatlabs/rowboat development by creating an account on GitHub.",
@@ -298,7 +311,7 @@ const CARD_NEWS_DATA: CardNewsItem[] = [
     span: "",
   },
   {
-    id: 97,
+    id: 98,
     slug: "openwrt-one-open-hardware-router",
     title: "OpenWrt One – Open Hardware Router",
     summary: "OpenWrt One – Open Hardware Router",
@@ -311,7 +324,7 @@ const CARD_NEWS_DATA: CardNewsItem[] = [
     span: "",
   },
   {
-    id: 96,
+    id: 97,
     slug: "show-hn-kicad-in-the-browser",
     title: "Show HN: KiCad in the Browser",
     summary: "Early-access alpha of PCBJam — KiCad running in your browser. Open the example boards or your own KiCad project. No install, nothing uploaded.",
@@ -324,7 +337,7 @@ const CARD_NEWS_DATA: CardNewsItem[] = [
     span: "",
   },
   {
-    id: 95,
+    id: 96,
     slug: "zig-all-package-management-functionality-moved-from-compiler",
     title: "Zig: All Package Management Functionality Moved from Compiler to Build System",
     summary: "Zig: All Package Management Functionality Moved from Compiler to Build System",
@@ -337,7 +350,7 @@ const CARD_NEWS_DATA: CardNewsItem[] = [
     span: "",
   },
   {
-    id: 94,
+    id: 95,
     slug: "jamesobs-guide-to-running-sota-llms-locally",
     title: "Jamesob's guide to running SOTA LLMs locally",
     summary: "Everything I know about running LLMs locally. Contribute to jamesob/local-llm development by creating an account on GitHub.",
@@ -350,7 +363,7 @@ const CARD_NEWS_DATA: CardNewsItem[] = [
     span: "",
   },
   {
-    id: 93,
+    id: 94,
     slug: "kimi-k27-code-is-generally-available-in-github-copilot",
     title: "Kimi K2.7 Code is generally available in GitHub Copilot",
     summary: "Kimi K2.7 Code, an open-weight model, is now generally available in GitHub Copilot. This is the first open-weight model offered as a selectable option in the Copilot model picker, giving…",
@@ -506,7 +519,7 @@ const CARD_NEWS_DATA: CardNewsItem[] = [
     span: "",
   },
   {
-    id: 92,
+    id: 93,
     slug: "linux-eliminates-the-strncpy-api-after-six-years-of-work-360",
     title: "Linux eliminates the strncpy API after six years of work, 360 patches",
     summary: "Linux 7.2 has finally eliminated the strncpy API from the Linux kernel",
@@ -519,7 +532,7 @@ const CARD_NEWS_DATA: CardNewsItem[] = [
     span: "",
   },
   {
-    id: 91,
+    id: 92,
     slug: "project-valhalla-explained-how-a-decade-of-work-arrives-in-j",
     title: "Project Valhalla, Explained: How a Decade of Work Arrives in JDK 28",
     summary: "The new JVM Weekly is here... and Ragnarok seems to come, as we finally have Valhalla in the JDK. However, situation is a bit... nuanced.",
@@ -532,7 +545,7 @@ const CARD_NEWS_DATA: CardNewsItem[] = [
     span: "",
   },
   {
-    id: 90,
+    id: 91,
     slug: "i-found-10k-github-repositories-distributing-trojan-malware",
     title: "I found 10k GitHub repositories distributing Trojan malware",
     summary: "This is the story of how I found 10,000 repositories on GitHub that distribute Trojan malware. They are all from different contributors, have different names, and are not forks of other repositories. But they share a common pattern, which i",
@@ -545,7 +558,7 @@ const CARD_NEWS_DATA: CardNewsItem[] = [
     span: "",
   },
   {
-    id: 89,
+    id: 90,
     slug: "lore-open-source-version-control-system-designed-for-scalabi",
     title: "Lore – Open source version control system designed for scalability",
     summary: "Maintained by Epic Games, Lore is designed for unprecedented scalability of both data and teams. It’s optimized for projects that combine code with large binary assets.",
@@ -558,7 +571,7 @@ const CARD_NEWS_DATA: CardNewsItem[] = [
     span: "",
   },
   {
-    id: 88,
+    id: 89,
     slug: "running-local-models-is-good-now",
     title: "Running local models is good now",
     summary: "Local agentic coding has gotten great over the past few months",
@@ -571,7 +584,7 @@ const CARD_NEWS_DATA: CardNewsItem[] = [
     span: "",
   },
   {
-    id: 87,
+    id: 88,
     slug: "iroh-10",
     title: "Iroh 1.0",
     summary: "Iroh 1.0 is out. Now is the time to build.",
@@ -584,7 +597,7 @@ const CARD_NEWS_DATA: CardNewsItem[] = [
     span: "",
   },
   {
-    id: 86,
+    id: 87,
     slug: "show-hn-kage-shadow-any-website-to-a-single-binary-for-offli",
     title: "Show HN: Kage – Shadow any website to a single binary for offline viewing",
     summary: "Shadow any website for offline viewing, with the JavaScript stripped out - tamnd/kage",
@@ -597,7 +610,7 @@ const CARD_NEWS_DATA: CardNewsItem[] = [
     span: "",
   },
   {
-    id: 85,
+    id: 86,
     slug: "statement-on-us-government-directive-to-suspend-access-to-fa",
     title: "Statement on US government directive to suspend access to Fable 5 and Mythos 5",
     summary: "The US government has issued an export control directive to suspend all access to Fable 5 and Mythos 5 by any foreign national, whether inside or outside the United States.",
@@ -610,7 +623,7 @@ const CARD_NEWS_DATA: CardNewsItem[] = [
     span: "",
   },
   {
-    id: 84,
+    id: 85,
     slug: "kimi-k27-code-open-source-coding-model-with-better-token-eff",
     title: "Kimi K2.7-Code: open-source coding model with better token efficiency",
     summary: "We’re on a journey to advance and democratize artificial intelligence through open source and open science.",
@@ -623,7 +636,7 @@ const CARD_NEWS_DATA: CardNewsItem[] = [
     span: "",
   },
   {
-    id: 83,
+    id: 84,
     slug: "show-hn-homebrew-600",
     title: "Show HN: Homebrew 6.0.0",
     summary: "Today, I’m proud to announce Homebrew 6.0.0. The most significant changes since 5.1.0 are a new tap trust security mechanism, the new faster, smaller, default internal Homebrew JSON API, sandboxing on Linux, better defaults informed by our ",
@@ -636,7 +649,7 @@ const CARD_NEWS_DATA: CardNewsItem[] = [
     span: "",
   },
   {
-    id: 82,
+    id: 83,
     slug: "building-an-html-first-site-doubled-our-users-overnight",
     title: "Building an HTML-first site doubled our users overnight",
     summary: "My client was a utility company, and they had a big problem...",
@@ -649,7 +662,7 @@ const CARD_NEWS_DATA: CardNewsItem[] = [
     span: "",
   },
   {
-    id: 81,
+    id: 82,
     slug: "claude-fable-5",
     title: "Claude Fable 5",
     summary: "Today we’re launching Claude Fable 5: a Mythos-class model that we’ve made safe for general use.",
@@ -662,7 +675,7 @@ const CARD_NEWS_DATA: CardNewsItem[] = [
     span: "",
   },
   {
-    id: 80,
+    id: 81,
     slug: "apple-reveals-new-ai-architecture-built-around-google-gemini",
     title: "Apple reveals new AI architecture built around Google Gemini models",
     summary: "Apple today announced a major overhaul of its Apple Intelligence platform, revealing a new architecture built on foundation models developed in collaboration with Google using the technologies behind the Gemini family. The new architecture ",
@@ -675,7 +688,7 @@ const CARD_NEWS_DATA: CardNewsItem[] = [
     span: "",
   },
   {
-    id: 79,
+    id: 80,
     slug: "show-hn-lathe-use-llms-to-learn-a-new-domain-not-skip-past-i",
     title: "Show HN: Lathe – Use LLMs to learn a new domain, not skip past it",
     summary: "Generate hands-on, multi-part technical tutorials on demand, with LLM skills tuned to make content approachable. Then you work through them yourself, by hand ✋ - devenjarvis/lathe",
@@ -688,7 +701,7 @@ const CARD_NEWS_DATA: CardNewsItem[] = [
     span: "",
   },
   {
-    id: 78,
+    id: 79,
     slug: "opencv-5-is-here-the-biggest-leap-in-years-for-computer-visi",
     title: "OpenCV 5 Is Here: The Biggest Leap in Years for Computer Vision",
     summary: "OpenCV 5 is here! A massive modernization brings a graph-based DNN engine, over 80% ONNX coverage, hardware acceleration, LLM/VLM support, and a faster Python-first core. Learn why this isn't just an incremental update.",
@@ -714,7 +727,7 @@ const CARD_NEWS_DATA: CardNewsItem[] = [
     span: "",
   },
   {
-    id: 77,
+    id: 78,
     slug: "anthropics-open-source-framework-for-ai-powered-vulnerabilit",
     title: "Anthropic's open-source framework for AI-powered vulnerability discovery",
     summary: "Skills for threat modeling, scanning, triage, patching, plus an autonomous scanning harness you can /customize - anthropics/defending-code-reference-harness",
@@ -727,7 +740,7 @@ const CARD_NEWS_DATA: CardNewsItem[] = [
     span: "",
   },
   {
-    id: 76,
+    id: 77,
     slug: "elixir-v120-now-a-gradually-typed-language",
     title: "Elixir v1.20: Now a gradually typed language",
     summary: "From Elixir v1.20, every program is now gradually type checked in search for verified bugs and typing violations.",
@@ -740,7 +753,7 @@ const CARD_NEWS_DATA: CardNewsItem[] = [
     span: "",
   },
   {
-    id: 75,
+    id: 76,
     slug: "plutojl-10-release-reactive-notebook-for-julia",
     title: "Pluto.jl 1.0 release – reactive notebook for Julia",
     summary: "After six years, it’s time to release Pluto version 1.0! With this release, I want to celebrate all the progress over the past years, and to symbolise that Pluto is ready. I am proud of what we have achieved, and I hope you enjoy it! This i",
@@ -753,7 +766,7 @@ const CARD_NEWS_DATA: CardNewsItem[] = [
     span: "",
   },
   {
-    id: 74,
+    id: 75,
     slug: "openai-frontier-models-and-codex-are-now-available-on-aws",
     title: "OpenAI frontier models and Codex are now available on AWS",
     summary: "OpenAI frontier models and Codex are now generally available on AWS, giving enterprises a new path to build with OpenAI through the AWS environments, controls, and procurement workflows they already use. Customers can get started with OpenA",
@@ -766,7 +779,7 @@ const CARD_NEWS_DATA: CardNewsItem[] = [
     span: "",
   },
   {
-    id: 73,
+    id: 74,
     slug: "claude-code-and-codex-can-have-real-time-conversation-via-gi",
     title: "Claude Code and Codex can have real-time conversation via Git",
     summary: "While Claude Code and Codex have significantly accelerated the automation of software development, limitations in the context window of a…",
@@ -779,7 +792,7 @@ const CARD_NEWS_DATA: CardNewsItem[] = [
     span: "",
   },
   {
-    id: 72,
+    id: 73,
     slug: "the-av2-video-standard-has-released-final-v10-specification",
     title: "The AV2 Video Standard Has Released (Final v1.0 Specification)",
     summary: "The AV2 Video Standard Has Released (Final v1.0 Specification)",
@@ -792,7 +805,7 @@ const CARD_NEWS_DATA: CardNewsItem[] = [
     span: "",
   },
   {
-    id: 71,
+    id: 72,
     slug: "claude-code-everything-you-can-configure-that-the-docs-dont-",
     title: "Claude Code – Everything you can configure that the docs don't tell you",
     summary: "Hook fields that rewrite commands mid-flight, persistent agent memory, auto-mode rules in plain English, self-improving dream loops, and every example is copy-paste ready.",
@@ -805,7 +818,7 @@ const CARD_NEWS_DATA: CardNewsItem[] = [
     span: "",
   },
   {
-    id: 70,
+    id: 71,
     slug: "claude-opus-48",
     title: "Claude Opus 4.8",
     summary: "Our latest model, Claude Opus 4.8, is an upgrade to our Opus class of models, with stronger performance across coding, agentic tasks, and professional work, and the consistency to handle long-running work.",
@@ -818,7 +831,7 @@ const CARD_NEWS_DATA: CardNewsItem[] = [
     span: "",
   },
   {
-    id: 69,
+    id: 70,
     slug: "show-hn-posthorn-self-hosted-mail-gateway",
     title: "Show HN: Posthorn, self-hosted mail gateway",
     summary: "Self-hosted email gateway between your apps and a transactional mail provider (Postmark, Resend, Mailgun, AWS SES, or outbound-SMTP). Three ingress shapes (HTTP form, HTTP API, SMTP). One Docker co...",
