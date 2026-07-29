@@ -61,11 +61,20 @@ def main():
         new_entries = json.load(f)
 
     existing_slugs = {e["slug"] for e in existing}
+    used_ids = {int(e["id"]) for e in existing if str(e.get("id", "")).isdigit()}
+    next_id = (max(used_ids) + 1) if used_ids else 1
     merged = list(existing)
     for ne in new_entries:
         if ne["slug"] in existing_slugs:
             print(f"[merge] skip duplicate slug: {ne['slug']}", file=sys.stderr)
             continue
+        # 백필 JSON 생성 이후 page.tsx 에 새 카드가 들어오면 id 가 겹친다 → 재발급
+        if int(ne.get("id", 0)) in used_ids:
+            print(f"[merge] reassign id {ne['id']} → {next_id} ({ne['slug']})", file=sys.stderr)
+            ne["id"] = next_id
+        next_id = max(next_id, int(ne["id"])) + 1
+        used_ids.add(int(ne["id"]))
+        existing_slugs.add(ne["slug"])
         merged.append(ne)
 
     with output_path.open("w") as f:
