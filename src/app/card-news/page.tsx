@@ -12,6 +12,19 @@ export const metadata: Metadata = {
 const CARD_NEWS_DATA: CardNewsItem[] = [
 /* TECH-NEWS-PIPELINE-DATA:START */
   {
+    id: 120,
+    slug: "how-enabling-two-settings-tripled-our-scores-on-the-arc-agi-",
+    title: "How enabling two settings tripled our scores on the ARC-AGI-3 benchmark",
+    summary: "How two API settings improved GPT-5.6 performance on ARC-AGI-3, boosting scores and efficiency by retaining reasoning and enabling compaction.",
+    content: "",
+    category: "news",
+    image_url: "/card-news/how-enabling-two-settings-tripled-our-scores-on-the-arc-agi-.png",
+    external_link: "https://openai.com/index/how-two-settings-tripled-our-arc-agi-3-scores",
+    tags: ["How", "ARC", "AGI"],
+    created_at: "2026-07-30",
+    span: "",
+  },
+  {
     id: 68,
     slug: "더-작고-강해진-kanana-slm-개발",
     title: "더 작고 강해진 Kanana SLM 개발",
