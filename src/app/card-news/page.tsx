@@ -12,6 +12,19 @@ export const metadata: Metadata = {
 const CARD_NEWS_DATA: CardNewsItem[] = [
 /* TECH-NEWS-PIPELINE-DATA:START */
   {
+    id: 121,
+    slug: "llm-032rc2",
+    title: "llm 0.32rc2",
+    summary: "Release: llm 0.32rc2 Hot on the heels of RC1, this fixes a dependency issue and also adds two neat new features: The default model for users who have not set their own default is now GPT-5.6 Luna. It was previously GPT-4o mini. Luna is a mu",
+    content: "",
+    category: "news",
+    image_url: "/card-news/llm-032rc2.png",
+    external_link: "https://simonwillison.net/2026/Jul/30/llm-rc2/#atom-everything",
+    tags: ["AI", "기술", "트렌드"],
+    created_at: "2026-07-31",
+    span: "",
+  },
+  {
     id: 120,
     slug: "how-enabling-two-settings-tripled-our-scores-on-the-arc-agi-",
     title: "How enabling two settings tripled our scores on the ARC-AGI-3 benchmark",
