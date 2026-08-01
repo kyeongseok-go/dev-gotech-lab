@@ -12,6 +12,19 @@ export const metadata: Metadata = {
 const CARD_NEWS_DATA: CardNewsItem[] = [
 /* TECH-NEWS-PIPELINE-DATA:START */
   {
+    id: 122,
+    slug: "deepseek-v4-flash-has-been-updated-the-official-release-of-d",
+    title: "DeepSeek-V4-Flash has been updated, \"The official release of DeepSeek-V4-Pro will follow soon\"",
+    summary: "https://api-docs.deepseek.com/updates/ Edit: official post on 𝕏: https://x.com/deepseek_ai/status/2083084415157022911",
+    content: "",
+    category: "news",
+    image_url: "/card-news/deepseek-v4-flash-has-been-updated-the-official-release-of-d.png",
+    external_link: "https://i.redd.it/mbz7sdwbaigh1.jpeg",
+    tags: ["DeepSeek", "Flash", "The"],
+    created_at: "2026-08-01",
+    span: "",
+  },
+  {
     id: 121,
     slug: "llm-032rc2",
     title: "llm 0.32rc2",
