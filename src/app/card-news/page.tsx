@@ -12,6 +12,19 @@ export const metadata: Metadata = {
 const CARD_NEWS_DATA: CardNewsItem[] = [
 /* TECH-NEWS-PIPELINE-DATA:START */
   {
+    id: 123,
+    slug: "stateless-mcp-has-recaptured-my-interest-and-inspired-mcp-ex",
+    title: "Stateless MCP has recaptured my interest (and inspired mcp-explorer and datasette-mcp)",
+    summary: "Tuesday was Stateless MCP day - the rollout of MCP 2.0, or the 2026-07-28 Model Context Protocol specification to use the more formal but less memorable name. This is the most significant change to the MCP spec since it first launched, and ",
+    content: "",
+    category: "news",
+    image_url: "/card-news/stateless-mcp-has-recaptured-my-interest-and-inspired-mcp-ex.png",
+    external_link: "https://simonwillison.net/2026/Jul/31/stateless-mcp/#atom-everything",
+    tags: ["Stateless", "MCP"],
+    created_at: "2026-08-02",
+    span: "",
+  },
+  {
     id: 122,
     slug: "deepseek-v4-flash-has-been-updated-the-official-release-of-d",
     title: "DeepSeek-V4-Flash has been updated, \"The official release of DeepSeek-V4-Pro will follow soon\"",
