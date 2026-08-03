@@ -12,6 +12,19 @@ export const metadata: Metadata = {
 const CARD_NEWS_DATA: CardNewsItem[] = [
 /* TECH-NEWS-PIPELINE-DATA:START */
   {
+    id: 124,
+    slug: "i-pushed-kimi-k3-onto-one-cpu-with-8-gb-of-ram",
+    title: "I pushed Kimi K3 onto one CPU with 8 GB of RAM",
+    summary: "I deployed K3 on 32 H100s at work a couple of weeks ago and then got annoyed that there was no way to poke at it on my own machine . So I wrote an inference engine for it in C99. Nothing clever going on. 93% of that 1.56 TB checkpoint is ro",
+    content: "",
+    category: "news",
+    image_url: "/card-news/i-pushed-kimi-k3-onto-one-cpu-with-8-gb-of-ram.png",
+    external_link: "https://www.reddit.com/r/LocalLLaMA/comments/1vd874t/i_pushed_kimi_k3_onto_one_cpu_with_8_gb_of_ram/",
+    tags: ["Kimi", "CPU", "GB"],
+    created_at: "2026-08-03",
+    span: "",
+  },
+  {
     id: 123,
     slug: "stateless-mcp-has-recaptured-my-interest-and-inspired-mcp-ex",
     title: "Stateless MCP has recaptured my interest (and inspired mcp-explorer and datasette-mcp)",
