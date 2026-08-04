@@ -12,6 +12,19 @@ export const metadata: Metadata = {
 const CARD_NEWS_DATA: CardNewsItem[] = [
 /* TECH-NEWS-PIPELINE-DATA:START */
   {
+    id: 125,
+    slug: "open-always-wins-how-china-is-using-the-open-source-playbook",
+    title: "Open always wins: How China is using the open source playbook to dominate AI's next chapter",
+    summary: "The United States built its tech dominance on one principle: Open beats closed. Now China is using that playbook to shape AI's future. Consider: The performance gap between the leading American and Chinese models has narrowed to single digi",
+    content: "",
+    category: "ai",
+    image_url: "/card-news/open-always-wins-how-china-is-using-the-open-source-playbook.png",
+    external_link: "https://www.reddit.com/r/artificial/comments/1vejxnd/open_always_wins_how_china_is_using_the_open/",
+    tags: ["Open", "How", "China"],
+    created_at: "2026-08-04",
+    span: "",
+  },
+  {
     id: 124,
     slug: "i-pushed-kimi-k3-onto-one-cpu-with-8-gb-of-ram",
     title: "I pushed Kimi K3 onto one CPU with 8 GB of RAM",
