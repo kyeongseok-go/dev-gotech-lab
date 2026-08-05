@@ -12,6 +12,19 @@ export const metadata: Metadata = {
 const CARD_NEWS_DATA: CardNewsItem[] = [
 /* TECH-NEWS-PIPELINE-DATA:START */
   {
+    id: 126,
+    slug: "new-release-of-llm-adds-support-for-reasoning-traces-openai-",
+    title: "New release of LLM adds support for reasoning traces, OpenAI Responses, server-side tools, and smarter logging",
+    summary: "I released LLM 0.32 this morning, the most significant new version of LLM since the initial launch of the project. The new version includes support for visible reasoning traces, server-side provider tools, redesigned content-addressable SQL",
+    content: "",
+    category: "news",
+    image_url: "/card-news/new-release-of-llm-adds-support-for-reasoning-traces-openai-.png",
+    external_link: "https://simonwillison.net/2026/Aug/4/new-release-of-llm/#atom-everything",
+    tags: ["New", "LLM", "OpenAI"],
+    created_at: "2026-08-05",
+    span: "",
+  },
+  {
     id: 125,
     slug: "open-always-wins-how-china-is-using-the-open-source-playbook",
     title: "Open always wins: How China is using the open source playbook to dominate AI's next chapter",
