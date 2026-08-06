@@ -12,6 +12,19 @@ export const metadata: Metadata = {
 const CARD_NEWS_DATA: CardNewsItem[] = [
 /* TECH-NEWS-PIPELINE-DATA:START */
   {
+    id: 127,
+    slug: "i-built-a-captioning-app-for-short-form-video-then-gave-clau",
+    title: "I built a captioning app for short-form video, then gave Claude an MCP so it can work with captions alone",
+    summary: "Hi all. I built CapForge, a local app that transcribes video and burns animated captions over it. I made it because every cloud captioning tool I tried was subscription based and I did not want to upload unreleased footage to someone else's",
+    content: "",
+    category: "news",
+    image_url: "/card-news/i-built-a-captioning-app-for-short-form-video-then-gave-clau.png",
+    external_link: "https://v.redd.it/uw02v5i6uihh1",
+    tags: ["Claude", "MCP"],
+    created_at: "2026-08-06",
+    span: "",
+  },
+  {
     id: 126,
     slug: "new-release-of-llm-adds-support-for-reasoning-traces-openai-",
     title: "New release of LLM adds support for reasoning traces, OpenAI Responses, server-side tools, and smarter logging",
