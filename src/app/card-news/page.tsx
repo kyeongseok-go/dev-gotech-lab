@@ -12,6 +12,19 @@ export const metadata: Metadata = {
 const CARD_NEWS_DATA: CardNewsItem[] = [
 /* TECH-NEWS-PIPELINE-DATA:START */
   {
+    id: 128,
+    slug: "top-15-mcp-servers-that-are-actually-useful-in-2026-im-tired",
+    title: "Top 15+ MCP servers that are actually useful in 2026? I’m tired of fake awesome lists",
+    summary: "I’m trying to clean up my MCP setup and honestly I’m lost. Every best MCP servers list looks like SEO garbage now. Half the tools are abandoned, half need weird auth, and half sound useful until you actually plug them into Claude/Cursor/Cod",
+    content: "",
+    category: "news",
+    image_url: "/card-news/top-15-mcp-servers-that-are-actually-useful-in-2026-im-tired.png",
+    external_link: "https://www.reddit.com/r/ClaudeAI/comments/1vh0yd3/top_15_mcp_servers_that_are_actually_useful_in/",
+    tags: ["Top", "MCP"],
+    created_at: "2026-08-07",
+    span: "",
+  },
+  {
     id: 127,
     slug: "i-built-a-captioning-app-for-short-form-video-then-gave-clau",
     title: "I built a captioning app for short-form video, then gave Claude an MCP so it can work with captions alone",
