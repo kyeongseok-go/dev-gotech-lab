@@ -12,6 +12,19 @@ export const metadata: Metadata = {
 const CARD_NEWS_DATA: CardNewsItem[] = [
 /* TECH-NEWS-PIPELINE-DATA:START */
   {
+    id: 129,
+    slug: "got-job-as-director-of-ai-and-systems-development-self-taugh",
+    title: "Got job as Director of AI and Systems development self-taught",
+    summary: "Hey everyone, I just wanted to share my journey here for some motivation. Three years ago, I saw the sudden spike in AI and realized it was the future of tech. My goal at the time was to be an indie game dev, and seeing that AI could write ",
+    content: "",
+    category: "news",
+    image_url: "/card-news/got-job-as-director-of-ai-and-systems-development-self-taugh.png",
+    external_link: "https://www.reddit.com/r/LocalLLaMA/comments/1vi8jlr/got_job_as_director_of_ai_and_systems_development/",
+    tags: ["Got", "Director", "AI"],
+    created_at: "2026-08-08",
+    span: "",
+  },
+  {
     id: 128,
     slug: "top-15-mcp-servers-that-are-actually-useful-in-2026-im-tired",
     title: "Top 15+ MCP servers that are actually useful in 2026? I’m tired of fake awesome lists",
