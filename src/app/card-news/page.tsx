@@ -12,6 +12,19 @@ export const metadata: Metadata = {
 const CARD_NEWS_DATA: CardNewsItem[] = [
 /* TECH-NEWS-PIPELINE-DATA:START */
   {
+    id: 130,
+    slug: "claude-code-your-sessions-can-now-message-each-other",
+    title: "Claude code : your sessions can now message each other.",
+    summary: "With Claude Code v2.1.224 introducing cross-session messaging (agents syncing backend/frontend tasks independently), how do you plan to change your multi-terminal setup? Are you ready to let agents hand off context to each other?",
+    content: "",
+    category: "news",
+    image_url: "/card-news/claude-code-your-sessions-can-now-message-each-other.png",
+    external_link: "https://www.reddit.com/gallery/1vio0w9",
+    tags: ["Claude"],
+    created_at: "2026-08-09",
+    span: "",
+  },
+  {
     id: 129,
     slug: "got-job-as-director-of-ai-and-systems-development-self-taugh",
     title: "Got job as Director of AI and Systems development self-taught",
