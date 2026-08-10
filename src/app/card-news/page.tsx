@@ -12,6 +12,19 @@ export const metadata: Metadata = {
 const CARD_NEWS_DATA: CardNewsItem[] = [
 /* TECH-NEWS-PIPELINE-DATA:START */
   {
+    id: 131,
+    slug: "the-gemma-team-will-host-a-special-event-on-august-20",
+    title: "The Gemma team will host a special event on August 20",
+    summary: "Tweet by u/hackerllama Could be copium, but I would love to see Gemma 4.1 there with unified audio input for all model sizes perhaps even up to 120B, much improved tool calling (even with the latest template there are still bugs ), higher p",
+    content: "",
+    category: "news",
+    image_url: "/card-news/the-gemma-team-will-host-a-special-event-on-august-20.png",
+    external_link: "https://x.com/osanseviero/status/2086107547535122767",
+    tags: ["The", "Gemma", "August"],
+    created_at: "2026-08-10",
+    span: "",
+  },
+  {
     id: 130,
     slug: "claude-code-your-sessions-can-now-message-each-other",
     title: "Claude code : your sessions can now message each other.",
