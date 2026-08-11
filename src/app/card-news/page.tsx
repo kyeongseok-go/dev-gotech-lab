@@ -12,6 +12,19 @@ export const metadata: Metadata = {
 const CARD_NEWS_DATA: CardNewsItem[] = [
 /* TECH-NEWS-PIPELINE-DATA:START */
   {
+    id: 132,
+    slug: "introducing-muse-glimmer-an-open-weight-model-optimized-for-",
+    title: "Introducing Muse Glimmer: an open-weight model optimized for always-on local agent workflows",
+    summary: "Hi r/LocalLLaMA 👋 Today we’re excited to release Muse Glimmer, a 30B open-weight model built specifically for local agent workflows. We’re releasing the weights to the community under a permissive Apache 2.0 license. A few specs 30B params,",
+    content: "",
+    category: "news",
+    image_url: "/card-news/introducing-muse-glimmer-an-open-weight-model-optimized-for-.png",
+    external_link: "https://www.reddit.com/gallery/1vkgsum",
+    tags: ["Introducing", "Muse", "Glimmer"],
+    created_at: "2026-08-11",
+    span: "",
+  },
+  {
     id: 131,
     slug: "the-gemma-team-will-host-a-special-event-on-august-20",
     title: "The Gemma team will host a special event on August 20",
