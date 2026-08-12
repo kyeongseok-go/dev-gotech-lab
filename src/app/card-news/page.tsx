@@ -12,6 +12,19 @@ export const metadata: Metadata = {
 const CARD_NEWS_DATA: CardNewsItem[] = [
 /* TECH-NEWS-PIPELINE-DATA:START */
   {
+    id: 133,
+    slug: "introducing-unsloth-desktop-app",
+    title: "Introducing Unsloth Desktop app",
+    summary: "Hi LocalLlama, we're super excited to release Unsloth Desktop today! 🦥 It's the first desktop app that enables you to run and train models locally. Open-source. Available on Mac, Windows, and Linux Supports MLX, diffusion image/video models",
+    content: "",
+    category: "news",
+    image_url: "/card-news/introducing-unsloth-desktop-app.png",
+    external_link: "https://v.redd.it/i8b4n5ddbrih1",
+    tags: ["Introducing", "Unsloth", "Desktop"],
+    created_at: "2026-08-12",
+    span: "",
+  },
+  {
     id: 132,
     slug: "introducing-muse-glimmer-an-open-weight-model-optimized-for-",
     title: "Introducing Muse Glimmer: an open-weight model optimized for always-on local agent workflows",
