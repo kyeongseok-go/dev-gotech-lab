@@ -12,6 +12,19 @@ export const metadata: Metadata = {
 const CARD_NEWS_DATA: CardNewsItem[] = [
 /* TECH-NEWS-PIPELINE-DATA:START */
   {
+    id: 134,
+    slug: "deepseek-v4-pro-0813-on-openrouter",
+    title: "DeepSeek V4 Pro 0813 (on OpenRouter)",
+    summary: "DeepSeek V4 Pro 0813 (on OpenRouter) The latest DeepSeek Pro model is now available, via API only. I had to link to OpenRouter because DeepSeek don't have any obvious announcement page for their new model. I haven't been able to confirm if ",
+    content: "",
+    category: "news",
+    image_url: "/card-news/deepseek-v4-pro-0813-on-openrouter.png",
+    external_link: "https://simonwillison.net/2026/Aug/12/deepseek-v4-pro-0813/",
+    tags: ["DeepSeek", "Pro", "OpenRouter"],
+    created_at: "2026-08-13",
+    span: "",
+  },
+  {
     id: 133,
     slug: "introducing-unsloth-desktop-app",
     title: "Introducing Unsloth Desktop app",
