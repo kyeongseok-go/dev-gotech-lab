@@ -12,6 +12,19 @@ export const metadata: Metadata = {
 const CARD_NEWS_DATA: CardNewsItem[] = [
 /* TECH-NEWS-PIPELINE-DATA:START */
   {
+    id: 135,
+    slug: "trained-a-15b-to-write-shell-commands-so-id-stop-googling-ta",
+    title: "Trained a 1.5B to write shell commands so I'd stop googling tar flags. Runs on a laptop CPU in ~1 sec.",
+    summary: "I've been googling \"tar extract gz\" for about ten years. and I finally did something about it. It started out as a research project and I ended up with a Fine-tuned Qwen2.5-Coder-1.5B on 125k natural-language/command pairs, merged and quant",
+    content: "",
+    category: "news",
+    image_url: "/card-news/trained-a-15b-to-write-shell-commands-so-id-stop-googling-ta.png",
+    external_link: "https://i.redd.it/di0yenio27jh1.gif",
+    tags: ["Trained", "Runs", "CPU"],
+    created_at: "2026-08-14",
+    span: "",
+  },
+  {
     id: 134,
     slug: "deepseek-v4-pro-0813-on-openrouter",
     title: "DeepSeek V4 Pro 0813 (on OpenRouter)",
