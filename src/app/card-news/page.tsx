@@ -12,6 +12,19 @@ export const metadata: Metadata = {
 const CARD_NEWS_DATA: CardNewsItem[] = [
 /* TECH-NEWS-PIPELINE-DATA:START */
   {
+    id: 136,
+    slug: "qwenqwen38-27b-released",
+    title: "Qwen/Qwen3.8-27B · released",
+    summary: "Qwen/Qwen3.8-27B · released",
+    content: "",
+    category: "news",
+    image_url: "/card-news/qwenqwen38-27b-released.png",
+    external_link: "https://huggingface.co/Qwen/Qwen3.8-27B",
+    tags: ["Qwen", "Qwen"],
+    created_at: "2026-08-15",
+    span: "",
+  },
+  {
     id: 135,
     slug: "trained-a-15b-to-write-shell-commands-so-id-stop-googling-ta",
     title: "Trained a 1.5B to write shell commands so I'd stop googling tar flags. Runs on a laptop CPU in ~1 sec.",
