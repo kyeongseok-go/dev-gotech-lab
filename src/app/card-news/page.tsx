@@ -12,6 +12,19 @@ export const metadata: Metadata = {
 const CARD_NEWS_DATA: CardNewsItem[] = [
 /* TECH-NEWS-PIPELINE-DATA:START */
   {
+    id: 137,
+    slug: "v21228",
+    title: "v2.1.228",
+    summary: "What's changed Fixed interactive sessions that could stop redrawing entirely, while the process kept running, after a rare internal layout error Fixed git / Git Bash not being found on Windows when Claude Code is launched from a parent fold",
+    content: "",
+    category: "news",
+    image_url: "/card-news/v21228.png",
+    external_link: "https://github.com/anthropics/claude-code/releases/tag/v2.1.228",
+    tags: ["AI", "기술", "트렌드"],
+    created_at: "2026-08-16",
+    span: "",
+  },
+  {
     id: 136,
     slug: "qwenqwen38-27b-released",
     title: "Qwen/Qwen3.8-27B · released",
