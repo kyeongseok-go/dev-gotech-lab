@@ -12,6 +12,19 @@ export const metadata: Metadata = {
 const CARD_NEWS_DATA: CardNewsItem[] = [
 /* TECH-NEWS-PIPELINE-DATA:START */
   {
+    id: 138,
+    slug: "qwen-38-27b-is-excellent-but-it-defaults-to-wildly-overthink",
+    title: "Qwen 3.8 27B is excellent, but it defaults to wildly overthinking things",
+    summary: "Friday's big release was Qwen 3.8 27B, an Apache 2 licensed 27B parameter vision-capable LLM from Alibaba's Qwen research lab. I've been looking forward to this one: 27B is an excellent size for running a model on a reasonably specced lapto",
+    content: "",
+    category: "news",
+    image_url: "/card-news/qwen-38-27b-is-excellent-but-it-defaults-to-wildly-overthink.png",
+    external_link: "https://simonwillison.net/2026/Aug/16/qwen-38-27b/",
+    tags: ["Qwen"],
+    created_at: "2026-08-17",
+    span: "",
+  },
+  {
     id: 137,
     slug: "v21228",
     title: "v2.1.228",
