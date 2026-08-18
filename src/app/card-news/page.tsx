@@ -12,6 +12,19 @@ export const metadata: Metadata = {
 const CARD_NEWS_DATA: CardNewsItem[] = [
 /* TECH-NEWS-PIPELINE-DATA:START */
   {
+    id: 139,
+    slug: "claude-is-losing-me-after-being-heavy-user-since-release",
+    title: "Claude is Losing Me After Being Heavy User Since Release",
+    summary: "I've been using Claude - mostly Claude Code, but regular Chat as well - almost since it came out. It's been incredibly useful and seemed to only get better with new releases. I've seen lots of posts in this sub and related subs when new mod",
+    content: "",
+    category: "news",
+    image_url: "/card-news/claude-is-losing-me-after-being-heavy-user-since-release.png",
+    external_link: "https://www.reddit.com/r/ClaudeAI/comments/1vqsas9/claude_is_losing_me_after_being_heavy_user_since/",
+    tags: ["Claude", "Losing", "Me"],
+    created_at: "2026-08-18",
+    span: "",
+  },
+  {
     id: 138,
     slug: "qwen-38-27b-is-excellent-but-it-defaults-to-wildly-overthink",
     title: "Qwen 3.8 27B is excellent, but it defaults to wildly overthinking things",
