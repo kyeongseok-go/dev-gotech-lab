@@ -12,6 +12,19 @@ export const metadata: Metadata = {
 const CARD_NEWS_DATA: CardNewsItem[] = [
 /* TECH-NEWS-PIPELINE-DATA:START */
   {
+    id: 140,
+    slug: "strengthening-democratic-oversight-in-national-security",
+    title: "Strengthening democratic oversight in national security",
+    summary: "OpenAI launches an initiative to strengthen democratic oversight of AI in national security, supporting government institutions with tools, training, and expertise.",
+    content: "",
+    category: "news",
+    image_url: "/card-news/strengthening-democratic-oversight-in-national-security.png",
+    external_link: "https://openai.com/index/strengthening-democratic-oversight-in-national-security",
+    tags: ["Strengthening"],
+    created_at: "2026-08-19",
+    span: "",
+  },
+  {
     id: 139,
     slug: "claude-is-losing-me-after-being-heavy-user-since-release",
     title: "Claude is Losing Me After Being Heavy User Since Release",
