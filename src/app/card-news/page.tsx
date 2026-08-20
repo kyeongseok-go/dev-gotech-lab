@@ -12,6 +12,19 @@ export const metadata: Metadata = {
 const CARD_NEWS_DATA: CardNewsItem[] = [
 /* TECH-NEWS-PIPELINE-DATA:START */
   {
+    id: 141,
+    slug: "introducing-qwen38-27b-dynamic-v3-unsloth-ggufs",
+    title: "Introducing Qwen3.8-27B Dynamic v3 Unsloth GGUFs",
+    summary: "Hey everyone! We’re releasing new Qwen3.8-27B GGUFs with 10% higher accuracy for the same size. This uses a new version of Dynamic v3.0 Unsloth Dynamic V3 outperforms others by >10% on Div-300, KLD & more benchmarks. We also release 1-bit q",
+    content: "",
+    category: "news",
+    image_url: "/card-news/introducing-qwen38-27b-dynamic-v3-unsloth-ggufs.png",
+    external_link: "https://i.redd.it/it09zxtsxckh1.jpeg",
+    tags: ["Introducing", "Qwen", "Dynamic"],
+    created_at: "2026-08-20",
+    span: "",
+  },
+  {
     id: 140,
     slug: "strengthening-democratic-oversight-in-national-security",
     title: "Strengthening democratic oversight in national security",
