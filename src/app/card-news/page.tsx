@@ -12,6 +12,19 @@ export const metadata: Metadata = {
 const CARD_NEWS_DATA: CardNewsItem[] = [
 /* TECH-NEWS-PIPELINE-DATA:START */
   {
+    id: 142,
+    slug: "did-gpt-56-sol-get-secretly-upgraded",
+    title: "Did GPT 5.6 Sol get secretly upgraded?",
+    summary: "you're reading that right. upgraded, not downgraded. chatgpt, i don't use the api. i'm not talking about the officially announced \"more factual\" update from 2 weeks ago. idk how long this has been the case but today 5.6 Sol is suddenly gett",
+    content: "",
+    category: "news",
+    image_url: "/card-news/did-gpt-56-sol-get-secretly-upgraded.png",
+    external_link: "https://www.reddit.com/r/OpenAI/comments/1vth5v3/did_gpt_56_sol_get_secretly_upgraded/",
+    tags: ["Did", "GPT", "Sol"],
+    created_at: "2026-08-21",
+    span: "",
+  },
+  {
     id: 141,
     slug: "introducing-qwen38-27b-dynamic-v3-unsloth-ggufs",
     title: "Introducing Qwen3.8-27B Dynamic v3 Unsloth GGUFs",
