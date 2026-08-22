@@ -12,6 +12,19 @@ export const metadata: Metadata = {
 const CARD_NEWS_DATA: CardNewsItem[] = [
 /* TECH-NEWS-PIPELINE-DATA:START */
   {
+    id: 143,
+    slug: "llm-openrouter-07",
+    title: "llm-openrouter 0.7",
+    summary: "Release: llm-openrouter 0.7 Now that this plugin is compatible with LLM 0.32 it works much better with reasoning LLMs available through OpenRouter. Updated for compatibility with LLM 0.32. Models now use OpenRouter's implementation of the R",
+    content: "",
+    category: "news",
+    image_url: "/card-news/llm-openrouter-07.png",
+    external_link: "https://simonwillison.net/2026/Aug/21/llm-openrouter/",
+    tags: ["AI", "기술", "트렌드"],
+    created_at: "2026-08-22",
+    span: "",
+  },
+  {
     id: 142,
     slug: "did-gpt-56-sol-get-secretly-upgraded",
     title: "Did GPT 5.6 Sol get secretly upgraded?",
