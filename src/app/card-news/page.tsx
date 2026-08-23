@@ -12,6 +12,19 @@ export const metadata: Metadata = {
 const CARD_NEWS_DATA: CardNewsItem[] = [
 /* TECH-NEWS-PIPELINE-DATA:START */
   {
+    id: 144,
+    slug: "i-built-an-english-claudish-translator",
+    title: "I built an English ↔ Claudish translator",
+    summary: "Claude has become a language, so I built a translator. It works both ways: English → Claudish and Claudish → English. Both directions are neural programs compiled with ProgramAsWeights, so it easily runs on CPUs. Demo: https://programasweig",
+    content: "",
+    category: "news",
+    image_url: "/card-news/i-built-an-english-claudish-translator.png",
+    external_link: "https://i.redd.it/qi4ksw37mykh1.png",
+    tags: ["English", "Claudish"],
+    created_at: "2026-08-23",
+    span: "",
+  },
+  {
     id: 143,
     slug: "llm-openrouter-07",
     title: "llm-openrouter 0.7",
