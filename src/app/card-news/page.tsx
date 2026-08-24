@@ -12,6 +12,19 @@ export const metadata: Metadata = {
 const CARD_NEWS_DATA: CardNewsItem[] = [
 /* TECH-NEWS-PIPELINE-DATA:START */
   {
+    id: 145,
+    slug: "qwen-38-27b-is-a-game-changer",
+    title: "Qwen 3.8 27B is a game changer.",
+    summary: "Our devs got their hands on it a few days ago. One wired it into Codex to compare with GPT Luna, our usual workhorse right now for its cost effectiveness. Another tried it out on one of our OCR pipelines. It's comparable to Luna for coding ",
+    content: "",
+    category: "news",
+    image_url: "/card-news/qwen-38-27b-is-a-game-changer.png",
+    external_link: "https://www.reddit.com/r/LocalLLaMA/comments/1vvyacg/qwen_38_27b_is_a_game_changer/",
+    tags: ["Qwen"],
+    created_at: "2026-08-24",
+    span: "",
+  },
+  {
     id: 144,
     slug: "i-built-an-english-claudish-translator",
     title: "I built an English ↔ Claudish translator",
