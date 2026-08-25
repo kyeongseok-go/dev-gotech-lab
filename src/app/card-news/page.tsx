@@ -12,6 +12,19 @@ export const metadata: Metadata = {
 const CARD_NEWS_DATA: CardNewsItem[] = [
 /* TECH-NEWS-PIPELINE-DATA:START */
   {
+    id: 146,
+    slug: "llm-anthropic-027",
+    title: "llm-anthropic 0.27",
+    summary: "Release: llm-anthropic 0.27 This release of the Anthropic plugin for LLM mainly provides compatibility with the recently released anthropic v1.0.0 Python library, which switches from httpx to httpx2. OpenAI made the same change in their v3.",
+    content: "",
+    category: "news",
+    image_url: "/card-news/llm-anthropic-027.png",
+    external_link: "https://simonwillison.net/2026/Aug/24/llm-anthropic/",
+    tags: ["AI", "기술", "트렌드"],
+    created_at: "2026-08-25",
+    span: "",
+  },
+  {
     id: 145,
     slug: "qwen-38-27b-is-a-game-changer",
     title: "Qwen 3.8 27B is a game changer.",
