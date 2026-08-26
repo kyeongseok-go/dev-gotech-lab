@@ -12,6 +12,19 @@ export const metadata: Metadata = {
 const CARD_NEWS_DATA: CardNewsItem[] = [
 /* TECH-NEWS-PIPELINE-DATA:START */
   {
+    id: 147,
+    slug: "advancing-price-performance-for-developers-with-gpt56-in-kir",
+    title: "Advancing price-performance for developers with GPT‑5.6 in Kiro",
+    summary: "GPT‑5.6 is now available in Kiro, helping developers plan, build, review, and test software with better price-performance.",
+    content: "",
+    category: "news",
+    image_url: "/card-news/advancing-price-performance-for-developers-with-gpt56-in-kir.png",
+    external_link: "https://openai.com/index/gpt-5-6-in-kiro",
+    tags: ["Advancing", "GPT", "Kiro"],
+    created_at: "2026-08-26",
+    span: "",
+  },
+  {
     id: 146,
     slug: "llm-anthropic-027",
     title: "llm-anthropic 0.27",
