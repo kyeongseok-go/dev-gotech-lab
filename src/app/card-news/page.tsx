@@ -12,6 +12,19 @@ export const metadata: Metadata = {
 const CARD_NEWS_DATA: CardNewsItem[] = [
 /* TECH-NEWS-PIPELINE-DATA:START */
   {
+    id: 148,
+    slug: "qwen38-flash-next",
+    title: "Qwen3.8-Flash-Next",
+    summary: "Qwen3.8-Flash-Next Another open weights model from Qwen. This one is \"a multimodal MoE model that also serves as an early preview of the architecture used in Qwen4\". It's pretty big: 125B tokens, but only 6B active which means it gets a sig",
+    content: "",
+    category: "news",
+    image_url: "/card-news/qwen38-flash-next.png",
+    external_link: "https://simonwillison.net/2026/Aug/26/qwen38-flash-next/",
+    tags: ["Qwen", "Flash", "Next"],
+    created_at: "2026-08-27",
+    span: "",
+  },
+  {
     id: 147,
     slug: "advancing-price-performance-for-developers-with-gpt56-in-kir",
     title: "Advancing price-performance for developers with GPT‑5.6 in Kiro",
