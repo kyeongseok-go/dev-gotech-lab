@@ -12,6 +12,19 @@ export const metadata: Metadata = {
 const CARD_NEWS_DATA: CardNewsItem[] = [
 /* TECH-NEWS-PIPELINE-DATA:START */
   {
+    id: 149,
+    slug: "thousands-of-people-are-about-to-start-training-behaviors-on",
+    title: "Thousands of people are about to start training behaviors on real, tiny humanoid robots",
+    summary: "Hello, Pollen Robotics engineer here. I’d like to discuss a deeper subject than the rumors about Nvidia acquiring us. Today we released a new robot, pre-orders are going crazy (1 robot every 5 seconds, beyond any expectation we had!). Some ",
+    content: "",
+    category: "news",
+    image_url: "/card-news/thousands-of-people-are-about-to-start-training-behaviors-on.png",
+    external_link: "https://v.redd.it/c36elx4tiylh1",
+    tags: ["Thousands"],
+    created_at: "2026-08-28",
+    span: "",
+  },
+  {
     id: 148,
     slug: "qwen38-flash-next",
     title: "Qwen3.8-Flash-Next",
