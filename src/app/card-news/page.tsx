@@ -12,6 +12,19 @@ export const metadata: Metadata = {
 const CARD_NEWS_DATA: CardNewsItem[] = [
 /* TECH-NEWS-PIPELINE-DATA:START */
   {
+    id: 150,
+    slug: "zai-orgglm-53-hugging-face",
+    title: "zai-org/GLM-5.3 · Hugging Face",
+    summary: "GLM-5.3 uses the same base model as GLM-5.2 — every gain comes from post-training. Compared with GLM-5.2, it is much better at complex coding and long-horizon tasks: Stronger Coding: GLM-5.3 is the most capable open-weights model for coding",
+    content: "",
+    category: "news",
+    image_url: "/card-news/zai-orgglm-53-hugging-face.png",
+    external_link: "https://huggingface.co/zai-org/GLM-5.3",
+    tags: ["GLM", "Hugging", "Face"],
+    created_at: "2026-08-29",
+    span: "",
+  },
+  {
     id: 149,
     slug: "thousands-of-people-are-about-to-start-training-behaviors-on",
     title: "Thousands of people are about to start training behaviors on real, tiny humanoid robots",
