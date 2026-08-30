@@ -12,6 +12,19 @@ export const metadata: Metadata = {
 const CARD_NEWS_DATA: CardNewsItem[] = [
 /* TECH-NEWS-PIPELINE-DATA:START */
   {
+    id: 151,
+    slug: "google-paper-cuts-agent-token-usage-by-94-in-long-sessions-b",
+    title: "Google paper cuts agent token usage by 94% in long sessions by tracking state instead of history",
+    summary: "The idea: Agents keep the conversation history as part of their input while they reason. SKILL.state proposes to replace that with a structured representation of the current state, and the latest observation. While the agent reasons through",
+    content: "",
+    category: "ai",
+    image_url: "/card-news/google-paper-cuts-agent-token-usage-by-94-in-long-sessions-b.png",
+    external_link: "https://i.redd.it/jsuomguordmh1.jpeg",
+    tags: ["Google"],
+    created_at: "2026-08-30",
+    span: "",
+  },
+  {
     id: 150,
     slug: "zai-orgglm-53-hugging-face",
     title: "zai-org/GLM-5.3 · Hugging Face",
