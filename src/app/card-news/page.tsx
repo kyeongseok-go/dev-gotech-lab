@@ -12,6 +12,19 @@ export const metadata: Metadata = {
 const CARD_NEWS_DATA: CardNewsItem[] = [
 /* TECH-NEWS-PIPELINE-DATA:START */
   {
+    id: 152,
+    slug: "understanding-chatgpt-work",
+    title: "Understanding ChatGPT Work",
+    summary: "OpenAI announced ChatGPT Work on July 9th, and have been furiously iterating on it ever since. It is an extraordinarily confusing and very powerful product. Here's what I've figured out about it so far. ChatGPT Work is actually two products",
+    content: "",
+    category: "news",
+    image_url: "/card-news/understanding-chatgpt-work.png",
+    external_link: "https://simonwillison.net/2026/Aug/30/understanding-chatgpt-work/",
+    tags: ["Understanding", "ChatGPT", "Work"],
+    created_at: "2026-08-31",
+    span: "",
+  },
+  {
     id: 151,
     slug: "google-paper-cuts-agent-token-usage-by-94-in-long-sessions-b",
     title: "Google paper cuts agent token usage by 94% in long sessions by tracking state instead of history",
