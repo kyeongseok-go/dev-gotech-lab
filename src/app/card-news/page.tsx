@@ -12,6 +12,19 @@ export const metadata: Metadata = {
 const CARD_NEWS_DATA: CardNewsItem[] = [
 /* TECH-NEWS-PIPELINE-DATA:START */
   {
+    id: 153,
+    slug: "introducing-hy4-preview",
+    title: "Introducing Hy4 Preview",
+    summary: "Introducing Hy4 Preview New open weight text input (no vision) LLM from Chinese company Tencent today: 770B total parameters, 49B active parameters, 1M token context window, 1.56TB on Hugging Face. This is a big size increase from their pre",
+    content: "",
+    category: "news",
+    image_url: "/card-news/introducing-hy4-preview.png",
+    external_link: "https://simonwillison.net/2026/Aug/29/hy4/",
+    tags: ["Introducing", "Hy", "Preview"],
+    created_at: "2026-09-01",
+    span: "",
+  },
+  {
     id: 152,
     slug: "understanding-chatgpt-work",
     title: "Understanding ChatGPT Work",
