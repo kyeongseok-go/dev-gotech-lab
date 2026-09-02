@@ -12,6 +12,19 @@ export const metadata: Metadata = {
 const CARD_NEWS_DATA: CardNewsItem[] = [
 /* TECH-NEWS-PIPELINE-DATA:START */
   {
+    id: 154,
+    slug: "path-to-astra-critical-capabilities-and-frontier-safeguards",
+    title: "Path to Astra: critical capabilities and frontier safeguards",
+    summary: "Astra is the first OpenAI model to meet the Critical cybersecurity capability threshold under the Preparedness Framework, with stronger safeguards for release.",
+    content: "",
+    category: "news",
+    image_url: "/card-news/path-to-astra-critical-capabilities-and-frontier-safeguards.png",
+    external_link: "https://openai.com/index/path-to-astra",
+    tags: ["Path", "Astra"],
+    created_at: "2026-09-02",
+    span: "",
+  },
+  {
     id: 153,
     slug: "introducing-hy4-preview",
     title: "Introducing Hy4 Preview",
