@@ -12,6 +12,19 @@ export const metadata: Metadata = {
 const CARD_NEWS_DATA: CardNewsItem[] = [
 /* TECH-NEWS-PIPELINE-DATA:START */
   {
+    id: 155,
+    slug: "qwen-will-be-the-king",
+    title: "Qwen will be the king?",
+    summary: "Extended reasoning and post-training appear to be the keys used by DeepSeek, Qwen, and GLM to boost performance (leveraging higher token counts). And Qwen 4 hasn't even been released yet. Of course, we don't know if that release will be ope",
+    content: "",
+    category: "news",
+    image_url: "/card-news/qwen-will-be-the-king.png",
+    external_link: "https://i.redd.it/m9c7ldofb2nh1.png",
+    tags: ["Qwen"],
+    created_at: "2026-09-03",
+    span: "",
+  },
+  {
     id: 154,
     slug: "path-to-astra-critical-capabilities-and-frontier-safeguards",
     title: "Path to Astra: critical capabilities and frontier safeguards",
