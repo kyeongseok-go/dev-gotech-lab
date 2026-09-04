@@ -12,6 +12,19 @@ export const metadata: Metadata = {
 const CARD_NEWS_DATA: CardNewsItem[] = [
 /* TECH-NEWS-PIPELINE-DATA:START */
   {
+    id: 156,
+    slug: "claude-fable-51-made-me-a-really-nice-animated-pelican",
+    title: "Claude Fable 5.1 made me a really nice animated pelican",
+    summary: "Today is Claude Fable (and Mythos) 5.1 day. Anthropic say that Fable 5.1 \"sets a new standard for coding, knowledge work, and long-running problem-solving tasks\". Their announcement spends a notable amount of time on scientific research, bo",
+    content: "",
+    category: "news",
+    image_url: "/card-news/claude-fable-51-made-me-a-really-nice-animated-pelican.png",
+    external_link: "https://simonwillison.net/2026/Sep/1/claude-fable-5-1/",
+    tags: ["Claude", "Fable"],
+    created_at: "2026-09-04",
+    span: "",
+  },
+  {
     id: 155,
     slug: "qwen-will-be-the-king",
     title: "Qwen will be the king?",
