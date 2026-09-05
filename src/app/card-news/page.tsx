@@ -12,6 +12,19 @@ export const metadata: Metadata = {
 const CARD_NEWS_DATA: CardNewsItem[] = [
 /* TECH-NEWS-PIPELINE-DATA:START */
   {
+    id: 157,
+    slug: "gpt-6-astra-a-new-generation-of-intelligence",
+    title: "GPT-6 Astra: A new generation of intelligence",
+    summary: "Introducing GPT-6 Astra, our most intelligent and aligned model yet, with state-of-the-art capabilities across computer use, coding, cybersecurity, and science.",
+    content: "",
+    category: "news",
+    image_url: "/card-news/gpt-6-astra-a-new-generation-of-intelligence.png",
+    external_link: "https://openai.com/index/gpt-6-astra",
+    tags: ["GPT", "Astra"],
+    created_at: "2026-09-05",
+    span: "",
+  },
+  {
     id: 156,
     slug: "claude-fable-51-made-me-a-really-nice-animated-pelican",
     title: "Claude Fable 5.1 made me a really nice animated pelican",
