@@ -12,6 +12,19 @@ export const metadata: Metadata = {
 const CARD_NEWS_DATA: CardNewsItem[] = [
 /* TECH-NEWS-PIPELINE-DATA:START */
   {
+    id: 158,
+    slug: "gpt-6-reportedly-jailbroken-within-24-hours-using-an-extende",
+    title: "GPT-6 reportedly jailbroken within 24 hours using an extended Task-in-Prompt (TIP) attack [N]",
+    summary: "A researcher has reported a jailbreak of GPT-6 Astra within a day after release. The attack is described as combination of TIP (Task-in-Prompt) attack from ACL 2025 paper with four other unnamed techniques. TIP attacks exploit the model’s r",
+    content: "",
+    category: "ai",
+    image_url: "/card-news/gpt-6-reportedly-jailbroken-within-24-hours-using-an-extende.png",
+    external_link: "https://www.reddit.com/r/MachineLearning/comments/1w89m36/gpt6_reportedly_jailbroken_within_24_hours_using/",
+    tags: ["GPT", "Task", "Prompt"],
+    created_at: "2026-09-06",
+    span: "",
+  },
+  {
     id: 157,
     slug: "gpt-6-astra-a-new-generation-of-intelligence",
     title: "GPT-6 Astra: A new generation of intelligence",
