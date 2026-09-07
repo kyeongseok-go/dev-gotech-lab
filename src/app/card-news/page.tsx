@@ -12,6 +12,19 @@ export const metadata: Metadata = {
 const CARD_NEWS_DATA: CardNewsItem[] = [
 /* TECH-NEWS-PIPELINE-DATA:START */
   {
+    id: 159,
+    slug: "8-uncensored-qwen-38-27b-variants-one-base-167-gpu-hours---a",
+    title: "8 uncensored Qwen 3.8 27B variants, one base, 167 GPU hours - Abliterlitics",
+    summary: "This comparison was requested by a few people, and certainly we were all eager to see the final results. The comparison had taken 11 days and the GPU was crunching numbers for ~167 hours. We've been comparing different abliterated models fr",
+    content: "",
+    category: "news",
+    image_url: "/card-news/8-uncensored-qwen-38-27b-variants-one-base-167-gpu-hours---a.png",
+    external_link: "https://www.reddit.com/r/LocalLLaMA/comments/1w8vx6w/8_uncensored_qwen_38_27b_variants_one_base_167/",
+    tags: ["Qwen", "GPU", "Abliterlitics"],
+    created_at: "2026-09-07",
+    span: "",
+  },
+  {
     id: 158,
     slug: "gpt-6-reportedly-jailbroken-within-24-hours-using-an-extende",
     title: "GPT-6 reportedly jailbroken within 24 hours using an extended Task-in-Prompt (TIP) attack [N]",
