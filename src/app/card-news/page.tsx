@@ -12,6 +12,19 @@ export const metadata: Metadata = {
 const CARD_NEWS_DATA: CardNewsItem[] = [
 /* TECH-NEWS-PIPELINE-DATA:START */
   {
+    id: 160,
+    slug: "rustuna-a-high-performance-rust-implementation-of-optuna-p",
+    title: "Rustuna: A High-Performance Rust Implementation of Optuna [P]",
+    summary: "Hi everyone! We just released Rustuna (GitHub: https://github.com/optuna/rustuna/ ), a high-speed, memory-efficient implementation of Optuna built in Rust. Optuna-Compatible Design: Keeps the familiar API and concept of Optuna. Zero Python ",
+    content: "",
+    category: "ai",
+    image_url: "/card-news/rustuna-a-high-performance-rust-implementation-of-optuna-p.png",
+    external_link: "https://i.redd.it/m77osqk6l2oh1.png",
+    tags: ["Rustuna", "High", "Performance"],
+    created_at: "2026-09-08",
+    span: "",
+  },
+  {
     id: 159,
     slug: "8-uncensored-qwen-38-27b-variants-one-base-167-gpu-hours---a",
     title: "8 uncensored Qwen 3.8 27B variants, one base, 167 GPU hours - Abliterlitics",
