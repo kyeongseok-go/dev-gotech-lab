@@ -12,6 +12,19 @@ export const metadata: Metadata = {
 const CARD_NEWS_DATA: CardNewsItem[] = [
 /* TECH-NEWS-PIPELINE-DATA:START */
   {
+    id: 161,
+    slug: "introducing-chatgpt-images-25",
+    title: "Introducing ChatGPT Images 2.5",
+    summary: "Introducing ChatGPT Images 2.5 OpenAI's image generation models are apparently used \"more than 3 billion images across ChatGPT Images and the GPT‑Image models in the API\". This latest release improves their instruction-following ability acr",
+    content: "",
+    category: "news",
+    image_url: "/card-news/introducing-chatgpt-images-25.png",
+    external_link: "https://simonwillison.net/2026/Sep/8/introducing-chatgpt-images-25/",
+    tags: ["Introducing", "ChatGPT", "Images"],
+    created_at: "2026-09-09",
+    span: "",
+  },
+  {
     id: 160,
     slug: "rustuna-a-high-performance-rust-implementation-of-optuna-p",
     title: "Rustuna: A High-Performance Rust Implementation of Optuna [P]",
