@@ -12,6 +12,19 @@ export const metadata: Metadata = {
 const CARD_NEWS_DATA: CardNewsItem[] = [
 /* TECH-NEWS-PIPELINE-DATA:START */
   {
+    id: 162,
+    slug: "maybe-socialism-is-the-answer-during-the-age-of-ai",
+    title: "Maybe Socialism is the answer during the age of AI",
+    summary: "Before anyone gets annoyed by the title, this is not a post saying nationalise OpenAI. It is about one thing the market is visibly failing at right now and one thing socialists have always been right about, and they are the same thing. Some",
+    content: "",
+    category: "ai",
+    image_url: "/card-news/maybe-socialism-is-the-answer-during-the-age-of-ai.png",
+    external_link: "https://www.reddit.com/r/artificial/comments/1wbidom/maybe_socialism_is_the_answer_during_the_age_of_ai/",
+    tags: ["Maybe", "Socialism", "AI"],
+    created_at: "2026-09-10",
+    span: "",
+  },
+  {
     id: 161,
     slug: "introducing-chatgpt-images-25",
     title: "Introducing ChatGPT Images 2.5",
