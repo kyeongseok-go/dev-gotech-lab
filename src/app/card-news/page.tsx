@@ -12,6 +12,19 @@ export const metadata: Metadata = {
 const CARD_NEWS_DATA: CardNewsItem[] = [
 /* TECH-NEWS-PIPELINE-DATA:START */
   {
+    id: 163,
+    slug: "introducing-chatgpt-for-financial-services",
+    title: "Introducing ChatGPT for Financial Services",
+    summary: "Introducing ChatGPT for Financial Services, combining built-in financial data and GPT-6 Astra for research, modeling, and client-ready materials.",
+    content: "",
+    category: "news",
+    image_url: "/card-news/introducing-chatgpt-for-financial-services.png",
+    external_link: "https://openai.com/index/introducing-chatgpt-financial-services",
+    tags: ["Introducing", "ChatGPT", "Financial"],
+    created_at: "2026-09-11",
+    span: "",
+  },
+  {
     id: 162,
     slug: "maybe-socialism-is-the-answer-during-the-age-of-ai",
     title: "Maybe Socialism is the answer during the age of AI",
