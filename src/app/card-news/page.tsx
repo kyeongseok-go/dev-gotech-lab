@@ -12,6 +12,19 @@ export const metadata: Metadata = {
 const CARD_NEWS_DATA: CardNewsItem[] = [
 /* TECH-NEWS-PIPELINE-DATA:START */
   {
+    id: 165,
+    slug: "ifkakao2026-첫째-날-기술-세션-소개",
+    title: "if(kakao)2026 첫째 날, 기술 세션 소개",
+    summary: "if(kakao)2026 첫째 날은 AI 방향성, 신뢰와 안전, Model & Agent, 상생과 성장에 대해 이야기합니다. 키노트를 제외한 총 23개의 기술 세션들이 아래와 같이 진행됩니다. [AI 방향성] 1. You Only Train Once: 더 효율적으로 Kanana SLM 개발하기 (류민호, 한규빈) 단 한 번의 학습으로, 4개의 Small Dense Model Family를 개발한 노하우를 공유합니다! 최근 공개",
+    content: "",
+    category: "news",
+    image_url: "/card-news/ifkakao2026-첫째-날-기술-세션-소개.png",
+    external_link: "https://tech.kakao.com/posts/833",
+    tags: ["AI", "기술", "트렌드"],
+    created_at: "2026-09-13",
+    span: "",
+  },
+  {
     id: 164,
     slug: "quoting-huggingfacecosecuritytxt",
     title: "Quoting huggingface.co/security.txt",
