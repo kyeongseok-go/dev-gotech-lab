@@ -12,6 +12,19 @@ export const metadata: Metadata = {
 const CARD_NEWS_DATA: CardNewsItem[] = [
 /* TECH-NEWS-PIPELINE-DATA:START */
   {
+    id: 166,
+    slug: "commit-rewriter-01",
+    title: "commit-rewriter 0.1",
+    summary: "Release: commit-rewriter 0.1 I built this little web app the other day to help edit the commit messages for the Datasette security releases. The initial commits were full of coding agent cruft and references to issue IDs from our private re",
+    content: "",
+    category: "news",
+    image_url: "/card-news/commit-rewriter-01.png",
+    external_link: "https://simonwillison.net/2026/Sep/14/commit-rewriter/",
+    tags: ["AI", "기술", "트렌드"],
+    created_at: "2026-09-14",
+    span: "",
+  },
+  {
     id: 165,
     slug: "ifkakao2026-첫째-날-기술-세션-소개",
     title: "if(kakao)2026 첫째 날, 기술 세션 소개",
