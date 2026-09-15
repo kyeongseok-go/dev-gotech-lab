@@ -12,6 +12,19 @@ export const metadata: Metadata = {
 const CARD_NEWS_DATA: CardNewsItem[] = [
 /* TECH-NEWS-PIPELINE-DATA:START */
   {
+    id: 167,
+    slug: "rsi-is-not-happening-r",
+    title: "RSI is not happening [R]",
+    summary: "A new paper (I'm not a coauthor BTW -- I just found it interesting) argues, basically, that RSI is not on the horizon, because current (at the time the study was done) agents cannot do open-ended ML research. Specifically, they took some ac",
+    content: "",
+    category: "ai",
+    image_url: "/card-news/rsi-is-not-happening-r.png",
+    external_link: "https://www.reddit.com/r/MachineLearning/comments/1wgazy4/rsi_is_not_happening_r/",
+    tags: ["RSI"],
+    created_at: "2026-09-15",
+    span: "",
+  },
+  {
     id: 166,
     slug: "commit-rewriter-01",
     title: "commit-rewriter 0.1",
