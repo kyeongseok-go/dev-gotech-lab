@@ -12,6 +12,19 @@ export const metadata: Metadata = {
 const CARD_NEWS_DATA: CardNewsItem[] = [
 /* TECH-NEWS-PIPELINE-DATA:START */
   {
+    id: 168,
+    slug: "i-trained-a-44m-parameter-quantized-llm-from-scratch-on-45b-",
+    title: "I trained a 44M parameter quantized LLM from scratch on 45B tokens. It ships in 19.8 MB and runs at ~1,900 tok/s on CPU. [P]",
+    summary: "Three weeks back , i posted SHADOW-250M here. It got 360 upvotes, 293 on r/LocalLLaMA and 94 GitHub stars. Thank you. That model was 60 MB, ran around 400 tok/s on CPU and could retrieve records from an archive on disk. What it couldn’t do ",
+    content: "",
+    category: "ai",
+    image_url: "/card-news/i-trained-a-44m-parameter-quantized-llm-from-scratch-on-45b-.png",
+    external_link: "https://www.reddit.com/r/MachineLearning/comments/1wgzpli/i_trained_a_44m_parameter_quantized_llm_from/",
+    tags: ["LLM", "It", "MB"],
+    created_at: "2026-09-16",
+    span: "",
+  },
+  {
     id: 167,
     slug: "rsi-is-not-happening-r",
     title: "RSI is not happening [R]",
