@@ -1,0 +1,229 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "gotech.lab 시스템 구성",
+    "quality_profile": "showcase",
+    "views": [
+      {
+        "id": "read-path",
+        "label": "읽기 경로",
+        "focus": [
+          "visitors",
+          "worker",
+          "d1",
+          "r2"
+        ],
+        "note": "방문자가 블로그와 서비스 목록을 읽는 경로. MDX 는 빌드 타임에 이미 번들에 들어가 있다."
+      },
+      {
+        "id": "publish-path",
+        "label": "발행 경로",
+        "focus": [
+          "repo",
+          "gha",
+          "worker"
+        ],
+        "note": "MDX 원문 푸시가 Velite 빌드와 OpenNext 배포를 거쳐 Workers 로 나가는 경로."
+      },
+      {
+        "id": "cron-path",
+        "label": "카드뉴스 크론",
+        "focus": [
+          "sources",
+          "gha",
+          "repo"
+        ],
+        "note": "매일 09:17 KST 에 소재를 수집해 카드 이미지를 만들고 저장소에 되돌려 커밋한다."
+      }
+    ]
+  },
+  "components": [
+    {
+      "id": "repo",
+      "type": "external",
+      "label": "GitHub 저장소",
+      "sublabel": "content/ MDX 원문",
+      "pos": [
+        40,
+        130
+      ],
+      "size": [
+        180,
+        64
+      ]
+    },
+    {
+      "id": "gha",
+      "type": "backend",
+      "label": "GitHub Actions",
+      "sublabel": "Velite 빌드 · OpenNext 배포",
+      "pos": [
+        490,
+        130
+      ],
+      "size": [
+        200,
+        64
+      ]
+    },
+    {
+      "id": "sources",
+      "type": "external",
+      "label": "Reddit · 테크 RSS",
+      "sublabel": "카드뉴스 소재",
+      "pos": [
+        920,
+        130
+      ],
+      "size": [
+        190,
+        64
+      ]
+    },
+    {
+      "id": "visitors",
+      "type": "external",
+      "label": "방문자",
+      "sublabel": "브라우저",
+      "pos": [
+        40,
+        320
+      ],
+      "size": [
+        180,
+        64
+      ]
+    },
+    {
+      "id": "worker",
+      "type": "frontend",
+      "label": "Next.js 16",
+      "sublabel": "Cloudflare Workers",
+      "pos": [
+        490,
+        320
+      ],
+      "size": [
+        200,
+        64
+      ],
+      "brand": "next-js"
+    },
+    {
+      "id": "d1",
+      "type": "database",
+      "label": "D1",
+      "sublabel": "서비스 · 뉴스 · 플래그",
+      "pos": [
+        920,
+        320
+      ],
+      "size": [
+        190,
+        64
+      ],
+      "brand": "cloudflare"
+    },
+    {
+      "id": "r2",
+      "type": "cloud",
+      "label": "R2",
+      "sublabel": "이미지 · 카드뉴스 PNG",
+      "pos": [
+        920,
+        510
+      ],
+      "size": [
+        190,
+        64
+      ],
+      "brand": "cloudflare"
+    }
+  ],
+  "boundaries": [
+    {
+      "kind": "region",
+      "label": "Cloudflare (Workers · D1 · R2)",
+      "wraps": [
+        "worker",
+        "d1",
+        "r2"
+      ]
+    }
+  ],
+  "connections": [
+    {
+      "id": "repo-gha",
+      "from": "repo",
+      "to": "gha",
+      "label": "push · 매일 크론",
+      "labelDy": 58
+    },
+    {
+      "id": "src-gha",
+      "from": "sources",
+      "to": "gha",
+      "label": "소재 수집",
+      "variant": "dashed"
+    },
+    {
+      "id": "gha-worker",
+      "from": "gha",
+      "to": "worker",
+      "label": "OpenNext 배포",
+      "variant": "emphasis",
+      "labelDy": 26
+    },
+    {
+      "id": "vis-worker",
+      "from": "visitors",
+      "to": "worker",
+      "label": "HTTPS",
+      "variant": "emphasis"
+    },
+    {
+      "id": "worker-d1",
+      "from": "worker",
+      "to": "d1",
+      "label": "서비스 · 뉴스 조회"
+    },
+    {
+      "id": "worker-r2",
+      "from": "worker",
+      "to": "r2",
+      "label": "정적 에셋",
+      "fromSide": "bottom",
+      "toSide": "left"
+    }
+  ],
+  "cards": [
+    {
+      "dot": "cyan",
+      "title": "콘텐츠 원본",
+      "items": [
+        "블로그·프로젝트 원문은 content/ 의 MDX 파일이다",
+        "Velite 가 빌드 타임에 컴파일해 번들에 넣는다",
+        "런타임 new Function 평가를 제거해 상세 페이지 500 을 잡았다"
+      ]
+    },
+    {
+      "dot": "emerald",
+      "title": "데이터 역할 분리",
+      "items": [
+        "D1 은 공개 서비스 데이터·캐시·집계만 담는다",
+        "R2 가 이미지·썸네일·OG 의 단일 저장소다",
+        "같은 엔티티를 두 저장소에 중복 저장하지 않는다"
+      ]
+    },
+    {
+      "dot": "orange",
+      "title": "자동 발행",
+      "items": [
+        "카드뉴스 크론이 09:17 KST 에 도는 이유는 정각 큐 혼잡 회피다",
+        "GITHUB_TOKEN 커밋은 CI 를 트리거하지 않아 같은 워크플로가 배포까지 한다",
+        "변경이 없으면 빌드 단계를 통째로 건너뛴다"
+      ]
+    }
+  ]
+}

@@ -125,3 +125,16 @@ migrations/         # D1 SQL 마이그레이션
 - [ ] 다크모드 토글
 - [ ] 3D 히어로 (성능 검증 후)
 - [ ] 광고/파트너 콘텐츠 실연동
+
+---
+
+## 설계문서
+
+이 프로젝트의 설계 결정을 역으로 복원한 문서다. 목적·비목표·제약·SLO·미결 이슈·검토한 대안과
+"왜 이렇게 했나"에 답하는 설계 리뷰 Q&A 를 담았다.
+
+- **[docs/design/DESIGN.md](docs/design/DESIGN.md)** — 본문 (GitHub 에서 바로 읽힘)
+- [docs/design/index.html](docs/design/index.html) — 정독본 (목차·다크모드·도면 임베드)
+- [docs/design/diagrams/architecture.html](docs/design/diagrams/architecture.html) — 시스템 구성도 (archify, 인터랙티브)
+
+템플릿 출처: [Refactoring English — Write an Effective Design Doc](https://refactoringenglish.com/excerpts/write-an-effective-design-doc/)
