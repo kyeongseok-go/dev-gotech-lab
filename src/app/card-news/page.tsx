@@ -12,6 +12,19 @@ export const metadata: Metadata = {
 const CARD_NEWS_DATA: CardNewsItem[] = [
 /* TECH-NEWS-PIPELINE-DATA:START */
   {
+    id: 169,
+    slug: "lara-small-composable-behaviours-for-frozen-llms-p",
+    title: "LARA: small, composable behaviours for frozen LLMs [P]",
+    summary: "GitHub: https://github.com/pfekin/LARA I've been working on LARA (Lightweight Additive Residual Adaptation), a research project on making post-training modular for frozen language models. I've also developed a small PyTorch library that imp",
+    content: "",
+    category: "ai",
+    image_url: "/card-news/lara-small-composable-behaviours-for-frozen-llms-p.png",
+    external_link: "https://i.redd.it/xrngwyo6wvph1.png",
+    tags: ["LARA", "LLMs"],
+    created_at: "2026-09-17",
+    span: "",
+  },
+  {
     id: 168,
     slug: "i-trained-a-44m-parameter-quantized-llm-from-scratch-on-45b-",
     title: "I trained a 44M parameter quantized LLM from scratch on 45B tokens. It ships in 19.8 MB and runs at ~1,900 tok/s on CPU. [P]",
