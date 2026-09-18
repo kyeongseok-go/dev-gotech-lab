@@ -12,6 +12,19 @@ export const metadata: Metadata = {
 const CARD_NEWS_DATA: CardNewsItem[] = [
 /* TECH-NEWS-PIPELINE-DATA:START */
   {
+    id: 170,
+    slug: "thank-you-swift-qwen-38-27b-now-has-100k-downloads-is-1-fine",
+    title: "Thank you :) Swift Qwen 3.8 27B now has 100k+ downloads, is #1 finetune and #9 model on HuggingFace Trending",
+    summary: "Hey everyone, Jovan from UkisAI here, a small lab building the tech to make tiny frontier LLMs possible (and doing it open-source!) The purpose of this post is simply to thank the community for all the amazing finetunes, quantizations and o",
+    content: "",
+    category: "news",
+    image_url: "/card-news/thank-you-swift-qwen-38-27b-now-has-100k-downloads-is-1-fine.png",
+    external_link: "https://i.redd.it/9l5qef9xq4qh1.png",
+    tags: ["Thank", "Swift", "Qwen"],
+    created_at: "2026-09-18",
+    span: "",
+  },
+  {
     id: 169,
     slug: "lara-small-composable-behaviours-for-frozen-llms-p",
     title: "LARA: small, composable behaviours for frozen LLMs [P]",
