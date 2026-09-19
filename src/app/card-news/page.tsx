@@ -12,6 +12,19 @@ export const metadata: Metadata = {
 const CARD_NEWS_DATA: CardNewsItem[] = [
 /* TECH-NEWS-PIPELINE-DATA:START */
   {
+    id: 171,
+    slug: "introducing-astra-for-law",
+    title: "Introducing Astra for Law",
+    summary: "OpenAI for Law brings frontier intelligence for law, custom firm workflows, connected legal data sources, and legal-grade controls for confidential client work.",
+    content: "",
+    category: "news",
+    image_url: "/card-news/introducing-astra-for-law.png",
+    external_link: "https://openai.com/index/astra-for-law",
+    tags: ["Introducing", "Astra", "Law"],
+    created_at: "2026-09-19",
+    span: "",
+  },
+  {
     id: 170,
     slug: "thank-you-swift-qwen-38-27b-now-has-100k-downloads-is-1-fine",
     title: "Thank you :) Swift Qwen 3.8 27B now has 100k+ downloads, is #1 finetune and #9 model on HuggingFace Trending",
