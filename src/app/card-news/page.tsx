@@ -12,6 +12,19 @@ export const metadata: Metadata = {
 const CARD_NEWS_DATA: CardNewsItem[] = [
 /* TECH-NEWS-PIPELINE-DATA:START */
   {
+    id: 172,
+    slug: "programasweights-compile-english-function-descriptions-into-",
+    title: "ProgramAsWeights: compile English function descriptions into neural programs that run locally [R]",
+    summary: "Given the recent interest in tools like Jev, I wanted to share ProgramAsWeights (PAW), an open-source research project I'm working on at the University of Waterloo. You describe a text function in English, compile it into a reusable neural ",
+    content: "",
+    category: "ai",
+    image_url: "/card-news/programasweights-compile-english-function-descriptions-into-.png",
+    external_link: "https://i.redd.it/la7iukj3vjqh1.png",
+    tags: ["ProgramAsWeights", "English"],
+    created_at: "2026-09-20",
+    span: "",
+  },
+  {
     id: 171,
     slug: "introducing-astra-for-law",
     title: "Introducing Astra for Law",
