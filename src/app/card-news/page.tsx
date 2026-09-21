@@ -12,6 +12,19 @@ export const metadata: Metadata = {
 const CARD_NEWS_DATA: CardNewsItem[] = [
 /* TECH-NEWS-PIPELINE-DATA:START */
   {
+    id: 173,
+    slug: "llm-keys-ui-01",
+    title: "llm-keys-ui 0.1",
+    summary: "Release: llm-keys-ui 0.1 This plugin solves a very specific problem. I've started using Codex Remote to run coding agents on various machines while controlling them from my phone. Sometimes I use those machines to hack on LLM projects, and ",
+    content: "",
+    category: "news",
+    image_url: "/card-news/llm-keys-ui-01.png",
+    external_link: "https://simonwillison.net/2026/Sep/20/llm-keys-ui/",
+    tags: ["AI", "기술", "트렌드"],
+    created_at: "2026-09-21",
+    span: "",
+  },
+  {
     id: 172,
     slug: "programasweights-compile-english-function-descriptions-into-",
     title: "ProgramAsWeights: compile English function descriptions into neural programs that run locally [R]",
