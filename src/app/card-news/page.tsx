@@ -12,6 +12,19 @@ export const metadata: Metadata = {
 const CARD_NEWS_DATA: CardNewsItem[] = [
 /* TECH-NEWS-PIPELINE-DATA:START */
   {
+    id: 174,
+    slug: "i-built-a-framework-free-prototype-learner-that-lets-local-l",
+    title: "I built a framework-free prototype learner that lets local LLMs learn and correct facts instantly (1.6x–4x faster than backprop)[R]",
+    summary: "Hey everyone, I wanted to share a project I’ve been working on called Jayce . The whole thing started because I was watching a toddler named learn the names of stuff He didn't need to completely rewire his brain or look at ten thousand exam",
+    content: "",
+    category: "ai",
+    image_url: "/card-news/i-built-a-framework-free-prototype-learner-that-lets-local-l.png",
+    external_link: "https://www.reddit.com/r/MachineLearning/comments/1wmn76r/i_built_a_frameworkfree_prototype_learner_that/",
+    tags: ["LLMs"],
+    created_at: "2026-09-22",
+    span: "",
+  },
+  {
     id: 173,
     slug: "llm-keys-ui-01",
     title: "llm-keys-ui 0.1",
