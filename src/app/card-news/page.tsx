@@ -12,6 +12,19 @@ export const metadata: Metadata = {
 const CARD_NEWS_DATA: CardNewsItem[] = [
 /* TECH-NEWS-PIPELINE-DATA:START */
   {
+    id: 175,
+    slug: "introducing-claude-opus-55-the-first-model-in-our-new-claude",
+    title: "Introducing Claude Opus 5.5, the first model in our new Claude 5.5 family",
+    summary: "Opus 5.5 performs at the level of Claude Fable 5.1 for most tasks, and costs 40% less to run than Opus 5. Opus 5.5 is our first release since we called for pacing the frontier. External evaluators, including Frontier Design and METR, tested",
+    content: "",
+    category: "news",
+    image_url: "/card-news/introducing-claude-opus-55-the-first-model-in-our-new-claude.png",
+    external_link: "https://v.redd.it/xu8sa124j3rh1",
+    tags: ["Introducing", "Claude", "Opus"],
+    created_at: "2026-09-23",
+    span: "",
+  },
+  {
     id: 174,
     slug: "i-built-a-framework-free-prototype-learner-that-lets-local-l",
     title: "I built a framework-free prototype learner that lets local LLMs learn and correct facts instantly (1.6x–4x faster than backprop)[R]",
