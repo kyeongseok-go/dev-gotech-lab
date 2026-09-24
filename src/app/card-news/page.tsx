@@ -12,6 +12,19 @@ export const metadata: Metadata = {
 const CARD_NEWS_DATA: CardNewsItem[] = [
 /* TECH-NEWS-PIPELINE-DATA:START */
   {
+    id: 176,
+    slug: "gemini-38-tts-playground",
+    title: "Gemini 3.8 TTS Playground",
+    summary: "Tool: Gemini 3.8 TTS Playground Google released two new Gemini text-to-speech models today - gemini-3.8-flash-tts and gemini-3.8-flash-lite-tts. They come with a library of over 2,000 voices, plus the ability to create a custom voice with \"",
+    content: "",
+    category: "news",
+    image_url: "/card-news/gemini-38-tts-playground.png",
+    external_link: "https://simonwillison.net/2026/Sep/23/gemini-tts-playground/",
+    tags: ["Gemini", "TTS", "Playground"],
+    created_at: "2026-09-24",
+    span: "",
+  },
+  {
     id: 175,
     slug: "introducing-claude-opus-55-the-first-model-in-our-new-claude",
     title: "Introducing Claude Opus 5.5, the first model in our new Claude 5.5 family",
