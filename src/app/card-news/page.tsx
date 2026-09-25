@@ -12,6 +12,19 @@ export const metadata: Metadata = {
 const CARD_NEWS_DATA: CardNewsItem[] = [
 /* TECH-NEWS-PIPELINE-DATA:START */
   {
+    id: 177,
+    slug: "jev-almost-dead-clm-vs-jev",
+    title: "JEV almost dead: CLM vs JEV",
+    summary: "Original post: https://www.reddit.com/r/LocalLLaMA/comments/1woscea/contrastive_language_models/ (sorry I felt it wasn't giving CLM the highlight it deserves) What it is: a new projection head for Qwen3-8B. github: https://github.com/Contra",
+    content: "",
+    category: "news",
+    image_url: "/card-news/jev-almost-dead-clm-vs-jev.png",
+    external_link: "https://www.reddit.com/r/LocalLLaMA/comments/1wouby6/jev_almost_dead_clm_vs_jev/",
+    tags: ["JEV", "CLM", "JEV"],
+    created_at: "2026-09-25",
+    span: "",
+  },
+  {
     id: 176,
     slug: "gemini-38-tts-playground",
     title: "Gemini 3.8 TTS Playground",
