@@ -12,6 +12,19 @@ export const metadata: Metadata = {
 const CARD_NEWS_DATA: CardNewsItem[] = [
 /* TECH-NEWS-PIPELINE-DATA:START */
   {
+    id: 178,
+    slug: "swift15-qwen38-flash-next-is-phenomenal-vs-base-38-flash",
+    title: "Swift1.5-Qwen3.8-Flash-Next is phenomenal vs. base 3.8-Flash!",
+    summary: "TL;DR - Swift Flash is a killer model that massively reduces excess reasoning. Try it out! If you haven't seen from my previous comparison posts , I'm a huge fan of the Swift Qwen3.8 models. I've been using 27B since it dropped, and I'm rea",
+    content: "",
+    category: "news",
+    image_url: "/card-news/swift15-qwen38-flash-next-is-phenomenal-vs-base-38-flash.png",
+    external_link: "https://www.reddit.com/r/LocalLLaMA/comments/1wq56pf/swift15qwen38flashnext_is_phenomenal_vs_base/",
+    tags: ["Swift", "Qwen", "Flash"],
+    created_at: "2026-09-26",
+    span: "",
+  },
+  {
     id: 177,
     slug: "jev-almost-dead-clm-vs-jev",
     title: "JEV almost dead: CLM vs JEV",
