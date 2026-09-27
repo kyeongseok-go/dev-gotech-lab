@@ -12,6 +12,19 @@ export const metadata: Metadata = {
 const CARD_NEWS_DATA: CardNewsItem[] = [
 /* TECH-NEWS-PIPELINE-DATA:START */
   {
+    id: 179,
+    slug: "opus-55-is-my-favorite-model-ever-by-far",
+    title: "Opus 5.5 is my favorite model ever, by far",
+    summary: "I went in to last Tuesday being more excited for the new OpenAI models than for Opus 5.5. I have two 20x ChatGPT Pro accounts, but after playing around with Opus 5.5, I haven't used Codex/ChatGPT even once. I despised Opus 5 and Fable 5.1 w",
+    content: "",
+    category: "news",
+    image_url: "/card-news/opus-55-is-my-favorite-model-ever-by-far.png",
+    external_link: "https://www.reddit.com/r/ClaudeAI/comments/1wqprkt/opus_55_is_my_favorite_model_ever_by_far/",
+    tags: ["Opus"],
+    created_at: "2026-09-27",
+    span: "",
+  },
+  {
     id: 178,
     slug: "swift15-qwen38-flash-next-is-phenomenal-vs-base-38-flash",
     title: "Swift1.5-Qwen3.8-Flash-Next is phenomenal vs. base 3.8-Flash!",
