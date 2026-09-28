@@ -12,6 +12,19 @@ export const metadata: Metadata = {
 const CARD_NEWS_DATA: CardNewsItem[] = [
 /* TECH-NEWS-PIPELINE-DATA:START */
   {
+    id: 180,
+    slug: "claude-opus-55-official-prompting-guide",
+    title: "Claude Opus 5.5 official prompting guide",
+    summary: "We know Opus 5.5 is good but did you know Anthropic released an official prompting guide?? Were we all to busy making animated videos ??? I took 5 minutes to read this and then summarise the information into 12 key points covered by the gui",
+    content: "",
+    category: "news",
+    image_url: "/card-news/claude-opus-55-official-prompting-guide.png",
+    external_link: "https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-opus-5-5",
+    tags: ["Claude", "Opus"],
+    created_at: "2026-09-28",
+    span: "",
+  },
+  {
     id: 179,
     slug: "opus-55-is-my-favorite-model-ever-by-far",
     title: "Opus 5.5 is my favorite model ever, by far",
