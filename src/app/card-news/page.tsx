@@ -12,6 +12,19 @@ export const metadata: Metadata = {
 const CARD_NEWS_DATA: CardNewsItem[] = [
 /* TECH-NEWS-PIPELINE-DATA:START */
   {
+    id: 181,
+    slug: "introducing-claude-sonnet-55-the-second-model-in-the-claude-",
+    title: "Introducing Claude Sonnet 5.5, the second model in the Claude 5.5 family",
+    summary: "Sonnet 5.5 is a faster, lower-cost complement to Claude Opus 5.5, strongest at well-scoped everyday tasks, fixing bugs, and creating polished documents, slides, and spreadsheets. It also has a strong eye for design. Sonnet 5.5 is a clear up",
+    content: "",
+    category: "news",
+    image_url: "/card-news/introducing-claude-sonnet-55-the-second-model-in-the-claude-.png",
+    external_link: "https://v.redd.it/ml5pptqksash1",
+    tags: ["Introducing", "Claude", "Sonnet"],
+    created_at: "2026-09-29",
+    span: "",
+  },
+  {
     id: 180,
     slug: "claude-opus-55-official-prompting-guide",
     title: "Claude Opus 5.5 official prompting guide",
