@@ -12,6 +12,19 @@ export const metadata: Metadata = {
 const CARD_NEWS_DATA: CardNewsItem[] = [
 /* TECH-NEWS-PIPELINE-DATA:START */
   {
+    id: 182,
+    slug: "a-company-ran-8-identical-ai-societies-for-weeks-with-differ",
+    title: "A company ran 8 identical AI societies for weeks with different models and just published what happened. Some of it is genuinely unsettling.",
+    summary: "Emergence AI just launched Season 2 of Emergence World, and the results are wild. Same simulated town, same tools, same starting conditions, 10 autonomous agents each. The only thing that changed was which model was running them, Claude, GP",
+    content: "",
+    category: "ai",
+    image_url: "/card-news/a-company-ran-8-identical-ai-societies-for-weeks-with-differ.png",
+    external_link: "https://www.reddit.com/r/artificial/comments/1wt5joo/a_company_ran_8_identical_ai_societies_for_weeks/",
+    tags: ["AI", "Some"],
+    created_at: "2026-09-30",
+    span: "",
+  },
+  {
     id: 181,
     slug: "introducing-claude-sonnet-55-the-second-model-in-the-claude-",
     title: "Introducing Claude Sonnet 5.5, the second model in the Claude 5.5 family",
