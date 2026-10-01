@@ -12,6 +12,19 @@ export const metadata: Metadata = {
 const CARD_NEWS_DATA: CardNewsItem[] = [
 /* TECH-NEWS-PIPELINE-DATA:START */
   {
+    id: 183,
+    slug: "에이전트-개념부터-같이-정리해봐요---워크플로우-하네스-contextmemory-mcpa2a",
+    title: "에이전트, 개념부터 같이 정리해봐요 - 워크플로우 · 하네스 · Context/Memory · MCP/A2A",
+    summary: "네이버 사내 Tech Meetup에서 발표되었던 인기 세션을 공유합니다. ​ 에이전트를 개발하다 보면 같은 개념을 서로 다른 뜻으로 쓰고 있어서 논의가 겉도는 경험, 한 번쯤 해보셨을 것 같습니다. ​ &quot;이거 에이전트인가요?&quot; &quot;하네스를 만들어야죠&quot; — 그런데 하네스가 정확히 무엇인가요? &quot;Context 에 넣어두면 되죠&quot; &quot;그건 Memory 아닌가요?&quot; ",
+    content: "",
+    category: "news",
+    image_url: "/card-news/에이전트-개념부터-같이-정리해봐요---워크플로우-하네스-contextmemory-mcpa2a.png",
+    external_link: "https://d2.naver.com/helloworld/8118359",
+    tags: ["Context", "Memory", "MCP"],
+    created_at: "2026-10-01",
+    span: "",
+  },
+  {
     id: 182,
     slug: "a-company-ran-8-identical-ai-societies-for-weeks-with-differ",
     title: "A company ran 8 identical AI societies for weeks with different models and just published what happened. Some of it is genuinely unsettling.",
