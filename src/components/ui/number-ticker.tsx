@@ -52,14 +52,10 @@ export function NumberTicker({
   const target = direction === "down" ? startValue : value
 
   useEffect(() => {
-    if (!isInView) return
-    if (prefersReduced) {
-      if (ref.current) ref.current.textContent = format(target, decimalPlaces, padStart)
-      return
-    }
+    if (!isInView || prefersReduced) return
     const timer = setTimeout(() => motionValue.set(target), delay * 1000)
     return () => clearTimeout(timer)
-  }, [motionValue, isInView, delay, target, prefersReduced, decimalPlaces, padStart])
+  }, [motionValue, isInView, delay, target, prefersReduced])
 
   useEffect(
     () =>
@@ -76,7 +72,8 @@ export function NumberTicker({
       {/* 스크린리더에는 최종값만 노출, 애니메이션 숫자는 숨김 */}
       <span className="sr-only">{format(target, decimalPlaces, padStart)}</span>
       <span ref={ref} aria-hidden="true">
-        {format(direction === "down" ? value : startValue, decimalPlaces, padStart)}
+        {/* reduced-motion 이면 애니메이션 없이 최종값을 바로 렌더 */}
+        {format(prefersReduced ? target : direction === "down" ? value : startValue, decimalPlaces, padStart)}
       </span>
     </span>
   )
