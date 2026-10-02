@@ -2408,22 +2408,20 @@ const CARD_NEWS_DATA: CardNewsItem[] = [
 
 export default function CardNewsPage() {
   return (
-    <main className="pt-28 pb-24 px-6 md:px-10 max-w-6xl mx-auto">
+    <main className="pt-28 md:pt-32 pb-24 px-[var(--gutter)] max-w-[84rem] mx-auto">
       <PageHeading
-        eyebrow="Card News · Reddit AI · Tech"
+        eyebrow="Card News · Daily"
         count={CARD_NEWS_DATA.length}
         size="xl"
         title={
           <>
-            What&apos;s<br />
-            <span className="display-accent display-accent-coral">hot</span> today.
+            What&apos;s <span className="marker">hot</span> today.
           </>
         }
         lead={
           <>
-            Reddit <span className="text-em">r/artificial</span>,
-            <span className="text-em"> r/technology</span>에서 엄선한 AI &amp; 기술 트렌드.
-            클릭해서 요약과 원문 링크를 확인하세요.
+            Reddit <span className="text-em">r/artificial</span>·<span className="text-em">r/technology</span>와 국내 테크
+            블로그에서 엄선한 AI·기술 트렌드. 카드를 누르면 요약과 원문 링크가 열립니다.
           </>
         }
       />
