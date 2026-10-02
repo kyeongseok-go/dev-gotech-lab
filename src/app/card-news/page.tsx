@@ -12,6 +12,19 @@ export const metadata: Metadata = {
 const CARD_NEWS_DATA: CardNewsItem[] = [
 /* TECH-NEWS-PIPELINE-DATA:START */
   {
+    id: 184,
+    slug: "how-albertsons-companies-is-reimagining-retail-from-the-insi",
+    title: "How Albertsons Companies is reimagining retail from the inside out",
+    summary: "Albertsons Cos. is using ChatGPT Enterprise and the OpenAI API to help teams work faster and make grocery shopping easier for millions of customers.",
+    content: "",
+    category: "news",
+    image_url: "/card-news/how-albertsons-companies-is-reimagining-retail-from-the-insi.png",
+    external_link: "https://openai.com/index/albertsons-reimagining-retail",
+    tags: ["How", "Albertsons", "Companies"],
+    created_at: "2026-10-02",
+    span: "",
+  },
+  {
     id: 183,
     slug: "에이전트-개념부터-같이-정리해봐요---워크플로우-하네스-contextmemory-mcpa2a",
     title: "에이전트, 개념부터 같이 정리해봐요 - 워크플로우 · 하네스 · Context/Memory · MCP/A2A",
