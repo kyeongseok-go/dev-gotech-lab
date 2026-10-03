@@ -13,6 +13,19 @@ export const metadata: Metadata = {
 export const CARD_NEWS_DATA: CardNewsItem[] = [
 /* TECH-NEWS-PIPELINE-DATA:START */
   {
+    id: 185,
+    slug: "데이터-분석-에이전트를-만들며-배운-컨텍스트-설계",
+    title: "데이터 분석 에이전트를 만들며 배운 컨텍스트 설계",
+    summary: "LLM 에이전트는 목표를 받으면 필요한 정보를 찾고 적절한 도구를 선택해 실행하며, 그 결과를 관찰한 뒤 다음 행동을 결정합니다. Anthropic은 에이전트를 활용한 여러 실험을 공개했습니다. Claude Sonnet 4.5로 Claude.ai를 재현하는 실험 과 Claude Opus 4.6 기반 에이전트가 Rust로 Linux 6.9 커널을 빌드할 수 있는 C 컴파일러를 개발한 사례를 소개했습니다. 이처럼 모델의 성능이 높",
+    content: "",
+    category: "news",
+    image_url: "/card-news/데이터-분석-에이전트를-만들며-배운-컨텍스트-설계.png",
+    external_link: "https://tech.kakao.com/posts/838",
+    tags: ["AI", "기술", "트렌드"],
+    created_at: "2026-10-03",
+    span: "",
+  },
+  {
     id: 184,
     slug: "how-albertsons-companies-is-reimagining-retail-from-the-insi",
     title: "How Albertsons Companies is reimagining retail from the inside out",
