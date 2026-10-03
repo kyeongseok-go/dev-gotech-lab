@@ -18,6 +18,7 @@ import { PostRow } from "@/components/blog/post-row";
 import { Badge } from "@/components/reui/badge";
 import { CARD_NEWS_DATA } from "@/app/card-news/page";
 import { toCardView } from "@/lib/card-news";
+import { CardCover } from "@/components/card-news/card-slides";
 
 /** 연구 노트 시작 이후 엔진 개발 경력 (5년 5개월) */
 const ENGINE_MONTHS = 65;
@@ -213,45 +214,43 @@ export default async function Home() {
         )}
       </section>
 
-      {/* §05 — 카드뉴스: 다크 밴드 + 최신 3장 */}
+      {/* §05 — 카드뉴스: 최신 3장의 표지 슬라이드 */}
       <section aria-labelledby="cardnews-title" className="mt-24 md:mt-32">
         <LabHead index="05" id="cardnews-title" title="Card news · 오늘의 기술" meta="Daily · 원문 발췌 + 출처" />
-        <div className="band-inverse p-6 md:p-10">
-          <div className="grid grid-cols-12 gap-6 items-end">
-            <p className="col-span-12 md:col-span-8 type-display text-on-surface">
-              하루 한 장, <span className="marker">기술 뉴스</span> 카드.
+        <div className="grid grid-cols-12 gap-6 items-end">
+          <p className="col-span-12 md:col-span-8 type-display text-on-surface">
+            하루 한 장, <span className="marker">기술 뉴스</span> 카드.
+          </p>
+          <div className="col-span-12 md:col-span-4 md:text-right">
+            <p className="type-small text-on-surface-variant">
+              AI 회사 공식 발표·커뮤니티·국내 테크블로그에서 그날의 소식을 골라 원문 발췌와 출처를 함께 정리합니다.
             </p>
-            <div className="col-span-12 md:col-span-4 md:text-right">
-              <p className="type-small text-on-surface-variant">
-                AI 회사 공식 발표·커뮤니티·국내 테크블로그에서 그날의 소식을 골라 원문 발췌와 출처를 함께 정리합니다.
-              </p>
-              <Link href="/card-news" className="btn-outline mt-5 inline-flex h-11 px-5 text-sm">
-                카드뉴스 전체 보기
-                <ArrowUpRight aria-hidden size={16} />
-              </Link>
-            </div>
+            <Link href="/card-news" className="btn-outline mt-5 inline-flex h-11 px-5 text-sm">
+              카드뉴스 전체 보기
+              <ArrowUpRight aria-hidden size={16} className="btn-arrow" />
+            </Link>
           </div>
-          <ul className="mt-10 grid gap-px bg-hairline border border-hairline md:grid-cols-3">
-            {latestCards.map((card) => (
-              <li key={card.id} className="bg-surface-container">
-                <Link
-                  href={`/card-news/${card.id}`}
-                  className="group flex h-full flex-col gap-3 border-t-4 border-do-primary p-5 transition-colors hover:bg-surface-container-high"
-                >
-                  <span className="font-code text-xs tabular text-on-surface-muted">
-                    <span className="font-bold text-on-surface">{card.serial}</span> · {card.dateDot}
-                  </span>
-                  <span className="type-title text-on-surface line-clamp-3 group-hover:text-do-primary transition-colors">
-                    {card.title}
-                  </span>
-                  {card.source && (
-                    <span className="mt-auto font-code text-[11px] text-on-surface-muted">{card.source.name}</span>
-                  )}
-                </Link>
-              </li>
-            ))}
-          </ul>
         </div>
+        {/* 최신 3장 — 실제 슬라이드 표지(카본 노트)를 표본처럼 나란히 */}
+        <ul className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {latestCards.map((card, i) => (
+            <li key={card.id} className={i === 2 ? "sm:hidden lg:block" : undefined}>
+              <Link
+                href={`/card-news/${card.id}`}
+                aria-label={`${card.serial} ${card.title}`}
+                className="group block transition-transform duration-300 hover:-translate-y-1 active:translate-y-0 focus-visible:outline-offset-4"
+              >
+                <CardCover card={card} />
+                <span className="mt-3 flex items-baseline justify-between gap-3 font-code text-xs tabular text-on-surface-muted">
+                  <span>
+                    <span className="text-on-surface">{card.serial}</span> · {card.dateDot}
+                  </span>
+                  <span className="truncate group-hover:text-do-primary transition-colors">{card.source?.name ?? "GoTechy"} →</span>
+                </span>
+              </Link>
+            </li>
+          ))}
+        </ul>
       </section>
 
       {/* 마무리 CTA — Tailark OSS Mist "call-to-action-1" 구조 참고 (MIT) */}
