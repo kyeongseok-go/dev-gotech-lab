@@ -21,14 +21,14 @@ const defaultComponents = {
   h2: ({ children, ...props }: ComponentPropsWithoutRef<"h2">) => (
     <h2
       id={toId(children)}
-      className="mt-16 mb-5 scroll-mt-28 border-t border-on-surface pt-4 text-[1.625rem] md:text-[2rem] font-bold leading-[1.18] tracking-[-0.03em] text-on-surface"
+      className="mt-16 mb-5 border-t border-on-surface pt-4 text-[1.625rem] md:text-[2rem] font-bold leading-[1.18] tracking-[-0.03em] text-on-surface"
       {...props}
     >
       {children}
     </h2>
   ),
   h3: ({ children, ...props }: ComponentPropsWithoutRef<"h3">) => (
-    <h3 id={toId(children)} className="mt-10 mb-3 scroll-mt-28 text-xl font-semibold leading-snug tracking-[-0.015em] text-on-surface" {...props}>
+    <h3 id={toId(children)} className="mt-10 mb-3 text-xl font-semibold leading-snug tracking-[-0.015em] text-on-surface" {...props}>
       {children}
     </h3>
   ),

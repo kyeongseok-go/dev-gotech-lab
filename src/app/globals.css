@@ -308,6 +308,8 @@
 	html {
 		background: var(--do-page);
 		color-scheme: dark;
+		/* 고정 헤더(64/72px)+진행 바 아래로 앵커 이동 — 목차·§링크·각주가 헤더에 가리지 않게 */
+		scroll-padding-top: 6rem;
 	}
 	html.light {
 		color-scheme: light;
