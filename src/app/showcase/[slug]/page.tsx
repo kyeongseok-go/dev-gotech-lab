@@ -1,19 +1,14 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { PageContainer } from "@/components/layout/page-container";
+import { ArrowLeft, ArrowUpRight } from "lucide-react";
 import { MDXContent } from "@/components/mdx/mdx-content";
-import {
-  getPublishedShowcase,
-  getShowcaseBySlug,
-  STATUS_LABEL,
-} from "@/lib/content";
+import { JsonLd } from "@/components/seo/json-ld";
+import { getPublishedShowcase, getShowcaseBySlug, STATUS_LABEL } from "@/lib/content";
+import { SHOWCASE_PROJECT_LINKS } from "@/lib/case-studies";
+import { SITE_NAME, SITE_URL } from "@/lib/constants";
 
-const STATUS_COLOR: Record<string, string> = {
-  live: "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200",
-  wip: "bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200",
-  archived: "bg-muted text-muted-foreground",
-};
+const STATUS_BADGE: Record<string, string> = { live: "badge-live", wip: "badge-wip", archived: "badge-archived" };
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -42,86 +37,79 @@ export default async function ShowcaseDetailPage({ params }: Props) {
     notFound();
   }
 
+  const projectSlug = SHOWCASE_PROJECT_LINKS[slug];
+  const breadcrumb = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: SITE_NAME, item: SITE_URL },
+      { "@type": "ListItem", position: 2, name: "AI 쇼케이스", item: `${SITE_URL}/showcase` },
+      { "@type": "ListItem", position: 3, name: item.title, item: `${SITE_URL}/showcase/${slug}` },
+    ],
+  };
+
   return (
-    <PageContainer className="max-w-3xl">
-      <article>
-        {/* 메타 영역 */}
-        <header className="mb-8">
-          <div className="flex flex-wrap items-center gap-2 text-xs">
-            <span
-              className={`rounded-full px-2.5 py-0.5 font-medium ${STATUS_COLOR[item.status] ?? STATUS_COLOR.archived}`}
-            >
+    <main className="pt-28 md:pt-32 pb-24 px-[var(--gutter)] max-w-[84rem] mx-auto">
+      <JsonLd data={breadcrumb} />
+      <header className="mb-12">
+        <div className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-2 border-t border-on-surface pt-3 font-code text-xs uppercase tracking-[0.08em]">
+          <nav aria-label="위치" className="text-on-surface-muted">
+            <ol className="flex flex-wrap items-center gap-1.5">
+              <li><Link href="/" className="hover:text-on-surface">Home</Link></li>
+              <li aria-hidden>/</li>
+              <li><Link href="/showcase" className="hover:text-on-surface">Showcase</Link></li>
+            </ol>
+          </nav>
+          <p className="flex items-center gap-2 text-on-surface-muted">
+            {item.type && <span>{item.type}</span>}
+            <span className={`${STATUS_BADGE[item.status] ?? "badge-archived"} px-2 py-0.5 text-[11px] normal-case`}>
               {STATUS_LABEL[item.status] ?? item.status}
             </span>
-            {item.type && (
-              <span className="text-muted-foreground">{item.type}</span>
-            )}
-            {item.featured && (
-              <span className="rounded-full bg-primary px-2.5 py-0.5 text-primary-foreground">
-                Featured
-              </span>
-            )}
-          </div>
-
-          <h1 className="mt-3 text-3xl font-bold">{item.title}</h1>
-          <p className="mt-3 text-muted-foreground">{item.summary}</p>
-
-          {/* 기술 스택 */}
-          {item.stack.length > 0 && (
-            <div className="mt-4 flex flex-wrap gap-1.5">
-              {item.stack.map((tech: string) => (
-                <span
-                  key={tech}
-                  className="rounded-full bg-secondary px-2.5 py-0.5 text-xs text-secondary-foreground"
-                >
-                  {tech}
-                </span>
-              ))}
-            </div>
-          )}
-
-          {/* 외부 링크 */}
-          {(item.externalUrl || item.repoUrl) && (
-            <div className="mt-4 flex gap-3">
-              {item.externalUrl && (
-                <Link
-                  href={item.externalUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="rounded-lg bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
-                >
-                  사이트 보기
-                </Link>
-              )}
-              {item.repoUrl && (
-                <Link
-                  href={item.repoUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="rounded-lg border border-border px-4 py-2 text-sm font-medium transition-colors hover:bg-muted/50"
-                >
-                  GitHub
-                </Link>
-              )}
-            </div>
-          )}
-        </header>
-
-        {/* 본문 */}
-        <div className="prose-custom">
-          <MDXContent collection="showcase" slug={slug} />
+          </p>
         </div>
-      </article>
+        <h1 className="mt-8 max-w-[20em] type-article-title text-on-surface">{item.title}</h1>
+        <p className="lead-rule mt-6 max-w-[46rem] type-body text-on-surface-variant">{item.summary}</p>
 
-      {/* 목록으로 돌아가기 */}
-      <div className="mt-12 border-t border-border pt-8">
-        <Link
-          href="/showcase"
-          className="text-sm text-muted-foreground transition-colors hover:text-foreground"
-        >
-          ← Showcase 목록으로
-        </Link>
+        {item.stack.length > 0 && (
+          <ul className="mt-6 flex flex-wrap gap-1.5" aria-label="기술 스택">
+            {item.stack.map((tech: string) => (
+              <li key={tech} className="tag-chip font-code !text-xs !font-medium">{tech}</li>
+            ))}
+          </ul>
+        )}
+
+        <div className="mt-8 flex flex-wrap items-center gap-3">
+          {item.externalUrl ? (
+            <a href={item.externalUrl} target="_blank" rel="noopener noreferrer" className="btn-accent inline-flex h-12 px-6 text-[15px]">
+              써 보기 <ArrowUpRight aria-hidden size={16} />
+            </a>
+          ) : (
+            <span className="inline-flex h-12 items-center border border-dashed border-outline px-5 text-sm text-on-surface-muted">
+              데모 링크 준비 중
+            </span>
+          )}
+          {item.repoUrl && (
+            <a href={item.repoUrl} target="_blank" rel="noopener noreferrer" className="btn-outline inline-flex h-12 px-6 text-[15px]">
+              GitHub <ArrowUpRight aria-hidden size={16} />
+            </a>
+          )}
+          {projectSlug && (
+            <Link href={`/projects/${projectSlug}`} className="text-link inline-flex items-center gap-1 text-sm">
+              케이스 스터디 보기 <ArrowUpRight aria-hidden size={14} />
+            </Link>
+          )}
+        </div>
+      </header>
+
+      <div className="max-w-[44rem]">
+        <MDXContent collection="showcase" slug={slug} />
       </div>
-    </PageContainer>
+
+      <p className="mt-16">
+        <Link href="/showcase" className="text-link inline-flex items-center gap-1 text-sm">
+          <ArrowLeft aria-hidden size={14} /> 쇼케이스 전체 보기
+        </Link>
+      </p>
+    </main>
   );
 }
