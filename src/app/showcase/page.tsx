@@ -20,7 +20,10 @@ const STATUS_ORDER: Record<string, number> = { live: 0, wip: 1, archived: 2 };
  * 프로젝트와 겹치는 항목은 케이스 스터디 링크만 건다.
  */
 export default function ShowcasePage() {
-  const items = [...getPublishedShowcase()].sort((a, b) => {
+  const published = getPublishedShowcase();
+  // S-번호는 상세 페이지와 같도록 원래 순서 기준, 화면 순서만 운영 중·데모 있는 항목 우선
+  const numberOf = (slug: string) => published.findIndex((p) => p.slug === slug) + 1;
+  const items = [...published].sort((a, b) => {
     const live = Number(!!b.externalUrl && b.status === "live") - Number(!!a.externalUrl && a.status === "live");
     return live || (STATUS_ORDER[a.status] ?? 3) - (STATUS_ORDER[b.status] ?? 3);
   });
@@ -48,14 +51,14 @@ export default function ShowcasePage() {
         <p className="type-body text-on-surface-variant">등록된 항목이 없습니다.</p>
       ) : (
         <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 border-l border-t border-hairline">
-          {items.map((item, i) => {
+          {items.map((item) => {
             const projectSlug = SHOWCASE_PROJECT_LINKS[item.slug];
             return (
               <li key={item.slug} className="flex flex-col border-r border-b border-hairline">
-                <Link href={`/showcase/${item.slug}`} className="group flex flex-1 flex-col gap-6 p-6 md:p-7 hover:bg-surface-container-low transition-colors">
+                <Link href={`/showcase/${item.slug}`} className="group flex flex-1 flex-col gap-6 p-6 md:p-7 transition-colors hover:bg-surface-container-low active:bg-surface-container focus-visible:outline-offset-[-2px]">
                   <div className="flex items-center justify-between gap-3">
                     <span className="font-code text-xs tabular text-on-surface-muted">
-                      <span className="font-bold text-on-surface">S-{padNumber(i + 1, 2)}</span>
+                      <span className="font-bold text-on-surface">S-{padNumber(numberOf(item.slug), 2)}</span>
                       {item.type && <> · {item.type}</>}
                     </span>
                     <span className={`${STATUS_BADGE[item.status] ?? "badge-archived"} px-2 py-0.5 text-[11px]`}>

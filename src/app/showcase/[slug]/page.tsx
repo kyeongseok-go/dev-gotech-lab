@@ -4,6 +4,8 @@ import { notFound } from "next/navigation";
 import { ArrowLeft, ArrowUpRight } from "lucide-react";
 import { MDXContent } from "@/components/mdx/mdx-content";
 import { JsonLd } from "@/components/seo/json-ld";
+import { DocHeader } from "@/components/section/doc-header";
+import { padNumber } from "@/lib/format";
 import { getPublishedShowcase, getShowcaseBySlug, STATUS_LABEL } from "@/lib/content";
 import { SHOWCASE_PROJECT_LINKS } from "@/lib/case-studies";
 import { SITE_NAME, SITE_URL } from "@/lib/constants";
@@ -38,6 +40,7 @@ export default async function ShowcaseDetailPage({ params }: Props) {
   }
 
   const projectSlug = SHOWCASE_PROJECT_LINKS[slug];
+  const number = getPublishedShowcase().findIndex((s) => s.slug === slug) + 1;
   const breadcrumb = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
@@ -51,55 +54,70 @@ export default async function ShowcaseDetailPage({ params }: Props) {
   return (
     <main className="pt-28 md:pt-32 pb-24 px-[var(--gutter)] max-w-[84rem] mx-auto">
       <JsonLd data={breadcrumb} />
-      <header className="mb-12">
-        <div className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-2 border-t border-on-surface pt-3 font-code text-xs uppercase tracking-[0.08em]">
-          <nav aria-label="위치" className="text-on-surface-muted">
-            <ol className="flex flex-wrap items-center gap-1.5">
-              <li><Link href="/" className="hover:text-on-surface">Home</Link></li>
-              <li aria-hidden>/</li>
-              <li><Link href="/showcase" className="hover:text-on-surface">Showcase</Link></li>
-            </ol>
-          </nav>
-          <p className="flex items-center gap-2 text-on-surface-muted">
-            {item.type && <span>{item.type}</span>}
-            <span className={`${STATUS_BADGE[item.status] ?? "badge-archived"} px-2 py-0.5 text-[11px] normal-case`}>
-              {STATUS_LABEL[item.status] ?? item.status}
-            </span>
-          </p>
+      <DocHeader
+        crumbs={[{ href: "/showcase", label: "Showcase" }]}
+        stamp={{ k: "Specimen", v: `S-${padNumber(number, 2)}` }}
+        meta={[...(item.type ? [item.type] : []), STATUS_LABEL[item.status] ?? item.status]}
+        title={item.title}
+        titleWidth="20em"
+        lead={item.summary}
+      >
+        <div className="mt-10 grid grid-cols-12 gap-x-6 gap-y-8">
+          <dl className="spec-table col-span-12 lg:col-span-7">
+            <dt>Status</dt>
+            <dd>
+              <span className={`${STATUS_BADGE[item.status] ?? "badge-archived"} px-2 py-0.5 text-[11px]`}>
+                {STATUS_LABEL[item.status] ?? item.status}
+              </span>
+            </dd>
+            {item.type && (
+              <>
+                <dt>Type</dt>
+                <dd>{item.type}</dd>
+              </>
+            )}
+            {item.stack.length > 0 && (
+              <>
+                <dt>Stack</dt>
+                <dd>
+                  <ul className="flex flex-wrap gap-1.5" aria-label="기술 스택">
+                    {item.stack.map((tech: string) => (
+                      <li key={tech} className="tag-chip tag-chip-sm">{tech}</li>
+                    ))}
+                  </ul>
+                </dd>
+              </>
+            )}
+            {projectSlug && (
+              <>
+                <dt>Case</dt>
+                <dd>
+                  <Link href={`/projects/${projectSlug}`} className="text-link inline-flex items-center gap-1">
+                    케이스 스터디 보기 <ArrowUpRight aria-hidden size={14} />
+                  </Link>
+                </dd>
+              </>
+            )}
+          </dl>
+          <div className="col-span-12 lg:col-span-5 flex flex-col items-start gap-3 lg:pl-6 lg:border-l lg:border-hairline">
+            <p className="font-code text-xs uppercase tracking-[0.12em] text-on-surface-muted">Try it · 써 보기</p>
+            {item.externalUrl ? (
+              <a href={item.externalUrl} target="_blank" rel="noopener noreferrer" className="btn-primary inline-flex h-12 px-6 text-[15px]">
+                데모 열기 <ArrowUpRight aria-hidden size={16} className="btn-arrow" />
+              </a>
+            ) : (
+              <button type="button" disabled className="btn-outline inline-flex h-12 px-6 text-[15px]">
+                데모 링크 준비 중
+              </button>
+            )}
+            {item.repoUrl && (
+              <a href={item.repoUrl} target="_blank" rel="noopener noreferrer" className="btn-outline inline-flex h-12 px-6 text-[15px]">
+                GitHub <ArrowUpRight aria-hidden size={16} />
+              </a>
+            )}
+          </div>
         </div>
-        <h1 className="mt-8 max-w-[20em] type-article-title text-on-surface">{item.title}</h1>
-        <p className="lead-rule mt-6 max-w-[46rem] type-body text-on-surface-variant">{item.summary}</p>
-
-        {item.stack.length > 0 && (
-          <ul className="mt-6 flex flex-wrap gap-1.5" aria-label="기술 스택">
-            {item.stack.map((tech: string) => (
-              <li key={tech} className="tag-chip font-code !text-xs !font-medium">{tech}</li>
-            ))}
-          </ul>
-        )}
-
-        <div className="mt-8 flex flex-wrap items-center gap-3">
-          {item.externalUrl ? (
-            <a href={item.externalUrl} target="_blank" rel="noopener noreferrer" className="btn-primary inline-flex h-12 px-6 text-[15px]">
-              써 보기 <ArrowUpRight aria-hidden size={16} />
-            </a>
-          ) : (
-            <span className="inline-flex h-12 items-center border border-dashed border-outline px-5 text-sm text-on-surface-muted">
-              데모 링크 준비 중
-            </span>
-          )}
-          {item.repoUrl && (
-            <a href={item.repoUrl} target="_blank" rel="noopener noreferrer" className="btn-outline inline-flex h-12 px-6 text-[15px]">
-              GitHub <ArrowUpRight aria-hidden size={16} />
-            </a>
-          )}
-          {projectSlug && (
-            <Link href={`/projects/${projectSlug}`} className="text-link inline-flex items-center gap-1 text-sm">
-              케이스 스터디 보기 <ArrowUpRight aria-hidden size={14} />
-            </Link>
-          )}
-        </div>
-      </header>
+      </DocHeader>
 
       <div className="max-w-[44rem]">
         <MDXContent collection="showcase" slug={slug} />

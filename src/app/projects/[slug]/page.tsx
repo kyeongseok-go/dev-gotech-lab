@@ -5,6 +5,7 @@ import { ArrowLeft } from "lucide-react";
 import { MDXContent } from "@/components/mdx/mdx-content";
 import { CaseStudyCard } from "@/components/projects/case-study-card";
 import { JsonLd } from "@/components/seo/json-ld";
+import { DocHeader } from "@/components/section/doc-header";
 import { getPublishedProjects, getProjectBySlug, getPostsForProject } from "@/lib/content";
 import { getCaseStudy, getShowcaseForProject } from "@/lib/case-studies";
 import { formatDateDot, padNumber } from "@/lib/format";
@@ -72,24 +73,18 @@ export default async function ProjectDetailPage({ params }: Props) {
     <main className="pt-28 md:pt-32 pb-24 px-[var(--gutter)] max-w-[84rem] mx-auto">
       <JsonLd data={jsonLd} />
 
-      <header className="mb-10 md:mb-14">
-        <div className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-2 border-t border-on-surface pt-3 font-code text-xs uppercase tracking-[0.08em]">
-          <nav aria-label="위치" className="text-on-surface-muted">
-            <ol className="flex flex-wrap items-center gap-1.5">
-              <li><Link href="/" className="hover:text-on-surface">Home</Link></li>
-              <li aria-hidden>/</li>
-              <li><Link href="/projects" className="hover:text-on-surface">Projects</Link></li>
-            </ol>
-          </nav>
-          <p className="tabular text-on-surface-muted">
-            <span className="font-bold text-on-surface">P-{padNumber(number, 2)}</span>
-            {project.period && <> · {project.period}</>}
-            {project.role && <> · <span className="normal-case">{project.role}</span></>}
-          </p>
-        </div>
-        <h1 className="mt-8 max-w-[20em] type-article-title text-on-surface">{project.title}</h1>
-        <p className="lead-rule mt-6 max-w-[46rem] type-body text-on-surface-variant">{project.summary}</p>
-      </header>
+      <DocHeader
+        crumbs={[{ href: "/projects", label: "Projects" }]}
+        stamp={{ k: "Project", v: `P-${padNumber(number, 2)}` }}
+        meta={[
+          ...(project.period ? [project.period] : []),
+          ...(project.role ? [<span key="r" className="normal-case">{project.role}</span>] : []),
+          ...(project.featured ? ["Featured"] : []),
+        ]}
+        title={project.title}
+        titleWidth="20em"
+        lead={project.summary}
+      />
 
       <CaseStudyCard
         study={study}
@@ -116,7 +111,7 @@ export default async function ProjectDetailPage({ params }: Props) {
           <ul className="border-b border-hairline">
             {posts.map((p) => (
               <li key={p.slug} className="border-t border-hairline">
-                <Link href={`/blog/${p.slug}`} className="group grid grid-cols-[6.5rem_1fr] gap-4 py-4 pl-2 hover:bg-surface-container-low transition-colors">
+                <Link href={`/blog/${p.slug}`} className="group grid grid-cols-[6.5rem_1fr] gap-4 py-4 pl-2 transition-colors hover:bg-surface-container-low active:bg-surface-container">
                   <time dateTime={p.date} className="font-code text-xs text-on-surface-muted tabular pt-1">{formatDateDot(p.date)}</time>
                   <span className="type-title text-on-surface group-hover:text-do-primary transition-colors">{p.title}</span>
                 </Link>
