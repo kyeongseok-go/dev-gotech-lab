@@ -103,6 +103,13 @@ const defaultComponents = {
       )}
     </span>
   ),
+  // GFM 체크리스트(- [ ] / - [x])의 읽기 전용 체크박스 — 레이블이 없으면 스크린리더가 "체크박스"만 읽는다(axe label·critical)
+  input: (props: ComponentPropsWithoutRef<"input">) =>
+    props.type === "checkbox" ? (
+      <input aria-label={props.checked ? "완료한 항목" : "아직 안 한 항목"} className="mr-1 align-middle accent-[var(--do-primary)]" {...props} />
+    ) : (
+      <input {...props} />
+    ),
   // Callout: <Callout type="info|warning|tip">
   Callout,
 };
