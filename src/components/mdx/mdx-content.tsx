@@ -19,34 +19,38 @@ function toId(children: ReactNode): string {
 // 기본 MDX 컴포넌트 (코드 블록, 헤딩, 링크)
 const defaultComponents = {
   h2: ({ children, ...props }: ComponentPropsWithoutRef<"h2">) => (
-    <h2 id={toId(children)} className="mt-8 mb-3 text-xl font-semibold" {...props}>
+    <h2
+      id={toId(children)}
+      className="mt-14 mb-5 scroll-mt-28 border-t border-hairline pt-6 text-[1.625rem] md:text-[1.875rem] font-light leading-tight tracking-[-0.01em] text-on-surface"
+      {...props}
+    >
       {children}
     </h2>
   ),
   h3: ({ children, ...props }: ComponentPropsWithoutRef<"h3">) => (
-    <h3 id={toId(children)} className="mt-6 mb-2 text-lg font-semibold" {...props}>
+    <h3 id={toId(children)} className="mt-10 mb-3 scroll-mt-28 text-xl font-bold leading-snug text-on-surface" {...props}>
       {children}
     </h3>
   ),
   p: (props: ComponentPropsWithoutRef<"p">) => (
-    <p className="mb-4 leading-7" {...props} />
+    <p className="mb-5 leading-[1.85] text-on-surface-variant" {...props} />
   ),
   a: (props: ComponentPropsWithoutRef<"a">) => (
     <a
-      className="text-primary underline underline-offset-4 hover:text-primary/80"
+      className="prose-link"
       target={props.href?.startsWith("http") ? "_blank" : undefined}
       rel={props.href?.startsWith("http") ? "noopener noreferrer" : undefined}
       {...props}
     />
   ),
   ul: (props: ComponentPropsWithoutRef<"ul">) => (
-    <ul className="mb-4 ml-6 list-disc space-y-1" {...props} />
+    <ul className="mb-5 ml-6 list-disc space-y-1.5 text-on-surface-variant marker:text-on-surface-muted" {...props} />
   ),
   ol: (props: ComponentPropsWithoutRef<"ol">) => (
-    <ol className="mb-4 ml-6 list-decimal space-y-1" {...props} />
+    <ol className="mb-5 ml-6 list-decimal space-y-1.5 text-on-surface-variant marker:font-code marker:text-on-surface-muted" {...props} />
   ),
   li: (props: ComponentPropsWithoutRef<"li">) => (
-    <li className="leading-7" {...props} />
+    <li className="leading-[1.8]" {...props} />
   ),
   // pre/code: rehype-pretty-code가 Shiki 인라인 스타일을 주입하므로 커스텀 제거.
   // 인라인 코드(코드 블록 바깥)만 스타일링.
@@ -56,43 +60,43 @@ const defaultComponents = {
       return <code {...props}>{children}</code>;
     }
     return (
-      <code className="rounded bg-muted px-1 py-0.5 text-sm font-mono" {...props}>
+      <code className="bg-surface-container px-1.5 py-0.5 font-code text-[0.875em] text-on-surface" {...props}>
         {children}
       </code>
     );
   },
   blockquote: (props: ComponentPropsWithoutRef<"blockquote">) => (
     <blockquote
-      className="mb-4 border-l-4 border-border pl-4 text-muted-foreground italic"
+      className="my-6 border-l-2 border-mark bg-surface-container-low py-3 pl-5 pr-4 text-on-surface-variant [&>p]:mb-0"
       {...props}
     />
   ),
-  hr: () => <hr className="my-8 border-border" />,
+  hr: () => <hr className="my-12 border-hairline" />,
   strong: (props: ComponentPropsWithoutRef<"strong">) => (
-    <strong className="font-semibold" {...props} />
+    <strong className="font-bold text-on-surface" {...props} />
   ),
   // 테이블: 기본 가독성 스타일
   table: (props: ComponentPropsWithoutRef<"table">) => (
-    <div className="my-4 overflow-x-auto">
+    <div className="my-6 overflow-x-auto border border-hairline">
       <table className="w-full border-collapse text-sm" {...props} />
     </div>
   ),
   thead: (props: ComponentPropsWithoutRef<"thead">) => (
-    <thead className="border-b border-border bg-muted/50" {...props} />
+    <thead className="border-b border-on-surface bg-surface-container-low" {...props} />
   ),
   th: (props: ComponentPropsWithoutRef<"th">) => (
-    <th className="px-3 py-2 text-left font-semibold" {...props} />
+    <th className="px-3 py-2 text-left font-code text-xs font-bold uppercase tracking-[0.06em] text-on-surface" {...props} />
   ),
   td: (props: ComponentPropsWithoutRef<"td">) => (
-    <td className="border-b border-border px-3 py-2" {...props} />
+    <td className="border-b border-hairline px-3 py-2 text-on-surface-variant" {...props} />
   ),
   // 이미지: figure + figcaption 래퍼
   img: ({ alt, ...props }: ComponentPropsWithoutRef<"img">) => (
     <figure className="my-6">
       {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img className="rounded-lg" alt={alt ?? ""} {...props} />
+      <img className="border border-hairline" alt={alt ?? ""} loading="lazy" decoding="async" {...props} />
       {alt && (
-        <figcaption className="mt-2 text-center text-sm text-muted-foreground">
+        <figcaption className="mt-2 font-code text-xs text-on-surface-muted">
           {alt}
         </figcaption>
       )}

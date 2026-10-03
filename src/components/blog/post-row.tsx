@@ -22,6 +22,8 @@ interface PostRowProps {
 	/** 첫 항목 강조 (잡지 목차의 커버 스토리) */
 	isLead?: boolean;
 	headingLevel?: "h2" | "h3";
+	/** 연재 배지 (예: "Karpathy LLM Wiki 연재 2/5") */
+	seriesLabel?: string | null;
 }
 
 /**
@@ -36,6 +38,7 @@ export function PostRow({
 	readingMinutes,
 	isLead = false,
 	headingLevel = "h2",
+	seriesLabel,
 }: PostRowProps) {
 	const Heading = headingLevel;
 	return (
@@ -48,6 +51,12 @@ export function PostRow({
 				<span>{dateLabel}</span>
 			</div>
 			<div className="col-span-12 md:col-span-8">
+				{seriesLabel && (
+					<p className="mb-2 inline-flex items-center gap-1.5 font-code text-[11px] font-bold uppercase tracking-[0.08em] text-on-surface-muted">
+						<span aria-hidden className="inline-block size-1.5 bg-mark ring-1 ring-mark-edge" />
+						연재 · {seriesLabel}
+					</p>
+				)}
 				<Heading
 					className={cn(
 						"text-on-surface transition-colors duration-300 group-hover:text-do-primary",

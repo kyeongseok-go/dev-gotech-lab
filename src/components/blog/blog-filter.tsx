@@ -64,7 +64,7 @@ export function BlogFilter({ categories, tags, counts, total, children }: BlogFi
             <TabsTrigger
               key={t.value}
               value={t.value}
-              className="h-11 flex-none gap-2 rounded-none px-3 md:px-4 font-code text-xs uppercase tracking-[0.08em] text-on-surface-muted hover:text-on-surface data-active:text-on-surface after:!bottom-[-1px] after:!h-[2px] after:bg-do-primary"
+              className="h-11 flex-none gap-2 rounded-none px-3 md:px-4 font-code text-xs uppercase tracking-[0.08em] text-on-surface-muted hover:text-on-surface data-active:text-on-surface after:!bottom-[-1px] after:!h-1 after:bg-on-surface"
             >
               {t.label}
               <span className="tabular text-[10px] text-on-surface-faint">{String(t.count).padStart(2, "0")}</span>

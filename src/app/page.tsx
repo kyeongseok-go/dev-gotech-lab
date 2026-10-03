@@ -5,6 +5,7 @@ import {
   getPublishedProjects,
   getPublishedShowcase,
   getReadingTime,
+  getSeriesLabel,
   STATUS_LABEL,
 } from "@/lib/content";
 import { formatDateDot, padNumber } from "@/lib/format";
@@ -158,6 +159,7 @@ export default async function Home() {
                 number={allBlogs.length - i}
                 dateLabel={formatDateDot(post.date)}
                 readingMinutes={getReadingTime(post.body)}
+                seriesLabel={getSeriesLabel(post.slug)}
                 isLead={i === 0}
                 headingLevel="h3"
               />

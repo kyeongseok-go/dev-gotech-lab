@@ -7,6 +7,7 @@ import {
   getAllCategories,
   getAllTags,
   getReadingTime,
+  getSeriesLabel,
 } from "@/lib/content";
 import { formatDateDot } from "@/lib/format";
 import { PageHeading } from "@/components/section/page-heading";
@@ -55,6 +56,7 @@ export default async function BlogPage({ searchParams }: Props) {
             number={numberOf.get(post.slug) ?? 0}
             dateLabel={formatDateDot(post.date)}
             readingMinutes={getReadingTime(post.body)}
+                seriesLabel={getSeriesLabel(post.slug)}
             isLead={i === 0 && !isFiltered}
           />
         ))}
