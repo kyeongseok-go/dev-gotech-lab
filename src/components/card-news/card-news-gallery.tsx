@@ -1,32 +1,20 @@
 "use client";
 
-import React, { useCallback, useEffect, useRef, useState } from "react";
-import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
-import { X, ArrowUpRight } from "lucide-react";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Badge } from "@/components/reui/badge";
+import { useEffect, useMemo, useState } from "react";
+import Link from "next/link";
+import { Search, X } from "lucide-react";
 import { cn } from "@/lib/utils";
+import {
+  CATEGORY_LABEL,
+  SOURCE_KIND_LABEL,
+  getPopularTags,
+  toCardView,
+  type CardNewsItem,
+  type CardView,
+  type SourceKind,
+} from "@/lib/card-news";
 
-export interface CardNewsItem {
-  id: number;
-  slug: string;
-  title: string;
-  summary: string;
-  content: string;
-  category: "ai" | "dev" | "trend" | "news";
-  image_url: string | null;
-  external_link: string | null;
-  tags: string[];
-  created_at: string;
-  span: string;
-}
-
-const CATEGORY_LABEL: Record<string, string> = {
-  ai: "AI",
-  dev: "개발",
-  trend: "트렌드",
-  news: "뉴스",
-};
+export type { CardNewsItem };
 
 const CATEGORY_FILTERS = [
   { key: "all", label: "전체" },
@@ -36,273 +24,278 @@ const CATEGORY_FILTERS = [
   { key: "news", label: "뉴스" },
 ] as const;
 
+const SOURCE_FILTERS: { key: SourceKind | "all"; label: string }[] = [
+  { key: "all", label: "모든 출처" },
+  { key: "official", label: SOURCE_KIND_LABEL.official },
+  { key: "community", label: SOURCE_KIND_LABEL.community },
+  { key: "korean", label: SOURCE_KIND_LABEL.korean },
+  { key: "media", label: SOURCE_KIND_LABEL.media },
+];
+
 /** 벤토 상단: 최신 1건(커버) + 4건 */
 const BENTO_COUNT = 5;
 /** 아카이브 한 번에 보여줄 개수 */
 const PAGE_SIZE = 24;
 
-const dot = (d: string) => d.slice(0, 10).replaceAll("-", ".");
+interface Filters {
+  q: string;
+  cat: string;
+  tag: string;
+  src: string;
+}
+const EMPTY: Filters = { q: "", cat: "all", tag: "", src: "all" };
 
-/* ── 모달 ── */
-function CardNewsModal({ item, onClose }: { item: CardNewsItem; onClose: () => void }) {
-  const closeRef = useRef<HTMLButtonElement>(null);
-  const prefersReduced = useReducedMotion();
+/** URL ?q=&cat=&tag=&src= ↔ 상태. 정적 페이지 그대로 두기 위해 history API 로만 동기화 */
+function readFilters(): Filters {
+  const sp = new URLSearchParams(window.location.search);
+  return {
+    q: sp.get("q") ?? "",
+    cat: sp.get("cat") ?? "all",
+    tag: sp.get("tag") ?? "",
+    src: sp.get("src") ?? "all",
+  };
+}
+function writeFilters(f: Filters) {
+  const sp = new URLSearchParams();
+  if (f.q) sp.set("q", f.q);
+  if (f.cat !== "all") sp.set("cat", f.cat);
+  if (f.tag) sp.set("tag", f.tag);
+  if (f.src !== "all") sp.set("src", f.src);
+  const qs = sp.toString();
+  window.history.replaceState(null, "", qs ? `?${qs}` : window.location.pathname);
+}
 
-  useEffect(() => {
-    closeRef.current?.focus();
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") onClose();
-    };
-    window.addEventListener("keydown", onKey);
-    const { overflow } = document.body.style;
-    document.body.style.overflow = "hidden";
-    return () => {
-      window.removeEventListener("keydown", onKey);
-      document.body.style.overflow = overflow;
-    };
-  }, [onClose]);
-
-  const titleId = `card-news-title-${item.id}`;
-
-  return (
-    <motion.div
-      className="fixed inset-0 z-[70] flex items-end sm:items-center justify-center p-0 sm:p-6"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-    >
-      <div className="absolute inset-0 bg-black/70" onClick={onClose} aria-hidden />
-      <motion.div
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby={titleId}
-        className="relative z-10 grid w-full max-w-3xl max-h-[92vh] overflow-y-auto bg-page border border-outline sm:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)]"
-        initial={prefersReduced ? false : { opacity: 0, y: 24 }}
-        animate={{ opacity: 1, y: 0 }}
-        exit={prefersReduced ? undefined : { opacity: 0, y: 24 }}
-        transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-      >
-        {item.image_url && (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img src={item.image_url} alt="" className="aspect-square w-full object-cover sm:border-r border-hairline" />
-        )}
-        <div className="flex flex-col p-6">
-          <div className="flex items-center justify-between gap-3 font-code text-xs text-on-surface-muted">
-            <span className="tabular">
-              #{String(item.id).padStart(3, "0")} · {dot(item.created_at)} ·{" "}
-              <span className="text-do-primary">{CATEGORY_LABEL[item.category] ?? item.category}</span>
-            </span>
-            <button
-              ref={closeRef}
-              type="button"
-              onClick={onClose}
-              className="inline-flex size-9 items-center justify-center text-on-surface hover:text-do-primary transition-colors"
-              aria-label="닫기"
-            >
-              <X className="size-5" />
-            </button>
-          </div>
-
-          <h2 id={titleId} className="mt-4 type-title text-on-surface">
-            {item.title}
-          </h2>
-          <p className="mt-3 type-small text-on-surface-variant">{item.summary}</p>
-
-          {item.tags.length > 0 && (
-            <div className="mt-5 flex flex-wrap gap-1.5">
-              {Array.from(new Set(item.tags)).map((tag) => (
-                <Badge key={tag} variant="outline" size="sm" className="normal-case">
-                  #{tag}
-                </Badge>
-              ))}
-            </div>
-          )}
-
-          {item.external_link && (
-            <a
-              href={item.external_link}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn-primary mt-6 self-start inline-flex h-11 px-5 text-sm"
-            >
-              원문 보기
-              <ArrowUpRight aria-hidden size={16} className="btn-arrow" />
-            </a>
-          )}
-        </div>
-      </motion.div>
-    </motion.div>
-  );
+function matches(card: CardView, f: Filters): boolean {
+  if (f.cat !== "all" && card.category !== f.cat) return false;
+  if (f.src !== "all" && card.source?.kind !== f.src) return false;
+  if (f.tag && !card.tags.some((t) => t.toLowerCase() === f.tag.toLowerCase())) return false;
+  if (f.q) {
+    const needle = f.q.trim().toLowerCase();
+    const hay = `${card.title} ${card.excerpt} ${card.tags.join(" ")} ${card.source?.name ?? ""}`.toLowerCase();
+    if (!hay.includes(needle)) return false;
+  }
+  return true;
 }
 
 /* ── 카드 ── */
-interface CardProps {
-  item: CardNewsItem;
-  variant: "lead" | "bento" | "archive";
-  onOpen: (item: CardNewsItem) => void;
+function SourceLine({ card }: { card: CardView }) {
+  if (!card.source) return null;
+  return (
+    <span className="inline-flex flex-wrap items-center gap-1.5">
+      <span className="font-bold text-on-surface">{card.source.name}</span>
+      {card.source.isMediaLink && (
+        <span className="border border-outline px-1 text-[10px] uppercase tracking-[0.06em] text-on-surface-muted">원문 미디어</span>
+      )}
+    </span>
+  );
 }
 
-function CardNewsCard({ item, variant, onOpen }: CardProps) {
+function CardNewsCard({ card, variant }: { card: CardView; variant: "lead" | "bento" | "archive" }) {
   const isLead = variant === "lead";
   return (
-    <button
-      type="button"
-      onClick={() => onOpen(item)}
+    <Link
+      href={`/card-news/${card.id}`}
       className={cn(
-        "group flex h-full w-full flex-col text-left bg-page transition-colors hover:bg-surface-container-low focus-visible:bg-surface-container-low",
+        "group flex h-full w-full flex-col bg-page transition-colors hover:bg-surface-container-low focus-visible:bg-surface-container-low",
         isLead ? "p-4 md:p-5" : "p-3 md:p-4",
       )}
     >
       <div className="relative overflow-hidden bg-surface-container">
-        {item.image_url ? (
+        {card.image_url ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img
-            src={item.image_url}
-            alt=""
+            src={card.image_url}
+            alt={`${card.title} 카드 썸네일`}
             loading={isLead ? "eager" : "lazy"}
+            fetchPriority={isLead ? "high" : "auto"}
             decoding="async"
             width={600}
             height={600}
-            className="aspect-square w-full object-cover transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.02]"
+            className="aspect-square w-full object-cover"
           />
         ) : (
           <div className="lab-grid aspect-square w-full" />
         )}
         {isLead && (
-          <span className="absolute left-0 top-0 bg-do-primary px-2 py-1 font-code text-[11px] uppercase tracking-[0.08em] text-on-primary">
+          <span className="absolute left-0 top-0 bg-mark px-2 py-1 font-code text-[11px] font-bold uppercase tracking-[0.08em] text-on-mark">
             Latest
           </span>
         )}
       </div>
       <div className={cn("flex flex-1 flex-col", isLead ? "pt-5" : "pt-3")}>
         <p className="font-code text-[11px] tabular text-on-surface-muted">
-          <span className={isLead ? "" : "hidden sm:inline"}>#{String(item.id).padStart(3, "0")} · </span>
-          {dot(item.created_at)} ·{" "}
-          <span className="text-do-primary">{CATEGORY_LABEL[item.category] ?? item.category}</span>
+          <span className={isLead ? "" : "hidden sm:inline"}>{card.serial} · </span>
+          {card.dateDot} · {CATEGORY_LABEL[card.category] ?? card.category}
         </p>
         <h3
           className={cn(
             "mt-2 text-on-surface transition-colors group-hover:text-do-primary",
-            isLead ? "type-headline line-clamp-3" : "text-[15px] font-semibold leading-snug line-clamp-2",
+            isLead ? "type-headline line-clamp-3" : "text-[15px] font-semibold leading-snug line-clamp-3",
           )}
         >
-          {item.title}
+          {card.title}
         </h3>
-        {isLead && <p className="mt-3 type-small text-on-surface-variant line-clamp-3">{item.summary}</p>}
+        {isLead && card.excerpt && <p className="mt-3 type-small text-on-surface-variant line-clamp-3">{card.excerpt}</p>}
+        <p className="mt-auto pt-3 font-code text-[11px] text-on-surface-muted">
+          <SourceLine card={card} />
+        </p>
       </div>
-    </button>
+    </Link>
   );
 }
 
 /* ── 메인 갤러리 ── */
 export default function CardNewsGallery({ items }: { items: CardNewsItem[] }) {
-  const [activeCategory, setActiveCategory] = useState("all");
+  const cards = useMemo(() => items.map(toCardView), [items]);
+  const popularTags = useMemo(() => getPopularTags(items), [items]);
+  const [filters, setFilters] = useState<Filters>(EMPTY);
   const [visible, setVisible] = useState(PAGE_SIZE);
-  const [openItem, setOpenItem] = useState<CardNewsItem | null>(null);
-  const closeModal = useCallback(() => setOpenItem(null), []);
+  const [ready, setReady] = useState(false);
 
-  const filtered = activeCategory === "all" ? items : items.filter((i) => i.category === activeCategory);
-  const bento = filtered.slice(0, BENTO_COUNT);
-  const archive = filtered.slice(BENTO_COUNT);
-  const shownArchive = archive.slice(0, visible);
+  // 첫 렌더 후 URL 의 필터를 반영 (서버 HTML 은 기본 필터 그대로 정적 생성)
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setFilters(readFilters());
+    setReady(true);
+  }, []);
 
-  const countOf = (key: string) => (key === "all" ? items.length : items.filter((i) => i.category === key).length);
+  useEffect(() => {
+    if (ready) writeFilters(filters);
+  }, [filters, ready]);
 
-  const onCategoryChange = (value: string) => {
-    setActiveCategory(value);
+  const update = (patch: Partial<Filters>) => {
+    setFilters((f) => ({ ...f, ...patch }));
     setVisible(PAGE_SIZE);
   };
 
+  const filtered = cards.filter((c) => matches(c, filters));
+  const isNarrowed = Boolean(filters.q || filters.tag || filters.src !== "all");
+  const bento = isNarrowed ? [] : filtered.slice(0, BENTO_COUNT);
+  const archive = isNarrowed ? filtered : filtered.slice(BENTO_COUNT);
+  const shownArchive = archive.slice(0, visible);
+  const countOf = (key: string) => (key === "all" ? cards.length : cards.filter((c) => c.category === key).length);
+
   return (
     <div>
-      <Tabs value={activeCategory} onValueChange={onCategoryChange} className="gap-0">
-        <div className="border-b border-hairline overflow-x-auto [scrollbar-width:none]">
-          <TabsList variant="line" aria-label="카테고리" className="h-auto gap-0 p-0">
-            {CATEGORY_FILTERS.map((f) => (
-              <TabsTrigger
-                key={f.key}
-                value={f.key}
-                className="h-11 flex-none gap-2 rounded-none px-3 md:px-4 text-sm font-medium text-on-surface-muted hover:text-on-surface data-active:text-on-surface after:!bottom-[-1px] after:!h-[2px] after:bg-do-primary"
-              >
-                {f.label}
-                <span className="font-code tabular text-[10px] text-on-surface-faint">
-                  {String(countOf(f.key)).padStart(2, "0")}
-                </span>
-              </TabsTrigger>
-            ))}
-          </TabsList>
-        </div>
-
-        <TabsContent value={activeCategory} className="pt-8 text-base">
-          {filtered.length === 0 ? (
-            <p className="py-20 text-center type-body text-on-surface-variant">해당 카테고리의 카드뉴스가 없습니다.</p>
-          ) : (
-            <>
-              {/* 벤토 — 최신 1건 크게, 다음 4건 2×2 */}
-              <section aria-label="최신 카드뉴스" className="grid grid-cols-2 lg:grid-cols-12 gap-px bg-hairline border border-hairline">
-                {bento.map((item, i) => (
-                  <div
-                    key={item.id}
-                    className={cn(
-                      i === 0 ? "col-span-2 lg:col-span-6 lg:row-span-2" : "col-span-1 lg:col-span-3",
-                    )}
-                  >
-                    <CardNewsCard item={item} variant={i === 0 ? "lead" : "bento"} onOpen={setOpenItem} />
-                  </div>
-                ))}
-              </section>
-
-              {/* 아카이브 */}
-              {archive.length > 0 && (
-                <section aria-labelledby="archive-title" className="mt-16">
-                  <div className="lab-head mb-6">
-                    <span className="lab-index">§A</span>
-                    <h2 id="archive-title" className="type-label text-on-surface">
-                      Archive · 지난 카드
-                    </h2>
-                    <span className="font-code text-xs text-on-surface-muted tabular">
-                      {Math.min(visible, archive.length)} / {archive.length}
-                    </span>
-                  </div>
-                  <ul className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-px bg-hairline border border-hairline">
-                    <AnimatePresence initial={false}>
-                      {shownArchive.map((item) => (
-                        <motion.li
-                          key={item.id}
-                          initial={{ opacity: 0 }}
-                          animate={{ opacity: 1 }}
-                          exit={{ opacity: 0 }}
-                          transition={{ duration: 0.25 }}
-                        >
-                          <CardNewsCard item={item} variant="archive" onOpen={setOpenItem} />
-                        </motion.li>
-                      ))}
-                    </AnimatePresence>
-                  </ul>
-                  {visible < archive.length && (
-                    <div className="mt-8 flex justify-center">
-                      <button
-                        type="button"
-                        onClick={() => setVisible((v) => v + PAGE_SIZE)}
-                        className="btn-outline inline-flex h-11 px-6 text-sm"
-                      >
-                        더 보기
-                        <span className="font-code text-xs text-on-surface-muted tabular">
-                          +{Math.min(PAGE_SIZE, archive.length - visible)}
-                        </span>
-                      </button>
-                    </div>
+      {/* 필터 막대 */}
+      <div className="border-y border-hairline">
+        <div className="flex flex-col gap-0 md:flex-row md:items-stretch">
+          <div role="group" aria-label="분류" className="flex overflow-x-auto [scrollbar-width:none] md:flex-1">
+            {CATEGORY_FILTERS.map((f) => {
+              const active = filters.cat === f.key;
+              return (
+                <button
+                  key={f.key}
+                  type="button"
+                  aria-pressed={active}
+                  onClick={() => update({ cat: f.key })}
+                  className={cn(
+                    "relative inline-flex h-12 flex-none items-center gap-2 px-3 md:px-4 text-sm transition-colors",
+                    active
+                      ? "font-bold text-on-surface after:absolute after:inset-x-3 after:bottom-0 after:h-1 after:bg-on-surface"
+                      : "font-medium text-on-surface-muted hover:text-on-surface",
                   )}
-                </section>
-              )}
-            </>
-          )}
-        </TabsContent>
-      </Tabs>
+                >
+                  {f.label}
+                  <span className="font-code tabular text-[10px] text-on-surface-muted">{String(countOf(f.key)).padStart(2, "0")}</span>
+                </button>
+              );
+            })}
+          </div>
+          <label className="flex h-12 items-center gap-2 border-t border-hairline md:w-80 md:border-l md:border-t-0 md:pl-4">
+            <Search aria-hidden size={16} className="text-on-surface-muted" />
+            <span className="sr-only">카드뉴스 검색</span>
+            <input
+              type="search"
+              value={filters.q}
+              onChange={(e) => update({ q: e.target.value })}
+              placeholder="제목·요약·태그·출처 검색"
+              className="h-full w-full min-w-0 bg-transparent text-sm text-on-surface placeholder:text-on-surface-muted focus:outline-none"
+            />
+          </label>
+        </div>
+      </div>
 
-      <AnimatePresence>
-        {openItem && <CardNewsModal item={openItem} onClose={closeModal} />}
-      </AnimatePresence>
+      <div className="flex flex-col gap-3 py-4 md:flex-row md:items-start md:gap-6">
+        <div role="group" aria-label="출처 유형" className="flex flex-wrap items-center gap-1.5">
+          <span className="mr-1 font-code text-[11px] font-bold uppercase tracking-[0.1em] text-on-surface-muted">Source</span>
+          {SOURCE_FILTERS.map((s) => (
+            <button key={s.key} type="button" aria-pressed={filters.src === s.key} onClick={() => update({ src: s.key })} className="tag-chip">
+              {s.label}
+            </button>
+          ))}
+        </div>
+        <div role="group" aria-label="태그" className="flex flex-wrap items-center gap-1.5 md:ml-auto md:max-w-[52%] md:justify-end">
+          <span className="mr-1 font-code text-[11px] font-bold uppercase tracking-[0.1em] text-on-surface-muted">Tags</span>
+          {popularTags.map((tag) => (
+            <button
+              key={tag}
+              type="button"
+              aria-pressed={filters.tag === tag}
+              onClick={() => update({ tag: filters.tag === tag ? "" : tag })}
+              className="tag-chip"
+            >
+              #{tag}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {isNarrowed && (
+        <div className="mb-6 flex flex-wrap items-center gap-3 font-code text-xs text-on-surface-muted" aria-live="polite">
+          <span className="tabular">
+            결과 <span className="font-bold text-on-surface">{filtered.length}</span>건
+          </span>
+          <button type="button" onClick={() => update({ ...EMPTY, cat: filters.cat })} className="text-link inline-flex items-center gap-1">
+            <X aria-hidden size={12} /> 필터 해제
+          </button>
+        </div>
+      )}
+
+      {filtered.length === 0 ? (
+        <p className="py-20 text-center type-body text-on-surface-variant">조건에 맞는 카드뉴스가 없습니다.</p>
+      ) : (
+        <>
+          {bento.length > 0 && (
+            <section aria-label="최신 카드뉴스" className="mt-4 grid grid-cols-2 lg:grid-cols-12 gap-px bg-hairline border border-hairline">
+              {bento.map((card, i) => (
+                <div key={card.id} className={cn(i === 0 ? "col-span-2 lg:col-span-6 lg:row-span-2" : "col-span-1 lg:col-span-3")}>
+                  <CardNewsCard card={card} variant={i === 0 ? "lead" : "bento"} />
+                </div>
+              ))}
+            </section>
+          )}
+
+          {archive.length > 0 && (
+            <section aria-labelledby="archive-title" className={bento.length > 0 ? "mt-16" : "mt-2"}>
+              <div className="lab-head mb-6">
+                <span className="lab-index">§A</span>
+                <h2 id="archive-title" className="type-label text-on-surface">
+                  {isNarrowed ? "Results · 검색 결과" : "Archive · 지난 카드"}
+                </h2>
+                <span className="font-code text-xs text-on-surface-muted tabular">
+                  {Math.min(visible, archive.length)} / {archive.length}
+                </span>
+              </div>
+              <ul className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 border-l border-t border-hairline">
+                {shownArchive.map((card) => (
+                  <li key={card.id} className="border-r border-b border-hairline">
+                    <CardNewsCard card={card} variant="archive" />
+                  </li>
+                ))}
+              </ul>
+              {visible < archive.length && (
+                <div className="mt-8 flex justify-center">
+                  <button type="button" onClick={() => setVisible((v) => v + PAGE_SIZE)} className="btn-outline inline-flex h-11 px-6 text-sm">
+                    더 보기
+                    <span className="font-code text-xs tabular">+{Math.min(PAGE_SIZE, archive.length - visible)}</span>
+                  </button>
+                </div>
+              )}
+            </section>
+          )}
+        </>
+      )}
     </div>
   );
 }
