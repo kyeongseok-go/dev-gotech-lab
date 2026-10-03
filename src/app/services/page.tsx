@@ -68,13 +68,44 @@ export default async function ServicesPage() {
       />
 
       {services.length === 0 ? (
-        <div className="cta-atmos p-10 md:p-12">
-          <p className="type-body text-on-surface-variant">등록된 서비스가 없습니다.</p>
-          <p className="mt-2 type-small text-on-surface-muted">서비스가 준비되면 이곳에 표시됩니다.</p>
-          <Link href="/services/news" className="text-link mt-6 inline-flex items-center gap-1 text-sm">
-            AI 뉴스 애그리게이터 보기 <ExternalLink aria-hidden size={14} />
-          </Link>
-        </div>
+        <section aria-labelledby="registry-title">
+          <div className="lab-head mb-6">
+            <span className="lab-index">§01</span>
+            <h2 id="registry-title" className="type-label text-on-surface">Registry · 등록부</h2>
+            <span className="font-code text-xs text-on-surface-muted tabular">D1 등록 0건</span>
+          </div>
+          <table className="w-full border-collapse text-left">
+            <caption className="sr-only">서비스 등록부</caption>
+            <thead>
+              <tr className="border-b border-on-surface font-code text-[11px] uppercase tracking-[0.1em] text-on-surface-muted">
+                <th scope="col" className="w-16 py-2 font-normal">No.</th>
+                <th scope="col" className="py-2 font-normal">서비스</th>
+                <th scope="col" className="hidden sm:table-cell py-2 font-normal">상태</th>
+                <th scope="col" className="py-2 text-right font-normal">열기</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr className="border-b border-hairline">
+                <td className="py-5 align-top font-code text-xs tabular text-on-surface-muted">R-01</td>
+                <td className="py-5 pr-4">
+                  <p className="type-title text-on-surface">AI 뉴스 애그리게이터</p>
+                  <p className="mt-1 type-small text-on-surface-variant">AI·개발 관련 뉴스를 한곳에 모아 보는 화면. 수집기는 준비 중입니다.</p>
+                </td>
+                <td className="hidden sm:table-cell py-5 align-top">
+                  <span className="badge-wip px-2 py-0.5 text-[11px]">준비 중</span>
+                </td>
+                <td className="py-5 align-top text-right">
+                  <Link href="/services/news" className="text-link inline-flex items-center gap-1 text-sm">
+                    보기 <ExternalLink aria-hidden size={13} />
+                  </Link>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <p className="mt-4 font-code text-xs text-on-surface-muted">
+            ※ D1 서비스 테이블에 등록되면 이 표가 자동으로 채워집니다.
+          </p>
+        </section>
       ) : (
         <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 border-l border-t border-hairline">
           {services.map((svc, i) => {
