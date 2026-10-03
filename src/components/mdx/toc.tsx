@@ -31,23 +31,32 @@ function useActiveHeading(idKey: string): string | null {
 }
 
 function TocList({ items, active }: { items: TocItem[]; active: string | null }) {
+  // 본문 h2 의 CSS 카운터(§01..)와 같은 번호를 목차에도 붙인다
+  let sec = 0;
+  const numbered = items.map((item) => ({ ...item, no: item.level === 2 ? ++sec : null }));
   return (
-    <ol className="space-y-0.5 text-sm">
-      {items.map((item) => {
+    <ol className="text-sm">
+      {numbered.map((item) => {
         const isActive = item.id === active;
         return (
-          <li key={item.id} className={item.level === 3 ? "pl-4" : ""}>
+          <li key={item.id} className={item.level === 3 ? "pl-9" : ""}>
             <a
               href={`#${item.id}`}
               aria-current={isActive ? "location" : undefined}
               className={cn(
-                "block border-l-2 py-1.5 pl-3 leading-snug transition-colors",
+                "grid grid-cols-[2.25rem_1fr] items-baseline border-l py-1.5 pl-3 leading-snug transition-colors",
+                item.level === 3 && "grid-cols-1",
                 isActive
-                  ? "border-do-primary font-bold text-on-surface"
-                  : "border-transparent text-on-surface-muted hover:text-on-surface hover:border-hairline",
+                  ? "border-do-primary text-on-surface shadow-[inset_1px_0_0_var(--do-primary)]"
+                  : "border-hairline text-on-surface-muted hover:border-on-surface hover:text-on-surface",
               )}
             >
-              {item.text}
+              {item.no !== null && (
+                <span className={cn("font-code text-[11px] tabular", isActive ? "text-do-primary" : "text-on-surface-faint")}>
+                  §{String(item.no).padStart(2, "0")}
+                </span>
+              )}
+              <span>{item.text}</span>
             </a>
           </li>
         );
@@ -66,7 +75,7 @@ export function Toc({ items, variant = "sidebar" }: TocProps) {
   if (variant === "inline") {
     return (
       <details className="group mb-10 border-y border-hairline">
-        <summary className="flex cursor-pointer list-none items-center justify-between py-3 font-code text-xs font-bold uppercase tracking-[0.12em] text-on-surface">
+        <summary className="flex cursor-pointer list-none items-center justify-between py-3 font-code text-xs uppercase tracking-[0.12em] text-on-surface">
           목차 · Contents
           <span aria-hidden className="tabular text-on-surface-muted group-open:hidden">+{String(items.length).padStart(2, "0")}</span>
           <span aria-hidden className="hidden text-on-surface-muted group-open:inline">−</span>
@@ -80,7 +89,7 @@ export function Toc({ items, variant = "sidebar" }: TocProps) {
 
   return (
     <nav aria-label="글 목차" className="max-h-[calc(100vh-9rem)] overflow-y-auto pr-2 [scrollbar-width:thin]">
-      <p className="mb-3 font-code text-xs font-bold uppercase tracking-[0.12em] text-on-surface">목차 · Contents</p>
+      <p className="mb-3 flex items-baseline justify-between border-t border-on-surface pt-3 font-code text-xs uppercase tracking-[0.12em] text-on-surface">목차 · Contents<span className="text-on-surface-muted tabular">{String(items.length).padStart(2, "0")}</span></p>
       <TocList items={items} active={active} />
     </nav>
   );

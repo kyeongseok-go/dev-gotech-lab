@@ -7,6 +7,7 @@ import { MDXContent } from "@/components/mdx/mdx-content";
 import { Toc } from "@/components/mdx/toc";
 import { ReadingProgress } from "@/components/blog/reading-progress";
 import { JsonLd } from "@/components/seo/json-ld";
+import { DocHeader } from "@/components/section/doc-header";
 import {
   getPublishedBlogs,
   getBlogBySlug,
@@ -104,51 +105,30 @@ export default async function BlogPostPage({ params }: Props) {
       <ReadingProgress targetId="article-body" />
       <JsonLd data={buildJsonLd(post, series?.def.title)} />
 
-      {/* 브레드크럼 + 메타 */}
-      <header className="mb-12 md:mb-16">
-        <div className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-2 border-t border-on-surface pt-3 font-code text-xs uppercase tracking-[0.08em]">
-          <nav aria-label="위치" className="text-on-surface-muted">
-            <ol className="flex flex-wrap items-center gap-1.5">
-              <li>
-                <Link href="/" className="hover:text-on-surface">Home</Link>
-              </li>
-              <li aria-hidden>/</li>
-              <li>
-                <Link href="/blog" className="hover:text-on-surface">Blog</Link>
-              </li>
-              {post.category && (
-                <>
-                  <li aria-hidden>/</li>
-                  <li>
-                    <Link href={`/blog?category=${encodeURIComponent(post.category)}`} className="hover:text-on-surface">
-                      {post.category}
-                    </Link>
-                  </li>
-                </>
-              )}
-            </ol>
-          </nav>
-          <p className="tabular text-on-surface-muted">
-            <span className="font-bold text-on-surface">No.{padNumber(number)}</span>
-            {" · "}
-            <time dateTime={post.date}>{formatDateDot(post.date)}</time>
-            {" · "}
-            {readingTime} min read
-          </p>
-        </div>
-
-        {series && (
-          <p className="mt-8 inline-flex items-center gap-2 border border-hairline px-3 py-1.5 font-code text-xs font-bold uppercase tracking-[0.08em] text-on-surface">
-            <span aria-hidden className="inline-block size-2 bg-do-primary" />
-            연재 · {series.def.title}
-            <span className="tabular text-on-surface-muted">
-              {series.position}/{series.posts.length}
-            </span>
-          </p>
-        )}
-
-        <h1 className="mt-6 max-w-[22em] type-article-title text-on-surface">{post.title}</h1>
-
+      <DocHeader
+        crumbs={[
+          { href: "/blog", label: "Blog" },
+          ...(post.category ? [{ href: `/blog?category=${encodeURIComponent(post.category)}`, label: post.category }] : []),
+        ]}
+        stamp={{ k: "Entry", v: `No.${padNumber(number)}` }}
+        meta={[
+          <time key="d" dateTime={post.date}>{formatDateDot(post.date)}</time>,
+          `${readingTime} min read`,
+          ...(toc.length > 0 ? [`§ ${padNumber(toc.filter((t) => t.level === 2).length, 2)}`] : []),
+        ]}
+        kicker={
+          series ? (
+            <p className="inline-flex items-center gap-2 font-code text-xs uppercase tracking-[0.08em] text-on-surface-muted">
+              <span aria-hidden className="inline-block size-2 bg-do-primary" />
+              연재 · <span className="normal-case text-on-surface">{series.def.title}</span>
+              <span className="tabular">
+                {padNumber(series.position, 2)}/{padNumber(series.posts.length, 2)}
+              </span>
+            </p>
+          ) : undefined
+        }
+        title={post.title}
+      >
         {post.tags.length > 0 && (
           <ul className="mt-8 flex flex-wrap gap-1.5" aria-label="태그">
             {post.tags.map((tag: string) => (
@@ -160,27 +140,28 @@ export default async function BlogPostPage({ params }: Props) {
             ))}
           </ul>
         )}
-      </header>
+      </DocHeader>
 
       <div className="grid grid-cols-12 gap-x-6 lg:gap-x-10">
         <article className="col-span-12 lg:col-span-8 min-w-0">
           {/* 요약 박스 — tldr(3줄)이 있으면 그것, 없으면 description 그대로 (지어내지 않음) */}
           {(tldr || post.description) && (
-            <section aria-labelledby="summary-title" className="card-color mb-10 px-5 py-5 md:px-7 md:py-6">
-              <h2 id="summary-title" className="type-label text-on-surface">
-                {tldr ? "3줄 요약" : "요약 · Summary"}
+            <section aria-labelledby="summary-title" className="abstract-box mb-12">
+              <h2 id="summary-title" className="flex items-baseline justify-between gap-4 font-code text-xs uppercase tracking-[0.12em] text-on-surface">
+                <span>{tldr ? "Abstract · 3줄 요약" : "Abstract · 요약"}</span>
+                <span className="text-on-surface-muted tabular">No.{padNumber(number)}</span>
               </h2>
               {tldr ? (
-                <ol className="mt-4 space-y-2">
+                <ol className="mt-4 space-y-2.5">
                   {tldr.map((line, i) => (
-                    <li key={i} className="grid grid-cols-[1.5rem_1fr] gap-2 text-on-surface-variant">
-                      <span className="font-code text-xs font-bold text-on-surface pt-1 tabular">{i + 1}</span>
+                    <li key={i} className="grid grid-cols-[2rem_1fr] gap-2 text-on-surface-variant">
+                      <span className="font-code text-xs text-do-primary pt-1.5 tabular">{padNumber(i + 1, 2)}</span>
                       <span>{line}</span>
                     </li>
                   ))}
                 </ol>
               ) : (
-                <p className="mt-3 type-body text-on-surface-variant">{post.description}</p>
+                <p className="mt-4 type-body text-on-surface-variant">{post.description}</p>
               )}
             </section>
           )}
@@ -208,9 +189,9 @@ export default async function BlogPostPage({ params }: Props) {
                   return (
                     <li key={p.slug} className="border-t border-hairline">
                       {current ? (
-                        <p aria-current="page" className="grid grid-cols-[2.5rem_1fr] gap-3 py-3 pl-2 border-l-4 border-do-primary">
-                          <span className="font-code text-xs font-bold tabular text-on-surface pt-1">{padNumber(i + 1, 2)}</span>
-                          <span className="font-bold text-on-surface">{p.title}</span>
+                        <p aria-current="page" className="grid grid-cols-[2.5rem_1fr] gap-3 py-3 pl-3 bg-surface-container-low shadow-[inset_2px_0_0_var(--do-primary)]">
+                          <span className="font-code text-xs tabular text-do-primary pt-1">{padNumber(i + 1, 2)}</span>
+                          <span className="font-semibold text-on-surface">{p.title} <span className="ml-1 font-code text-[11px] font-normal text-on-surface-muted">← 지금 읽는 글</span></span>
                         </p>
                       ) : (
                         <Link href={`/blog/${p.slug}`} className="group grid grid-cols-[2.5rem_1fr] gap-3 py-3 pl-3 hover:bg-surface-container-low transition-colors">
@@ -225,11 +206,14 @@ export default async function BlogPostPage({ params }: Props) {
             </nav>
           )}
 
-          {/* 저자 */}
-          <section aria-label="글쓴이" className="mt-16 flex items-center gap-5 border-t border-hairline pt-8">
-            <Image src={avatar} alt="고경석 증명사진" width={64} height={64} sizes="64px" className="size-16 object-cover" />
+          {/* 기록자 */}
+          <section aria-labelledby="author-title" className="mt-16 grid grid-cols-[auto_1fr] items-center gap-5 border-t border-on-surface pt-6">
+            <div className="plate size-20 md:size-24">
+              <Image src={avatar} alt="" width={96} height={96} sizes="96px" className="relative z-[1] size-full object-cover" />
+            </div>
             <div>
-              <p className="font-bold text-on-surface">고경석</p>
+              <p id="author-title" className="font-code text-[11px] uppercase tracking-[0.12em] text-on-surface-muted">Recorded by · 기록자</p>
+              <p className="mt-1 text-lg font-semibold text-on-surface">고경석</p>
               <p className="type-small text-on-surface-variant">풀스택 엔지니어 · 오피스 SW 엔진 5년 5개월 · AI 페어 빌드</p>
               <Link href="/about" className="text-link mt-1 inline-flex items-center gap-1 text-sm">
                 소개 보기 <ArrowUpRight aria-hidden size={14} />
@@ -258,8 +242,8 @@ export default async function BlogPostPage({ params }: Props) {
           </div>
           <ul className="grid gap-px bg-hairline border border-hairline md:grid-cols-2">
             {relatedProjects.map((p) => (
-              <li key={p.slug} className="bg-page">
-                <Link href={`/projects/${p.slug}`} className="group flex h-full flex-col gap-3 p-6 hover:bg-surface-container-low transition-colors">
+              <li key={p.slug}>
+                <Link href={`/projects/${p.slug}`} className="group cell-link">
                   <span className="font-code text-xs text-on-surface-muted tabular">{p.period ?? "Project"}</span>
                   <span className="type-title text-on-surface group-hover:text-do-primary transition-colors">{p.title}</span>
                   <span className="type-small text-on-surface-variant line-clamp-2">{p.summary}</span>
@@ -280,8 +264,8 @@ export default async function BlogPostPage({ params }: Props) {
           </div>
           <ul className="grid gap-px bg-hairline border border-hairline md:grid-cols-3">
             {related.map((p) => (
-              <li key={p.slug} className="bg-page">
-                <Link href={`/blog/${p.slug}`} className="group flex h-full flex-col gap-3 p-6 hover:bg-surface-container-low transition-colors">
+              <li key={p.slug}>
+                <Link href={`/blog/${p.slug}`} className="group cell-link">
                   <time dateTime={p.date} className="font-code text-xs text-on-surface-muted tabular">{formatDateDot(p.date)}</time>
                   <span className="type-title text-on-surface group-hover:text-do-primary transition-colors">{p.title}</span>
                 </Link>
@@ -295,21 +279,21 @@ export default async function BlogPostPage({ params }: Props) {
       {(prev || next) && (
         <nav aria-label="이전·다음 글" className="mt-20 grid gap-px bg-hairline border border-hairline sm:grid-cols-2">
           {prev ? (
-            <Link href={`/blog/${prev.slug}`} className="group bg-page p-6 hover:bg-surface-container-low transition-colors">
+            <Link href={`/blog/${prev.slug}`} className="group cell-link">
               <span className="flex items-center gap-1 font-code text-xs uppercase tracking-[0.08em] text-on-surface-muted">
                 <ArrowLeft aria-hidden size={12} /> 이전 글
               </span>
-              <p className="mt-2 type-title text-on-surface group-hover:text-do-primary transition-colors">{prev.title}</p>
+              <span className="type-title text-on-surface group-hover:text-do-primary transition-colors">{prev.title}</span>
             </Link>
           ) : (
             <div className="hidden sm:block bg-page" />
           )}
           {next ? (
-            <Link href={`/blog/${next.slug}`} className="group bg-page p-6 text-right hover:bg-surface-container-low transition-colors">
+            <Link href={`/blog/${next.slug}`} className="group cell-link items-end text-right">
               <span className="flex items-center justify-end gap-1 font-code text-xs uppercase tracking-[0.08em] text-on-surface-muted">
                 다음 글 <ArrowRight aria-hidden size={12} />
               </span>
-              <p className="mt-2 type-title text-on-surface group-hover:text-do-primary transition-colors">{next.title}</p>
+              <span className="type-title text-on-surface group-hover:text-do-primary transition-colors">{next.title}</span>
             </Link>
           ) : (
             <div className="hidden sm:block bg-page" />

@@ -516,14 +516,10 @@
 /* ──────────────────────────────────────────────────────
    ⑥ Header
 ────────────────────────────────────────────────────── */
+/* 불투명 종이 바탕 — 반투명+블러는 빌드 결과에서 blur 가 빠져 본문이 비쳤다 */
 .glass-nav {
-	background: color-mix(in srgb, var(--do-page) 86%, transparent);
-	backdrop-filter: blur(12px) saturate(120%);
-	-webkit-backdrop-filter: blur(12px) saturate(120%);
+	background: var(--do-page);
 	border-bottom: 1px solid var(--do-hairline);
-}
-@supports not (backdrop-filter: blur(1px)) {
-	.glass-nav { background: var(--do-page); }
 }
 
 /* ──────────────────────────────────────────────────────
