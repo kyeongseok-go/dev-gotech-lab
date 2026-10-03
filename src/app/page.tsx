@@ -16,6 +16,8 @@ import { MethodSection } from "@/components/home/method-section";
 import { LabHead } from "@/components/section/lab-head";
 import { PostRow } from "@/components/blog/post-row";
 import { Badge } from "@/components/reui/badge";
+import { CARD_NEWS_DATA } from "@/app/card-news/page";
+import { toCardView } from "@/lib/card-news";
 
 /** 연구 노트 시작 이후 엔진 개발 경력 (5년 5개월) */
 const ENGINE_MONTHS = 65;
@@ -50,6 +52,7 @@ export default async function Home() {
   const blogs = allBlogs.slice(0, 4);
   const [leadProject, ...restProjects] = allProjects.slice(0, 4);
   const showcaseItems = allShowcase.slice(0, 3);
+  const latestCards = CARD_NEWS_DATA.slice(0, 3).map(toCardView);
 
   const stats = [
     { value: allBlogs.length, unit: "편", label: "개발 기록" },
@@ -210,26 +213,45 @@ export default async function Home() {
         )}
       </section>
 
-      {/* §05 — 카드뉴스 안내 */}
+      {/* §05 — 카드뉴스: 다크 밴드 + 최신 3장 */}
       <section aria-labelledby="cardnews-title" className="mt-24 md:mt-32">
-        <LabHead index="05" id="cardnews-title" title="Card news · 오늘의 기술" meta="Daily · 자동 큐레이션" />
-        <Link
-          href="/card-news"
-          className="group cta-atmos grid grid-cols-12 gap-6 items-end p-6 md:p-10 transition-colors hover:bg-surface-container"
-        >
-          <p className="col-span-12 md:col-span-8 type-display text-on-surface">
-            하루 한 장, <span className="marker">기술 뉴스</span> 카드.
-          </p>
-          <div className="col-span-12 md:col-span-4 md:text-right">
-            <p className="type-small text-on-surface-variant">
-              Reddit·국내 테크 블로그에서 그날 가장 뜨거운 소식을 골라 카드로 정리합니다.
+        <LabHead index="05" id="cardnews-title" title="Card news · 오늘의 기술" meta="Daily · 원문 발췌 + 출처" />
+        <div className="band-inverse p-6 md:p-10">
+          <div className="grid grid-cols-12 gap-6 items-end">
+            <p className="col-span-12 md:col-span-8 type-display text-on-surface">
+              하루 한 장, <span className="marker">기술 뉴스</span> 카드.
             </p>
-            <span className="mt-5 btn-primary inline-flex h-11 px-5 text-sm">
-              카드뉴스 보기
-              <ArrowUpRight aria-hidden size={16} className="btn-arrow" />
-            </span>
+            <div className="col-span-12 md:col-span-4 md:text-right">
+              <p className="type-small text-on-surface-variant">
+                AI 회사 공식 발표·커뮤니티·국내 테크블로그에서 그날의 소식을 골라 원문 발췌와 출처를 함께 정리합니다.
+              </p>
+              <Link href="/card-news" className="btn-outline mt-5 inline-flex h-11 px-5 text-sm">
+                카드뉴스 전체 보기
+                <ArrowUpRight aria-hidden size={16} />
+              </Link>
+            </div>
           </div>
-        </Link>
+          <ul className="mt-10 grid gap-px bg-hairline border border-hairline md:grid-cols-3">
+            {latestCards.map((card) => (
+              <li key={card.id} className="bg-surface-container">
+                <Link
+                  href={`/card-news/${card.id}`}
+                  className="group flex h-full flex-col gap-3 border-t-4 border-mark p-5 transition-colors hover:bg-surface-container-high"
+                >
+                  <span className="font-code text-xs tabular text-on-surface-muted">
+                    <span className="font-bold text-on-surface">{card.serial}</span> · {card.dateDot}
+                  </span>
+                  <span className="type-title text-on-surface line-clamp-3 group-hover:text-do-primary transition-colors">
+                    {card.title}
+                  </span>
+                  {card.source && (
+                    <span className="mt-auto font-code text-[11px] text-on-surface-muted">{card.source.name}</span>
+                  )}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
       </section>
 
       {/* 마무리 CTA — Tailark OSS Mist "call-to-action-1" 구조 참고 (MIT) */}

@@ -5,6 +5,7 @@ import {
   getPublishedShowcase,
 } from "@/lib/content";
 import { SITE_URL } from "@/lib/constants";
+import { CARD_NEWS_DATA } from "@/app/card-news/page";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const staticPages: MetadataRoute.Sitemap = [
@@ -12,6 +13,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${SITE_URL}/blog`, changeFrequency: "daily", priority: 0.9 },
     { url: `${SITE_URL}/projects`, changeFrequency: "monthly", priority: 0.7 },
     { url: `${SITE_URL}/showcase`, changeFrequency: "monthly", priority: 0.7 },
+    { url: `${SITE_URL}/card-news`, changeFrequency: "daily", priority: 0.7 },
     { url: `${SITE_URL}/services`, changeFrequency: "monthly", priority: 0.5 },
     { url: `${SITE_URL}/about`, changeFrequency: "monthly", priority: 0.5 },
   ];
@@ -35,5 +37,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.6,
   }));
 
-  return [...staticPages, ...blogPages, ...projectPages, ...showcasePages];
+  const cardPages: MetadataRoute.Sitemap = CARD_NEWS_DATA.map((card) => ({
+    url: `${SITE_URL}/card-news/${card.id}`,
+    lastModified: card.created_at,
+    changeFrequency: "yearly",
+    priority: 0.4,
+  }));
+
+  return [...staticPages, ...blogPages, ...projectPages, ...showcasePages, ...cardPages];
 }
