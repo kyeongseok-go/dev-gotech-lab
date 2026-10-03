@@ -14,7 +14,9 @@ export default defineConfig({
   forbidOnly: !!process.env.CI,
   retries: 0,
   workers: process.env.E2E_WORKERS ? Number(process.env.E2E_WORKERS) : "50%",
-  timeout: 60_000,
+  // 한 테스트 안에서 여러 페이지를 차례로 여는 흐름 테스트가 있어 넉넉히 (재시도가 아니라 시간 예산)
+  // 한 테스트에서 여러 페이지를 차례로 여는 흐름 테스트가 있어 넉넉히 둔다(재시도가 아니라 시간 예산)
+  timeout: 180_000,
   expect: { timeout: 10_000 },
   reporter: [["list"], ["html", { open: "never", outputFolder: "playwright-report" }]],
   use: {
