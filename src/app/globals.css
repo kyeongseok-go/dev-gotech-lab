@@ -679,16 +679,17 @@
 	transition: background-color var(--dur-normal) var(--ease-out-expo);
 }
 .process-row:hover { background: var(--do-surface-container-low); }
-.process-row--active { border-top-color: var(--do-primary); }
-.process-row--active .idx { color: var(--do-primary); opacity: 1; }
 .process-row .c-sub { color: var(--do-on-surface-variant); }
 .process-row .idx {
 	font-family: var(--font-code);
 	font-size: var(--ts-label);
 	font-weight: 500;
-	opacity: 0.7;
+	color: var(--do-on-surface-muted);
 	font-variant-numeric: tabular-nums;
 }
+/* 활성 행 — 투명도 없이 주홍(대비 4.5:1 이상), 일반 행 규칙 뒤에 둬야 이긴다 */
+.process-row--active { border-top-color: var(--do-primary); }
+.process-row--active .idx { color: var(--do-primary); }
 
 /* ──────────────────────────────────────────────────────
    ⑫ rehype-pretty-code (Shiki) 코드 블록
