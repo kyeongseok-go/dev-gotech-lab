@@ -90,17 +90,18 @@ const defaultComponents = {
   td: (props: ComponentPropsWithoutRef<"td">) => (
     <td className="border-b border-hairline px-3 py-2 text-on-surface-variant" {...props} />
   ),
-  // 이미지: figure + figcaption 래퍼
+  // 이미지: MDX 는 이미지를 <p> 안에 넣으므로 <figure> 대신 span 블록으로 감싼다(잘못된 중첩 → 하이드레이션 오류 방지).
+  // 캡션은 alt 와 같은 글이므로 스크린리더에는 alt 한 번만 읽히게 aria-hidden.
   img: ({ alt, ...props }: ComponentPropsWithoutRef<"img">) => (
-    <figure className="my-6">
+    <span className="my-6 block">
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img className="border border-hairline" alt={alt ?? ""} loading="lazy" decoding="async" {...props} />
       {alt && (
-        <figcaption className="mt-2 font-code text-xs text-on-surface-muted">
+        <span aria-hidden className="mt-2 block font-code text-xs text-on-surface-muted">
           {alt}
-        </figcaption>
+        </span>
       )}
-    </figure>
+    </span>
   ),
   // Callout: <Callout type="info|warning|tip">
   Callout,
