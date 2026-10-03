@@ -49,12 +49,12 @@ export function SubscribeForm({ onSubmit }: SubscribeFormProps) {
             if (status !== "idle") setStatus("idle");
           }}
           disabled={status === "submitting"}
-          className="flex-1 rounded-lg border border-input bg-background px-3 py-2 text-sm outline-ring/50 placeholder:text-muted-foreground disabled:opacity-50"
+          className="h-11 min-w-0 flex-1 border border-input bg-page px-3 text-sm text-on-surface placeholder:text-on-surface-muted focus:border-on-surface focus:outline-2 focus:outline-focus disabled:opacity-50"
         />
         <button
           type="submit"
           disabled={status === "submitting"}
-          className="rounded-lg bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90 disabled:opacity-50"
+          className="btn-primary inline-flex h-11 px-5 text-sm disabled:opacity-50"
         >
           {status === "submitting" ? "전송 중…" : "구독하기"}
         </button>
@@ -63,12 +63,12 @@ export function SubscribeForm({ onSubmit }: SubscribeFormProps) {
       {/* 상태 메시지 */}
       <div className="mt-3 text-sm" aria-live="polite">
         {status === "success" && (
-          <p className="text-green-600 dark:text-green-400">
+          <p className="text-accent-green">
             구독 신청이 완료되었습니다. 감사합니다!
           </p>
         )}
         {status === "error" && (
-          <p className="text-red-600 dark:text-red-400">
+          <p className="text-accent-coral">
             오류가 발생했습니다. 잠시 후 다시 시도해 주세요.
           </p>
         )}
