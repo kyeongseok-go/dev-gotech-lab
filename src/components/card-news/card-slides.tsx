@@ -40,8 +40,8 @@ function buildSlides(card: CardView): SlideSpec[] {
       label: "무슨 일인가 · 원문 발췌",
       body: (
         <>
-          <p className="line-clamp-6 leading-[1.6] text-[#E1E1E8]" style={{ fontSize: "clamp(0.9375rem, 5.2cqi, 1.5rem)" }}>
-            “{card.excerpt}”
+          <p className="line-clamp-6 border-l-2 border-mark pl-[4%] leading-[1.6] text-[#E1E1E8]" style={{ fontSize: "clamp(0.9375rem, 5.2cqi, 1.5rem)" }}>
+            {card.excerpt}
           </p>
           {card.excerptTruncated && <p className="mt-3 font-code text-[11px] text-[#C4C4CD]">… 이하 원문에서 계속</p>}
         </>
