@@ -218,7 +218,8 @@ export function getPopularTags(items: CardNewsItem[], minCount = 3, limit = 16):
   }
   return [...counts.entries()]
     .filter(([, n]) => n >= minCount)
-    .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))
+    // localeCompare 는 서버(Node ICU)·브라우저 결과가 달라 하이드레이션이 깨진다 → 코드 포인트 비교
+    .sort((a, b) => b[1] - a[1] || (a[0] < b[0] ? -1 : a[0] > b[0] ? 1 : 0))
     .slice(0, limit)
     .map(([t]) => t);
 }

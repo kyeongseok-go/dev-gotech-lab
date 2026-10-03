@@ -257,7 +257,8 @@ export default function CardNewsGallery({ items }: { items: CardNewsItem[] }) {
       ) : (
         <>
           {bento.length > 0 && (
-            <section aria-label="최신 카드뉴스" className="mt-4 grid grid-cols-2 lg:grid-cols-12 gap-px bg-hairline border border-hairline">
+            <section aria-labelledby="latest-title" className="mt-4 grid grid-cols-2 lg:grid-cols-12 gap-px bg-hairline border border-hairline">
+              <h2 id="latest-title" className="sr-only">최신 카드뉴스</h2>
               {bento.map((card, i) => (
                 <div key={card.id} className={cn(i === 0 ? "col-span-2 lg:col-span-6 lg:row-span-2" : "col-span-1 lg:col-span-3")}>
                   <CardNewsCard card={card} variant={i === 0 ? "lead" : "bento"} />

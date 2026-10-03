@@ -141,7 +141,8 @@ export function CardSlide({
 export function CardSlides({ card }: { card: CardView }) {
   const slides = buildSlides(card);
   return (
-    <section aria-label={`카드 슬라이드 ${slides.length}장`}>
+    <section aria-labelledby="slides-title">
+      <h2 id="slides-title" className="sr-only">카드 슬라이드 {slides.length}장</h2>
       <div
         tabIndex={0}
         role="region"
