@@ -21,14 +21,14 @@ const defaultComponents = {
   h2: ({ children, ...props }: ComponentPropsWithoutRef<"h2">) => (
     <h2
       id={toId(children)}
-      className="mt-14 mb-5 scroll-mt-28 border-t border-hairline pt-6 text-[1.625rem] md:text-[1.875rem] font-light leading-tight tracking-[-0.01em] text-on-surface"
+      className="mt-16 mb-5 scroll-mt-28 border-t border-on-surface pt-4 text-[1.625rem] md:text-[2rem] font-bold leading-[1.18] tracking-[-0.03em] text-on-surface"
       {...props}
     >
       {children}
     </h2>
   ),
   h3: ({ children, ...props }: ComponentPropsWithoutRef<"h3">) => (
-    <h3 id={toId(children)} className="mt-10 mb-3 scroll-mt-28 text-xl font-bold leading-snug text-on-surface" {...props}>
+    <h3 id={toId(children)} className="mt-10 mb-3 scroll-mt-28 text-xl font-semibold leading-snug tracking-[-0.015em] text-on-surface" {...props}>
       {children}
     </h3>
   ),
@@ -67,7 +67,7 @@ const defaultComponents = {
   },
   blockquote: (props: ComponentPropsWithoutRef<"blockquote">) => (
     <blockquote
-      className="my-6 border-l-2 border-mark bg-surface-container-low py-3 pl-5 pr-4 text-on-surface-variant [&>p]:mb-0"
+      className="quote-specimen my-7 !text-base text-on-surface-variant [&>p]:mb-0 [&>p+p]:mt-3"
       {...props}
     />
   ),
@@ -90,14 +90,14 @@ const defaultComponents = {
   td: (props: ComponentPropsWithoutRef<"td">) => (
     <td className="border-b border-hairline px-3 py-2 text-on-surface-variant" {...props} />
   ),
-  // 이미지: MDX 는 이미지를 <p> 안에 넣으므로 <figure> 대신 span 블록으로 감싼다(잘못된 중첩 → 하이드레이션 오류 방지).
+  // 이미지(도판): MDX 는 이미지를 <p> 안에 넣으므로 <figure> 대신 span 블록으로 감싼다(잘못된 중첩 → 하이드레이션 오류 방지).
   // 캡션은 alt 와 같은 글이므로 스크린리더에는 alt 한 번만 읽히게 aria-hidden.
   img: ({ alt, ...props }: ComponentPropsWithoutRef<"img">) => (
-    <span className="my-6 block">
+    <span className="lab-fig my-8 block">
       {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img className="border border-hairline" alt={alt ?? ""} loading="lazy" decoding="async" {...props} />
+      <img className="block border border-hairline" alt={alt ?? ""} loading="lazy" decoding="async" {...props} />
       {alt && (
-        <span aria-hidden className="mt-2 block font-code text-xs text-on-surface-muted">
+        <span aria-hidden className="lab-fig-cap mt-3 block border-t border-hairline pt-2 text-sm text-on-surface-muted">
           {alt}
         </span>
       )}
@@ -130,5 +130,10 @@ export async function MDXContent({ collection, slug, components }: MDXContentPro
   const mod = await loader();
   const Component = mod.default;
 
-  return <Component components={{ ...defaultComponents, ...components }} />;
+  // lab-prose: h2 앞 "§01" 자동 번호와 이미지 "FIG. 01" 번호를 CSS 카운터로 붙인다
+  return (
+    <div className="lab-prose">
+      <Component components={{ ...defaultComponents, ...components }} />
+    </div>
+  );
 }

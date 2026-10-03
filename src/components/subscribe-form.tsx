@@ -49,7 +49,7 @@ export function SubscribeForm({ onSubmit }: SubscribeFormProps) {
             if (status !== "idle") setStatus("idle");
           }}
           disabled={status === "submitting"}
-          className="h-11 min-w-0 flex-1 border border-input bg-page px-3 text-sm text-on-surface placeholder:text-on-surface-muted focus:border-on-surface focus:outline-2 focus:outline-focus disabled:opacity-50"
+          className="h-11 min-w-0 flex-1 border border-input bg-page px-3 text-sm text-on-surface placeholder:text-on-surface-muted focus:border-on-surface focus:outline-2 focus:outline-do-primary disabled:opacity-50"
         />
         <button
           type="submit"

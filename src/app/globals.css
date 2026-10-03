@@ -1,6 +1,8 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
+/* 연구 노트 확장 부품(문서 머리·표본 칩·도판·각주·사양 표) */
+@import "./lab-notebook.css";
 
 @custom-variant dark (&:is(.dark *));
 
@@ -186,6 +188,19 @@
 	--do-tertiary-container: oklch(0.30 0.06 160);
 	--do-on-tertiary-container: oklch(0.90 0.06 160);
 
+	/* 도판(FIG.) 인화지 — 다크에서도 밝은 종이로 두어 검은 옷·머리가 바탕과 분리되게 */
+	--plate-bg: #D6D1C3;
+	--plate-grid: rgba(44, 82, 140, 0.16);
+	--plate-ink: #16150F;
+	--plate-ink-muted: #4A473F;
+	--plate-edge: rgba(238, 236, 228, 0.30);
+	/* 청사진 도판 — 밝은 옷(베이지 재킷) 사진용 중간 명도 */
+	--plate-b-bg: #8D9DAE;
+	--plate-b-grid: rgba(16, 28, 44, 0.16);
+	--plate-b-ink: #0D1520;
+	/* 코드 블록 바탕 */
+	--code-bg: #0A0A09;
+
 	/* shadcn token bridge */
 	--background: #0F0F0D;
 	--foreground: #EEECE4;
@@ -258,6 +273,13 @@
 	--do-tertiary: var(--accent-green);
 	--do-tertiary-container: oklch(0.93 0.05 160);
 	--do-on-tertiary-container: oklch(0.36 0.09 160);
+
+	--plate-bg: #E2DDD0;
+	--plate-grid: rgba(44, 82, 140, 0.14);
+	--plate-edge: rgba(22, 21, 15, 0.30);
+	--plate-b-bg: #9AAABA;
+	/* github-light-default 주석색이 4.5:1 을 넘도록 흰 카드지 */
+	--code-bg: #FFFFFF;
 
 	--background: #F4F2EC;
 	--foreground: #16150F;
@@ -682,8 +704,18 @@ pre[data-theme] {
 	padding: 1.25rem;
 	font-size: 0.875rem;
 	line-height: 1.6;
-	background: var(--do-surface-container-lowest) !important;
+	background: var(--code-bg) !important;
 	border: 1px solid var(--do-hairline);
+	box-shadow: inset 2px 0 0 var(--do-on-surface);
+}
+/* rehype-pretty-code 두 테마: 빌드 시 --shiki-dark / --shiki-light 를 함께 받아 테마 클래스로 고른다 */
+code[data-theme*=" "],
+code[data-theme*=" "] span {
+	color: var(--shiki-dark);
+}
+.light code[data-theme*=" "],
+.light code[data-theme*=" "] span {
+	color: var(--shiki-light);
 }
 pre[data-language]::before {
 	content: attr(data-language);

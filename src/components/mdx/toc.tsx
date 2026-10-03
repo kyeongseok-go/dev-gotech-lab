@@ -43,7 +43,7 @@ function TocList({ items, active }: { items: TocItem[]; active: string | null })
               className={cn(
                 "block border-l-2 py-1.5 pl-3 leading-snug transition-colors",
                 isActive
-                  ? "border-mark font-bold text-on-surface"
+                  ? "border-do-primary font-bold text-on-surface"
                   : "border-transparent text-on-surface-muted hover:text-on-surface hover:border-hairline",
               )}
             >
@@ -57,7 +57,7 @@ function TocList({ items, active }: { items: TocItem[]; active: string | null })
 }
 
 /**
- * 글 목차 — 데스크톱: 본문 옆 sticky + 현재 절 강조(노랑 2px 선) / 모바일: <details> 접이식.
+ * 글 목차 — 데스크톱: 본문 옆 sticky + 현재 절 강조(주홍 2px 선) / 모바일: <details> 접이식.
  */
 export function Toc({ items, variant = "sidebar" }: TocProps) {
   const active = useActiveHeading(items.map((i) => i.id).join("|"));

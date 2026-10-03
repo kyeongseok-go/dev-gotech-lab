@@ -116,7 +116,7 @@ export default async function CardNewsDetailPage({ params }: Props) {
         <section aria-labelledby="excerpt-title" className="col-span-12 lg:col-span-8">
           <h2 id="excerpt-title" className="type-label text-on-surface">원문 발췌 · 출처 링크</h2>
           {card.excerpt && (
-            <blockquote className="mt-4 border-l-2 border-mark bg-surface-container-low py-4 pl-5 pr-4 type-body text-on-surface-variant">
+            <blockquote className="mt-4 border-l-2 border-do-primary bg-surface-container-low py-4 pl-5 pr-4 type-body text-on-surface-variant">
               {card.excerpt}
               {card.excerptTruncated && <span className="text-on-surface-muted"> …</span>}
             </blockquote>
@@ -126,7 +126,7 @@ export default async function CardNewsDetailPage({ params }: Props) {
             {card.source?.isMediaLink && " 이 카드의 원문 링크는 기사 본문이 아니라 Reddit 에 올라온 이미지·영상 파일입니다."}
           </p>
           {card.external_link && (
-            <a href={card.external_link} target="_blank" rel="noopener noreferrer" className="btn-accent mt-6 inline-flex h-12 px-6 text-[15px]">
+            <a href={card.external_link} target="_blank" rel="noopener noreferrer" className="btn-primary mt-6 inline-flex h-12 px-6 text-[15px]">
               {card.source?.isMediaLink ? "원문 미디어 열기" : "원문 보기"}
               <span className="font-code text-xs font-normal">{card.source?.host}</span>
               <ArrowUpRight aria-hidden size={16} />

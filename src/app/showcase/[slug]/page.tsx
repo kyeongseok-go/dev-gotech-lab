@@ -80,7 +80,7 @@ export default async function ShowcaseDetailPage({ params }: Props) {
 
         <div className="mt-8 flex flex-wrap items-center gap-3">
           {item.externalUrl ? (
-            <a href={item.externalUrl} target="_blank" rel="noopener noreferrer" className="btn-accent inline-flex h-12 px-6 text-[15px]">
+            <a href={item.externalUrl} target="_blank" rel="noopener noreferrer" className="btn-primary inline-flex h-12 px-6 text-[15px]">
               써 보기 <ArrowUpRight aria-hidden size={16} />
             </a>
           ) : (

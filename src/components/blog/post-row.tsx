@@ -53,7 +53,7 @@ export function PostRow({
 			<div className="col-span-12 md:col-span-8">
 				{seriesLabel && (
 					<p className="mb-2 inline-flex items-center gap-1.5 font-code text-[11px] font-bold uppercase tracking-[0.08em] text-on-surface-muted">
-						<span aria-hidden className="inline-block size-1.5 bg-mark ring-1 ring-mark-edge" />
+						<span aria-hidden className="inline-block size-1.5 bg-do-primary" />
 						연재 · {seriesLabel}
 					</p>
 				)}

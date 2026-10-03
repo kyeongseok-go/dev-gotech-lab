@@ -219,7 +219,7 @@ export default function AboutPage() {
               {PROFILE.service}
             </p>
             <div className="mt-6 flex flex-wrap gap-3">
-              <a href={`mailto:${PROFILE.email}`} className="btn-accent inline-flex h-11 px-5 text-sm">
+              <a href={`mailto:${PROFILE.email}`} className="btn-primary inline-flex h-11 px-5 text-sm">
                 <Mail aria-hidden size={14} /> 이메일 보내기
               </a>
               <a href={PROFILE.github} target="_blank" rel="noopener noreferrer" className="btn-outline inline-flex h-11 px-5 text-sm">

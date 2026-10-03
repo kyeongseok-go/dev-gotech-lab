@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 import { Info, TriangleAlert, Lightbulb } from "lucide-react";
 
-/** 의미 색은 왼쪽 선 + 아이콘 + 텍스트 라벨로 함께 전달 (노랑은 상태에 쓰지 않음) */
+/** 의미 색은 왼쪽 선 + 아이콘 + 텍스트 라벨로 함께 전달 */
 const variants = {
   info: { label: "정보", Icon: Info, rule: "border-accent-cyan", ink: "text-accent-cyan" },
   warning: { label: "주의", Icon: TriangleAlert, rule: "border-accent-amber", ink: "text-accent-amber" },

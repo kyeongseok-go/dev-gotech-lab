@@ -236,7 +236,7 @@ export default async function Home() {
               <li key={card.id} className="bg-surface-container">
                 <Link
                   href={`/card-news/${card.id}`}
-                  className="group flex h-full flex-col gap-3 border-t-4 border-mark p-5 transition-colors hover:bg-surface-container-high"
+                  className="group flex h-full flex-col gap-3 border-t-4 border-do-primary p-5 transition-colors hover:bg-surface-container-high"
                 >
                   <span className="font-code text-xs tabular text-on-surface-muted">
                     <span className="font-bold text-on-surface">{card.serial}</span> · {card.dateDot}

@@ -139,7 +139,7 @@ export default async function BlogPostPage({ params }: Props) {
 
         {series && (
           <p className="mt-8 inline-flex items-center gap-2 border border-hairline px-3 py-1.5 font-code text-xs font-bold uppercase tracking-[0.08em] text-on-surface">
-            <span aria-hidden className="inline-block size-2 bg-mark ring-1 ring-mark-edge" />
+            <span aria-hidden className="inline-block size-2 bg-do-primary" />
             연재 · {series.def.title}
             <span className="tabular text-on-surface-muted">
               {series.position}/{series.posts.length}
@@ -208,7 +208,7 @@ export default async function BlogPostPage({ params }: Props) {
                   return (
                     <li key={p.slug} className="border-t border-hairline">
                       {current ? (
-                        <p aria-current="page" className="grid grid-cols-[2.5rem_1fr] gap-3 py-3 pl-2 border-l-4 border-mark">
+                        <p aria-current="page" className="grid grid-cols-[2.5rem_1fr] gap-3 py-3 pl-2 border-l-4 border-do-primary">
                           <span className="font-code text-xs font-bold tabular text-on-surface pt-1">{padNumber(i + 1, 2)}</span>
                           <span className="font-bold text-on-surface">{p.title}</span>
                         </p>

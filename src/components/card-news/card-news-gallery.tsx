@@ -117,7 +117,7 @@ function CardNewsCard({ card, variant }: { card: CardView; variant: "lead" | "be
           <div className="lab-grid aspect-square w-full" />
         )}
         {isLead && (
-          <span className="absolute left-0 top-0 bg-mark px-2 py-1 font-code text-[11px] font-bold uppercase tracking-[0.08em] text-on-mark">
+          <span className="absolute left-0 top-0 bg-do-primary px-2 py-1 font-code text-[11px] font-bold uppercase tracking-[0.08em] text-on-primary">
             Latest
           </span>
         )}

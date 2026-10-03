@@ -40,7 +40,7 @@ function buildSlides(card: CardView): SlideSpec[] {
       label: "무슨 일인가 · 원문 발췌",
       body: (
         <>
-          <p className="line-clamp-6 border-l-2 border-mark pl-[4%] leading-[1.6] text-[#E1E1E8]" style={{ fontSize: "clamp(0.9375rem, 5.2cqi, 1.5rem)" }}>
+          <p className="line-clamp-6 border-l-2 border-do-primary pl-[4%] leading-[1.6] text-[#E1E1E8]" style={{ fontSize: "clamp(0.9375rem, 5.2cqi, 1.5rem)" }}>
             {card.excerpt}
           </p>
           {card.excerptTruncated && <p className="mt-3 font-code text-[11px] text-[#C4C4CD]">… 이하 원문에서 계속</p>}
@@ -118,7 +118,7 @@ export function CardSlide({
       style={{ containerType: "inline-size" }}
     >
       {/* 브랜드 띠 */}
-      <span aria-hidden className="absolute inset-x-0 top-0 h-1 bg-mark" />
+      <span aria-hidden className="absolute inset-x-0 top-0 h-1 bg-do-primary" />
       <div className="flex items-start justify-between gap-3 font-code text-[clamp(0.625rem,2.6cqi,0.8125rem)] uppercase tracking-[0.1em]">
         <span className="font-bold text-white">{spec.label}</span>
         <span className="tabular text-[#C4C4CD]">{card.serial}</span>

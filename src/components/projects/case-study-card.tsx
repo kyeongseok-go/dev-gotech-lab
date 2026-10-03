@@ -74,7 +74,7 @@ export function CaseStudyCard({ study, techStack, repoUrl, demoUrl, showcaseSlug
           <dt className="type-label text-on-surface-muted">05 · 링크</dt>
           <dd className="mt-3 flex flex-col items-start gap-2">
             {demoUrl && (
-              <a href={demoUrl} target="_blank" rel="noopener noreferrer" className="btn-accent inline-flex h-11 px-5 text-sm">
+              <a href={demoUrl} target="_blank" rel="noopener noreferrer" className="btn-primary inline-flex h-11 px-5 text-sm">
                 라이브 데모 <ArrowUpRight aria-hidden size={14} />
               </a>
             )}
