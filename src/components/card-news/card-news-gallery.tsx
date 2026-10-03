@@ -96,7 +96,7 @@ function CardNewsCard({ card, variant }: { card: CardView; variant: "lead" | "be
     <Link
       href={`/card-news/${card.id}`}
       className={cn(
-        "group flex h-full w-full flex-col bg-page transition-colors hover:bg-surface-container-low focus-visible:bg-surface-container-low",
+        "group flex h-full w-full flex-col bg-page transition-colors hover:bg-surface-container-low focus-visible:bg-surface-container-low focus-visible:outline-offset-[-2px] active:bg-surface-container",
         isLead ? "p-4 md:p-5" : "p-3 md:p-4",
       )}
     >
@@ -192,7 +192,7 @@ export default function CardNewsGallery({ items }: { items: CardNewsItem[] }) {
                   className={cn(
                     "relative inline-flex h-12 flex-none items-center gap-2 px-3 md:px-4 text-sm transition-colors",
                     active
-                      ? "font-bold text-on-surface after:absolute after:inset-x-3 after:bottom-0 after:h-1 after:bg-on-surface"
+                      ? "font-semibold text-on-surface after:absolute after:inset-x-3 after:bottom-0 after:h-[2px] after:bg-do-primary"
                       : "font-medium text-on-surface-muted hover:text-on-surface",
                   )}
                 >

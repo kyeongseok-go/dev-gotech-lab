@@ -6,6 +6,7 @@ import { CARD_NEWS_DATA } from "../page";
 import { CardSlides } from "@/components/card-news/card-slides";
 import { ShareButtons } from "@/components/card-news/share-buttons";
 import { JsonLd } from "@/components/seo/json-ld";
+import { DocHeader } from "@/components/section/doc-header";
 import { CATEGORY_LABEL, SOURCE_KIND_LABEL, isMeaningfulTag, toCardView } from "@/lib/card-news";
 import { getPublishedBlogs } from "@/lib/content";
 import { formatDateDot } from "@/lib/format";
@@ -66,6 +67,7 @@ export default async function CardNewsDetailPage({ params }: Props) {
   const newer = index > 0 ? toCardView(CARD_NEWS_DATA[index - 1]) : null;
   const older = index < CARD_NEWS_DATA.length - 1 ? toCardView(CARD_NEWS_DATA[index + 1]) : null;
   const posts = relatedPosts(card.tags);
+  const shownTags = card.tags.filter(isMeaningfulTag);
   const url = `${SITE_URL}/card-news/${card.id}`;
 
   const breadcrumb = {
@@ -82,77 +84,121 @@ export default async function CardNewsDetailPage({ params }: Props) {
     <main className="pt-28 md:pt-32 pb-24 px-[var(--gutter)] max-w-[84rem] mx-auto">
       <JsonLd data={breadcrumb} />
 
-      <header className="mb-10">
-        <div className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-2 border-t border-on-surface pt-3 font-code text-xs uppercase tracking-[0.08em]">
-          <nav aria-label="위치" className="text-on-surface-muted">
-            <ol className="flex flex-wrap items-center gap-1.5">
-              <li><Link href="/" className="hover:text-on-surface">Home</Link></li>
-              <li aria-hidden>/</li>
-              <li><Link href="/card-news" className="hover:text-on-surface">Card News</Link></li>
-            </ol>
-          </nav>
-          <p className="tabular text-on-surface-muted">
-            <span className="font-bold text-on-surface">{card.serial}</span>
-            {" · "}
-            <time dateTime={card.created_at}>{card.dateDot}</time>
-            {" · "}
-            {CATEGORY_LABEL[card.category] ?? card.category}
-          </p>
-        </div>
-        <h1 className="mt-8 max-w-[24em] type-article-title text-on-surface">{card.title}</h1>
+      <DocHeader
+        crumbs={[{ href: "/card-news", label: "Card News" }]}
+        stamp={{ k: "Card", v: card.serial }}
+        meta={[
+          <time key="d" dateTime={card.created_at}>{card.dateDot}</time>,
+          CATEGORY_LABEL[card.category] ?? card.category,
+          card.source ? SOURCE_KIND_LABEL[card.source.kind] : "출처 없음",
+        ]}
+        title={card.title}
+        titleWidth="24em"
+      >
         {card.source && (
-          <p className="mt-5 flex flex-wrap items-center gap-2 text-sm text-on-surface-variant">
-            <span className="font-bold text-on-surface">{card.source.name}</span>
-            <span className="tag-chip !min-h-0 !py-0 text-xs">{SOURCE_KIND_LABEL[card.source.kind]}</span>
-            {card.source.isMediaLink && <span className="tag-chip !min-h-0 !py-0 text-xs">원문 미디어</span>}
+          <p className="mt-6 flex flex-wrap items-center gap-2 text-sm text-on-surface-variant">
+            <span className="font-code text-xs uppercase tracking-[0.08em] text-on-surface-muted">Source</span>
+            <span className="font-semibold text-on-surface">{card.source.name}</span>
+            {card.source.isMediaLink && <span className="tag-chip tag-chip-sm">원문 미디어</span>}
           </p>
         )}
-      </header>
+      </DocHeader>
 
       <CardSlides card={card} />
 
-      <div className="mt-12 grid grid-cols-12 gap-x-6 gap-y-10">
-        {/* 원문 발췌 · 출처 링크 */}
-        <section aria-labelledby="excerpt-title" className="col-span-12 lg:col-span-8">
-          <h2 id="excerpt-title" className="type-label text-on-surface">원문 발췌 · 출처 링크</h2>
-          {card.excerpt && (
-            <blockquote className="mt-4 border-l-2 border-do-primary bg-surface-container-low py-4 pl-5 pr-4 type-body text-on-surface-variant">
+      <div className="mt-16 grid grid-cols-12 gap-x-6 lg:gap-x-12 gap-y-12">
+        {/* §A 원문 발췌 · 각주 */}
+        <section aria-labelledby="excerpt-title" className="col-span-12 lg:col-span-7">
+          <div className="lab-head mb-6">
+            <span className="lab-index">§A</span>
+            <h2 id="excerpt-title" className="type-label text-on-surface">원문 발췌</h2>
+            <span className="font-code text-xs text-on-surface-muted">원문 표기 그대로</span>
+          </div>
+          {card.excerpt ? (
+            <blockquote className="quote-specimen">
               {card.excerpt}
               {card.excerptTruncated && <span className="text-on-surface-muted"> …</span>}
+              {card.source && (
+                <a href="#fn-1" id="fn-ref-1" className="fn-ref" aria-label="각주 1: 출처">
+                  1
+                </a>
+              )}
             </blockquote>
+          ) : (
+            <p className="type-small text-on-surface-muted">발췌할 원문 문장이 없는 카드입니다.</p>
           )}
-          <p className="mt-3 type-small text-on-surface-muted">
-            위 문장은 원문 일부를 짧게 옮긴 것이며 저작권은 원저작자에게 있습니다. 전체 내용은 출처에서 확인하세요.
-            {card.source?.isMediaLink && " 이 카드의 원문 링크는 기사 본문이 아니라 Reddit 에 올라온 이미지·영상 파일입니다."}
-          </p>
+          {card.source && (
+            <ol className="footnotes" aria-label="각주">
+              <li id="fn-1">
+                <span>1</span>
+                <span>
+                  {card.source.name} — <span className="font-code">{card.source.host}</span>.{" "}
+                  {card.source.isMediaLink
+                    ? "기사 본문이 아니라 Reddit 에 올라온 이미지·영상 파일 링크입니다."
+                    : "위 문장은 원문 일부를 짧게 옮긴 것이며 저작권은 원저작자에게 있습니다."}{" "}
+                  <a href="#fn-ref-1" className="text-link font-normal" aria-label="본문으로 돌아가기">↩</a>
+                </span>
+              </li>
+            </ol>
+          )}
           {card.external_link && (
-            <a href={card.external_link} target="_blank" rel="noopener noreferrer" className="btn-primary mt-6 inline-flex h-12 px-6 text-[15px]">
+            <a
+              href={card.external_link}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-primary mt-8 inline-flex h-12 max-w-full px-6 text-[15px]"
+            >
               {card.source?.isMediaLink ? "원문 미디어 열기" : "원문 보기"}
-              <span className="font-code text-xs font-normal">{card.source?.host}</span>
-              <ArrowUpRight aria-hidden size={16} />
+              <span className="truncate font-code text-xs font-normal opacity-80">{card.source?.host}</span>
+              <ArrowUpRight aria-hidden size={16} className="btn-arrow flex-none" />
             </a>
           )}
         </section>
 
-        <aside className="col-span-12 lg:col-span-4 flex flex-col gap-8">
+        {/* 기록 카드 — 사양 표 + 공유 */}
+        <aside aria-labelledby="record-title" className="col-span-12 lg:col-span-5 flex flex-col gap-10">
+          <div>
+            <h2 id="record-title" className="type-label text-on-surface mb-3">기록 카드</h2>
+            <dl className="spec-table">
+              <dt>No.</dt>
+              <dd className="font-code tabular">{card.serial}</dd>
+              <dt>Date</dt>
+              <dd className="font-code tabular">{card.dateDot}</dd>
+              <dt>분류</dt>
+              <dd>{CATEGORY_LABEL[card.category] ?? card.category}</dd>
+              {card.source && (
+                <>
+                  <dt>출처</dt>
+                  <dd>
+                    {card.source.name}
+                    <span className="ml-2 font-code text-xs text-on-surface-muted">{SOURCE_KIND_LABEL[card.source.kind]}</span>
+                  </dd>
+                </>
+              )}
+              {shownTags.length > 0 && (
+                <>
+                  <dt>Tags</dt>
+                  <dd>
+                    <ul className="flex flex-wrap gap-1.5">
+                      {shownTags.map((tag) => (
+                        <li key={tag}>
+                          <Link href={`/card-news?tag=${encodeURIComponent(tag)}`} className="tag-chip tag-chip-sm">
+                            #{tag}
+                          </Link>
+                        </li>
+                      ))}
+                    </ul>
+                  </dd>
+                </>
+              )}
+            </dl>
+          </div>
           <div>
             <h2 className="type-label text-on-surface">공유</h2>
             <div className="mt-4">
               <ShareButtons url={url} title={card.title} />
             </div>
           </div>
-          {card.tags.length > 0 && (
-            <div>
-              <h2 className="type-label text-on-surface">태그</h2>
-              <ul className="mt-4 flex flex-wrap gap-1.5">
-                {card.tags.map((tag) => (
-                  <li key={tag}>
-                    <Link href={`/card-news?tag=${encodeURIComponent(tag)}`} className="tag-chip">#{tag}</Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
         </aside>
       </div>
 
@@ -165,8 +211,8 @@ export default async function CardNewsDetailPage({ params }: Props) {
           </div>
           <ul className="grid gap-px bg-hairline border border-hairline md:grid-cols-3">
             {posts.map((p) => (
-              <li key={p.slug} className="bg-page">
-                <Link href={`/blog/${p.slug}`} className="group flex h-full flex-col gap-3 p-6 hover:bg-surface-container-low transition-colors">
+              <li key={p.slug}>
+                <Link href={`/blog/${p.slug}`} className="group cell-link">
                   <time dateTime={p.date} className="font-code text-xs text-on-surface-muted tabular">{formatDateDot(p.date)}</time>
                   <span className="type-title text-on-surface group-hover:text-do-primary transition-colors">{p.title}</span>
                 </Link>
@@ -178,21 +224,21 @@ export default async function CardNewsDetailPage({ params }: Props) {
 
       <nav aria-label="이전·다음 카드" className="mt-20 grid gap-px bg-hairline border border-hairline sm:grid-cols-2">
         {older ? (
-          <Link href={`/card-news/${older.id}`} className="group bg-page p-6 hover:bg-surface-container-low transition-colors">
+          <Link href={`/card-news/${older.id}`} className="group cell-link">
             <span className="flex items-center gap-1 font-code text-xs uppercase tracking-[0.08em] text-on-surface-muted">
-              <ArrowLeft aria-hidden size={12} /> 이전 카드 {older.serial}
+              <ArrowLeft aria-hidden size={12} /> 이전 카드 <span className="tabular">{older.serial}</span>
             </span>
-            <p className="mt-2 type-title text-on-surface line-clamp-2 group-hover:text-do-primary transition-colors">{older.title}</p>
+            <span className="type-title text-on-surface line-clamp-2 group-hover:text-do-primary transition-colors">{older.title}</span>
           </Link>
         ) : (
           <div className="hidden sm:block bg-page" />
         )}
         {newer ? (
-          <Link href={`/card-news/${newer.id}`} className="group bg-page p-6 text-right hover:bg-surface-container-low transition-colors">
+          <Link href={`/card-news/${newer.id}`} className="group cell-link items-end text-right">
             <span className="flex items-center justify-end gap-1 font-code text-xs uppercase tracking-[0.08em] text-on-surface-muted">
-              다음 카드 {newer.serial} <ArrowRight aria-hidden size={12} />
+              다음 카드 <span className="tabular">{newer.serial}</span> <ArrowRight aria-hidden size={12} />
             </span>
-            <p className="mt-2 type-title text-on-surface line-clamp-2 group-hover:text-do-primary transition-colors">{newer.title}</p>
+            <span className="type-title text-on-surface line-clamp-2 group-hover:text-do-primary transition-colors">{newer.title}</span>
           </Link>
         ) : (
           <div className="hidden sm:block bg-page" />
