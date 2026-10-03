@@ -11,6 +11,9 @@
 	"name": "dev-gotech-lab",
 	"main": ".open-next/worker.js",
 	"compatibility_date": "2026-03-01",
+	// esbuild 이름 보존(__name 헬퍼)을 끈다: next-themes 가 함수 문자열로 만드는 인라인 스크립트에 __name 이 섞여
+	// 브라우저에서 "ReferenceError: __name is not defined" 가 났다(운영 포함).
+	"keep_names": false,
 	"compatibility_flags": [
 		"nodejs_compat",
 		"global_fetch_strictly_public"

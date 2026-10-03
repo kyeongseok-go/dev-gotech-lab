@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { SubscribeForm } from "@/components/subscribe-form";
 import { PageHeading } from "@/components/section/page-heading";
-import { Reveal } from "@/components/motion/reveal";
 
 export const metadata: Metadata = {
   title: "구독",
@@ -11,13 +10,13 @@ export const metadata: Metadata = {
 
 export default function SubscribePage() {
   return (
-    <main className="pt-28 pb-24 px-6 md:px-10 max-w-3xl mx-auto">
+    <main className="pt-28 md:pt-32 pb-24 px-[var(--gutter)] max-w-[84rem] mx-auto">
       <PageHeading
         eyebrow="Newsletter · Subscribe"
         size="xl"
         title={
           <>
-            소식 <span className="display-accent">받기</span>.
+            소식 <span className="marker">받기</span>.
           </>
         }
         lead={
@@ -27,14 +26,14 @@ export default function SubscribePage() {
           </>
         }
       />
-      <Reveal>
+      <div className="max-w-3xl">
         <div className="cta-atmos p-8 md:p-12">
           <SubscribeForm />
           <p className="mt-6 font-code text-xs text-on-surface-muted">
             구독은 언제든 해지할 수 있습니다.
           </p>
         </div>
-      </Reveal>
+      </div>
     </main>
   );
 }
