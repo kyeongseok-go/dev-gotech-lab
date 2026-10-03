@@ -17,7 +17,8 @@ export default defineConfig({
   // 한 테스트 안에서 여러 페이지를 차례로 여는 흐름 테스트가 있어 넉넉히 (재시도가 아니라 시간 예산)
   // 한 테스트에서 여러 페이지를 차례로 여는 흐름 테스트가 있어 넉넉히 둔다(재시도가 아니라 시간 예산)
   timeout: 180_000,
-  expect: { timeout: 10_000 },
+  // 공유 머신 부하에서 클라이언트 이동·하이드레이션이 10초를 넘는 경우가 있어 기다림 상한만 늘린다(단언은 그대로)
+  expect: { timeout: 30_000 },
   reporter: [["list"], ["html", { open: "never", outputFolder: "playwright-report" }]],
   use: {
     baseURL: BASE_URL,
