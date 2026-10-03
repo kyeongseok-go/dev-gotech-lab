@@ -14,6 +14,11 @@ if (!process.env.VELITE_STARTED && isDev) {
 // See https://opennext.js.org/cloudflare/bindings#local-access-to-bindings.
 initOpenNextCloudflareForDev();
 
-const nextConfig: NextConfig = {};
+const nextConfig: NextConfig = {
+  // 인물 사진 등 정적 이미지를 AVIF → WebP 순으로 협상해 전송 (Cloudflare IMAGES 바인딩이 변환)
+  images: {
+    formats: ["image/avif", "image/webp"],
+  },
+};
 
 export default nextConfig;
