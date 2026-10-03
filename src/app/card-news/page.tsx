@@ -3,13 +3,14 @@ import CardNewsGallery, { type CardNewsItem } from "@/components/card-news/card-
 import { PageHeading } from "@/components/section/page-heading";
 
 export const metadata: Metadata = {
-  title: "카드뉴스 | GoTechy",
-  description: "Reddit r/artificial, r/technology에서 엄선한 AI & 기술 트렌드를 카드뉴스로 빠르게 만나보세요.",
+  title: "카드뉴스",
+  description: "AI 회사 공식 발표, Hacker News·Reddit 커뮤니티, 국내 테크블로그에서 하루 한 건 고른 AI·개발 소식을 카드뉴스로 정리합니다.",
   alternates: { canonical: "/card-news" },
 };
 
-/* Reddit AI/Tech 트렌드 기반 샘플 데이터 */
-const CARD_NEWS_DATA: CardNewsItem[] = [
+/* 카드뉴스 원본 데이터 — scripts/card-news-pipeline/lib/publish.py 가 아래 마커 사이를 통째로 갱신한다.
+   상세 페이지·사이트맵·RSS 가 읽을 수 있도록 export 한다(데이터 위치는 그대로). */
+export const CARD_NEWS_DATA: CardNewsItem[] = [
 /* TECH-NEWS-PIPELINE-DATA:START */
   {
     id: 184,
@@ -2420,8 +2421,8 @@ export default function CardNewsPage() {
         }
         lead={
           <>
-            Reddit <span className="text-em">r/artificial</span>·<span className="text-em">r/technology</span>와 국내 테크
-            블로그에서 엄선한 AI·기술 트렌드. 카드를 누르면 요약과 원문 링크가 열립니다.
+            AI 회사 <span className="text-em">공식 발표</span>, Hacker News·Reddit <span className="text-em">커뮤니티</span>,{" "}
+            <span className="text-em">국내 테크블로그</span>에서 하루 한 건. 카드마다 원문 발췌와 출처 링크를 함께 둡니다.
           </>
         }
       />
