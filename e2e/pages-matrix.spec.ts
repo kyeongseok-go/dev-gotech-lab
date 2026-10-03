@@ -14,6 +14,7 @@ import {
   settleAnimations,
   test,
   type Theme,
+  waitForHydration,
 } from "./support/fixtures";
 
 const VIEWPORTS = [
@@ -36,6 +37,7 @@ for (const route of ALL_ROUTES) {
         expect(res?.status(), "문서 응답 200").toBe(200);
         await expect(page.locator("html")).toHaveClass(new RegExp(`\\b${theme}\\b`));
         await expect(page.locator("h1").first()).toBeVisible();
+        await waitForHydration(page); // 하이드레이션 오류가 콘솔에 나올 시점까지 확실히 기다린다
 
         await scrollThrough(page);
         const broken = (await brokenImages(page)).filter((src) => !isKnownExternalFailure(route, src));

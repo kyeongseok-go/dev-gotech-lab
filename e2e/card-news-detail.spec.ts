@@ -5,7 +5,7 @@
 import type { Page } from "@playwright/test";
 import { isMeaningfulTag } from "../src/lib/card-news";
 import { PRODUCTION_ORIGIN, blogs, cardViews } from "./support/site";
-import { expect, test } from "./support/fixtures";
+import { expect, test, gotoReady } from "./support/fixtures";
 
 const counter = (page: Page) => page.locator("p[aria-live=polite]", { hasText: "/" }).first();
 const rail = (page: Page) => page.getByRole("region", { name: "카드 슬라이드 — 좌우로 넘겨 보기" });
@@ -28,7 +28,7 @@ for (const card of picks) {
   test.describe(`카드 상세 ${card.serial}`, () => {
     test("모바일: 버튼으로 끝까지 넘기고 처음·끝에서 버튼이 비활성된다", async ({ page, diag }) => {
       await page.setViewportSize({ width: 390, height: 844 });
-      await page.goto(path);
+      await gotoReady(page, path);
       const total = await page.locator("li[data-slide]").count();
       expect(total).toBeGreaterThanOrEqual(2);
       const prev = page.getByRole("button", { name: "이전 장" });
@@ -54,7 +54,7 @@ for (const card of picks) {
 
     test("키보드: 레일에 포커스 후 → ← 로 넘긴다", async ({ page, diag }) => {
       await page.setViewportSize({ width: 390, height: 844 });
-      await page.goto(path);
+      await gotoReady(page, path);
       await rail(page).focus();
       await expect(rail(page)).toBeFocused();
       const before = await rail(page).evaluate((el) => el.scrollLeft);
@@ -82,7 +82,7 @@ for (const card of picks) {
     test("데스크톱: 메타·원문 링크·공유·이전/다음·관련 글", async ({ page, context, diag }) => {
       await page.setViewportSize({ width: 1440, height: 900 });
       await context.grantPermissions(["clipboard-read", "clipboard-write"]);
-      await page.goto(path);
+      await gotoReady(page, path);
       const url = `${PRODUCTION_ORIGIN}${path}`;
 
       await expect(page.locator("h1")).toHaveText(card.title);
@@ -170,7 +170,7 @@ for (const card of picks) {
 
 test("이전/다음 카드·전체 보기 링크를 따라가면 실제로 이동한다", async ({ page, diag }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
-  await page.goto(`/card-news/${cardViews[1].id}`);
+  await gotoReady(page, `/card-news/${cardViews[1].id}`);
   await page.getByRole("navigation", { name: "이전·다음 카드" }).getByRole("link", { name: /다음 카드/ }).click();
   await expect(page).toHaveURL(new RegExp(`/card-news/${cardViews[0].id}$`));
   await page.getByRole("navigation", { name: "이전·다음 카드" }).getByRole("link", { name: /이전 카드/ }).click();
@@ -186,7 +186,7 @@ test("관련 글이 있는 카드에서 글로 이동한다", async ({ page, dia
     return blogs.some((b) => b.tags.some((t) => set.has(t.toLowerCase())));
   });
   test.skip(!withRelated, "태그가 겹치는 카드·글 조합이 데이터에 없음");
-  await page.goto(`/card-news/${withRelated!.id}`);
+  await gotoReady(page, `/card-news/${withRelated!.id}`);
   const link = page.locator("section", { has: page.locator("#related-posts-title") }).locator("a").first();
   const href = await link.getAttribute("href");
   await link.click();

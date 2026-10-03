@@ -2,12 +2,12 @@
  * 서비스·AI 뉴스·소개·구독 폼(검증 메시지, 제출은 네트워크 가로채기)·RSS·sitemap·robots·404.
  */
 import { ALL_ROUTES, PRODUCTION_ORIGIN, blogs, cards, projects, showcase } from "./support/site";
-import { expect, test } from "./support/fixtures";
+import { expect, test, gotoReady } from "./support/fixtures";
 
 test.use({ viewport: { width: 1440, height: 900 } });
 
 test("서비스: 등록부가 보이고 AI 뉴스로 이동한다", async ({ page, diag }) => {
-  await page.goto("/services");
+  await gotoReady(page, "/services");
   await expect(page.locator("h1")).toContainText("Registry");
   await page.locator('main a[href="/services/news"]').first().click();
   await expect(page).toHaveURL(/\/services\/news$/);
@@ -18,7 +18,7 @@ test("서비스: 등록부가 보이고 AI 뉴스로 이동한다", async ({ pag
 });
 
 test("소개: 프로필 사진·연락 링크(메일·GitHub 새 탭)", async ({ page, diag }) => {
-  await page.goto("/about");
+  await gotoReady(page, "/about");
   const photo = page.getByRole("img", { name: /고경석 — 베이지 재킷/ });
   await expect(photo).toBeVisible();
   expect(await photo.evaluate((el: HTMLImageElement) => el.complete && el.naturalWidth > 0)).toBe(true);
@@ -43,7 +43,7 @@ for (const path of ["/subscribe", "/about"]) {
       }
       return route.fallback();
     });
-    await page.goto(path);
+    await gotoReady(page, path);
     const input = page.getByRole("textbox", { name: "이메일 주소" });
     const submit = page.getByRole("button", { name: "구독하기" });
     await input.scrollIntoViewIfNeeded();
@@ -77,7 +77,7 @@ test("RSS: 유효한 XML 이고 블로그 전부 + 최근 카드 30건을 운영
   expect(res.status()).toBe(200);
   expect(res.headers()["content-type"]).toContain("application/rss+xml");
   const xml = await res.text();
-  await page.goto("/");
+  await gotoReady(page, "/");
   const parsed = await page.evaluate((src) => {
     const doc = new DOMParser().parseFromString(src, "application/xml");
     const err = doc.querySelector("parsererror")?.textContent ?? null;

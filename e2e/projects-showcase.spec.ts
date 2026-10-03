@@ -4,12 +4,12 @@
 import { getCaseStudy } from "../src/lib/case-studies";
 import { POST_PROJECT_LINKS } from "../src/lib/series";
 import { PRODUCTION_ORIGIN, blogs, projects, showcase } from "./support/site";
-import { expect, headerBottom, test } from "./support/fixtures";
+import { expect, headerBottom, test, gotoReady } from "./support/fixtures";
 
 test.use({ viewport: { width: 1440, height: 900 } });
 
 test("프로젝트 목록: 모든 공개 프로젝트가 featured 우선 순서로 나오고 상세로 이동한다", async ({ page, diag }) => {
-  await page.goto("/projects");
+  await gotoReady(page, "/projects");
   const hrefs = await page.locator('main a[href^="/projects/"]').evaluateAll((els) => els.map((e) => e.getAttribute("href")));
   expect(hrefs).toEqual(projects.map((p) => `/projects/${p.slug}`));
   for (const p of projects) {
@@ -24,7 +24,7 @@ test("프로젝트 목록: 모든 공개 프로젝트가 featured 우선 순서�
 for (const [i, project] of projects.entries()) {
   test(`프로젝트 상세 ${project.slug}: 케이스 시트·각주·링크·개발 기록·JSON-LD`, async ({ page, diag }) => {
     const path = `/projects/${project.slug}`;
-    await page.goto(path);
+    await gotoReady(page, path);
     await expect(page.locator("h1")).toHaveText(project.title);
     await expect(page.locator(".entry-stamp")).toContainText(`P-${String(i + 1).padStart(2, "0")}`);
     await expect(page.locator("#case-title")).toBeVisible();
@@ -82,7 +82,7 @@ for (const [i, project] of projects.entries()) {
 }
 
 test("쇼케이스 목록: 모든 공개 항목이 나오고 상세·프로젝트·외부 링크가 올바르다", async ({ page, diag }) => {
-  await page.goto("/showcase");
+  await gotoReady(page, "/showcase");
   const hrefs = await page.locator('main a[href^="/showcase/"]').evaluateAll((els) => els.map((e) => e.getAttribute("href")));
   // showcase/page.tsx 규칙: 데모 링크 있는 운영 중(live) 항목 먼저, 그다음 상태 순(live→wip→archived)
   const order: Record<string, number> = { live: 0, wip: 1, archived: 2 };
@@ -102,7 +102,7 @@ test("쇼케이스 목록: 모든 공개 항목이 나오고 상세·프로젝�
 
 for (const item of showcase) {
   test(`쇼케이스 상세 ${item.slug}`, async ({ page, diag }) => {
-    await page.goto(`/showcase/${item.slug}`);
+    await gotoReady(page, `/showcase/${item.slug}`);
     await expect(page.locator("h1")).toHaveText(item.title);
     if (item.externalUrl) {
       const a = page.locator(`main a[href="${item.externalUrl}"]`).first();

@@ -2,7 +2,7 @@
  * 홈 — FIG.01 사진, 이 페이지 목차(§), CTA, 숫자 티커 최종값, 섹션 링크, 최신 카드 미리보기.
  */
 import { blogs, cards, projects, showcase } from "./support/site";
-import { expect, headerBottom, test } from "./support/fixtures";
+import { expect, headerBottom, test, gotoReady } from "./support/fixtures";
 
 /** 홈 숫자 스트립 — page.tsx 의 ENGINE_MONTHS(5년 5개월)와 실제 콘텐츠 수 */
 const STATS = [
@@ -17,7 +17,7 @@ test.describe("홈 (데스크톱)", () => {
   test.use({ viewport: { width: 1440, height: 900 } });
 
   test("FIG.01 인물 사진이 실제로 로드되고 4:5 비율·대체 텍스트를 가진다", async ({ page, diag }) => {
-    await page.goto("/");
+    await gotoReady(page, "/");
     const img = page.getByRole("img", { name: /고경석 — 검은 재킷/ });
     await expect(img).toBeVisible();
     await expect(img).toHaveAttribute("fetchpriority", "high");
@@ -40,7 +40,7 @@ test.describe("홈 (데스크톱)", () => {
   });
 
   test("이 페이지 목차(§01~§05)가 각 섹션 제목으로 이동하고 제목이 헤더에 가리지 않는다", async ({ page, diag }) => {
-    await page.goto("/");
+    await gotoReady(page, "/");
     const toc = page.getByRole("navigation", { name: "이 페이지 목차" });
     const links = toc.getByRole("link");
     await expect(links).toHaveCount(5);
@@ -60,7 +60,7 @@ test.describe("홈 (데스크톱)", () => {
   });
 
   test("숫자 티커는 실제 콘텐츠 수(최종값)에서 멈춘다", async ({ page, diag }) => {
-    await page.goto("/");
+    await gotoReady(page, "/");
     const strip = page.getByRole("region", { name: "주요 수치" });
     await strip.scrollIntoViewIfNeeded();
     for (const s of STATS) {
@@ -84,7 +84,7 @@ test.describe("홈 (데스크톱)", () => {
       { name: new RegExp(`^전체 ${pad2(showcase.length)}`), url: /\/showcase$/ },
     ];
     for (const c of cases) {
-      await page.goto("/");
+      await gotoReady(page, "/");
       await page.locator("main").getByRole("link", { name: c.name }).first().click();
       await expect(page).toHaveURL(c.url);
     }
@@ -92,7 +92,7 @@ test.describe("홈 (데스크톱)", () => {
   });
 
   test("프로젝트·최신 기록·쇼케이스 목록이 실제 데이터 순서로 링크된다", async ({ page, diag }) => {
-    await page.goto("/");
+    await gotoReady(page, "/");
     const works = page.locator("section", { has: page.locator("#works-title") });
     const workHrefs = await works.locator('a[href^="/projects/"]').evaluateAll((els) => els.map((e) => e.getAttribute("href")));
     expect(workHrefs).toEqual(projects.slice(0, 4).map((p) => `/projects/${p.slug}`));
@@ -111,7 +111,7 @@ test.describe("홈 (데스크톱)", () => {
   });
 
   test("최신 카드 미리보기 3장이 최신 카드 상세로 연결된다", async ({ page, diag }) => {
-    await page.goto("/");
+    await gotoReady(page, "/");
     const section = page.locator("section", { has: page.locator("#cardnews-title") });
     const links = section.locator('a[href^="/card-news/"]');
     const hrefs = await links.evaluateAll((els) => els.map((e) => e.getAttribute("href")));
@@ -128,7 +128,7 @@ test.describe("홈 (데스크톱)", () => {
 test.describe("홈 (모바일·태블릿)", () => {
   test("모바일에서는 제목 → 사진 → 리드 순서로 보이고 페이지 목차는 숨는다", async ({ page, diag }) => {
     await page.setViewportSize({ width: 390, height: 844 });
-    await page.goto("/");
+    await gotoReady(page, "/");
     await expect(page.getByRole("navigation", { name: "이 페이지 목차" })).toBeHidden();
     const h1 = await page.locator("#hero-title").boundingBox();
     const fig = await page.getByRole("img", { name: /고경석 — 검은 재킷/ }).boundingBox();
@@ -140,7 +140,7 @@ test.describe("홈 (모바일·태블릿)", () => {
 
   test("태블릿 폭(sm~md)에서는 카드 미리보기 2장만 보인다", async ({ page, diag }) => {
     await page.setViewportSize({ width: 768, height: 1024 });
-    await page.goto("/");
+    await gotoReady(page, "/");
     const links = page.locator("section", { has: page.locator("#cardnews-title") }).locator('a[href^="/card-news/"]');
     await expect(links.nth(0)).toBeVisible();
     await expect(links.nth(1)).toBeVisible();
@@ -151,7 +151,7 @@ test.describe("홈 (모바일·태블릿)", () => {
   test("동작 줄이기(reduced-motion)에서도 숫자 티커가 0이 아닌 최종값을 보여 준다", async ({ page, diag }) => {
     await page.emulateMedia({ reducedMotion: "reduce" });
     await page.setViewportSize({ width: 1440, height: 900 });
-    await page.goto("/");
+    await gotoReady(page, "/");
     const strip = page.getByRole("region", { name: "주요 수치" });
     for (const s of STATS) {
       const dd = strip.locator("div", { has: page.locator("dt", { hasText: s.label }) }).locator("dd");

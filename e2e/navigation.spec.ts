@@ -2,7 +2,7 @@
  * 헤더 내비·현재 위치 표시·모바일 메뉴·건너뛰기 링크·테마 토글(저장·새로고침 유지)·푸터 링크.
  */
 import { blogs, cards, projects } from "./support/site";
-import { expect, test } from "./support/fixtures";
+import { expect, test, gotoReady, reloadReady } from "./support/fixtures";
 
 const NAV = [
   { href: "/", label: "Home", heading: /Go Build the/ },
@@ -19,7 +19,7 @@ test.describe("데스크톱 헤더 내비", () => {
   test.use({ viewport: { width: 1440, height: 900 } });
 
   test("모든 메뉴가 해당 페이지로 이동하고 현재 위치(aria-current)를 하나만 표시한다", async ({ page, diag }) => {
-    await page.goto("/");
+    await gotoReady(page, "/");
     for (const item of NAV) {
       await mainNav(page).getByRole("link", { name: new RegExp(`${item.label}$`) }).click();
       await expect(page).toHaveURL(item.href === "/" ? /\/$/ : new RegExp(`${item.href}$`));
@@ -38,21 +38,21 @@ test.describe("데스크톱 헤더 내비", () => {
       { path: `/projects/${projects[0].slug}`, href: "/projects" },
     ];
     for (const c of cases) {
-      await page.goto(c.path);
+      await gotoReady(page, c.path);
       await expect(mainNav(page).locator('a[aria-current="page"]')).toHaveAttribute("href", c.href);
     }
     diag.assertClean();
   });
 
   test("로고는 홈으로 이동한다", async ({ page, diag }) => {
-    await page.goto("/about");
+    await gotoReady(page, "/about");
     await mainNav(page).getByRole("link", { name: "GoTechy 홈" }).click();
     await expect(page).toHaveURL(/\/$/);
     diag.assertClean();
   });
 
   test("본문으로 건너뛰기 링크가 첫 Tab 에 나타나고 #main 으로 이동한다", async ({ page, diag }) => {
-    await page.goto("/blog");
+    await gotoReady(page, "/blog");
     await page.keyboard.press("Tab");
     const skip = page.getByRole("link", { name: "본문으로 건너뛰기" });
     await expect(skip).toBeFocused();
@@ -67,7 +67,7 @@ test.describe("모바일 메뉴", () => {
   test.use({ viewport: { width: 390, height: 844 } });
 
   test("햄버거로 열고 닫으며, 항목을 누르면 이동 후 닫힌다", async ({ page, diag }) => {
-    await page.goto("/");
+    await gotoReady(page, "/");
     const toggle = page.getByRole("button", { name: "메뉴 열기" });
     await expect(toggle).toHaveAttribute("aria-expanded", "false");
     await expect(page.locator("#mobile-nav")).toHaveCount(0);
@@ -100,7 +100,7 @@ test.describe("테마 토글", () => {
   test.use({ viewport: { width: 1440, height: 900 } });
 
   test("기본은 다크, 토글하면 라이트로 바뀌고 새로고침·이동 후에도 유지된다", async ({ page, diag }) => {
-    await page.goto("/");
+    await gotoReady(page, "/");
     const html = page.locator("html");
     await expect(html).toHaveClass(/\bdark\b/);
 
@@ -111,7 +111,7 @@ test.describe("테마 토글", () => {
     // 배경색이 실제로 바뀌었는지 (토큰 적용)
     const lightBg = await page.evaluate(() => getComputedStyle(document.body).backgroundColor);
 
-    await page.reload();
+    await reloadReady(page);
     await expect(html).toHaveClass(/\blight\b/);
     await expect(page.getByRole("button", { name: "다크 모드로 전환" })).toBeVisible();
 
@@ -123,7 +123,7 @@ test.describe("테마 토글", () => {
     await expect(html).toHaveClass(/\bdark\b/);
     const darkBg = await page.evaluate(() => getComputedStyle(document.body).backgroundColor);
     expect(darkBg).not.toBe(lightBg);
-    await page.reload();
+    await reloadReady(page);
     await expect(html).toHaveClass(/\bdark\b/);
     expect(await page.evaluate(() => localStorage.getItem("theme"))).toBe("dark");
     diag.assertClean();
@@ -143,17 +143,17 @@ test.describe("푸터", () => {
   test.use({ viewport: { width: 1440, height: 900 } });
 
   test("사이트 목차 링크가 모두 이동하고, 외부 링크는 새 탭으로 연다", async ({ page, diag }) => {
-    await page.goto("/");
+    await gotoReady(page, "/");
     const footer = page.locator("footer");
     const index = footer.getByRole("navigation", { name: "사이트 목차" }).getByRole("link");
     const hrefs = await index.evaluateAll((els) => els.map((e) => e.getAttribute("href")));
     expect(hrefs).toEqual(["/blog", "/projects", "/showcase", "/card-news", "/about", "/subscribe"]);
     for (const href of hrefs) {
-      await page.goto("/");
+      await gotoReady(page, "/");
       await page.locator("footer").getByRole("link", { name: new RegExp(`^${href === "/card-news" ? "Card News" : href!.slice(1)}`, "i") }).first().click();
       await expect(page).toHaveURL(new RegExp(`${href}$`));
     }
-    await page.goto("/");
+    await gotoReady(page, "/");
     const github = page.locator("footer").getByRole("link", { name: /GitHub/ });
     await expect(github).toHaveAttribute("target", "_blank");
     await expect(github).toHaveAttribute("rel", /noopener/);

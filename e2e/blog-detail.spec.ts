@@ -5,7 +5,7 @@
 import type { Page } from "@playwright/test";
 import { POST_PROJECT_LINKS, SERIES } from "../src/lib/series";
 import { PRODUCTION_ORIGIN, blogs, draftBlogs, hasCodeBlock, projects } from "./support/site";
-import { expect, headerBottom, test } from "./support/fixtures";
+import { expect, headerBottom, test, gotoReady } from "./support/fixtures";
 
 const progressBar = (page: Page) => page.locator("div.fixed[aria-hidden] > div.origin-left");
 const scaleX = (page: Page) =>
@@ -38,7 +38,7 @@ for (const [index, post] of blogs.entries()) {
   test.describe(`블로그 상세 ${post.slug}`, () => {
     test("데스크톱: 머리·요약·목차 이동·현재 절 강조·진행 바·연재·이전/다음·관련·JSON-LD", async ({ page, diag }) => {
       await page.setViewportSize({ width: 1440, height: 900 });
-      await page.goto(path);
+      await gotoReady(page, path);
 
       // 머리
       await expect(page.locator("h1")).toHaveText(post.title);
@@ -190,7 +190,7 @@ for (const [index, post] of blogs.entries()) {
 
     test("모바일: 목차는 접혀 있다가 펼쳐지고, 항목을 누르면 해당 절로 이동한다", async ({ page, diag }) => {
       await page.setViewportSize({ width: 390, height: 844 });
-      await page.goto(path);
+      await gotoReady(page, path);
       await expect(page.getByRole("navigation", { name: "글 목차" })).toBeHidden();
       const details = page.locator("article details", { has: page.locator("summary", { hasText: "목차" }) });
       if ((await details.count()) === 0) {
@@ -218,7 +218,7 @@ for (const [index, post] of blogs.entries()) {
 
 test("이전/다음 글 링크를 따라가면 실제로 그 글이 열린다", async ({ page, diag }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
-  await page.goto(`/blog/${blogs[1].slug}`);
+  await gotoReady(page, `/blog/${blogs[1].slug}`);
   await page.getByRole("navigation", { name: "이전·다음 글" }).getByRole("link", { name: /다음 글/ }).click();
   await expect(page.locator("h1")).toHaveText(blogs[0].title);
   await page.getByRole("navigation", { name: "이전·다음 글" }).getByRole("link", { name: /이전 글/ }).click();

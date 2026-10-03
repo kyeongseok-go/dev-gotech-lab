@@ -204,3 +204,23 @@ export async function seriousA11yViolations(page: Page): Promise<string[]> {
 export async function headerBottom(page: Page): Promise<number> {
   return page.locator("header.glass-nav").evaluate((el) => el.getBoundingClientRect().bottom);
 }
+
+/**
+ * 하이드레이션 완료 대기 — 테마 토글 버튼은 마운트 뒤에만 렌더된다(그 전엔 빈 자리표시자).
+ * 정적 HTML 위에서 JS 가 붙기 전에 클릭·입력하면 이벤트가 유실될 수 있으므로 상호작용 전에 기다린다.
+ */
+export async function waitForHydration(page: Page): Promise<void> {
+  await expect(page.getByRole("button", { name: /모드로 전환$/ })).toBeVisible({ timeout: 30_000 });
+}
+
+/** 이동 후 하이드레이션까지 기다린다 */
+export async function gotoReady(page: Page, url: string): Promise<void> {
+  await page.goto(url);
+  await waitForHydration(page);
+}
+
+/** 새로고침 후 하이드레이션까지 기다린다 */
+export async function reloadReady(page: Page): Promise<void> {
+  await page.reload();
+  await waitForHydration(page);
+}
