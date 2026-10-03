@@ -1,5 +1,5 @@
 /* 출처: Magic UI Number Ticker (@magicui/number-ticker, https://magicui.design) — MIT.
-   변경: motion/react → framer-motion(기존 의존성 재사용), reduced-motion 시 즉시 최종값,
+   변경: motion/react → framer-motion(기존 의존성 재사용), reduced-motion 시 마운트 직후 최종값,
    기본 색상 클래스 제거(사이트 토큰 상속). */
 "use client"
 
@@ -52,10 +52,16 @@ export function NumberTicker({
   const target = direction === "down" ? startValue : value
 
   useEffect(() => {
-    if (!isInView || prefersReduced) return
+    if (prefersReduced) {
+      // 동작 줄이기: 애니메이션 없이 최종값으로 바로 바꾼다.
+      // 서버 HTML(시작값)과 첫 클라이언트 렌더를 같게 둬야 하이드레이션 불일치(#418)가 없다.
+      if (ref.current) ref.current.textContent = format(target, decimalPlaces, padStart)
+      return
+    }
+    if (!isInView) return
     const timer = setTimeout(() => motionValue.set(target), delay * 1000)
     return () => clearTimeout(timer)
-  }, [motionValue, isInView, delay, target, prefersReduced])
+  }, [motionValue, isInView, delay, target, prefersReduced, decimalPlaces, padStart])
 
   useEffect(
     () =>
@@ -72,8 +78,8 @@ export function NumberTicker({
       {/* 스크린리더에는 최종값만 노출, 애니메이션 숫자는 숨김 */}
       <span className="sr-only">{format(target, decimalPlaces, padStart)}</span>
       <span ref={ref} aria-hidden="true">
-        {/* reduced-motion 이면 애니메이션 없이 최종값을 바로 렌더 */}
-        {format(prefersReduced ? target : direction === "down" ? value : startValue, decimalPlaces, padStart)}
+        {/* 서버·클라이언트 모두 시작값으로 렌더 — reduced-motion 최종값은 마운트 직후 effect 가 넣는다 */}
+        {format(direction === "down" ? value : startValue, decimalPlaces, padStart)}
       </span>
     </span>
   )
