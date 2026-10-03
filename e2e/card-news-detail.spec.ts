@@ -194,9 +194,11 @@ test("관련 글이 있는 카드에서 글로 이동한다", async ({ page, dia
   diag.assertClean();
 });
 
-test("없는 카드 번호는 404 다", async ({ page, diag }) => {
-  const res = await page.goto("/card-news/999999");
-  expect(res?.status()).toBe(404);
-  diag.allowedStatusUrls.add(res!.url());
+test("없는 카드 번호·비정규 표기(0185, 문자)는 404 다", async ({ page, diag }) => {
+  for (const id of ["999999", `0${cardViews[0].id}`, `${cardViews[0].id}.0`, "abc"]) {
+    const res = await page.goto(`/card-news/${id}`);
+    expect(res?.status(), id).toBe(404);
+    diag.allowedStatusUrls.add(res!.url());
+  }
   diag.assertClean();
 });
