@@ -2,7 +2,8 @@
 
 import { useState, type FormEvent } from "react";
 
-type Status = "idle" | "submitting" | "success" | "error";
+/** unavailable = 구독 저장소(API)가 아직 연결되지 않음 — 성공한 척하지 않는다 */
+type Status = "idle" | "submitting" | "success" | "error" | "unavailable";
 
 interface SubscribeFormProps {
   /** 추후 실제 API 연동 시 이 함수를 교체 */
@@ -17,14 +18,16 @@ export function SubscribeForm({ onSubmit }: SubscribeFormProps) {
     e.preventDefault();
     if (!email.trim()) return;
 
+    if (!onSubmit) {
+      // 구독 API 가 없을 때 예전에는 1초 뒤 "완료"를 보여 줬지만 실제로는 아무것도 저장되지 않았다.
+      // 저장되지 않았다는 사실과 지금 쓸 수 있는 대안(RSS)을 알린다. 입력값은 그대로 둔다.
+      setStatus("unavailable");
+      return;
+    }
+
     setStatus("submitting");
     try {
-      if (onSubmit) {
-        await onSubmit(email);
-      } else {
-        // 더미 처리: 1초 대기 후 성공
-        await new Promise((r) => setTimeout(r, 1000));
-      }
+      await onSubmit(email);
       setStatus("success");
       setEmail("");
     } catch {
@@ -65,6 +68,15 @@ export function SubscribeForm({ onSubmit }: SubscribeFormProps) {
         {status === "success" && (
           <p className="text-accent-green">
             구독 신청이 완료되었습니다. 감사합니다!
+          </p>
+        )}
+        {status === "unavailable" && (
+          <p className="text-on-surface-variant">
+            아직 이메일 구독 서버가 연결되지 않아 신청이 저장되지 않았습니다. 새 글은{" "}
+            <a href="/rss.xml" className="text-link">
+              RSS
+            </a>
+            로 받아 보실 수 있습니다.
           </p>
         )}
         {status === "error" && (
