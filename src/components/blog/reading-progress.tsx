@@ -19,7 +19,11 @@ export function ReadingProgress({ targetId }: { targetId: string }) {
       if (!target || !bar) return;
       const rect = target.getBoundingClientRect();
       const total = rect.height - window.innerHeight;
-      const ratio = total > 0 ? Math.min(1, Math.max(0, -rect.top / total)) : 1;
+      // 본문이 화면보다 짧으면 "본문 끝이 화면에 들어온 만큼"으로 계산 — 맨 위에서 바로 100% 가 되지 않게
+      const ratio =
+        total > 0
+          ? Math.min(1, Math.max(0, -rect.top / total))
+          : Math.min(1, Math.max(0, (window.innerHeight - rect.top) / Math.max(1, rect.height)));
       bar.style.transform = `scaleX(${ratio})`;
     };
     const onScroll = () => {
