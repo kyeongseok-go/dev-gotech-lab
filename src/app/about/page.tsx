@@ -7,7 +7,7 @@ import { LabHead } from "@/components/section/lab-head";
 import { JsonLd } from "@/components/seo/json-ld";
 import { SITE_URL } from "@/lib/constants";
 import { padNumber } from "@/lib/format";
-import portraitSeated from "../../../public/images/portrait-seated.webp";
+import portraitFront from "../../../public/images/portrait-front.webp";
 import avatar from "../../../public/images/avatar.webp";
 
 export const metadata: Metadata = {
@@ -170,53 +170,59 @@ export default function AboutPage() {
         }
       />
 
-      {/* ── 프로필: 앉은 전신 누끼(검은 옷)를 밝은 패널 위에 — 홈(정면 상반신)과 다른 포즈 ── */}
-      <section aria-labelledby="profile-title" className="grid grid-cols-12 gap-x-6 lg:gap-x-10 gap-y-10 items-stretch">
+      {/* ── 프로필: 정면 상반신 누끼(베이지 재킷)를 청사진 도판 위에 — 홈(착석·검은 재킷)과 다른 포즈 ── */}
+      <section aria-labelledby="profile-title" className="grid grid-cols-12 gap-x-6 lg:gap-x-12 gap-y-10 items-stretch">
         <figure className="col-span-12 sm:col-span-8 sm:col-start-3 md:col-span-6 md:col-start-auto lg:col-span-5">
           <div className="crop-frame">
             <span aria-hidden className="crop crop-tl" />
             <span aria-hidden className="crop crop-tr" />
             <span aria-hidden className="crop crop-bl" />
             <span aria-hidden className="crop crop-br" />
-            <div className="portrait-panel-light relative overflow-hidden px-[8%] pt-[8%]">
-              <span className="absolute left-3 top-3 z-10 font-code text-[11px] font-bold uppercase tracking-[0.1em] text-[#2E2E38]">Fig. 02</span>
+            {/* 청사진(중간 명도) 도판: 밝은 재킷과 검은 머리가 모두 바탕과 분리된다 */}
+            <div className="plate plate-b pt-[12%]">
+              <span className="plate-label left-3 top-3">Fig. 02</span>
+              <span className="plate-label right-3 top-3 opacity-80">Portrait · front</span>
+              <span aria-hidden className="plate-scale left-3 top-8 w-[18%]" />
               <Image
-                src={portraitSeated}
-                alt="고경석 — 검은 재킷 차림으로 의자에 앉아 정면을 보는 전신 사진"
+                src={portraitFront}
+                alt="고경석 — 베이지 재킷에 흰 티셔츠 차림으로 정면을 보며 웃는 상반신 사진"
                 priority
                 fetchPriority="high"
                 sizes="(min-width: 1024px) 36vw, (min-width: 768px) 46vw, (min-width: 640px) 64vw, 92vw"
-                className="relative mx-auto block h-auto w-full"
+                className="relative z-[1] mx-auto block h-auto w-full"
               />
             </div>
           </div>
+          <figcaption className="fig-cap mt-6">
+            <span className="fig-no">Fig. 02</span>
+            <span>
+              <span className="font-semibold text-on-surface">고경석</span> · Go Kyeongseok — 서울에서 기록하는 풀스택 엔지니어.
+            </span>
+          </figcaption>
         </figure>
 
         <div className="col-span-12 md:col-span-6 lg:col-span-7 flex flex-col justify-between gap-10">
-          <dl className="grid grid-cols-2 border-t border-on-surface">
+          <dl className="spec-table">
             {[
               { k: "Name", v: `${PROFILE.name} · ${PROFILE.nameEn}` },
               { k: "Role", v: PROFILE.role },
               { k: "Base", v: "Seoul, KR" },
               { k: "Mail", v: PROFILE.email },
+              { k: "Edu.", v: PROFILE.edu },
+              { k: "Mil.", v: PROFILE.service },
             ].map(({ k, v }) => (
-              <div key={k} className="border-b border-hairline py-4 pr-4">
-                <dt className="font-code text-[11px] font-bold uppercase tracking-[0.12em] text-on-surface-muted">{k}</dt>
-                <dd className="mt-1.5 text-sm text-on-surface break-words">{v}</dd>
+              <div key={k} className="contents">
+                <dt>{k}</dt>
+                <dd>{v}</dd>
               </div>
             ))}
           </dl>
-          <div className="card-color p-6 md:p-8">
-            <h2 id="profile-title" className="type-label text-on-surface-muted">Currently</h2>
+          <div className="abstract-box">
+            <h2 id="profile-title" className="font-code text-xs uppercase tracking-[0.12em] text-on-surface-muted">Currently · 지금</h2>
             <p className="mt-4 type-headline text-on-surface">AI-native Full-stack Engineer</p>
             <p className="mt-4 type-body text-on-surface-variant">
               엔진 개발의 정밀함과 AI 빠른 빌드 사이클을 결합합니다. 문서 포맷 분석부터 DB·서버·클라이언트·동시편집까지
               풀스택으로 책임지던 사고를, 지금은 AI 페어 환경에서 동일하게 굴립니다.
-            </p>
-            <p className="mt-5 font-code text-xs leading-relaxed text-on-surface-muted">
-              {PROFILE.edu}
-              <br />
-              {PROFILE.service}
             </p>
             <div className="mt-6 flex flex-wrap gap-3">
               <a href={`mailto:${PROFILE.email}`} className="btn-primary inline-flex h-11 px-5 text-sm">
@@ -230,15 +236,19 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* ── 슬로건: 다크 밴드 ── */}
-      <section aria-labelledby="slogan-title" className="band-inverse mt-24 p-8 md:p-12">
-        <p className="type-label text-on-surface-muted">Slogan</p>
-        <h2 id="slogan-title" className="mt-5 type-display text-on-surface">
-          Go! Build the <span className="marker">Technology,</span>
-          <br />
-          more Easy.
-        </h2>
-        <p className="lead-rule mt-6 type-body text-on-surface-variant max-w-xl">기술이 사람의 삶에 닿을 때, 비로소 쉬워집니다.</p>
+      {/* ── 슬로건: 제사(epigraph) — 잉크 룰 사이 큰 인용 ── */}
+      <section aria-labelledby="slogan-title" className="epigraph mt-24 grid grid-cols-12 gap-x-6 gap-y-6">
+        <p className="col-span-12 lg:col-span-3 font-code text-xs uppercase tracking-[0.12em] text-on-surface-muted">
+          Epigraph · 슬로건
+        </p>
+        <div className="col-span-12 lg:col-span-9">
+          <h2 id="slogan-title" className="type-display text-on-surface">
+            Go! Build the <span className="marker">Technology,</span>
+            <br />
+            more Easy.
+          </h2>
+          <p className="lead-rule mt-8 type-body text-on-surface-variant max-w-xl">기술이 사람의 삶에 닿을 때, 비로소 쉬워집니다.</p>
+        </div>
       </section>
 
       {/* ── 강점 ── */}
@@ -249,7 +259,7 @@ export default function AboutPage() {
             <li key={s.idx} className="process-row">
               <span className="idx">{s.idx}</span>
               <div className="flex-1">
-                <h3 className="text-lg font-bold text-on-surface">{s.title}</h3>
+                <h3 className="text-lg font-semibold tracking-[-0.015em] text-on-surface">{s.title}</h3>
                 <p className="mt-1 type-small c-sub">{s.desc}</p>
               </div>
             </li>
@@ -260,12 +270,12 @@ export default function AboutPage() {
       {/* ── 경력: 제품 계보 + 4단계 ── */}
       <section aria-labelledby="career-title" className="mt-24 md:mt-32">
         <LabHead index="02" id="career-title" title="Career · 티맥스 A&C → 티맥스가이아" meta="2019.08 – 2024.12 · 5y 5m" />
-        <div className="card-color p-6 md:p-8">
-          <p className="type-label text-on-surface-muted">Office SW Engine Dev · 담당 제품 계보</p>
+        <div className="abstract-box">
+          <p className="font-code text-xs uppercase tracking-[0.12em] text-on-surface-muted">Office SW Engine Dev · 담당 제품 계보</p>
           <ol className="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-px bg-hairline border border-hairline">
             {PRODUCT_LINEAGE.map((p, i) => (
               <li key={p.name} className="bg-surface-container-low p-5">
-                <p className="font-code text-xs font-bold tabular text-on-surface-muted">{String(i + 1).padStart(2, "0")} {i < PRODUCT_LINEAGE.length - 1 ? "→" : ""}</p>
+                <p className="font-code text-xs tabular text-do-primary">{String(i + 1).padStart(2, "0")} <span className="text-on-surface-muted">{i < PRODUCT_LINEAGE.length - 1 ? "→" : ""}</span></p>
                 <p className="mt-2 type-title text-on-surface">{p.name}</p>
                 <p className="mt-1 type-small text-on-surface-variant">{p.note}</p>
               </li>
@@ -282,7 +292,7 @@ export default function AboutPage() {
               <span className="idx">{c.idx}</span>
               <div className="flex-1">
                 <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
-                  <h3 className="text-lg font-bold text-on-surface">{c.title}</h3>
+                  <h3 className="text-lg font-semibold tracking-[-0.015em] text-on-surface">{c.title}</h3>
                   <span className="font-code text-xs tabular text-on-surface-muted">
                     {c.period} · {c.team}
                   </span>
@@ -375,7 +385,9 @@ export default function AboutPage() {
         <LabHead index="06" id="contact-title" title="Contact · 연락" />
         <div className="grid grid-cols-12 gap-6 items-center">
           <div className="col-span-12 md:col-span-4 flex items-center gap-4">
-            <Image src={avatar} alt="고경석 증명사진" width={80} height={80} sizes="80px" className="size-20 object-cover" />
+            <div className="plate size-20 flex-none">
+              <Image src={avatar} alt="" width={80} height={80} sizes="80px" className="relative z-[1] size-full object-cover" />
+            </div>
             <div>
               <p className="font-bold text-on-surface">{PROFILE.name}</p>
               <p className="font-code text-xs text-on-surface-muted">{PROFILE.nameEn}</p>
@@ -383,14 +395,14 @@ export default function AboutPage() {
           </div>
           <ul className="col-span-12 md:col-span-8 grid grid-cols-1 sm:grid-cols-2 border-l border-t border-hairline">
             <li className="border-r border-b border-hairline">
-              <a href={`mailto:${PROFILE.email}`} className="group flex items-center gap-3 p-5 hover:bg-surface-container-low transition-colors">
+              <a href={`mailto:${PROFILE.email}`} className="group flex items-center gap-3 p-5 transition-colors hover:bg-surface-container-low active:bg-surface-container focus-visible:outline-offset-[-2px]">
                 <Mail aria-hidden size={18} className="text-on-surface" />
                 <span className="flex-1 font-code text-sm text-on-surface">{PROFILE.email}</span>
                 <ArrowUpRight aria-hidden size={16} className="text-on-surface-muted" />
               </a>
             </li>
             <li className="border-r border-b border-hairline">
-              <a href={PROFILE.github} target="_blank" rel="noopener noreferrer" className="group flex items-center gap-3 p-5 hover:bg-surface-container-low transition-colors">
+              <a href={PROFILE.github} target="_blank" rel="noopener noreferrer" className="group flex items-center gap-3 p-5 transition-colors hover:bg-surface-container-low active:bg-surface-container focus-visible:outline-offset-[-2px]">
                 <Github aria-hidden size={18} className="text-on-surface" />
                 <span className="flex-1 font-code text-sm text-on-surface">github.com/kyeongseok-go</span>
                 <ArrowUpRight aria-hidden size={16} className="text-on-surface-muted" />

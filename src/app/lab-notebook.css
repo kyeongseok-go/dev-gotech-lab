@@ -317,13 +317,12 @@ button.tag-chip:active { transform: translateY(1px); }
 	grid-template-columns: minmax(5.5rem, max-content) 1fr;
 	border-top: 1px solid var(--do-on-surface);
 }
-.spec-table > dt,
-.spec-table > dd {
+.spec-table :is(dt, dd) {
 	padding: 0.6875rem 0;
 	border-bottom: 1px solid var(--do-hairline);
 	min-width: 0;
 }
-.spec-table > dt {
+.spec-table dt {
 	padding-right: 1rem;
 	font-family: var(--font-code);
 	font-size: var(--ts-label);
@@ -332,7 +331,7 @@ button.tag-chip:active { transform: translateY(1px); }
 	color: var(--do-on-surface-muted);
 	padding-top: 0.875rem;
 }
-.spec-table > dd {
+.spec-table dd {
 	font-size: var(--ts-small);
 	color: var(--do-on-surface);
 	overflow-wrap: anywhere;
