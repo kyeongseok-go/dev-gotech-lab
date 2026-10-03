@@ -69,7 +69,32 @@ export class Diagnostics {
     }
   }
 
+  /**
+   * 외부 출처(CDN 등)의 "응답 자체가 없는" 네트워크 오류(시간 초과·연결 끊김)는 앱 결함이 아니라 망 사정이라
+   * 실패 대신 경고로 기록한다. 같은 출처의 실패, 그리고 어느 출처든 HTTP 4xx/5xx 응답은 그대로 실패다.
+   */
+  private isExternalNetworkBlip(issue: Issue): boolean {
+    if (!issue.url) return false;
+    let sameOrigin = false;
+    try {
+      sameOrigin = new URL(issue.url).origin === new URL(this.page.url()).origin;
+    } catch {
+      return false;
+    }
+    if (sameOrigin) return false;
+    const netError = /net::ERR_(TIMED_OUT|CONNECTION_(RESET|CLOSED|REFUSED|TIMED_OUT)|NETWORK_CHANGED|NAME_NOT_RESOLVED|INTERNET_DISCONNECTED|HTTP2_PROTOCOL_ERROR|QUIC_PROTOCOL_ERROR)/;
+    if (issue.kind === "requestfailed") return netError.test(issue.text);
+    if (issue.kind === "console") return /Failed to load resource: net::ERR_/.test(issue.text) && netError.test(issue.text);
+    return false;
+  }
+
+  /** 경고로만 남긴 외부 네트워크 오류 */
+  externalWarnings(): Issue[] {
+    return this.issues.filter((i) => this.isExternalNetworkBlip(i));
+  }
+
   private isAllowed(issue: Issue): boolean {
+    if (this.isExternalNetworkBlip(issue)) return true;
     const known = KNOWN_EXTERNAL_FAILURES[issue.pagePath] ?? [];
     if (issue.url && known.includes(issue.url)) return true;
     if (issue.url && this.allowedStatusUrls.has(issue.url)) return true;
@@ -85,6 +110,13 @@ export class Diagnostics {
   }
 
   assertClean(context = ""): void {
+    const warnings = this.externalWarnings();
+    if (warnings.length > 0) {
+      base.info().annotations.push({
+        type: "외부 네트워크 경고",
+        description: warnings.map((w) => `${w.text} ${w.url ?? ""}`).join("\n"),
+      });
+    }
     const bad = this.unexpected();
     expect(bad, `${context} 콘솔 에러·실패 요청 0건이어야 함:\n${bad.map((b) => `[${b.kind}] ${b.pagePath} ${b.text} ${b.url ?? ""}`).join("\n")}`).toEqual([]);
   }
