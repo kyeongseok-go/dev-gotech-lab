@@ -131,9 +131,10 @@ export async function settleAnimations(page: Page): Promise<void> {
 export async function scrollThrough(page: Page): Promise<void> {
   await page.evaluate(async () => {
     const step = Math.max(200, Math.floor(window.innerHeight * 0.8));
-    for (let y = 0; y < document.documentElement.scrollHeight; y += step) {
+    // rAF 는 CPU 경합·백그라운드 스로틀 때 멈출 수 있어 타이머로만 기다린다(무한 대기 방지용 상한 400걸음)
+    for (let y = 0, n = 0; y < document.documentElement.scrollHeight && n < 400; y += step, n++) {
       window.scrollTo(0, y);
-      await new Promise((r) => requestAnimationFrame(() => setTimeout(r, 30)));
+      await new Promise((r) => setTimeout(r, 40));
     }
     window.scrollTo(0, document.documentElement.scrollHeight);
     await new Promise((r) => setTimeout(r, 50));
