@@ -59,6 +59,30 @@ pnpm wrangler d1 migrations apply gotech-lab-db --local
 pnpm preview
 ```
 
+### E2E 테스트 (Playwright)
+
+로컬 프로덕션 빌드를 대상으로 사용자 동작 전체를 확인합니다. CI 에는 넣지 않았으므로 배포 전에 직접 실행합니다.
+
+```bash
+# 최초 1회: 브라우저 설치
+pnpm exec playwright install chromium
+
+# 빌드 후 실행 — 3372 포트에 next start 를 자동으로 띄운다(이미 떠 있으면 재사용)
+pnpm build
+pnpm test:e2e
+
+# 일부만 / 다른 서버 대상 (예: pnpm preview 로 띄운 workerd)
+pnpm test:e2e e2e/card-news-list.spec.ts
+E2E_BASE_URL=http://localhost:8787 pnpm test:e2e
+```
+
+- `e2e/pages-matrix.spec.ts` — 공개된 모든 페이지 × 320·390·768·1440 × 다크·라이트: 콘솔 에러·가로 넘침·깨진 이미지·axe serious/critical 0건
+- `e2e/link-crawl.spec.ts` — 모든 페이지의 내부 링크·같은 페이지 앵커
+- 나머지 스펙 — 내비·테마, 홈, 블로그 목록·상세, 카드뉴스 목록·상세, 프로젝트·쇼케이스, 구독·RSS·sitemap·robots·404
+- 기대값은 화면과 같은 원본(`.velite/*.json`, 카드뉴스 데이터 마커 구간)에서 계산하므로 콘텐츠가 늘어도 테스트를 고칠 필요가 없다
+- 재시도 0 — 한 번이라도 실패하면 실패로 본다. 결과 보고서: `pnpm exec playwright show-report`
+- 사전 등록 예외: `building-with-claude-day0-day1` 본문이 참조하는 외부 이미지 404 (`e2e/support/fixtures.ts`)
+
 ### 배포
 
 ```bash

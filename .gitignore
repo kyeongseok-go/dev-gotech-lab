@@ -56,3 +56,9 @@ next-env.d.ts
 
 
 !.dev.vars.example
+
+# Playwright E2E 산출물
+/test-results
+/playwright-report
+/blob-report
+/playwright/.cache

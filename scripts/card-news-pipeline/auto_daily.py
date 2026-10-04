@@ -13,11 +13,17 @@
   5. merge_and_publish → publish.py
   6. (호출자가 git commit/push)
 
+옵트인 플래그(기본 꺼짐):
+  --claude-caption     선정 항목에 Claude 문구 생성·검수를 추가로 돌려 승인 대기 파일만 남긴다.
+                       게시 내용(page.tsx)은 바꾸지 않는 섀도 모드. 실패해도 데일리 흐름은 계속된다.
+  --caption-out-dir    승인 대기 파일 위치(기본 /tmp/card_caption_<YYYY-MM-DD>)
+
 환경변수:
   REPO_ROOT   레포 루트 (기본: 스크립트 위치 기반)
 """
 from __future__ import annotations
 
+import argparse
 import datetime
 import json
 import os
@@ -186,7 +192,33 @@ def run(cmd: list[str]) -> None:
     subprocess.check_call(cmd)
 
 
-def main() -> int:
+def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
+    ap = argparse.ArgumentParser(description="카드뉴스 데일리 1건 자동 추가")
+    ap.add_argument("--claude-caption", action="store_true", default=False,
+                    help="(옵트인) Claude 문구 생성·검수 후 승인 대기 파일만 남김. 게시 내용은 바꾸지 않음")
+    ap.add_argument("--caption-out-dir", type=Path, default=None,
+                    help="승인 대기 파일 위치 (기본 /tmp/card_caption_<날짜>)")
+    return ap.parse_args(argv)
+
+
+def run_claude_caption(picked: dict, today: str, out_dir: Path | None) -> None:
+    """옵트인 섀도 모드. 실패는 로그만 남기고 데일리 게시 흐름에는 영향을 주지 않는다."""
+    try:
+        if str(LIB) not in sys.path:
+            sys.path.insert(0, str(LIB))
+        from caption.config import load_config
+        from caption.runner import run_items
+        from caption.source_text import item_from_candidate
+
+        target = out_dir or Path(f"/tmp/card_caption_{today}")
+        run_items([item_from_candidate(picked)], load_config(), target)
+        print(f"[auto_daily] claude-caption 승인 대기 파일: {target}", file=sys.stderr)
+    except Exception as e:  # 옵트인 단계 실패가 데일리 게시를 막지 않게 한다
+        print(f"[auto_daily] claude-caption 실패(게시 영향 없음): {type(e).__name__}: {e}", file=sys.stderr)
+
+
+def main(argv: list[str] | None = None) -> int:
+    args = parse_args(argv)
     today = datetime.date.today().isoformat()
     collect_out = Path(f"/tmp/news_daily_{today}.json")
     entry_out = Path(f"/tmp/entry_{today}.json")
@@ -209,6 +241,9 @@ def main() -> int:
     entry = build_entry(picked, max_id + 1, today)
     entry_out.write_text(json.dumps([entry], ensure_ascii=False, indent=2))
     print(f"[auto_daily] picked: id={entry['id']} slug={entry['slug']}", file=sys.stderr)
+
+    if args.claude_caption:
+        run_claude_caption(picked, today, args.caption_out_dir)
 
     # 2) backfill image
     run(["uv", "run", "--quiet", str(LIB / "pipeline.py"),

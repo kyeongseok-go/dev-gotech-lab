@@ -1,5 +1,6 @@
 import { blogs, projects, showcase } from "@/.velite";
 import type { Blog, Project, Showcase } from "@/.velite";
+import { SERIES, POST_PROJECT_LINKS, type SeriesDef } from "@/lib/series";
 
 /** 공개된 블로그 글을 최신순으로 반환 */
 export function getPublishedBlogs(): Blog[] {
@@ -69,12 +70,12 @@ export interface TocItem {
 
 export function extractToc(body: string): TocItem[] {
   const items: TocItem[] = [];
-  // 컴파일된 MDX: t.h2,{children:"텍스트"} 또는 t.h3,{children:"텍스트"}
-  const re = /t\.(h[23]),\{children:"([^"]+)"\}/g;
+  // 컴파일된 MDX: x.h2,{children:"텍스트"} — velite minify 로 변수명(t/h/…)이 빌드마다 달라진다
+  const re = /\b[A-Za-z_$][\w$]*\.(h[23]),\{children:"((?:[^"\\]|\\.)+)"\}/g;
   let match;
   while ((match = re.exec(body)) !== null) {
     const level = match[1] === "h2" ? 2 : 3;
-    const text = match[2];
+    const text = JSON.parse(`"${match[2]}"`) as string;
     const id = text
       .toLowerCase()
       .replace(/\s+/g, "-")
@@ -105,4 +106,70 @@ export function formatDate(dateStr: string): string {
     month: "long",
     day: "numeric",
   });
+}
+
+/* ── 시리즈 · 관련 글 · 관련 프로젝트 ───────────────────────── */
+
+export interface SeriesInfo {
+  def: SeriesDef;
+  /** 시리즈 순서대로 정렬된 공개 글 */
+  posts: Blog[];
+  /** 현재 글의 1부터 시작하는 위치 */
+  position: number;
+}
+
+function seriesOrder(def: SeriesDef, slug: string): number | null {
+  const m = def.pattern.exec(slug);
+  return m ? Number(m[1]) : null;
+}
+
+/** 글이 속한 시리즈 (공개 글 2편 이상일 때만) */
+export function getSeriesForPost(slug: string): SeriesInfo | null {
+  const def = SERIES.find((d) => d.pattern.test(slug));
+  if (!def) return null;
+  const posts = getPublishedBlogs()
+    .filter((p) => def.pattern.test(p.slug))
+    .sort((a, b) => (seriesOrder(def, a.slug) ?? 0) - (seriesOrder(def, b.slug) ?? 0));
+  if (posts.length < 2) return null;
+  const position = posts.findIndex((p) => p.slug === slug) + 1;
+  return position > 0 ? { def, posts, position } : null;
+}
+
+/** 시리즈 배지 문구 (목록용) — 예: "Karpathy LLM Wiki 연재 2/5" */
+export function getSeriesLabel(slug: string): string | null {
+  const info = getSeriesForPost(slug);
+  return info ? `${info.def.title} ${info.position}/${info.posts.length}` : null;
+}
+
+/** 태그 겹침 점수로 관련 글 (같은 시리즈 제외) */
+export function getRelatedPosts(slug: string, limit = 3): Blog[] {
+  const post = getBlogBySlug(slug);
+  if (!post) return [];
+  const seriesSlugs = new Set(getSeriesForPost(slug)?.posts.map((p) => p.slug) ?? []);
+  const tagSet = new Set(post.tags.map((t) => t.toLowerCase()));
+  return getPublishedBlogs()
+    .filter((p) => p.slug !== slug && !seriesSlugs.has(p.slug))
+    .map((p) => ({
+      p,
+      score:
+        p.tags.filter((t) => tagSet.has(t.toLowerCase())).length +
+        (post.category && p.category === post.category ? 0.5 : 0),
+    }))
+    .filter(({ score }) => score >= 1)
+    .sort((a, b) => b.score - a.score || new Date(b.p.date).getTime() - new Date(a.p.date).getTime())
+    .slice(0, limit)
+    .map(({ p }) => p);
+}
+
+/** 글에 연결된 공개 프로젝트 */
+export function getRelatedProjectsForPost(slug: string): Project[] {
+  const slugs = POST_PROJECT_LINKS[slug] ?? [];
+  return slugs
+    .map((s) => getProjectBySlug(s))
+    .filter((p): p is Project => !!p && !p.draft);
+}
+
+/** 프로젝트에 연결된 공개 글 (최신순) */
+export function getPostsForProject(projectSlug: string): Blog[] {
+  return getPublishedBlogs().filter((p) => (POST_PROJECT_LINKS[p.slug] ?? []).includes(projectSlug));
 }
