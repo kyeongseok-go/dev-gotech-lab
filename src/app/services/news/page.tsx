@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { PageHeading } from "@/components/section/page-heading";
+import { PageContainer } from "@/components/layout/page-container";
 import {
   getNewsItems,
   getNewsByCategory,
@@ -32,30 +32,31 @@ export default async function NewsPage({ searchParams }: Props) {
   ]);
 
   return (
-    <main className="pt-28 md:pt-32 pb-24 px-[var(--gutter)] max-w-[84rem] mx-auto">
-      <PageHeading
-        eyebrow="Services · News"
-        count={items.length}
-        title={
-          <>
-            AI <span className="marker">뉴스</span> 애그리게이터
-          </>
-        }
-        lead={
-          <>
-            AI·개발 관련 뉴스를 한눈에 모아봅니다.{" "}
-            <Link href="/services" className="prose-link">서비스 목록</Link>
-          </>
-        }
-      />
+    <PageContainer>
+      <div className="mb-2">
+        <Link
+          href="/services"
+          className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+        >
+          ← 서비스 목록
+        </Link>
+      </div>
+
+      <h1 className="text-2xl font-semibold">AI 뉴스 애그리게이터</h1>
+      <p className="mt-2 mb-6 text-muted-foreground">
+        AI·개발 관련 뉴스를 한눈에 모아봅니다.
+      </p>
 
       {/* 카테고리 필터 */}
       {categories.length > 0 && (
-        <div className="mb-8 flex flex-wrap items-center gap-1.5" role="group" aria-label="분류">
+        <div className="mb-6 flex flex-wrap items-center gap-2">
           <Link
             href="/services/news"
-            aria-current={!category ? "page" : undefined}
-            className={`tag-chip ${!category ? "!bg-on-surface !text-page" : ""}`}
+            className={`rounded-full px-3 py-1 text-xs transition-colors ${
+              !category
+                ? "bg-primary text-primary-foreground"
+                : "bg-secondary text-secondary-foreground hover:bg-secondary/80"
+            }`}
           >
             전체
           </Link>
@@ -63,8 +64,11 @@ export default async function NewsPage({ searchParams }: Props) {
             <Link
               key={cat}
               href={`/services/news?category=${cat}`}
-              aria-current={category === cat ? "page" : undefined}
-              className={`tag-chip ${category === cat ? "!bg-on-surface !text-page" : ""}`}
+              className={`rounded-full px-3 py-1 text-xs transition-colors ${
+                category === cat
+                  ? "bg-primary text-primary-foreground"
+                  : "bg-secondary text-secondary-foreground hover:bg-secondary/80"
+              }`}
             >
               {CATEGORY_LABEL[cat] ?? cat}
             </Link>
@@ -74,28 +78,28 @@ export default async function NewsPage({ searchParams }: Props) {
 
       {/* 뉴스 목록 */}
       {items.length === 0 ? (
-        <div className="border border-hairline p-8 text-center">
-          <p className="text-on-surface-variant">
+        <div className="rounded-lg border border-border p-8 text-center">
+          <p className="text-muted-foreground">
             {category
               ? "해당 카테고리에 뉴스가 없습니다."
               : "수집된 뉴스가 없습니다."}
           </p>
-          <p className="mt-2 text-sm text-on-surface-muted">
+          <p className="mt-2 text-sm text-muted-foreground">
             뉴스가 수집되면 이곳에 표시됩니다.
           </p>
         </div>
       ) : (
-        <ul className="border-b border-hairline">
+        <ul className="space-y-4">
           {items.map((item) => (
-            <li key={item.id} className="border-t border-hairline">
+            <li key={item.id}>
               <a
                 href={item.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group block px-2 py-5 transition-colors hover:bg-surface-container-low"
+                className="block rounded-lg border border-border p-5 transition-colors hover:bg-muted/50"
               >
-                <div className="flex items-center gap-3 font-code text-xs text-on-surface-muted">
-                  <span className="font-bold text-on-surface">
+                <div className="flex items-center gap-3 text-xs text-muted-foreground">
+                  <span className="rounded-full bg-secondary px-2 py-0.5 text-secondary-foreground">
                     {CATEGORY_LABEL[item.category] ?? item.category}
                   </span>
                   <span>{item.source}</span>
@@ -106,9 +110,9 @@ export default async function NewsPage({ searchParams }: Props) {
                     </>
                   )}
                 </div>
-                <h2 className="mt-2 type-title text-on-surface group-hover:text-do-primary transition-colors">{item.title}</h2>
+                <h2 className="mt-2 font-semibold">{item.title}</h2>
                 {item.summary && (
-                  <p className="mt-1 type-small text-on-surface-variant line-clamp-2">
+                  <p className="mt-1 text-sm text-muted-foreground line-clamp-2">
                     {item.summary}
                   </p>
                 )}
@@ -117,6 +121,6 @@ export default async function NewsPage({ searchParams }: Props) {
           ))}
         </ul>
       )}
-    </main>
+    </PageContainer>
   );
 }

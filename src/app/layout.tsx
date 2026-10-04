@@ -1,18 +1,20 @@
 import type { Metadata } from "next";
-import { Geist_Mono } from "next/font/google";
+import { Geist_Mono, Space_Grotesk } from "next/font/google";
 import { SiteHeader } from "@/components/layout/site-header";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { ThemeProvider } from "@/components/theme-provider";
 import { SITE_URL, SITE_NAME, SITE_DESCRIPTION } from "@/lib/constants";
 import "./globals.css";
 
-/* 서체 2패밀리 규율 (Lab Notebook)
-   · Pretendard Variable — 본문·한글 제목 (CDN 동적 서브셋, 아래 <link>)
-   · Geist Mono          — 실험 번호·날짜·태그 라벨, 숫자, 코드 */
+const spaceGrotesk = Space_Grotesk({
+	variable: "--font-space-grotesk",
+	subsets: ["latin"],
+	weight: ["300", "400", "500", "600", "700"],
+});
+
 const geistMono = Geist_Mono({
 	variable: "--font-geist-mono",
 	subsets: ["latin"],
-	display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -43,7 +45,7 @@ export default function RootLayout({
 	children: React.ReactNode;
 }>) {
 	return (
-		<html lang="ko" className={`dark ${geistMono.variable}`} suppressHydrationWarning>
+		<html lang="ko" className="dark" suppressHydrationWarning>
 			<head>
 				<script
 					dangerouslySetInnerHTML={{
@@ -54,21 +56,18 @@ export default function RootLayout({
 				<link rel="preconnect" href="https://cdn.jsdelivr.net" crossOrigin="anonymous" />
 				<link
 					rel="stylesheet"
-					href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css"
+					href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.8/dist/web/static/pretendard.css"
 					crossOrigin="anonymous"
 				/>
 			</head>
-			<body className="antialiased flex min-h-screen flex-col" suppressHydrationWarning>
+			<body
+				className={`${spaceGrotesk.variable} ${geistMono.variable} antialiased flex min-h-screen flex-col`}
+				suppressHydrationWarning
+			>
 				<ThemeProvider>
 					<div className="app-frame flex flex-1 flex-col">
-						<a
-							href="#main"
-							className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[60] focus:bg-on-surface focus:px-4 focus:py-2 focus:text-page"
-						>
-							본문으로 건너뛰기
-						</a>
 						<SiteHeader />
-						<div id="main" className="flex-1">{children}</div>
+						<div className="flex-1">{children}</div>
 						<SiteFooter />
 					</div>
 				</ThemeProvider>

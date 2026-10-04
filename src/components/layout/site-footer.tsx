@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
+import { Marquee } from "@/components/section/marquee";
 import { BrandLogo } from "@/components/brand/brand-logo";
 
 const SITE_LINKS = [
@@ -17,68 +18,66 @@ const CONNECT_LINKS = [
   { href: "/rss.xml", label: "RSS", external: false },
 ];
 
-const COLOPHON = [
-  { k: "Type", v: "Pretendard · Geist Mono" },
-  { k: "Stack", v: "Next.js 16 · Tailwind v4 · Velite MDX" },
-  { k: "Host", v: "Cloudflare Workers" },
-];
+const MARQUEE_WORDS = [
+  "Go Build the Technology",
+  "more easy",
+  "기술을 만들고, 더 쉽게 살자",
+  "GoTechy",
+] as const;
 
-const LINK_CLASS =
-  "group inline-flex items-center gap-1 text-[15px] text-on-surface hover:text-do-primary transition-colors";
-
-/**
- * SiteFooter — 노트 뒷표지(콜로폰).
- * 잉크 룰 + 4열 헤어라인 표: 브랜드 · 목차 · 연락 · 콜로폰.
- */
 export function SiteFooter() {
-  const year = new Date().getFullYear();
   return (
-    <footer className="mt-24 md:mt-32 px-[var(--gutter)]">
-      <div className="mx-auto max-w-[84rem] border-t border-on-surface">
-        <div className="grid grid-cols-12 gap-px bg-hairline border-b border-hairline">
-          <div className="col-span-12 lg:col-span-5 bg-page py-8 lg:pr-8">
+    <footer className="w-full mt-32">
+      {/* 상단 거대 마퀴 */}
+      <div className="border-y border-hairline">
+        <Marquee
+          durationSec={36}
+          items={MARQUEE_WORDS.map((w) => (
+            <span
+              key={w}
+              className="font-headline text-on-surface-muted"
+              style={{ fontSize: "clamp(2.5rem,7vw,5.5rem)", letterSpacing: "-0.03em", fontWeight: 600 }}
+            >
+              {w}
+              <span className="text-do-primary"> ✦ </span>
+            </span>
+          ))}
+        />
+      </div>
+
+      <div className="max-w-7xl mx-auto px-6 md:px-10 py-16">
+        <div className="grid grid-cols-12 gap-6 md:gap-8 mb-12">
+          {/* Brand */}
+          <div className="col-span-12 md:col-span-5">
             <Link
               href="/"
               aria-label="GoTechy 홈"
-              className="-ml-2 inline-flex items-center transition-opacity hover:opacity-85"
+              className="inline-flex items-center -ml-2 mb-3 transition-opacity hover:opacity-85"
             >
-              <BrandLogo size="md" />
+              <BrandLogo size="lg" />
             </Link>
-            <p className="mt-4 type-small text-on-surface-variant max-w-sm">
+            <p className="type-small text-on-surface-variant max-w-sm">
               Go Build the Technology, <span className="text-em">more easy.</span>
-              <br />
-              가자!! 기술을 만들고, 더 쉽게 살자.
+              <br />가자!! 기술을 만들고, 더 쉽게 살자.
             </p>
           </div>
 
-          <nav aria-label="사이트 목차" className="col-span-6 lg:col-span-2 bg-page py-8 lg:pl-6">
-            <p className="font-code text-[11px] uppercase tracking-[0.12em] text-on-surface-muted mb-4">Index</p>
-            <ul className="space-y-2">
+          {/* Links */}
+          <div className="col-span-6 md:col-span-3">
+            <span className="font-code text-xs font-semibold tracking-widest uppercase text-on-surface-muted block mb-5">
+              Links
+            </span>
+            <ul className="space-y-2.5">
               {SITE_LINKS.map(({ href, label }) => (
-                <li key={href}>
-                  <Link href={href} className={LINK_CLASS}>
-                    {label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </nav>
-
-          <div className="col-span-6 lg:col-span-2 bg-page py-8 pl-6">
-            <p className="font-code text-[11px] uppercase tracking-[0.12em] text-on-surface-muted mb-4">Connect</p>
-            <ul className="space-y-2">
-              {CONNECT_LINKS.map(({ href, label, external }) => (
                 <li key={href}>
                   <Link
                     href={href}
-                    {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-                    className={LINK_CLASS}
+                    className="font-headline font-medium text-base text-on-surface hover:text-do-primary transition-colors inline-flex items-center gap-1 group"
                   >
                     {label}
                     <ArrowUpRight
-                      aria-hidden
-                      size={13}
-                      className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                      size={14}
+                      className="opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all"
                     />
                   </Link>
                 </li>
@@ -86,24 +85,41 @@ export function SiteFooter() {
             </ul>
           </div>
 
-          <div className="col-span-12 lg:col-span-3 bg-page py-8 lg:pl-6">
-            <p className="font-code text-[11px] uppercase tracking-[0.12em] text-on-surface-muted mb-4">Colophon</p>
-            <dl className="space-y-2 text-sm">
-              {COLOPHON.map(({ k, v }) => (
-                <div key={k} className="grid grid-cols-[4rem_1fr] gap-2">
-                  <dt className="font-code text-xs text-on-surface-muted pt-0.5">{k}</dt>
-                  <dd className="text-on-surface-variant">{v}</dd>
-                </div>
+          {/* Connect */}
+          <div className="col-span-6 md:col-span-4">
+            <span className="font-code text-xs font-semibold tracking-widest uppercase text-on-surface-muted block mb-5">
+              Connect
+            </span>
+            <ul className="space-y-2.5">
+              {CONNECT_LINKS.map(({ href, label, external }) => (
+                <li key={href}>
+                  <Link
+                    href={href}
+                    {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+                    className="font-headline font-medium text-base text-on-surface hover:text-do-primary transition-colors inline-flex items-center gap-1 group"
+                  >
+                    {label}
+                    <ArrowUpRight
+                      size={14}
+                      className="opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all"
+                    />
+                  </Link>
+                </li>
               ))}
-            </dl>
+            </ul>
           </div>
         </div>
 
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-2 py-6 font-code text-xs text-on-surface-muted">
-          <p>
-            © {year} GoTechy · Designed &amp; developed by <span className="text-on-surface">고경석</span>
+        {/* 하단 카피 */}
+        <div className="pt-8 border-t border-hairline flex flex-col md:flex-row items-start md:items-center justify-between gap-3">
+          <p className="font-code text-xs text-on-surface-faint">
+            Designed &amp; developed by{" "}
+            <span className="text-do-primary">고경석</span> · &copy; {new Date().getFullYear()}{" "}
+            GoTechy. All rights reserved.
           </p>
-          <p className="tabular">EOF — end of notebook</p>
+          <p className="font-code text-xs text-on-surface-faint">
+            Next.js 16 · Tailwind v4 · Velite MDX · Cloudflare
+          </p>
         </div>
       </div>
     </footer>

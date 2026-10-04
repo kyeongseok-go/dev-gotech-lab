@@ -10,8 +10,6 @@ const blogs = defineCollection({
     slug: s.slug("blogs"),
     date: s.isodate(),
     description: s.string().max(999).optional(),
-    /** 3줄 요약 (선택). 없으면 상세의 요약 박스는 description 을 보여준다 */
-    tldr: s.array(s.string().max(200)).max(3).optional(),
     category: s.string().optional(),
     tags: s.array(s.string()).default([]),
     draft: s.boolean().default(false),
@@ -69,8 +67,7 @@ export default defineConfig({
   },
   mdx: {
     rehypePlugins: [
-      // 두 테마 색을 --shiki-dark / --shiki-light 변수로 함께 내보내고 globals.css 에서 테마별로 고른다
-      [rehypePrettyCode, { theme: { dark: "github-dark-default", light: "github-light-default" }, keepBackground: false, defaultLang: { block: "plaintext" } }],
+      [rehypePrettyCode, { theme: "github-dark-default", keepBackground: true }],
     ],
   },
   collections: { blogs, projects, showcase },

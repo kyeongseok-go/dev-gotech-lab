@@ -10,7 +10,7 @@ export function ThemeToggle() {
   // 하이드레이션 불일치 방지
   // eslint-disable-next-line react-hooks/set-state-in-effect
   useEffect(() => { setMounted(true); }, []);
-  if (!mounted) return <div className="size-10" />;
+  if (!mounted) return <div className="h-8 w-8" />;
 
   const isDark = theme === "dark";
 
@@ -18,7 +18,7 @@ export function ThemeToggle() {
     <button
       onClick={() => setTheme(isDark ? "light" : "dark")}
       aria-label={isDark ? "라이트 모드로 전환" : "다크 모드로 전환"}
-      className="flex size-10 items-center justify-center rounded-[2px] text-on-surface shadow-[inset_0_0_0_1px_var(--do-hairline)] transition-colors hover:bg-surface-container hover:text-do-primary"
+      className="flex h-8 w-8 items-center justify-center rounded-lg border border-border bg-secondary text-primary transition-colors hover:opacity-80"
     >
       {isDark ? (
         /* 달 아이콘 */
