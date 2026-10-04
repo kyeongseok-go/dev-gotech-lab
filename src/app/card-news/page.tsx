@@ -13,6 +13,19 @@ export const metadata: Metadata = {
 export const CARD_NEWS_DATA: CardNewsItem[] = [
 /* TECH-NEWS-PIPELINE-DATA:START */
   {
+    id: 186,
+    slug: "introducing-oscilloscope-diffusion",
+    title: "Introducing Oscilloscope Diffusion",
+    summary: "A novel way to intervene existing video through diffusion, particularly abstract visuals [in this case, audio-reactive geometries] : taking its movement and form as the starting point, and reinterpreting its textures, materials, and visual ",
+    content: "",
+    category: "ai",
+    image_url: "/card-news/introducing-oscilloscope-diffusion.png",
+    external_link: "https://v.redd.it/wqgv2jzmz9th1",
+    tags: ["Introducing", "Oscilloscope", "Diffusion"],
+    created_at: "2026-10-04",
+    span: "",
+  },
+  {
     id: 185,
     slug: "데이터-분석-에이전트를-만들며-배운-컨텍스트-설계",
     title: "데이터 분석 에이전트를 만들며 배운 컨텍스트 설계",
