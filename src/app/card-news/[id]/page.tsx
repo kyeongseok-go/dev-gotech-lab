@@ -16,8 +16,10 @@ interface Props {
   params: Promise<{ id: string }>;
 }
 
-/* dynamicParams = false 를 두지 않는다: OpenNext(Cloudflare)는 증분 캐시를 설정하지 않으면 미리 만든 HTML 을
-   런타임에 읽지 않아, 요청 시 렌더가 금지된 이 경로가 전부 404 가 됐다. 없는 번호는 아래 notFound() 가 404 로 처리한다. */
+/* 빌드 때 만든 카드만 연다 — 없는 번호는 런타임 렌더 없이 404.
+   (open-next.config.ts 의 정적 자산 증분 캐시가 미리 만든 HTML 을 런타임에 돌려주므로 이제 켤 수 있다.
+    캐시 없이 켜면 이 경로가 전부 404 가 된다.) */
+export const dynamicParams = false;
 
 function findCard(id: string) {
   // "0185"·"185.0" 같은 다른 표기는 같은 카드의 중복 주소가 되므로 404

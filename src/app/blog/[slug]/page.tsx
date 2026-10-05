@@ -47,6 +47,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
+/** 빌드 때 만든 글만 연다 — 없는·초안 slug 는 런타임 렌더 없이 404 (open-next.config.ts 정적 자산 캐시 전제) */
+export const dynamicParams = false;
+
 export function generateStaticParams() {
   return getPublishedBlogs().map((post) => ({ slug: post.slug }));
 }
