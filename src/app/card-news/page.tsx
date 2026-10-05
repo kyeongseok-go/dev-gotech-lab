@@ -12,6 +12,19 @@ export const metadata: Metadata = {
 const CARD_NEWS_DATA: CardNewsItem[] = [
 /* TECH-NEWS-PIPELINE-DATA:START */
   {
+    id: 187,
+    slug: "updated-claude-storagememory-map-whats-local-whats-cloud-and",
+    title: "Updated Claude storage/memory map: what's local, what's cloud, and what changes Oct 6",
+    summary: "Lots of changes over the last few months. Hard to keep track of. Here are all 21 Anthropic help articles, doc pages and release notes on the migration combined in one visualization. Next milestone is October 6th. If you haven't seen it alre",
+    content: "",
+    category: "news",
+    image_url: "/card-news/updated-claude-storagememory-map-whats-local-whats-cloud-and.png",
+    external_link: "https://i.redd.it/pf7icjzjxgth1.png",
+    tags: ["Updated", "Claude", "Oct"],
+    created_at: "2026-10-05",
+    span: "",
+  },
+  {
     id: 186,
     slug: "introducing-oscilloscope-diffusion",
     title: "Introducing Oscilloscope Diffusion",
