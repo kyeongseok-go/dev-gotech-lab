@@ -3,6 +3,9 @@ import { SITE_URL, SITE_NAME, SITE_DESCRIPTION } from "@/lib/constants";
 import { CARD_NEWS_DATA } from "@/app/card-news/page";
 import { toCardView } from "@/lib/card-news";
 
+/** 요청 정보를 쓰지 않는 피드 — 빌드 때 한 번 만들어 정적 자산 캐시에서 내보낸다(런타임 렌더 0) */
+export const dynamic = "force-static";
+
 /** RSS 에 넣을 최근 카드뉴스 수 (피드 크기 제한) */
 const RSS_CARD_LIMIT = 30;
 

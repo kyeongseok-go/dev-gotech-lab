@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import CardNewsGallery, { type CardNewsItem } from "@/components/card-news/card-news-gallery";
 import { PageHeading } from "@/components/section/page-heading";
+import { getPopularTags, toGalleryCard } from "@/lib/card-news";
 
 export const metadata: Metadata = {
   title: "카드뉴스",
@@ -2453,7 +2454,7 @@ export default function CardNewsPage() {
         }
       />
 
-      <CardNewsGallery items={CARD_NEWS_DATA} />
+      <CardNewsGallery cards={CARD_NEWS_DATA.map(toGalleryCard)} popularTags={getPopularTags(CARD_NEWS_DATA)} />
     </main>
   );
 }

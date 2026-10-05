@@ -1,16 +1,14 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { Search, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import {
   CATEGORY_LABEL,
   SOURCE_KIND_LABEL,
-  getPopularTags,
-  toCardView,
   type CardNewsItem,
-  type CardView,
+  type GalleryCard,
   type SourceKind,
 } from "@/lib/card-news";
 
@@ -65,7 +63,7 @@ function writeFilters(f: Filters) {
   window.history.replaceState(null, "", qs ? `?${qs}` : window.location.pathname);
 }
 
-function matches(card: CardView, f: Filters): boolean {
+function matches(card: GalleryCard, f: Filters): boolean {
   if (f.cat !== "all" && card.category !== f.cat) return false;
   if (f.src !== "all" && card.source?.kind !== f.src) return false;
   if (f.tag && !card.tags.some((t) => t.toLowerCase() === f.tag.toLowerCase())) return false;
@@ -78,7 +76,7 @@ function matches(card: CardView, f: Filters): boolean {
 }
 
 /* ── 카드 ── */
-function SourceLine({ card }: { card: CardView }) {
+function SourceLine({ card }: { card: GalleryCard }) {
   if (!card.source) return null;
   return (
     <span className="inline-flex flex-wrap items-center gap-1.5">
@@ -90,7 +88,7 @@ function SourceLine({ card }: { card: CardView }) {
   );
 }
 
-function CardNewsCard({ card, variant }: { card: CardView; variant: "lead" | "bento" | "archive" }) {
+function CardNewsCard({ card, variant }: { card: GalleryCard; variant: "lead" | "bento" | "archive" }) {
   const isLead = variant === "lead";
   return (
     <Link
@@ -145,9 +143,8 @@ function CardNewsCard({ card, variant }: { card: CardView; variant: "lead" | "be
 }
 
 /* ── 메인 갤러리 ── */
-export default function CardNewsGallery({ items }: { items: CardNewsItem[] }) {
-  const cards = useMemo(() => items.map(toCardView), [items]);
-  const popularTags = useMemo(() => getPopularTags(items), [items]);
+/** cards·popularTags 는 서버에서 미리 계산해 넘긴다(toGalleryCard·getPopularTags) */
+export default function CardNewsGallery({ cards, popularTags }: { cards: GalleryCard[]; popularTags: string[] }) {
   const [filters, setFilters] = useState<Filters>(EMPTY);
   const [visible, setVisible] = useState(PAGE_SIZE);
   const [ready, setReady] = useState(false);

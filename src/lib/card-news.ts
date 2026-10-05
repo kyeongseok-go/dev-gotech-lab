@@ -242,3 +242,14 @@ export function toCardView(item: CardNewsItem) {
 }
 
 export type CardView = ReturnType<typeof toCardView>;
+
+/**
+ * 목록(갤러리) 카드 모델 — 서버(빌드 시점)에서 한 번 계산해 클라이언트로는 화면에 쓰는 필드만 보낸다.
+ * 원문 요약·본문 전체와 클라이언트 쪽 재계산(문장 분리·엔티티 디코드)을 페이지 페이로드에서 뺀다.
+ */
+export function toGalleryCard(item: CardNewsItem) {
+  const { id, title, excerpt, category, image_url, tags, dateDot, serial, source } = toCardView(item);
+  return { id, title, excerpt, category, image_url, tags, dateDot, serial, source };
+}
+
+export type GalleryCard = ReturnType<typeof toGalleryCard>;

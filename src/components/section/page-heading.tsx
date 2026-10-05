@@ -7,8 +7,8 @@ interface PageHeadingProps {
 	title: ReactNode;
 	/** 본문 (선택) */
 	lead?: ReactNode;
-	/** 우측 카운트 (예: 17 → "017") */
-	count?: string | number;
+	/** 우측 카운트 (예: 17 → "017"). 클라이언트에서 바뀌는 값은 노드로 넘긴다(그대로 표시) */
+	count?: string | number | ReactNode;
 	/** XL 사이즈 vs 기본 */
 	size?: "xl" | "default";
 }
@@ -25,7 +25,8 @@ export function PageHeading({
 	count,
 	size = "default",
 }: PageHeadingProps) {
-	const countText = count != null ? String(count).padStart(3, "0") : null;
+	const countText =
+		typeof count === "string" || typeof count === "number" ? String(count).padStart(3, "0") : (count ?? null);
 	return (
 		<header className="relative mb-14 md:mb-20">
 			<div className="flex items-baseline justify-between gap-6 border-t border-on-surface pt-3 mb-8 md:mb-12">
