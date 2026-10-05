@@ -6,11 +6,14 @@ import { Search, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import {
   CATEGORY_LABEL,
+  GALLERY_BENTO_COUNT as BENTO_COUNT,
+  GALLERY_PAGE_SIZE as PAGE_SIZE,
   SOURCE_KIND_LABEL,
   type CardNewsItem,
   type GalleryCard,
   type SourceKind,
 } from "@/lib/card-news";
+import { useCardIndex } from "./use-card-index";
 
 export type { CardNewsItem };
 
@@ -30,11 +33,6 @@ const SOURCE_FILTERS: { key: SourceKind | "all"; label: string }[] = [
   { key: "media", label: SOURCE_KIND_LABEL.media },
 ];
 
-/** 벤토 상단: 최신 1건(커버) + 4건 */
-const BENTO_COUNT = 5;
-/** 아카이브 한 번에 보여줄 개수 */
-const PAGE_SIZE = 24;
-
 interface Filters {
   q: string;
   cat: string;
@@ -42,6 +40,7 @@ interface Filters {
   src: string;
 }
 const EMPTY: Filters = { q: "", cat: "all", tag: "", src: "all" };
+const isEmptyFilters = (f: Filters) => !f.q && f.cat === "all" && !f.tag && f.src === "all";
 
 /** URL ?q=&cat=&tag=&src= ↔ 상태. 정적 페이지 그대로 두기 위해 history API 로만 동기화 */
 function readFilters(): Filters {
@@ -143,34 +142,60 @@ function CardNewsCard({ card, variant }: { card: GalleryCard; variant: "lead" | 
 }
 
 /* ── 메인 갤러리 ── */
-/** cards·popularTags 는 서버에서 미리 계산해 넘긴다(toGalleryCard·getPopularTags) */
-export default function CardNewsGallery({ cards, popularTags }: { cards: GalleryCard[]; popularTags: string[] }) {
+interface CardNewsGalleryProps {
+  /** 첫 화면 카드(벤토 + 아카이브 1쪽) — 서버(빌드 시점)에서 계산 */
+  initialCards: GalleryCard[];
+  /** 전체 카드 수 */
+  total: number;
+  /** 분류별 카드 수 (all 포함) */
+  categoryCounts: Record<string, number>;
+  popularTags: string[];
+}
+
+/**
+ * 목록 응답에는 첫 화면 카드만 싣고(카드 수와 무관한 크기), 필터·검색·더 보기를 처음 쓰면
+ * 정적 인덱스(/card-news/index.json)를 한 번 불러와 그 뒤로는 클라이언트에서 거른다.
+ */
+export default function CardNewsGallery({ initialCards, total, categoryCounts, popularTags }: CardNewsGalleryProps) {
+  const { all, failed, ensureAll } = useCardIndex(initialCards, total);
   const [filters, setFilters] = useState<Filters>(EMPTY);
   const [visible, setVisible] = useState(PAGE_SIZE);
   const [ready, setReady] = useState(false);
 
-  // 첫 렌더 후 URL 의 필터를 반영 (서버 HTML 은 기본 필터 그대로 정적 생성)
+  // 첫 렌더 후 URL 의 필터를 반영 (서버 HTML 은 기본 필터 그대로 정적 생성) — 필터가 있으면 전체 카드를 불러온다
   useEffect(() => {
+    const fromUrl = readFilters();
     // eslint-disable-next-line react-hooks/set-state-in-effect
-    setFilters(readFilters());
+    setFilters(fromUrl);
     setReady(true);
-  }, []);
+    if (!isEmptyFilters(fromUrl)) void ensureAll();
+  }, [ensureAll]);
 
   useEffect(() => {
     if (ready) writeFilters(filters);
   }, [filters, ready]);
 
   const update = (patch: Partial<Filters>) => {
+    void ensureAll();
     setFilters((f) => ({ ...f, ...patch }));
     setVisible(PAGE_SIZE);
   };
 
+  const showMore = async () => {
+    if (await ensureAll()) setVisible((v) => v + PAGE_SIZE);
+  };
+
+  const cards = all ?? initialCards;
+  /** 필터를 썼는데 전체 카드를 아직 못 불러온 상태 — 일부 카드로 거른 틀린 결과를 보여 주지 않는다 */
+  const loading = !all && !isEmptyFilters(filters);
   const filtered = cards.filter((c) => matches(c, filters));
   const isNarrowed = Boolean(filters.q || filters.tag || filters.src !== "all");
   const bento = isNarrowed ? [] : filtered.slice(0, BENTO_COUNT);
   const archive = isNarrowed ? filtered : filtered.slice(BENTO_COUNT);
+  // 전체를 안 불러온 기본 화면에서는 아카이브 총수를 서버가 준 전체 수로 계산
+  const archiveTotal = all ? archive.length : total - BENTO_COUNT;
   const shownArchive = archive.slice(0, visible);
-  const countOf = (key: string) => (key === "all" ? cards.length : cards.filter((c) => c.category === key).length);
+  const countOf = (key: string) => categoryCounts[key] ?? 0;
 
   return (
     <div>
@@ -238,7 +263,7 @@ export default function CardNewsGallery({ cards, popularTags }: { cards: Gallery
         </div>
       </div>
 
-      {isNarrowed && (
+      {isNarrowed && !loading && (
         <div className="mb-6 flex flex-wrap items-center gap-3 font-code text-xs text-on-surface-muted" aria-live="polite">
           <span className="tabular">
             결과 <span className="font-bold text-on-surface">{filtered.length}</span>건
@@ -249,7 +274,15 @@ export default function CardNewsGallery({ cards, popularTags }: { cards: Gallery
         </div>
       )}
 
-      {filtered.length === 0 ? (
+      {failed ? (
+        <p role="alert" className="py-20 text-center type-body text-on-surface-variant">
+          카드 목록을 불러오지 못했습니다. 잠시 뒤 다시 시도해 주세요.
+        </p>
+      ) : loading ? (
+        <p role="status" aria-busy="true" className="py-20 text-center type-body text-on-surface-muted">
+          카드 목록을 불러오는 중…
+        </p>
+      ) : filtered.length === 0 ? (
         <p className="py-20 text-center type-body text-on-surface-variant">조건에 맞는 카드뉴스가 없습니다.</p>
       ) : (
         <>
@@ -272,7 +305,7 @@ export default function CardNewsGallery({ cards, popularTags }: { cards: Gallery
                   {isNarrowed ? "Results · 검색 결과" : "Archive · 지난 카드"}
                 </h2>
                 <span className="font-code text-xs text-on-surface-muted tabular">
-                  {Math.min(visible, archive.length)} / {archive.length}
+                  {Math.min(visible, archiveTotal)} / {archiveTotal}
                 </span>
               </div>
               <ul className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 border-l border-t border-hairline">
@@ -282,11 +315,11 @@ export default function CardNewsGallery({ cards, popularTags }: { cards: Gallery
                   </li>
                 ))}
               </ul>
-              {visible < archive.length && (
+              {visible < archiveTotal && (
                 <div className="mt-8 flex justify-center">
-                  <button type="button" onClick={() => setVisible((v) => v + PAGE_SIZE)} className="btn-outline inline-flex h-11 px-6 text-sm">
+                  <button type="button" onClick={showMore} className="btn-outline inline-flex h-11 px-6 text-sm">
                     더 보기
-                    <span className="font-code text-xs tabular">+{Math.min(PAGE_SIZE, archive.length - visible)}</span>
+                    <span className="font-code text-xs tabular">+{Math.min(PAGE_SIZE, archiveTotal - visible)}</span>
                   </button>
                 </div>
               )}

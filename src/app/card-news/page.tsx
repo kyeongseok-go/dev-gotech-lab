@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import CardNewsGallery, { type CardNewsItem } from "@/components/card-news/card-news-gallery";
 import { PageHeading } from "@/components/section/page-heading";
-import { getPopularTags, toGalleryCard } from "@/lib/card-news";
+import { GALLERY_INITIAL_COUNT, countByCategory, getPopularTags, toGalleryCard } from "@/lib/card-news";
 
 export const metadata: Metadata = {
   title: "카드뉴스",
@@ -2467,7 +2467,13 @@ export default function CardNewsPage() {
         }
       />
 
-      <CardNewsGallery cards={CARD_NEWS_DATA.map(toGalleryCard)} popularTags={getPopularTags(CARD_NEWS_DATA)} />
+      {/* 첫 화면 카드만 싣는다 — 나머지는 /card-news/index.json (빌드 때 생성)에서 필요할 때 불러온다 */}
+      <CardNewsGallery
+        initialCards={CARD_NEWS_DATA.slice(0, GALLERY_INITIAL_COUNT).map(toGalleryCard)}
+        total={CARD_NEWS_DATA.length}
+        categoryCounts={countByCategory(CARD_NEWS_DATA)}
+        popularTags={getPopularTags(CARD_NEWS_DATA)}
+      />
     </main>
   );
 }

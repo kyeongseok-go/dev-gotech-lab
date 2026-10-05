@@ -253,3 +253,23 @@ export function toGalleryCard(item: CardNewsItem) {
 }
 
 export type GalleryCard = ReturnType<typeof toGalleryCard>;
+
+/* ── 목록 페이로드 고정 ────────────────────────────────── */
+
+/** 목록 첫 화면: 벤토(최신 1 + 4) */
+export const GALLERY_BENTO_COUNT = 5;
+/** 아카이브 한 번에 보여줄 개수 */
+export const GALLERY_PAGE_SIZE = 24;
+/**
+ * 목록 HTML/RSC 에는 첫 화면 카드만 싣는다 — 카드 수가 늘어도 /card-news 응답 크기가 그대로이게.
+ * 전체 표시 모델은 빌드 때 만든 정적 JSON(아래 주소)으로 분리해 필터·검색·더 보기를 처음 쓸 때 한 번 불러온다.
+ */
+export const GALLERY_INITIAL_COUNT = GALLERY_BENTO_COUNT + GALLERY_PAGE_SIZE;
+export const CARD_INDEX_URL = "/card-news/index.json";
+
+/** 분류별 카드 수 (분류 버튼 숫자용 — 전체 목록을 불러오기 전에도 정확해야 한다) */
+export function countByCategory(items: CardNewsItem[]): Record<string, number> {
+  const counts: Record<string, number> = { all: items.length };
+  for (const item of items) counts[item.category] = (counts[item.category] ?? 0) + 1;
+  return counts;
+}

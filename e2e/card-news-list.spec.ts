@@ -3,7 +3,7 @@
  * 기대값은 화면과 같은 표시 모델(toCardView·getPopularTags)로 원본 데이터에서 계산한다.
  */
 import type { Page } from "@playwright/test";
-import { getPopularTags, SOURCE_KIND_LABEL, type CardView } from "../src/lib/card-news";
+import { CARD_INDEX_URL, getPopularTags, SOURCE_KIND_LABEL, type CardView } from "../src/lib/card-news";
 import { cardViews, cards } from "./support/site";
 import { expect, test, gotoReady, reloadReady } from "./support/fixtures";
 
@@ -169,4 +169,32 @@ test("카드를 누르면 상세로 이동한다", async ({ page, diag }) => {
   await expect(page).toHaveURL(new RegExp(`/card-news/${cards[0].id}$`));
   await expect(page.locator("h1")).toHaveText(cardViews[0].title);
   diag.assertClean();
+});
+
+test("첫 화면은 전체 인덱스를 받지 않고, 처음 '더 보기'를 누를 때 한 번만 받는다", async ({ page, diag }) => {
+  const indexRequests: string[] = [];
+  page.on("request", (req) => {
+    if (new URL(req.url()).pathname === CARD_INDEX_URL) indexRequests.push(req.url());
+  });
+  await gotoReady(page, "/card-news");
+  await page.waitForLoadState("networkidle");
+  expect(indexRequests, "첫 화면에서 인덱스를 받으면 목록 응답을 고정한 의미가 없다").toEqual([]);
+
+  const more = page.getByRole("button", { name: /더 보기/ });
+  await more.click();
+  await expect(page.locator('section[aria-labelledby="archive-title"]')).toContainText(`${PAGE * 2} / ${cards.length - BENTO}`);
+  await more.click();
+  await expect(page.locator('section[aria-labelledby="archive-title"]')).toContainText(`${Math.min(PAGE * 3, cards.length - BENTO)} / ${cards.length - BENTO}`);
+  await search(page).fill("Claude");
+  await expect.poll(() => params(page)).toEqual({ q: "Claude" });
+  expect(indexRequests).toHaveLength(1);
+  diag.assertClean();
+});
+
+test("전체 인덱스를 받지 못하면 틀린 결과 대신 안내를 보여 준다", async ({ page }) => {
+  await page.route(`**${CARD_INDEX_URL}`, (route) => route.fulfill({ status: 503, body: "unavailable" }));
+  await gotoReady(page, "/card-news");
+  await search(page).fill("Anthropic");
+  await expect(page.locator("main").getByRole("alert")).toContainText("카드 목록을 불러오지 못했습니다");
+  await expect(page.locator('main a[href^="/card-news/"]')).toHaveCount(0);
 });

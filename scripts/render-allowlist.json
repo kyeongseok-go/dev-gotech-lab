@@ -1,5 +1,5 @@
 {
-  "$comment": "요청마다 Worker 에서 렌더되는(ƒ 동적) 경로의 허용 목록 — 단일 원천. scripts/check-render-modes.mjs(빌드 검사)와 e2e/runtime-cost.spec.ts(G3b)가 함께 읽는다. 여기 없는 경로가 동적이 되면 CI 가 실패한다. 추가할 때는 이유와 요청당 처리 시간 상한(ms)을 함께 적는다.",
+  "$comment": "요청마다 Worker 에서 렌더되는(ƒ 동적) 경로의 허용 목록 — 단일 원천. scripts/check-render-modes.mjs(빌드 검사)와 e2e/runtime-cost.spec.ts(G3b)가 함께 읽는다. 여기 없는 경로가 동적이 되면 CI 가 실패한다. 추가할 때는 이유와 요청당 처리 시간 상한(maxP95Ms = 하한 상한 ms, maxRatioToReference = 같은 실행의 캐시 기준 페이지 p95 대비 배수)을 함께 적는다.",
   "dynamic": {
     "/services/news": {
       "reason": "D1 에서 최신 뉴스를 요청마다 읽는 실서비스 페이지(?category= 필터 포함)",
@@ -7,7 +7,15 @@
       "samples": [
         "/services/news",
         "/services/news?category=ai"
-      ]
+      ],
+      "maxRatioToReference": 2.5
+    }
+  },
+  "budgets": {
+    "$comment": "미리 렌더된 페이지의 응답 크기 상한(KB, .next/server/app 산출물 기준). 캐시 응답 CPU 는 캐시 항목 크기에 비례한다(로컬 실측 약 4ms + 0.026ms/KB). /card-news 는 첫 화면 카드만 싣도록 고정했으므로 카드 수가 늘어도 커지면 안 된다(실측 html 95KB·rsc 29KB, 2026-10-05).",
+    "/card-news": {
+      "htmlKB": 130,
+      "rscKB": 45
     }
   }
 }
