@@ -13,6 +13,7 @@
  *  4. 허용 목록의 경로가 더는 동적이 아니다(목록이 낡음) 또는 앱에 없다.
  *  5. open-next.config.ts 에 정적 자산 증분 캐시·캐시 인터셉션 설정이 없다
  *     (없으면 빌드 표시는 ○/● 여도 운영에서는 전부 SSR 된다 — 이번 장애의 직접 원인).
+ *  6. 크기 예산(render-allowlist.json budgets)을 넘는 페이지가 있다 — 캐시 응답 CPU 는 항목 크기에 비례한다.
  */
 import { readFileSync, existsSync } from "node:fs";
 import path from "node:path";
@@ -45,6 +46,27 @@ function checkOpenNextConfig(errors) {
   }
 }
 
+/** 미리 렌더된 HTML·RSC 크기가 예산 안인지 (.next/server/app/<경로>.html / .rsc) */
+function checkBudgets(budgets, errors) {
+  const report = [];
+  for (const [route, budget] of Object.entries(budgets)) {
+    if (route.startsWith("$")) continue;
+    const base = path.join(NEXT_DIR, "server", "app", route === "/" ? "index" : route.slice(1));
+    for (const [ext, key] of [["html", "htmlKB"], ["rsc", "rscKB"]]) {
+      if (budget[key] == null) continue;
+      const file = `${base}.${ext}`;
+      if (!existsSync(file)) {
+        errors.push(`${route}: 크기 예산 대상 ${path.relative(ROOT, file)} 이 없다 — 정적으로 미리 렌더되는지 확인`);
+        continue;
+      }
+      const kb = readFileSync(file).length / 1024;
+      report.push(`${route}.${ext} ${kb.toFixed(0)}KB / 예산 ${budget[key]}KB`);
+      if (kb > budget[key]) errors.push(`${route}.${ext}: ${kb.toFixed(0)}KB > 예산 ${budget[key]}KB — 목록에 전체 데이터를 싣고 있지 않은지 확인`);
+    }
+  }
+  return report;
+}
+
 function main() {
   const manifestPath = path.join(NEXT_DIR, "prerender-manifest.json");
   if (!existsSync(manifestPath)) {
@@ -55,7 +77,8 @@ function main() {
   const appRoutes = [...new Set(Object.values(readJson(path.join(NEXT_DIR, "app-path-routes-manifest.json"))))]
     .filter((r) => !INTERNAL.has(r))
     .sort();
-  const allowlist = readJson(path.join(ROOT, "scripts", "render-allowlist.json")).dynamic ?? {};
+  const contract = readJson(path.join(ROOT, "scripts", "render-allowlist.json"));
+  const allowlist = contract.dynamic ?? {};
 
   const errors = [];
   const rows = appRoutes.map((route) => {
@@ -82,6 +105,7 @@ function main() {
     if (!appRoutes.includes(route)) errors.push(`${route}: 허용 목록에 있지만 앱에 없는 경로다`);
   }
   checkOpenNextConfig(errors);
+  const budgetReport = checkBudgets(contract.budgets ?? {}, errors);
 
   const prerendered = Object.keys(routes).filter((r) => !INTERNAL.has(r)).length;
   console.log("렌더 방식 (○ 정적 · ● SSG · ƒ 동적)");
@@ -89,6 +113,7 @@ function main() {
     console.log(`  ${MARK[mode]} ${route}${mode === "dynamic" && allowed ? "  (허용 목록)" : ""}`);
   }
   console.log(`미리 렌더된 페이지 ${prerendered}개, 동적 경로 ${rows.filter((r) => r.mode === "dynamic").length}개`);
+  for (const line of budgetReport) console.log(`  크기 ${line}`);
 
   if (errors.length) {
     console.error(`\n✗ 렌더 방식 검사 실패 (${errors.length}건)`);

@@ -9,5 +9,12 @@
         "/services/news?category=ai"
       ]
     }
+  },
+  "budgets": {
+    "$comment": "미리 렌더된 페이지의 응답 크기 상한(KB, .next/server/app 산출물 기준). 캐시 응답 CPU 는 캐시 항목 크기에 비례한다(로컬 실측 약 4ms + 0.026ms/KB). /card-news 는 첫 화면 카드만 싣도록 고정했으므로 카드 수가 늘어도 커지면 안 된다(실측 html 95KB·rsc 29KB, 2026-10-05).",
+    "/card-news": {
+      "htmlKB": 130,
+      "rscKB": 45
+    }
   }
 }

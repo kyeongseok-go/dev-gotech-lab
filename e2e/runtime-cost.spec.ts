@@ -30,8 +30,8 @@ const ALLOWLIST: Record<string, AllowEntry> = JSON.parse(
   fs.readFileSync(path.resolve(__dirname, "..", "scripts", "render-allowlist.json"), "utf8"),
 ).dynamic;
 
-/** 메타 라우트(사이트맵·RSS·robots)도 요청마다 렌더되면 안 된다 */
-const META_ROUTES = ["/rss.xml", "/sitemap.xml", "/robots.txt"];
+/** 메타 라우트(사이트맵·RSS·robots·카드 인덱스)도 요청마다 렌더되면 안 된다 */
+const META_ROUTES = ["/rss.xml", "/sitemap.xml", "/robots.txt", "/card-news/index.json"];
 /** 동적 세그먼트에 없는 값 — 런타임 렌더 없이 404 여야 한다(카드 번호 비정규 표기 포함) */
 const MISSING_ROUTES = ["/card-news/0185", "/card-news/185.0", "/card-news/abc", "/card-news/99999", "/blog/no-such-post", "/projects/no-such", "/showcase/no-such"];
 /** 실제 브라우저로 열어 프리페치까지 포함한 요청을 보는 페이지 (장애 때 프리페치 팬아웃이 컸던 곳) */
