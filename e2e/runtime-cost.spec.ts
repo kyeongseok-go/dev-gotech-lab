@@ -21,8 +21,10 @@ import { ALL_ROUTES } from "./support/site";
 
 interface AllowEntry {
   reason: string;
-  /** 콜드 요청을 뺀 서버 처리 시간 p95 상한(ms) */
+  /** 콜드 요청을 뺀 서버 처리 시간 p95 하한 상한(ms) — 빠른 기계에서도 이 값까지는 허용 */
   maxP95Ms: number;
+  /** 같은 실행에서 잰 캐시 기준 페이지 p95 의 몇 배까지 허용하는지 (기계 속도 보정) */
+  maxRatioToReference?: number;
   /** 시간을 잴 주소(쿼리 포함). 없으면 경로 그대로 */
   samples?: string[];
 }
@@ -39,6 +41,21 @@ const BROWSE_PAGES = ["/", "/card-news", "/blog", "/card-news/186"];
 /** 시간 측정: 콜드 제외 워밍업 횟수와 표본 수 */
 const WARMUP = 3;
 const SAMPLES = 20;
+/**
+ * 시간 기준 페이지 — 작은 캐시 적중 페이지. 공유 기계에서는 같은 경로의 절대 시간이 하루에도 2~3배 흔들려서
+ * (2026-10-05 실측: /services/news p95 15~20ms → 33~60ms, 같은 시점 /subscribe 14~21ms → 20~35ms)
+ * 동적 경로 상한을 같은 실행에서 잰 기준 페이지 p95 에 비례하게 잡는다. 장애 유형(무거운 페이지 SSR)은 캐시 대비 약 5배였다.
+ */
+const TIMING_REFERENCE = "/subscribe";
+/** 기계가 아무리 느려도 넘으면 안 되는 상한 */
+const HARD_CEILING_MS = 250;
+
+async function measureP95(url: string): Promise<number> {
+  for (let i = 0; i < WARMUP; i++) expect((await timedGet(url)).res.status).toBe(200);
+  const times: number[] = [];
+  for (let i = 0; i < SAMPLES; i++) times.push((await timedGet(url)).ms);
+  return p95(times);
+}
 
 const BASE = process.env.E2E_BASE_URL ?? `http://localhost:${process.env.E2E_PORT ?? 3372}`;
 const isAllowed = (pathname: string) => Object.hasOwn(ALLOWLIST, pathname);
@@ -126,19 +143,19 @@ test("없는 주소는 404 다 (동적 세그먼트 dynamicParams=false)", async
 });
 
 for (const [route, entry] of Object.entries(ALLOWLIST)) {
-  test(`허용된 동적 경로 ${route}: 콜드 제외 p95 ≤ ${entry.maxP95Ms}ms`, async () => {
+  const ratio = entry.maxRatioToReference ?? 2.5;
+  test(`허용된 동적 경로 ${route}: 콜드 제외 p95 ≤ max(${entry.maxP95Ms}ms, 기준 페이지 p95 × ${ratio}), ≤ ${HARD_CEILING_MS}ms`, async () => {
     test.skip(process.env.E2E_TIMING !== "1", "시간 상한은 단독 실행(E2E_TIMING=1, --workers=1)에서만 잰다");
-    const report: string[] = [];
+    const refP95 = await measureP95(BASE + TIMING_REFERENCE);
+    const limit = Math.min(HARD_CEILING_MS, Math.max(entry.maxP95Ms, refP95 * ratio));
+    const report: string[] = [`기준 ${TIMING_REFERENCE} p95 ${refP95.toFixed(1)}ms → 상한 ${limit.toFixed(1)}ms`];
     let worst = 0;
     for (const sample of entry.samples ?? [route]) {
-      for (let i = 0; i < WARMUP; i++) expect((await timedGet(BASE + sample)).res.status).toBe(200);
-      const times: number[] = [];
-      for (let i = 0; i < SAMPLES; i++) times.push((await timedGet(BASE + sample)).ms);
-      const v = p95(times);
+      const v = await measureP95(BASE + sample);
       worst = Math.max(worst, v);
       report.push(`${sample}: p95 ${v.toFixed(1)}ms (n=${SAMPLES})`);
     }
     test.info().annotations.push({ type: "p95", description: report.join(" · ") });
-    expect(worst, report.join("\n")).toBeLessThanOrEqual(entry.maxP95Ms);
+    expect(worst, report.join("\n")).toBeLessThanOrEqual(limit);
   });
 }
