@@ -39,9 +39,56 @@ jobs:
       - name: 빌드
         run: pnpm build
 
+      - name: 렌더 방식 검사 (G3b — 허용 목록 밖 동적 경로·dynamicParams·ISR·증분 캐시 설정)
+        run: pnpm check:render
+
+  runtime-cost:
+    # G3b: 운영과 같은 런타임(OpenNext 로컬 workerd)에서 공개 페이지가 전부 미리 렌더된 캐시로 응답하는지.
+    # 로컬 workerd 는 CPU 한도를 강제하지 않으므로 시간 대신 "요청마다 렌더되는가"를 본다(시간 상한은 로컬 게이트에서).
+    name: 운영 런타임 비용 (G3b)
+    runs-on: ubuntu-latest
+    steps:
+      - name: 체크아웃
+        uses: actions/checkout@v4
+
+      - name: pnpm 설치
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
+      - name: Node 설치
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: 의존성 설치
+        run: pnpm install --frozen-lockfile
+
+      - name: OpenNext 빌드
+        run: pnpm content && pnpm exec opennextjs-cloudflare build
+
+      - name: Playwright 브라우저 설치
+        run: pnpm exec playwright install --with-deps chromium
+
+      - name: 캐시 응답·열람 시 렌더 0·404 검사 (로컬 프리뷰)
+        run: pnpm exec playwright test e2e/runtime-cost.spec.ts --workers=1
+        env:
+          E2E_RUNTIME: opennext
+
+      - name: 실패 리포트 보관
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: runtime-cost-report
+          path: |
+            playwright-report
+            test-results
+          retention-days: 7
+
   deploy:
     name: Cloudflare 배포
-    needs: validate
+    needs: [validate, runtime-cost]
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     steps:

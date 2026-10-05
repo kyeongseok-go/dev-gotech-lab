@@ -3,10 +3,13 @@ import { defineConfig, devices } from "@playwright/test";
 /**
  * E2E 스위트 — 로컬 프로덕션 빌드(`pnpm build` 후 `next start`)를 대상으로 실행한다.
  * · E2E_BASE_URL 을 주면 이미 떠 있는 서버(예: opennextjs-cloudflare preview)를 그대로 쓴다.
+ * · E2E_RUNTIME=opennext 면 `opennextjs-cloudflare preview`(로컬 workerd, 운영과 같은 런타임)를 띄운다
+ *   — 먼저 `pnpm exec opennextjs-cloudflare build`. G3b(e2e/runtime-cost.spec.ts)는 이 모드에서만 돈다.
  * · 재시도 0 — 불안정한 테스트는 통과로 치지 않는다.
  */
 const PORT = Number(process.env.E2E_PORT ?? 3372);
 const BASE_URL = process.env.E2E_BASE_URL ?? `http://localhost:${PORT}`;
+const IS_OPENNEXT = process.env.E2E_RUNTIME === "opennext";
 
 export default defineConfig({
   testDir: "./e2e",
@@ -31,9 +34,12 @@ export default defineConfig({
   webServer: process.env.E2E_BASE_URL
     ? undefined
     : {
-        command: `pnpm exec next start -p ${PORT}`,
-        url: BASE_URL,
+        command: IS_OPENNEXT
+          ? `pnpm exec opennextjs-cloudflare preview --port ${PORT}`
+          : `pnpm exec next start -p ${PORT}`,
+        // 프리뷰는 캐시를 채운 뒤 workerd 를 띄우므로 준비 확인은 정적 경로로
+        url: IS_OPENNEXT ? `${BASE_URL}/robots.txt` : BASE_URL,
         reuseExistingServer: true,
-        timeout: 120_000,
+        timeout: IS_OPENNEXT ? 240_000 : 120_000,
       },
 });
