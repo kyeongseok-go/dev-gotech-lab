@@ -9,7 +9,10 @@
     "build": "pnpm content && next build",
     "start": "next start",
     "lint": "eslint .",
-    "deploy": "pnpm content && opennextjs-cloudflare build && opennextjs-cloudflare deploy",
+    "test:e2e": "playwright test",
+    "test:e2e:runtime": "E2E_RUNTIME=opennext E2E_TIMING=1 playwright test e2e/runtime-cost.spec.ts --workers=1",
+    "check:render": "node scripts/check-render-modes.mjs",
+    "deploy": "pnpm content && opennextjs-cloudflare build && node scripts/check-render-modes.mjs && opennextjs-cloudflare deploy",
     "upload": "pnpm content && opennextjs-cloudflare build && opennextjs-cloudflare upload",
     "preview": "pnpm content && opennextjs-cloudflare build && opennextjs-cloudflare preview",
     "cf-typegen": "wrangler types --env-interface CloudflareEnv ./cloudflare-env.d.ts"
@@ -33,6 +36,8 @@
     "velite": "^0.3.1"
   },
   "devDependencies": {
+    "@axe-core/playwright": "4.13.0",
+    "@playwright/test": "1.63.0",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20.19.37",
     "@types/react": "^19.1.5",

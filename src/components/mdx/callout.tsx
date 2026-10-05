@@ -1,18 +1,11 @@
 import type { ReactNode } from "react";
+import { Info, TriangleAlert, Lightbulb } from "lucide-react";
 
+/** 의미 색은 왼쪽 선 + 아이콘 + 텍스트 라벨로 함께 전달 */
 const variants = {
-  info: {
-    className: "border-blue-500/40 bg-blue-500/10 text-blue-200",
-    icon: "ℹ️",
-  },
-  warning: {
-    className: "border-yellow-500/40 bg-yellow-500/10 text-yellow-200",
-    icon: "⚠️",
-  },
-  tip: {
-    className: "border-green-500/40 bg-green-500/10 text-green-200",
-    icon: "💡",
-  },
+  info: { label: "정보", Icon: Info, rule: "border-accent-cyan", ink: "text-accent-cyan" },
+  warning: { label: "주의", Icon: TriangleAlert, rule: "border-accent-amber", ink: "text-accent-amber" },
+  tip: { label: "팁", Icon: Lightbulb, rule: "border-accent-green", ink: "text-accent-green" },
 } as const;
 
 interface CalloutProps {
@@ -21,13 +14,14 @@ interface CalloutProps {
 }
 
 export function Callout({ type = "info", children }: CalloutProps) {
-  const v = variants[type];
+  const { label, Icon, rule, ink } = variants[type] ?? variants.info;
   return (
-    <div className={`my-4 rounded-lg border p-4 ${v.className}`}>
-      <div className="flex gap-2">
-        <span className="shrink-0">{v.icon}</span>
-        <div className="min-w-0 [&>p]:mb-0">{children}</div>
-      </div>
-    </div>
+    <aside className={`my-6 border-l-2 ${rule} bg-surface-container-low px-5 py-4`}>
+      <p className={`mb-2 flex items-center gap-1.5 font-code text-xs font-bold uppercase tracking-[0.1em] ${ink}`}>
+        <Icon aria-hidden size={14} />
+        {label}
+      </p>
+      <div className="min-w-0 text-on-surface-variant [&>p]:mb-0 [&>p+p]:mt-3">{children}</div>
+    </aside>
   );
 }

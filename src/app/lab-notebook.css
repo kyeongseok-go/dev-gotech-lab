@@ -1,0 +1,434 @@
+/* ──────────────────────────────────────────────────────
+   ⑮ 연구 노트 확장 — 문서 머리 · 표본 칩 · 도판 · 각주 · 사양 표
+   주홍(--do-primary)은 화면마다 "마커 하나"로만: 활성 상태·현재 위치·도판 기준점.
+   나머지 위계는 잉크 룰(1px)·모노 메타·스케일 대비로 만든다.
+────────────────────────────────────────────────────── */
+
+/* 글 제목 (상세 페이지) — 디스플레이보다 한 단계 작고 촘촘하게 */
+.type-article-title {
+	font-family: var(--font-headline);
+	font-size: clamp(2rem, 1.25rem + 3vw, 3.875rem);
+	font-weight: 700;
+	line-height: 1.1;
+	letter-spacing: -0.035em;
+	text-wrap: balance;
+}
+
+/* 모노 메타 줄 — "No.017 · 2026.09.30 · 6 min" 구분점은 흐리게 */
+.meta-line {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: baseline;
+	column-gap: 0.625rem;
+	row-gap: 0.25rem;
+	font-family: var(--font-code);
+	font-size: var(--ts-label);
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+	color: var(--do-on-surface-muted);
+	font-variant-numeric: tabular-nums;
+}
+.meta-line > * + *::before {
+	content: "·";
+	margin-right: 0.625rem;
+	color: var(--do-on-surface-faint);
+}
+.meta-line strong { color: var(--do-on-surface); font-weight: 600; }
+
+/* 기록 번호 도장 — 잉크 테두리 사각 + 주홍 모서리 점 */
+.entry-stamp {
+	position: relative;
+	display: inline-flex;
+	align-items: baseline;
+	gap: 0.5rem;
+	padding: 0.375rem 0.75rem 0.375rem 0.875rem;
+	font-family: var(--font-code);
+	font-size: var(--ts-label);
+	letter-spacing: 0.1em;
+	text-transform: uppercase;
+	color: var(--do-on-surface);
+	box-shadow: inset 0 0 0 1px var(--do-on-surface);
+}
+.entry-stamp::before {
+	content: "";
+	position: absolute;
+	left: -3px;
+	top: -3px;
+	width: 6px;
+	height: 6px;
+	background: var(--do-primary);
+}
+.entry-stamp b { font-size: 1.0625rem; font-weight: 600; letter-spacing: 0.02em; }
+
+/* 리드 문단 — 잉크 1px 여백선 + 위쪽 주홍 눈금 */
+.lead-rule {
+	position: relative;
+	padding-left: 1.125rem;
+	border-left: 1px solid var(--do-on-surface);
+}
+.lead-rule::before {
+	content: "";
+	position: absolute;
+	left: -2px;
+	top: 0;
+	width: 3px;
+	height: 0.875rem;
+	background: var(--do-primary);
+}
+
+/* 표본 칩(태그·필터) — 모노 라벨 + 헤어라인 테두리
+   상태: hover 테두리 진하게 / pressed 잉크 채움 + 주홍 사각 / focus-visible 주홍 외곽선 / disabled 흐림 */
+.tag-chip {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.375rem;
+	min-height: 1.875rem;
+	padding: 0.125rem 0.625rem;
+	border-radius: 0.125rem;
+	font-family: var(--font-code);
+	font-size: 0.8125rem;
+	line-height: 1.3;
+	letter-spacing: 0.01em;
+	color: var(--do-on-surface-variant);
+	background: transparent;
+	box-shadow: inset 0 0 0 1px var(--do-outline);
+	transition: background-color var(--dur-fast) ease-out, color var(--dur-fast) ease-out,
+		box-shadow var(--dur-fast) ease-out, transform var(--dur-fast) ease-out;
+	cursor: default;
+}
+a.tag-chip,
+button.tag-chip { cursor: pointer; }
+a.tag-chip:hover,
+button.tag-chip:hover {
+	color: var(--do-on-surface);
+	background: var(--do-surface-container-low);
+	box-shadow: inset 0 0 0 1px var(--do-on-surface);
+}
+a.tag-chip:active,
+button.tag-chip:active { transform: translateY(1px); }
+.tag-chip[aria-pressed="true"],
+.tag-chip[aria-current] {
+	color: var(--do-page);
+	background: var(--do-on-surface);
+	box-shadow: inset 0 0 0 1px var(--do-on-surface);
+}
+.tag-chip[aria-pressed="true"]::before,
+.tag-chip[aria-current]::before {
+	content: "";
+	width: 0.375rem;
+	height: 0.375rem;
+	flex: none;
+	background: var(--do-primary);
+}
+.tag-chip[aria-pressed="true"]:hover { background: var(--do-on-surface-variant); }
+.tag-chip:disabled,
+.tag-chip[aria-disabled="true"] {
+	opacity: 0.45;
+	cursor: not-allowed;
+	transform: none;
+}
+.tag-chip-sm { min-height: 1.5rem; padding: 0 0.4375rem; font-size: 0.75rem; }
+
+/* 텍스트 링크 — 잉크 글자 + 흐린 밑줄 → hover 주홍 2px 밑줄 */
+.text-link,
+.prose-link {
+	color: var(--do-on-surface);
+	font-weight: 600;
+	text-decoration-line: underline;
+	text-decoration-thickness: 1px;
+	text-underline-offset: 0.3em;
+	text-decoration-color: var(--do-outline);
+	transition: text-decoration-color var(--dur-fast) ease-out, color var(--dur-fast) ease-out;
+}
+.text-link:hover,
+.prose-link:hover {
+	text-decoration-color: var(--do-primary);
+	text-decoration-thickness: 2px;
+}
+.text-link:active,
+.prose-link:active { color: var(--do-primary); }
+.prose-link { font-weight: 500; }
+
+/* 버튼 상태 보강 — active 1px 눌림, disabled 흐림 */
+.btn-primary:active,
+.btn-outline:active { transform: translateY(1px); }
+.btn-primary:disabled,
+.btn-outline:disabled,
+.btn-primary[aria-disabled="true"],
+.btn-outline[aria-disabled="true"] {
+	opacity: 0.45;
+	cursor: not-allowed;
+	transform: none;
+}
+.btn-primary:disabled:hover { background: var(--do-on-surface); color: var(--do-page); }
+.btn-outline:disabled:hover { background: transparent; box-shadow: inset 0 0 0 1px var(--do-outline); }
+
+/* 사각 아이콘 버튼 (슬라이드 넘김 등) */
+.btn-square {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 2.75rem;
+	height: 2.75rem;
+	border-radius: 0.125rem;
+	color: var(--do-on-surface);
+	box-shadow: inset 0 0 0 1px var(--do-outline);
+	transition: background-color var(--dur-fast) ease-out, color var(--dur-fast) ease-out,
+		box-shadow var(--dur-fast) ease-out;
+}
+.btn-square:hover { background: var(--do-on-surface); color: var(--do-page); box-shadow: inset 0 0 0 1px var(--do-on-surface); }
+.btn-square:active { background: var(--do-primary); color: var(--do-on-primary); box-shadow: none; }
+.btn-square:disabled { opacity: 0.35; cursor: not-allowed; background: transparent; color: var(--do-on-surface); box-shadow: inset 0 0 0 1px var(--do-outline); }
+
+/* 상태 배지 — 체크박스 표기(■ 운영 / ◩ 진행 / □ 보관)로 색 없이도 구분 */
+.badge-live,
+.badge-wip,
+.badge-archived {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.375rem;
+}
+.badge-live::before,
+.badge-wip::before,
+.badge-archived::before {
+	content: "";
+	width: 0.5rem;
+	height: 0.5rem;
+	flex: none;
+	box-shadow: inset 0 0 0 1px currentColor;
+}
+.badge-live::before { background: currentColor; }
+.badge-wip::before { background: linear-gradient(135deg, currentColor 50%, transparent 50%); }
+
+/* ── 도판(FIG.) ─────────────────────────────────────── */
+/* 인화지 도판 — 모눈 위에 사진을 얹는다. 두 테마 모두 밝은 종이(검은 옷 분리) */
+.plate {
+	position: relative;
+	isolation: isolate;
+	overflow: hidden;
+	color: var(--plate-ink);
+	background-color: var(--plate-bg);
+	background-image:
+		linear-gradient(var(--plate-grid) 1px, transparent 1px),
+		linear-gradient(90deg, var(--plate-grid) 1px, transparent 1px);
+	background-size: var(--grid-minor) var(--grid-minor);
+	background-position: -1px -1px;
+	box-shadow: inset 0 0 0 1px var(--plate-edge);
+}
+/* 청사진 도판 — 밝은 옷 사진용 */
+.plate-b {
+	--plate-bg: var(--plate-b-bg);
+	--plate-grid: var(--plate-b-grid);
+	--plate-ink: var(--plate-b-ink);
+	--plate-ink-muted: var(--plate-b-ink);
+}
+.plate-label {
+	position: absolute;
+	z-index: 2;
+	font-family: var(--font-code);
+	font-size: 11px;
+	line-height: 1;
+	letter-spacing: 0.1em;
+	text-transform: uppercase;
+	color: var(--plate-ink);
+}
+/* 도판 기준점 — 주홍 십자선 원 */
+.plate-reg {
+	position: absolute;
+	z-index: 2;
+	width: 18px;
+	height: 18px;
+	border-radius: 999px;
+	box-shadow: inset 0 0 0 1px var(--plate-ink);
+}
+.plate-reg::before,
+.plate-reg::after {
+	content: "";
+	position: absolute;
+	background: var(--do-primary);
+}
+.plate-reg::before { left: 50%; top: -5px; bottom: -5px; width: 1px; transform: translateX(-0.5px); }
+.plate-reg::after { top: 50%; left: -5px; right: -5px; height: 1px; transform: translateY(-0.5px); }
+/* 축척 막대 — 10칸 눈금 */
+.plate-scale {
+	position: absolute;
+	z-index: 2;
+	height: 6px;
+	background-image: repeating-linear-gradient(90deg, var(--plate-ink) 0 1px, transparent 1px 10%);
+	box-shadow: inset 0 -1px 0 var(--plate-ink);
+}
+/* 사진 아래 바닥 그림자 — 종이 위에 놓인 느낌 (정지 상태, 모션 없음) */
+.plate-floor {
+	position: absolute;
+	z-index: 0;
+	left: 12%;
+	right: 12%;
+	bottom: 0;
+	height: 14%;
+	background: radial-gradient(50% 60% at 50% 100%, rgba(22, 21, 15, 0.22), transparent 70%);
+	pointer-events: none;
+}
+
+/* 도판 캡션 — "FIG. 01 ─ 설명" */
+.fig-cap {
+	display: grid;
+	grid-template-columns: auto 1fr;
+	column-gap: 0.875rem;
+	align-items: baseline;
+	padding-top: 0.875rem;
+	border-top: 1px solid var(--do-on-surface);
+	font-size: var(--ts-small);
+	line-height: 1.6;
+	color: var(--do-on-surface-variant);
+}
+.fig-cap > .fig-no {
+	font-family: var(--font-code);
+	font-size: var(--ts-label);
+	letter-spacing: 0.1em;
+	text-transform: uppercase;
+	color: var(--do-on-surface);
+	white-space: nowrap;
+}
+
+/* ── 문서 부품 ─────────────────────────────────────── */
+/* 초록(Abstract) 상자 — 잉크 상단 룰 + 모노 라벨 + 번호 줄 */
+.abstract-box {
+	position: relative;
+	padding: 1.25rem 1.25rem 1.375rem;
+	background: var(--do-surface-container-low);
+	box-shadow: inset 0 1px 0 var(--do-on-surface), inset 0 0 0 1px var(--do-hairline);
+}
+.abstract-box::after {
+	content: "";
+	position: absolute;
+	right: 0;
+	top: 0;
+	width: 1.5rem;
+	height: 2px;
+	background: var(--do-primary);
+}
+@media (min-width: 768px) {
+	.abstract-box { padding: 1.5rem 1.75rem 1.625rem; }
+}
+
+/* 사양 표 — 모노 키 열 + 값 열, 헤어라인 행 */
+.spec-table {
+	display: grid;
+	grid-template-columns: minmax(5.5rem, max-content) 1fr;
+	border-top: 1px solid var(--do-on-surface);
+}
+.spec-table :is(dt, dd) {
+	padding: 0.6875rem 0;
+	border-bottom: 1px solid var(--do-hairline);
+	min-width: 0;
+}
+.spec-table dt {
+	padding-right: 1rem;
+	font-family: var(--font-code);
+	font-size: var(--ts-label);
+	letter-spacing: 0.1em;
+	text-transform: uppercase;
+	color: var(--do-on-surface-muted);
+	padding-top: 0.875rem;
+}
+.spec-table dd {
+	font-size: var(--ts-small);
+	color: var(--do-on-surface);
+	overflow-wrap: anywhere;
+}
+
+/* 각주 표시 — 위첨자 모노 */
+.fn-ref {
+	font-family: var(--font-code);
+	font-size: 0.6875em;
+	font-weight: 500;
+	vertical-align: super;
+	line-height: 0;
+	margin-left: 0.125em;
+	color: var(--do-on-surface-muted);
+	text-decoration: none;
+}
+a.fn-ref:hover { color: var(--do-primary); }
+.footnotes {
+	margin-top: 1.25rem;
+	padding-top: 0.75rem;
+	border-top: 1px solid var(--do-hairline);
+	font-size: 0.8125rem;
+	line-height: 1.6;
+	color: var(--do-on-surface-muted);
+}
+.footnotes li { display: grid; grid-template-columns: 1.5rem 1fr; }
+.footnotes li > span:first-child { font-family: var(--font-code); }
+
+/* 본문 § 번호 — MDX h2 앞에 "§01" 자동 번호 (목차와 같은 번호) */
+.lab-prose h2 { counter-increment: sec; }
+.lab-prose h2::before {
+	content: "§" counter(sec, decimal-leading-zero);
+	display: block;
+	margin-bottom: 0.625rem;
+	font-family: var(--font-code);
+	font-size: var(--ts-label);
+	font-weight: 500;
+	letter-spacing: 0.08em;
+	color: var(--do-primary);
+}
+
+/* 이전·다음 / 관련 글 등 헤어라인 표 셀 링크 공통 hover·focus */
+.cell-link {
+	display: flex;
+	flex-direction: column;
+	gap: 0.625rem;
+	height: 100%;
+	padding: 1.5rem;
+	background: var(--do-page);
+	transition: background-color var(--dur-fast) ease-out;
+}
+.cell-link:hover { background: var(--do-surface-container-low); }
+.cell-link:active { background: var(--do-surface-container); }
+.cell-link:focus-visible { outline-offset: -2px; }
+
+/* 인용 표본 — 원문 발췌 */
+.quote-specimen {
+	position: relative;
+	padding: 1.25rem 1.25rem 1.25rem 1.5rem;
+	background: var(--do-surface-container-low);
+	border-left: 1px solid var(--do-on-surface);
+	font-size: 1.0625rem;
+	line-height: 1.8;
+	color: var(--do-on-surface);
+}
+.quote-specimen::before {
+	content: "";
+	position: absolute;
+	left: -2px;
+	top: 0;
+	width: 3px;
+	height: 1rem;
+	background: var(--do-primary);
+}
+
+/* 슬라이드 넘김 막대 — 스크롤 스냅 영역 */
+.slide-rail {
+	scrollbar-width: thin;
+	scrollbar-color: var(--do-outline) transparent;
+}
+
+/* 제사(epigraph) — 페이지 속 큰 인용 */
+.epigraph {
+	position: relative;
+	padding: 2.5rem 0;
+	border-top: 1px solid var(--do-on-surface);
+	border-bottom: 1px solid var(--do-on-surface);
+}
+
+/* 본문 도판 번호 — MDX 이미지 캡션 앞 "FIG. 01" */
+.lab-prose { counter-reset: sec fig; }
+.lab-prose .lab-fig { counter-increment: fig; }
+.lab-prose .lab-fig-cap::before {
+	content: "FIG. " counter(fig, decimal-leading-zero) "  ";
+	font-family: var(--font-code);
+	font-size: var(--ts-label);
+	letter-spacing: 0.08em;
+	color: var(--do-on-surface);
+	white-space: pre;
+}

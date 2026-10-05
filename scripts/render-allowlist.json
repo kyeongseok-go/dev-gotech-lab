@@ -1,0 +1,13 @@
+{
+  "$comment": "요청마다 Worker 에서 렌더되는(ƒ 동적) 경로의 허용 목록 — 단일 원천. scripts/check-render-modes.mjs(빌드 검사)와 e2e/runtime-cost.spec.ts(G3b)가 함께 읽는다. 여기 없는 경로가 동적이 되면 CI 가 실패한다. 추가할 때는 이유와 요청당 처리 시간 상한(ms)을 함께 적는다.",
+  "dynamic": {
+    "/services/news": {
+      "reason": "D1 에서 최신 뉴스를 요청마다 읽는 실서비스 페이지(?category= 필터 포함)",
+      "maxP95Ms": 50,
+      "samples": [
+        "/services/news",
+        "/services/news?category=ai"
+      ]
+    }
+  }
+}

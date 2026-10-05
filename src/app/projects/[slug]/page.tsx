@@ -1,9 +1,15 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { ArrowLeft } from "lucide-react";
 import { MDXContent } from "@/components/mdx/mdx-content";
-import { getPublishedProjects, getProjectBySlug } from "@/lib/content";
-import { ExternalLink, Code } from "lucide-react";
+import { CaseStudyCard } from "@/components/projects/case-study-card";
+import { JsonLd } from "@/components/seo/json-ld";
+import { DocHeader } from "@/components/section/doc-header";
+import { getPublishedProjects, getProjectBySlug, getPostsForProject } from "@/lib/content";
+import { getCaseStudy, getShowcaseForProject } from "@/lib/case-studies";
+import { formatDateDot, padNumber } from "@/lib/format";
+import { SITE_NAME, SITE_URL } from "@/lib/constants";
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -17,8 +23,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     title: project.title,
     description: project.summary,
     alternates: { canonical: `/projects/${slug}` },
+    openGraph: { type: "article", title: project.title, description: project.summary },
   };
 }
+
+/** 빌드 때 만든 글만 연다 — 없는·초안 slug 는 런타임 렌더 없이 404 (open-next.config.ts 정적 자산 캐시 전제) */
+export const dynamicParams = false;
 
 export function generateStaticParams() {
   return getPublishedProjects().map((p) => ({ slug: p.slug }));
@@ -32,108 +42,93 @@ export default async function ProjectDetailPage({ params }: Props) {
     notFound();
   }
 
+  const all = getPublishedProjects();
+  const number = all.findIndex((p) => p.slug === slug) + 1;
+  const study = getCaseStudy(slug);
+  const posts = getPostsForProject(slug);
+  const showcaseSlug = getShowcaseForProject(slug);
+  const url = `${SITE_URL}/projects/${slug}`;
+
+  const jsonLd = [
+    {
+      "@context": "https://schema.org",
+      "@type": project.repoUrl ? "SoftwareSourceCode" : "CreativeWork",
+      name: project.title,
+      description: project.summary,
+      url,
+      author: { "@type": "Person", name: "고경석", url: `${SITE_URL}/about` },
+      inLanguage: "ko-KR",
+      keywords: project.techStack.join(", "),
+      ...(project.repoUrl ? { codeRepository: project.repoUrl } : {}),
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: SITE_NAME, item: SITE_URL },
+        { "@type": "ListItem", position: 2, name: "프로젝트", item: `${SITE_URL}/projects` },
+        { "@type": "ListItem", position: 3, name: project.title, item: url },
+      ],
+    },
+  ];
+
   return (
-    <main className="pt-32 pb-24">
-      {/* Hero Section */}
-      <section className="max-w-7xl mx-auto px-4 md:px-8 mb-20">
-        <div className="grid lg:grid-cols-2 gap-16 items-center">
-          <div className="space-y-8">
-            <div className="space-y-4">
-              <h1 className="font-headline text-4xl sm:text-5xl md:text-7xl font-bold tracking-tighter leading-[0.9] text-on-surface">
-                {project.title}
-              </h1>
-              <p className="text-on-surface-variant text-lg max-w-xl leading-relaxed">
-                {project.summary}
-              </p>
-            </div>
+    <main className="pt-28 md:pt-32 pb-24 px-[var(--gutter)] max-w-[84rem] mx-auto">
+      <JsonLd data={jsonLd} />
 
-            {/* Period & Role */}
-            {(project.period || project.role) && (
-              <div className="grid grid-cols-2 gap-8 py-6 border-y border-outline-variant/15">
-                {project.period && (
-                  <div>
-                    <span className="block text-outline text-[10px] uppercase tracking-widest mb-1 font-bold">
-                      Period
-                    </span>
-                    <span className="font-headline text-on-surface font-medium">
-                      {project.period}
-                    </span>
-                  </div>
-                )}
-                {project.role && (
-                  <div>
-                    <span className="block text-outline text-[10px] uppercase tracking-widest mb-1 font-bold">
-                      Role
-                    </span>
-                    <span className="font-headline text-on-surface font-medium">
-                      {project.role}
-                    </span>
-                  </div>
-                )}
-              </div>
-            )}
+      <DocHeader
+        crumbs={[{ href: "/projects", label: "Projects" }]}
+        stamp={{ k: "Project", v: `P-${padNumber(number, 2)}` }}
+        meta={[
+          ...(project.period ? [project.period] : []),
+          ...(project.role ? [<span key="r" className="normal-case">{project.role}</span>] : []),
+          ...(project.featured ? ["Featured"] : []),
+        ]}
+        title={project.title}
+        titleWidth="20em"
+        lead={project.summary}
+      />
 
-            {/* Tech Stack */}
-            {project.techStack.length > 0 && (
-              <div className="flex flex-wrap gap-2">
-                {project.techStack.map((tech: string) => (
-                  <span
-                    key={tech}
-                    className="px-3 py-1.5 bg-surface-container-high rounded-sm text-on-surface-variant font-code text-xs border border-outline-variant/10"
-                  >
-                    {tech}
-                  </span>
-                ))}
-              </div>
-            )}
+      <CaseStudyCard
+        study={study}
+        techStack={project.techStack}
+        repoUrl={project.repoUrl}
+        demoUrl={project.demoUrl}
+        showcaseSlug={showcaseSlug}
+      />
 
-            {/* Links */}
-            {(project.repoUrl || project.demoUrl) && (
-              <div className="flex flex-wrap gap-4">
-                {project.demoUrl && (
-                  <Link
-                    href={project.demoUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="btn-primary px-8 py-4 rounded-sm text-sm flex items-center gap-2"
-                  >
-                    Live Demo
-                    <ExternalLink size={14} />
-                  </Link>
-                )}
-                {project.repoUrl && (
-                  <Link
-                    href={project.repoUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="btn-outline px-8 py-4 rounded-sm text-sm flex items-center gap-2"
-                  >
-                    Source Code
-                    <Code size={14} />
-                  </Link>
-                )}
-              </div>
-            )}
-          </div>
-        </div>
-      </section>
-
-      {/* Content */}
-      <section className="max-w-4xl mx-auto px-4 md:px-8">
-        <div className="prose-custom">
+      <section aria-labelledby="body-title" className="mt-16 grid grid-cols-12 gap-x-6">
+        <h2 id="body-title" className="sr-only">프로젝트 상세 기록</h2>
+        <div className="col-span-12 lg:col-span-8 max-w-[44rem]">
           <MDXContent collection="projects" slug={slug} />
         </div>
       </section>
 
-      {/* Back Link */}
-      <div className="max-w-4xl mx-auto px-4 md:px-8 mt-16 pt-8 border-t border-outline-variant/15">
-        <Link
-          href="/projects"
-          className="text-sm text-on-surface-variant transition-colors hover:text-do-primary font-headline uppercase tracking-wider"
-        >
-          &larr; All Projects
+      {posts.length > 0 && (
+        <section aria-labelledby="dev-log-title" className="mt-20">
+          <div className="lab-head mb-6">
+            <span className="lab-index">§B</span>
+            <h2 id="dev-log-title" className="type-label text-on-surface">개발 기록</h2>
+            <span className="font-code text-xs text-on-surface-muted tabular">{padNumber(posts.length, 2)}</span>
+          </div>
+          <ul className="border-b border-hairline">
+            {posts.map((p) => (
+              <li key={p.slug} className="border-t border-hairline">
+                <Link href={`/blog/${p.slug}`} className="group grid grid-cols-[6.5rem_1fr] gap-4 py-4 pl-2 transition-colors hover:bg-surface-container-low active:bg-surface-container">
+                  <time dateTime={p.date} className="font-code text-xs text-on-surface-muted tabular pt-1">{formatDateDot(p.date)}</time>
+                  <span className="type-title text-on-surface group-hover:text-do-primary transition-colors">{p.title}</span>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
+
+      <p className="mt-16">
+        <Link href="/projects" className="text-link inline-flex items-center gap-1 text-sm">
+          <ArrowLeft aria-hidden size={14} /> 프로젝트 전체 보기
         </Link>
-      </div>
+      </p>
     </main>
   );
 }
