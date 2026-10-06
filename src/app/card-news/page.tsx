@@ -14,6 +14,19 @@ export const metadata: Metadata = {
 export const CARD_NEWS_DATA: CardNewsItem[] = [
 /* TECH-NEWS-PIPELINE-DATA:START */
   {
+    id: 188,
+    slug: "my-dot-burns-16b-tokens-a-day-on-since-day-one-on-a-100-subs",
+    title: "My Dot burns 1.6B tokens a day on since day one on a 100$ subscription.",
+    summary: "​ TL;DR: One Dot, running autonomously on its cloud computer since launch day, has been consuming as far as I can see on my profile page ~1.6B Astra tokens per day (~48B/month). My rough API-equivalent estimate is $15-20k per day, or $450-6",
+    content: "",
+    category: "news",
+    image_url: "/card-news/my-dot-burns-16b-tokens-a-day-on-since-day-one-on-a-100-subs.png",
+    external_link: "https://www.reddit.com/r/OpenAI/comments/1wyoaw7/my_dot_burns_16b_tokens_a_day_on_since_day_one_on/",
+    tags: ["My", "Dot"],
+    created_at: "2026-10-06",
+    span: "",
+  },
+  {
     id: 187,
     slug: "updated-claude-storagememory-map-whats-local-whats-cloud-and",
     title: "Updated Claude storage/memory map: what's local, what's cloud, and what changes Oct 6",
