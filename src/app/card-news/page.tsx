@@ -14,6 +14,19 @@ export const metadata: Metadata = {
 export const CARD_NEWS_DATA: CardNewsItem[] = [
 /* TECH-NEWS-PIPELINE-DATA:START */
   {
+    id: 189,
+    slug: "le-chaton-fat-is-real",
+    title: "LE CHATON FAT IS REAL",
+    summary: "Meet Mistral Large 4, aka Le Chonk 1T parameters, natively multimodal. 49B active. It is the best open weights model from US or Europe on aggregated benchmarks. State-of-the-art on critical workloads, including cyber defense, manufacturing ",
+    content: "",
+    category: "news",
+    image_url: "/card-news/le-chaton-fat-is-real.png",
+    external_link: "https://x.com/MistralAI/status/2107457414387622310?s=20",
+    tags: ["LE", "CHATON", "FAT"],
+    created_at: "2026-10-07",
+    span: "",
+  },
+  {
     id: 188,
     slug: "my-dot-burns-16b-tokens-a-day-on-since-day-one-on-a-100-subs",
     title: "My Dot burns 1.6B tokens a day on since day one on a 100$ subscription.",
