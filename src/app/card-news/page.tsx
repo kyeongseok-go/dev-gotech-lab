@@ -14,6 +14,19 @@ export const metadata: Metadata = {
 export const CARD_NEWS_DATA: CardNewsItem[] = [
 /* TECH-NEWS-PIPELINE-DATA:START */
   {
+    id: 190,
+    slug: "introducing-claude-haiku-55-the-cheapest-fastest-and-most-ca",
+    title: "Introducing Claude Haiku 5.5: the cheapest, fastest, and most capable small model we’ve ever released",
+    summary: "Claude Haiku 5.5 is the cheapest, fastest, and most capable small model we’ve ever released. On average, it costs around 75% less to run than Claude Haiku 4.5. Haiku 5.5 is designed for high-volume, cost-sensitive tasks. It reliably handles",
+    content: "",
+    category: "news",
+    image_url: "/card-news/introducing-claude-haiku-55-the-cheapest-fastest-and-most-ca.png",
+    external_link: "https://v.redd.it/ws8qcxvi03uh1",
+    tags: ["Introducing", "Claude", "Haiku"],
+    created_at: "2026-10-08",
+    span: "",
+  },
+  {
     id: 189,
     slug: "le-chaton-fat-is-real",
     title: "LE CHATON FAT IS REAL",
