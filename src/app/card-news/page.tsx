@@ -14,6 +14,19 @@ export const metadata: Metadata = {
 export const CARD_NEWS_DATA: CardNewsItem[] = [
 /* TECH-NEWS-PIPELINE-DATA:START */
   {
+    id: 191,
+    slug: "ttok-04",
+    title: "ttok 0.4",
+    summary: "Release: ttok 0.4 ttok is my CLI tool for counting tokens, using OpenAI's open source tiktoken library. It hasn't been in updated in a couple of years, but I finally fixed a Click warning, updated CI, and added a --list-models command to li",
+    content: "",
+    category: "news",
+    image_url: "/card-news/ttok-04.png",
+    external_link: "https://simonwillison.net/2026/Oct/8/ttok/",
+    tags: ["AI", "기술", "트렌드"],
+    created_at: "2026-10-09",
+    span: "",
+  },
+  {
     id: 190,
     slug: "introducing-claude-haiku-55-the-cheapest-fastest-and-most-ca",
     title: "Introducing Claude Haiku 5.5: the cheapest, fastest, and most capable small model we’ve ever released",
