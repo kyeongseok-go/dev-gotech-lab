@@ -14,6 +14,19 @@ export const metadata: Metadata = {
 export const CARD_NEWS_DATA: CardNewsItem[] = [
 /* TECH-NEWS-PIPELINE-DATA:START */
   {
+    id: 192,
+    slug: "aws-주간-소식-모음-openai로-구동되는-amazon-bedrock-managed-agents-3분기-",
+    title: "AWS 주간 소식 모음: OpenAI로 구동되는 Amazon Bedrock Managed Agents, 3분기 서비스 가용성 업데이트, Kiro 워크플로 등",
+    summary: "지난 주에 OpenAI로 구동되는 Amazon Bedrock Managed Agents의 공개 프리뷰를 발표했습니다. 이 에이전트는 AWS 네이티브로, AWS 리소스와 통합되도록 설계된 OpenAI 에이전트 API의 사용자 지정 버전을 기반으로 구축되었습니다. 이제 이미 사용 중인 자격 증명, 권한 및 거버넌스 제어 기능을 활용하여 AWS 내에서 전적으로 실행되는, OpenAI 모델에 최적화된 에이전트를 구축할 수 있습니다. ",
+    content: "",
+    category: "news",
+    image_url: "/card-news/aws-주간-소식-모음-openai로-구동되는-amazon-bedrock-managed-agents-3분기-.png",
+    external_link: "https://aws.amazon.com/ko/blogs/korea/aws-weekly-roundup-amazon-bedrock-managed-agents-powered-by-openai-q3-service-availability-updates-kiro-workflows-and-more-october-5-2026/",
+    tags: ["AWS", "OpenAI", "Amazon"],
+    created_at: "2026-10-10",
+    span: "",
+  },
+  {
     id: 191,
     slug: "ttok-04",
     title: "ttok 0.4",
