@@ -14,6 +14,19 @@ export const metadata: Metadata = {
 export const CARD_NEWS_DATA: CardNewsItem[] = [
 /* TECH-NEWS-PIPELINE-DATA:START */
   {
+    id: 193,
+    slug: "i-made-my-claude-code-sub-agents-a-video-call-weirdly-its-th",
+    title: "I made my Claude Code sub-agents a video call. Weirdly, it’s the best way I’ve found to follow what they’re doing.",
+    summary: "I built this with Claude Code. It’s a free and open source VS Code extension that shows a Claude Code session as a live video call, so I can see what each sub-agent is doing. It also work with other editors or standalone with claude app as ",
+    content: "",
+    category: "news",
+    image_url: "/card-news/i-made-my-claude-code-sub-agents-a-video-call-weirdly-its-th.png",
+    external_link: "https://v.redd.it/mgssqptg4nuh1",
+    tags: ["Claude", "Code", "Weirdly"],
+    created_at: "2026-10-11",
+    span: "",
+  },
+  {
     id: 192,
     slug: "aws-주간-소식-모음-openai로-구동되는-amazon-bedrock-managed-agents-3분기-",
     title: "AWS 주간 소식 모음: OpenAI로 구동되는 Amazon Bedrock Managed Agents, 3분기 서비스 가용성 업데이트, Kiro 워크플로 등",
