@@ -14,6 +14,19 @@ export const metadata: Metadata = {
 export const CARD_NEWS_DATA: CardNewsItem[] = [
 /* TECH-NEWS-PIPELINE-DATA:START */
   {
+    id: 194,
+    slug: "openais-unreleased-model-solved-most-of-the-math-problems-fr",
+    title: "OpenAI's unreleased model solved most of the math problems from a single prompt. It did not even exist before the end of August. Each problem used ~3 hours of thinking.",
+    summary: "OpenAI's unreleased model solved most of the math problems from a single prompt. It did not even exist before the end of August. Each problem used ~3 hours of thinking.",
+    content: "",
+    category: "news",
+    image_url: "/card-news/openais-unreleased-model-solved-most-of-the-math-problems-fr.png",
+    external_link: "https://i.redd.it/2dxxea56kvuh1.png",
+    tags: ["OpenAI", "It", "August"],
+    created_at: "2026-10-12",
+    span: "",
+  },
+  {
     id: 193,
     slug: "i-made-my-claude-code-sub-agents-a-video-call-weirdly-its-th",
     title: "I made my Claude Code sub-agents a video call. Weirdly, it’s the best way I’ve found to follow what they’re doing.",
