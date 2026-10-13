@@ -14,6 +14,19 @@ export const metadata: Metadata = {
 export const CARD_NEWS_DATA: CardNewsItem[] = [
 /* TECH-NEWS-PIPELINE-DATA:START */
   {
+    id: 195,
+    slug: "qwen-released-qwengyre---rl-framework-for-training-ai-agents",
+    title: "Qwen released QwenGyre - RL framework for training AI agents on extremely long complex tasks",
+    summary: "Introducing QwenGyre, bringing elastic RL to extreme-long-horizon (XLong) agent training. It launches with two core designs: - Elastic Scheduler: reallocates GPUs between rollout & training as demand shifts—live executions never interrupted",
+    content: "",
+    category: "news",
+    image_url: "/card-news/qwen-released-qwengyre---rl-framework-for-training-ai-agents.png",
+    external_link: "https://www.reddit.com/gallery/1x41myz",
+    tags: ["Qwen", "QwenGyre", "RL"],
+    created_at: "2026-10-13",
+    span: "",
+  },
+  {
     id: 194,
     slug: "openais-unreleased-model-solved-most-of-the-math-problems-fr",
     title: "OpenAI's unreleased model solved most of the math problems from a single prompt. It did not even exist before the end of August. Each problem used ~3 hours of thinking.",
