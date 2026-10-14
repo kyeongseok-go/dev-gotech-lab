@@ -14,6 +14,19 @@ export const metadata: Metadata = {
 export const CARD_NEWS_DATA: CardNewsItem[] = [
 /* TECH-NEWS-PIPELINE-DATA:START */
   {
+    id: 196,
+    slug: "llm-gemini-035",
+    title: "llm-gemini 0.35",
+    summary: "Release: llm-gemini 0.35 I added support to llm-gemini for the new Gemini 4 Argon model, made available today via the Gemini API and for customers of their $100/month subscription plan. Here are the low, medium and high pelicans. As expecte",
+    content: "",
+    category: "news",
+    image_url: "/card-news/llm-gemini-035.png",
+    external_link: "https://simonwillison.net/2026/Oct/13/llm-gemini/",
+    tags: ["AI", "기술", "트렌드"],
+    created_at: "2026-10-14",
+    span: "",
+  },
+  {
     id: 195,
     slug: "qwen-released-qwengyre---rl-framework-for-training-ai-agents",
     title: "Qwen released QwenGyre - RL framework for training AI agents on extremely long complex tasks",
