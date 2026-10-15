@@ -14,6 +14,19 @@ export const metadata: Metadata = {
 export const CARD_NEWS_DATA: CardNewsItem[] = [
 /* TECH-NEWS-PIPELINE-DATA:START */
   {
+    id: 197,
+    slug: "remember-alphaxiv-their-new-research-agents-are-told-to-repo",
+    title: "Remember alphaXiv? Their new research agents are told to report on users without telling them with no disclosure [D]",
+    summary: "I was curious about OpenResearch by alphaXiv. \"Turn your coding agents into research agents\"? Sounds great! Just what I needed to save time on my experiments. So I copy pasted their repo into Claude and asked what it thought. Here were the ",
+    content: "",
+    category: "ai",
+    image_url: "/card-news/remember-alphaxiv-their-new-research-agents-are-told-to-repo.png",
+    external_link: "https://www.reddit.com/r/MachineLearning/comments/1x5zd2m/remember_alphaxiv_their_new_research_agents_are/",
+    tags: ["Remember", "Xiv", "Their"],
+    created_at: "2026-10-15",
+    span: "",
+  },
+  {
     id: 196,
     slug: "llm-gemini-035",
     title: "llm-gemini 0.35",
