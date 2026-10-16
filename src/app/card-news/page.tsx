@@ -14,6 +14,19 @@ export const metadata: Metadata = {
 export const CARD_NEWS_DATA: CardNewsItem[] = [
 /* TECH-NEWS-PIPELINE-DATA:START */
   {
+    id: 198,
+    slug: "bringing-gpt-rosalind-to-academic-research-labs",
+    title: "Bringing GPT-Rosalind to academic research labs",
+    summary: "Introducing the Rosalind Academic Plan, offering eligible academic labs sponsored access to GPT-Rosalind and tools to advance life sciences research.",
+    content: "",
+    category: "news",
+    image_url: "/card-news/bringing-gpt-rosalind-to-academic-research-labs.png",
+    external_link: "https://openai.com/index/introducing-the-rosalind-academic-plan",
+    tags: ["Bringing", "GPT", "Rosalind"],
+    created_at: "2026-10-16",
+    span: "",
+  },
+  {
     id: 197,
     slug: "remember-alphaxiv-their-new-research-agents-are-told-to-repo",
     title: "Remember alphaXiv? Their new research agents are told to report on users without telling them with no disclosure [D]",
