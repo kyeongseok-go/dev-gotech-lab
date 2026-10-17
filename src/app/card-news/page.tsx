@@ -14,6 +14,19 @@ export const metadata: Metadata = {
 export const CARD_NEWS_DATA: CardNewsItem[] = [
 /* TECH-NEWS-PIPELINE-DATA:START */
   {
+    id: 199,
+    slug: "china-proposes-export-controls-on-23-ai-technologies-includi",
+    title: "China proposes export controls on 23 AI technologies (including large models, agents & clusters); already open-sourced tech is exempted",
+    summary: "On October 16, 2026, China’s Ministry of Commerce and Ministry of Science and Technology released a draft revision to the Catalog of Technologies Prohibited and Restricted from Export. It proposes adding 40 technologies across AI, biomedici",
+    content: "",
+    category: "news",
+    image_url: "/card-news/china-proposes-export-controls-on-23-ai-technologies-includi.png",
+    external_link: "https://www.reddit.com/r/LocalLLaMA/comments/1x7g3zq/china_proposes_export_controls_on_23_ai/",
+    tags: ["China", "AI"],
+    created_at: "2026-10-17",
+    span: "",
+  },
+  {
     id: 198,
     slug: "bringing-gpt-rosalind-to-academic-research-labs",
     title: "Bringing GPT-Rosalind to academic research labs",
