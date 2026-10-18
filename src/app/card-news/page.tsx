@@ -14,6 +14,19 @@ export const metadata: Metadata = {
 export const CARD_NEWS_DATA: CardNewsItem[] = [
 /* TECH-NEWS-PIPELINE-DATA:START */
   {
+    id: 200,
+    slug: "web-edit-01a2",
+    title: "web-edit 0.1a2",
+    summary: "Release: web-edit 0.1a2 web-edit (previously) is my tiny web app for browsing and editing files in a folder. I mainly built it for editing files on different machines via Tailscale. I added a \"copy to clipboard\" option for both text and ima",
+    content: "",
+    category: "news",
+    image_url: "/card-news/web-edit-01a2.png",
+    external_link: "https://simonwillison.net/2026/Oct/17/web-edit/",
+    tags: ["AI", "기술", "트렌드"],
+    created_at: "2026-10-18",
+    span: "",
+  },
+  {
     id: 199,
     slug: "china-proposes-export-controls-on-23-ai-technologies-includi",
     title: "China proposes export controls on 23 AI technologies (including large models, agents & clusters); already open-sourced tech is exempted",
