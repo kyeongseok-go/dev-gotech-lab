@@ -14,6 +14,19 @@ export const metadata: Metadata = {
 export const CARD_NEWS_DATA: CardNewsItem[] = [
 /* TECH-NEWS-PIPELINE-DATA:START */
   {
+    id: 201,
+    slug: "google-open-sources-harness2-for-self-improving-ai-agents",
+    title: "Google Open Sources Harness2 for Self Improving AI Agents",
+    summary: "Google just released Harness2 as open source. It turns any AI harness into a system that improves itself over time. A harness is everything around the model. System prompt, tools, memory, skills, and subagents. Normally a person designs it ",
+    content: "",
+    category: "news",
+    image_url: "/card-news/google-open-sources-harness2-for-self-improving-ai-agents.png",
+    external_link: "https://i.redd.it/zhvkeo9uyawh1.jpeg",
+    tags: ["Google", "Open", "Sources"],
+    created_at: "2026-10-19",
+    span: "",
+  },
+  {
     id: 200,
     slug: "web-edit-01a2",
     title: "web-edit 0.1a2",
