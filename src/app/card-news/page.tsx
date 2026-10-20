@@ -14,6 +14,19 @@ export const metadata: Metadata = {
 export const CARD_NEWS_DATA: CardNewsItem[] = [
 /* TECH-NEWS-PIPELINE-DATA:START */
   {
+    id: 202,
+    slug: "open-gpu-kernel-engineering-series-naive-gemm-to-flashattent",
+    title: "Open GPU kernel engineering series: naive GEMM to FlashAttention, H100 and Blackwell (44 sessions, code public) [P]",
+    summary: "I'm building a free, code-first series on GPU kernel engineering and just published the intro and roadmap video. It's my own channel, and I'm posting to share the resource and get feedback on the plan, not to sell anything. Video: https://y",
+    content: "",
+    category: "ai",
+    image_url: "/card-news/open-gpu-kernel-engineering-series-naive-gemm-to-flashattent.png",
+    external_link: "https://www.reddit.com/r/MachineLearning/comments/1xa4h2g/open_gpu_kernel_engineering_series_naive_gemm_to/",
+    tags: ["Open", "GPU", "GEMM"],
+    created_at: "2026-10-20",
+    span: "",
+  },
+  {
     id: 201,
     slug: "google-open-sources-harness2-for-self-improving-ai-agents",
     title: "Google Open Sources Harness2 for Self Improving AI Agents",
