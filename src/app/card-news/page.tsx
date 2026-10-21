@@ -14,6 +14,19 @@ export const metadata: Metadata = {
 export const CARD_NEWS_DATA: CardNewsItem[] = [
 /* TECH-NEWS-PIPELINE-DATA:START */
   {
+    id: 203,
+    slug: "deepseek-released-deepinfer---open-source-high-performance-l",
+    title: "Deepseek released DeepInfer - Open Source high-performance, large-scale inference framework for DeepSeek models!",
+    summary: "This is crazy good for studying to improve existing custom engines by community like gufo, halogen, strixite, Strata... by learning their secret sauces.",
+    content: "",
+    category: "news",
+    image_url: "/card-news/deepseek-released-deepinfer---open-source-high-performance-l.png",
+    external_link: "https://github.com/deepseek-ai/DeepInfer",
+    tags: ["Deepseek", "DeepInfer", "Open"],
+    created_at: "2026-10-21",
+    span: "",
+  },
+  {
     id: 202,
     slug: "open-gpu-kernel-engineering-series-naive-gemm-to-flashattent",
     title: "Open GPU kernel engineering series: naive GEMM to FlashAttention, H100 and Blackwell (44 sessions, code public) [P]",
