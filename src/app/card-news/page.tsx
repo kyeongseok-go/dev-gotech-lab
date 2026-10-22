@@ -14,6 +14,19 @@ export const metadata: Metadata = {
 export const CARD_NEWS_DATA: CardNewsItem[] = [
 /* TECH-NEWS-PIPELINE-DATA:START */
   {
+    id: 204,
+    slug: "anthropic-unveils-claude-duet-a-proactive-ai-agent-powered-b",
+    title: "Anthropic unveils Claude Duet, a proactive AI agent powered by Opus 5.5. It works while you're away, monitors your apps, handles complex tasks using its own cloud computer, and alerts you when needed. It supports 6,000+ integrations and remembers your context.",
+    summary: "Anthropic unveils Claude Duet, a proactive AI agent powered by Opus 5.5. It works while you're away, monitors your apps, handles complex tasks using its own cloud computer, and alerts you when needed. It supports 6,000+ integrations and rem",
+    content: "",
+    category: "news",
+    image_url: "/card-news/anthropic-unveils-claude-duet-a-proactive-ai-agent-powered-b.png",
+    external_link: "https://claude.com/resources/articles/claude-duet",
+    tags: ["Anthropic", "Claude", "Duet"],
+    created_at: "2026-10-22",
+    span: "",
+  },
+  {
     id: 203,
     slug: "deepseek-released-deepinfer---open-source-high-performance-l",
     title: "Deepseek released DeepInfer - Open Source high-performance, large-scale inference framework for DeepSeek models!",
