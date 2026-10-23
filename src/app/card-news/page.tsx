@@ -14,6 +14,19 @@ export const metadata: Metadata = {
 export const CARD_NEWS_DATA: CardNewsItem[] = [
 /* TECH-NEWS-PIPELINE-DATA:START */
   {
+    id: 205,
+    slug: "i-built-open-xtts-trainer-now-you-can-add-new-language-scrip",
+    title: "I built Open-XTTS-Trainer: Now you can add new language scripts and train all 3 XTTS v2 components in 1 click [P]",
+    summary: "TL;DR: When Coqui AI shut down, they left XTTS v2 without official training code for the DVAE audio tokenizer and Latent HiFi-GAN vocoder, and fine-tuning new scripts (Arabic, Indic, etc.) broke on fixed vocabularies. I built Open-XTTS-Trai",
+    content: "",
+    category: "ai",
+    image_url: "/card-news/i-built-open-xtts-trainer-now-you-can-add-new-language-scrip.png",
+    external_link: "https://www.reddit.com/r/MachineLearning/comments/1xcurgj/i_built_openxttstrainer_now_you_can_add_new/",
+    tags: ["Open", "XTTS", "Trainer"],
+    created_at: "2026-10-23",
+    span: "",
+  },
+  {
     id: 204,
     slug: "anthropic-unveils-claude-duet-a-proactive-ai-agent-powered-b",
     title: "Anthropic unveils Claude Duet, a proactive AI agent powered by Opus 5.5. It works while you're away, monitors your apps, handles complex tasks using its own cloud computer, and alerts you when needed. It supports 6,000+ integrations and remembers your context.",
