@@ -14,6 +14,19 @@ export const metadata: Metadata = {
 export const CARD_NEWS_DATA: CardNewsItem[] = [
 /* TECH-NEWS-PIPELINE-DATA:START */
   {
+    id: 206,
+    slug: "introducing-kimi-k31-pro",
+    title: "Introducing Kimi K3.1 Pro",
+    summary: "Introducing Kimi K3.1 Pro Kimi K3.1 Pro landed on the Kimi API today - it's not yet open weights, but Moonshot promise \"Full model weights will be released by Nov 4, 2026\". They're also offering a \"Highspeed\" version that's 2-3x faster, at ",
+    content: "",
+    category: "news",
+    image_url: "/card-news/introducing-kimi-k31-pro.png",
+    external_link: "https://simonwillison.net/2026/Oct/23/kimi-k31-pro/",
+    tags: ["Introducing", "Kimi", "Pro"],
+    created_at: "2026-10-24",
+    span: "",
+  },
+  {
     id: 205,
     slug: "i-built-open-xtts-trainer-now-you-can-add-new-language-scrip",
     title: "I built Open-XTTS-Trainer: Now you can add new language scripts and train all 3 XTTS v2 components in 1 click [P]",
