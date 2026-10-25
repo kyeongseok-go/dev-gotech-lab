@@ -14,6 +14,19 @@ export const metadata: Metadata = {
 export const CARD_NEWS_DATA: CardNewsItem[] = [
 /* TECH-NEWS-PIPELINE-DATA:START */
   {
+    id: 207,
+    slug: "kimi-k31-removes-cyberattack-training-data-from-open-weight-",
+    title: "Kimi K3.1 removes cyberattack training data from open weight release",
+    summary: "This is due to China's new export restrictions primarily but also the growing caution around cybersecurity exploits popping up.",
+    content: "",
+    category: "news",
+    image_url: "/card-news/kimi-k31-removes-cyberattack-training-data-from-open-weight-.png",
+    external_link: "https://www.reuters.com/technology/moonshot-curbs-hacking-ability-new-kimi-model-fears-grow-over-ai-powered-2026-10-24/",
+    tags: ["Kimi"],
+    created_at: "2026-10-25",
+    span: "",
+  },
+  {
     id: 206,
     slug: "introducing-kimi-k31-pro",
     title: "Introducing Kimi K3.1 Pro",
