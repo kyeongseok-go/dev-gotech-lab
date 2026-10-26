@@ -14,6 +14,19 @@ export const metadata: Metadata = {
 export const CARD_NEWS_DATA: CardNewsItem[] = [
 /* TECH-NEWS-PIPELINE-DATA:START */
   {
+    id: 208,
+    slug: "memt-10-architecture-breakdown-gated-deltanet-2-mixture-of-s",
+    title: "memt-1.0 architecture breakdown gated deltanet-2, mixture-of-storage, and 66x smaller storage footprint for agent memory [D]",
+    summary: "been digesting the details behind memt-1.0's memory-native architecture recently, and the engineering tradeoffs between full context kv caching and internalized parametric memory are pretty wild. instead of using append-only prompt stacking",
+    content: "",
+    category: "ai",
+    image_url: "/card-news/memt-10-architecture-breakdown-gated-deltanet-2-mixture-of-s.png",
+    external_link: "https://i.redd.it/yo2dl9avujxh1.jpeg",
+    tags: ["AI", "기술", "트렌드"],
+    created_at: "2026-10-26",
+    span: "",
+  },
+  {
     id: 207,
     slug: "kimi-k31-removes-cyberattack-training-data-from-open-weight-",
     title: "Kimi K3.1 removes cyberattack training data from open weight release",
