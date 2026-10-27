@@ -14,6 +14,19 @@ export const metadata: Metadata = {
 export const CARD_NEWS_DATA: CardNewsItem[] = [
 /* TECH-NEWS-PIPELINE-DATA:START */
   {
+    id: 209,
+    slug: "have-8-gb-of-vram-and-32-gb-of-ram-you-can-run-qwen-38-flash",
+    title: "Have 8 GB of VRAM and 32 GB of RAM? You can run Qwen 3.8 Flash Next at up to 900 t/s PP and 30 t/s TG!",
+    summary: "First, this isn’t clickbait - these are real results. I managed to run Qwen 3.8 Flash Next Q2 and got better results in benchmarks and real-world tests than I did with any Qwen 3.6 35B A3B fine-tune or Qwen 3.8 27B model I tested. It is als",
+    content: "",
+    category: "news",
+    image_url: "/card-news/have-8-gb-of-vram-and-32-gb-of-ram-you-can-run-qwen-38-flash.png",
+    external_link: "https://www.reddit.com/gallery/1xft2ae",
+    tags: ["Have", "GB", "VRAM"],
+    created_at: "2026-10-27",
+    span: "",
+  },
+  {
     id: 208,
     slug: "memt-10-architecture-breakdown-gated-deltanet-2-mixture-of-s",
     title: "memt-1.0 architecture breakdown gated deltanet-2, mixture-of-storage, and 66x smaller storage footprint for agent memory [D]",
