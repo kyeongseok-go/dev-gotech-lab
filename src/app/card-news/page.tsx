@@ -14,6 +14,19 @@ export const metadata: Metadata = {
 export const CARD_NEWS_DATA: CardNewsItem[] = [
 /* TECH-NEWS-PIPELINE-DATA:START */
   {
+    id: 210,
+    slug: "retell-uses-openai-models-to-help-power-100m-monthly-calls",
+    title: "Retell uses OpenAI models to help power 100M monthly calls",
+    summary: "GPT-6 Astra tops Retell’s voice agent benchmark, while Codex helps it reach a $1.6M annual revenue run rate per employee.",
+    content: "",
+    category: "news",
+    image_url: "/card-news/retell-uses-openai-models-to-help-power-100m-monthly-calls.png",
+    external_link: "https://openai.com/index/retell-ai",
+    tags: ["Retell", "OpenAI"],
+    created_at: "2026-10-28",
+    span: "",
+  },
+  {
     id: 209,
     slug: "have-8-gb-of-vram-and-32-gb-of-ram-you-can-run-qwen-38-flash",
     title: "Have 8 GB of VRAM and 32 GB of RAM? You can run Qwen 3.8 Flash Next at up to 900 t/s PP and 30 t/s TG!",
