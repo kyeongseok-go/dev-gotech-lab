@@ -14,6 +14,19 @@ export const metadata: Metadata = {
 export const CARD_NEWS_DATA: CardNewsItem[] = [
 /* TECH-NEWS-PIPELINE-DATA:START */
   {
+    id: 211,
+    slug: "r-taking-embeddinggemma-2-577m-from-rank-26-to-1-on-the-maeb",
+    title: "[R] Taking EmbeddingGemma-2 (577M) from Rank #26 to #1 on the MAEB audio benchmark by filling its 256d null space with PCA-reduced intermediate Conformer layers (zero training) [R]",
+    summary: "Model & weights: BrunoHays/embeddinggemma-2-nullspace-audio I wanted to share an experiment on google/embeddinggemma-2 (577M) for MAEB, the 30-task audio benchmark on the MTEB leaderboard . By projecting intermediate Conformer layers into t",
+    content: "",
+    category: "ai",
+    image_url: "/card-news/r-taking-embeddinggemma-2-577m-from-rank-26-to-1-on-the-maeb.png",
+    external_link: "https://www.reddit.com/r/MachineLearning/comments/1xho7pr/r_taking_embeddinggemma2_577m_from_rank_26_to_1/",
+    tags: ["Taking", "EmbeddingGemma", "Rank"],
+    created_at: "2026-10-29",
+    span: "",
+  },
+  {
     id: 210,
     slug: "retell-uses-openai-models-to-help-power-100m-monthly-calls",
     title: "Retell uses OpenAI models to help power 100M monthly calls",
