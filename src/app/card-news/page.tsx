@@ -14,6 +14,19 @@ export const metadata: Metadata = {
 export const CARD_NEWS_DATA: CardNewsItem[] = [
 /* TECH-NEWS-PIPELINE-DATA:START */
   {
+    id: 212,
+    slug: "arc-a-70-mb-streaming-speech-model-that-transcribes-links-na",
+    title: "Arc: a ~70 MB streaming speech model that transcribes links names and metadata to your own list as they're spoken, with no second model [p]",
+    summary: "I built Arc-Transcriber, which does ASR-NL in 1-step. Every 100 ms, one model returns the transcript plus: - Names linked to a list you give it (a roster, contacts, product names); new names are flagged \"not on the list\" - Numbers with thei",
+    content: "",
+    category: "ai",
+    image_url: "/card-news/arc-a-70-mb-streaming-speech-model-that-transcribes-links-na.png",
+    external_link: "https://www.reddit.com/r/MachineLearning/comments/1xiyuoj/arc_a_70_mb_streaming_speech_model_that/",
+    tags: ["Arc", "MB"],
+    created_at: "2026-10-30",
+    span: "",
+  },
+  {
     id: 211,
     slug: "r-taking-embeddinggemma-2-577m-from-rank-26-to-1-on-the-maeb",
     title: "[R] Taking EmbeddingGemma-2 (577M) from Rank #26 to #1 on the MAEB audio benchmark by filling its 256d null space with PCA-reduced intermediate Conformer layers (zero training) [R]",
