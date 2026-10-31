@@ -14,6 +14,19 @@ export const metadata: Metadata = {
 export const CARD_NEWS_DATA: CardNewsItem[] = [
 /* TECH-NEWS-PIPELINE-DATA:START */
   {
+    id: 213,
+    slug: "api-credits-benefit-for-eligible-chatgpt-subscriptions",
+    title: "API credits benefit for eligible ChatGPT subscriptions",
+    summary: "API credits benefit for eligible ChatGPT subscriptions Earlier this month Anthropic announced a generous new benefit for their Max and Team subscriptions: $100, $200, and $500 per month subscribers would get the equivalent quantity of (expi",
+    content: "",
+    category: "news",
+    image_url: "/card-news/api-credits-benefit-for-eligible-chatgpt-subscriptions.png",
+    external_link: "https://simonwillison.net/2026/Oct/29/api-credits/",
+    tags: ["API", "ChatGPT"],
+    created_at: "2026-10-31",
+    span: "",
+  },
+  {
     id: 212,
     slug: "arc-a-70-mb-streaming-speech-model-that-transcribes-links-na",
     title: "Arc: a ~70 MB streaming speech model that transcribes links names and metadata to your own list as they're spoken, with no second model [p]",
