@@ -14,6 +14,19 @@ export const metadata: Metadata = {
 export const CARD_NEWS_DATA: CardNewsItem[] = [
 /* TECH-NEWS-PIPELINE-DATA:START */
   {
+    id: 214,
+    slug: "datasette-llm-01a9",
+    title: "datasette-llm 0.1a9",
+    summary: "Release: datasette-llm 0.1a9 I have some big upgrades to Datasette Agent in the pipeline, but in the meantime here's a tiny user experience improvement to the underlying datasette-llm plugin. It now picks up the default model used by LLM, w",
+    content: "",
+    category: "news",
+    image_url: "/card-news/datasette-llm-01a9.png",
+    external_link: "https://simonwillison.net/2026/Oct/31/datasette-llm/",
+    tags: ["AI", "기술", "트렌드"],
+    created_at: "2026-11-01",
+    span: "",
+  },
+  {
     id: 213,
     slug: "api-credits-benefit-for-eligible-chatgpt-subscriptions",
     title: "API credits benefit for eligible ChatGPT subscriptions",
