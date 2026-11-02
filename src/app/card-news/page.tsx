@@ -14,6 +14,19 @@ export const metadata: Metadata = {
 export const CARD_NEWS_DATA: CardNewsItem[] = [
 /* TECH-NEWS-PIPELINE-DATA:START */
   {
+    id: 215,
+    slug: "heretic-20-released-model-modification-for-everyone",
+    title: "Heretic 2.0 released: Model modification for everyone",
+    summary: "Dear fellow Llamas, after almost 5 months of development, I finally have the pleasure of announcing to you the immediate availability of the biggest Heretic release ever, Heretic 2.0: https://github.com/p-e-w/heretic Heretic is the leading ",
+    content: "",
+    category: "news",
+    image_url: "/card-news/heretic-20-released-model-modification-for-everyone.png",
+    external_link: "https://www.reddit.com/r/LocalLLaMA/comments/1xl2tcm/heretic_20_released_model_modification_for/",
+    tags: ["Heretic", "Model"],
+    created_at: "2026-11-02",
+    span: "",
+  },
+  {
     id: 214,
     slug: "datasette-llm-01a9",
     title: "datasette-llm 0.1a9",
