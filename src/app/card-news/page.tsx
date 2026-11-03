@@ -14,6 +14,19 @@ export const metadata: Metadata = {
 export const CARD_NEWS_DATA: CardNewsItem[] = [
 /* TECH-NEWS-PIPELINE-DATA:START */
   {
+    id: 216,
+    slug: "official-statement-qwen-models-will-stick-to-open-source-to-",
+    title: "Official Statement: Qwen Models Will Stick to Open Source to the End!",
+    summary: "There were some rumours the last few days that Qwen4 will be the last open-weight series of Qwen, and future ones would be API only. The following statement contradicts the rumours and clearly states the stance that Qwen is taking regarding",
+    content: "",
+    category: "news",
+    image_url: "/card-news/official-statement-qwen-models-will-stick-to-open-source-to-.png",
+    external_link: "https://i.redd.it/cjcpaqzw98zh1.jpeg",
+    tags: ["Official", "Statement", "Qwen"],
+    created_at: "2026-11-03",
+    span: "",
+  },
+  {
     id: 215,
     slug: "heretic-20-released-model-modification-for-everyone",
     title: "Heretic 2.0 released: Model modification for everyone",
