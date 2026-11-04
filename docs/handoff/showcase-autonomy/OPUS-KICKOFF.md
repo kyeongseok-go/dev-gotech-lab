@@ -1,4 +1,10 @@
-# OPUS-KICKOFF — Opus 세션에 붙여 넣는 시작 프롬프트 (v1.1, 2026-11-02)
+# OPUS-KICKOFF — Opus 세션에 붙여 넣는 시작 프롬프트 (v1.2, 2026-11-04)
+
+> **2026-11-04 재개 지점 — 아래 원래 순서보다 이것이 우선한다.**
+> 선결정 5개·후결정 3개는 답을 받았다(HANDOFF §12 표, STATE.md). 다시 묻지 않는다.
+> 이미 끝난 것: 플러그인 3종 설치(2단계), 라벨 9개(5단계 일부), D0-①·④, HN API 확인, 백로그 시드(5.5단계), 루틴 프롬프트·sources.yaml(5단계).
+> PR로 준비된 것(머지 순서): `phase0/1-handoff-docs` → `phase0/3-test-infra` → `phase0/4-schema-hub`(3 위에 쌓임) → `phase0/5-canary` → `phase0/7-security-headers`(3 위에 쌓임).
+> 다음 세션이 할 일: ① STATE.md "막힌 것" 5개를 경석님과 해소 ② 머지된 뒤 샘플 도구 RUBRIC C 최종 채점(로컬, gstack `qa`·`impeccable critique`·Lighthouse 3회) ③ 비용 확인이 끝나면 6단계(루틴 등록)·D6·8단계(첫 제안 — 1순위 후보 `ko-ai-tell-highlighter`는 원천 분류표 라이선스 확인이 선행).
 
 > 아래 구분선 사이 내용을 그대로 Opus 세션(`cd ~/workspace/dev-gotech-lab` 에서 Claude Code 실행)에 붙인다.
 > 경석님이 동석하는 세션이다. Phase 0은 환경 변경(플러그인 설치·루틴 등록·CI 워크플로 추가)이 많아 일회성 승인이 여러 번 필요하다. 정상 운영의 승인 게이트 2곳과는 별개다.
