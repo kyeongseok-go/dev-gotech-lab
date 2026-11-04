@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ArrowUpRight } from "lucide-react";
+import { ArrowRight, ArrowUpRight } from "lucide-react";
 import { getPublishedShowcase, STATUS_LABEL } from "@/lib/content";
 import { SHOWCASE_PROJECT_LINKS } from "@/lib/case-studies";
 import { PageHeading } from "@/components/section/page-heading";
 import { padNumber } from "@/lib/format";
+import { ToolIcon } from "@/lib/tools/tool-icon";
 
 export const metadata: Metadata = {
   title: "AI Showcase",
@@ -24,7 +25,8 @@ export default function ShowcasePage() {
   // S-번호는 상세 페이지와 같도록 원래 순서 기준, 화면 순서만 운영 중·데모 있는 항목 우선
   const numberOf = (slug: string) => published.findIndex((p) => p.slug === slug) + 1;
   const items = [...published].sort((a, b) => {
-    const live = Number(!!b.externalUrl && b.status === "live") - Number(!!a.externalUrl && a.status === "live");
+    const runnable = (p: typeof a) => Number(!!(p.toolPath || p.externalUrl) && p.status === "live");
+    const live = runnable(b) - runnable(a);
     return live || (STATUS_ORDER[a.status] ?? 3) - (STATUS_ORDER[b.status] ?? 3);
   });
 
@@ -57,7 +59,8 @@ export default function ShowcasePage() {
               <li key={item.slug} className="flex flex-col border-r border-b border-hairline">
                 <Link href={`/showcase/${item.slug}`} className="group flex flex-1 flex-col gap-6 p-6 md:p-7 transition-colors hover:bg-surface-container-low active:bg-surface-container focus-visible:outline-offset-[-2px]">
                   <div className="flex items-center justify-between gap-3">
-                    <span className="font-code text-xs tabular text-on-surface-muted">
+                    <span className="inline-flex items-center gap-1.5 font-code text-xs tabular text-on-surface-muted">
+                      {item.icon && <ToolIcon name={item.icon} size={14} className="text-on-surface" />}
                       <span className="font-bold text-on-surface">S-{padNumber(numberOf(item.slug), 2)}</span>
                       {item.type && <> · {item.type}</>}
                     </span>
@@ -67,6 +70,7 @@ export default function ShowcasePage() {
                   </div>
                   <div className="flex-1">
                     <h2 className="type-title text-on-surface group-hover:text-do-primary transition-colors">{item.title}</h2>
+                    {item.tagline && <p className="mt-2 text-sm font-semibold text-on-surface">{item.tagline}</p>}
                     <p className="mt-2 type-small text-on-surface-variant line-clamp-3">{item.summary}</p>
                   </div>
                   {item.stack.length > 0 && (
@@ -74,7 +78,11 @@ export default function ShowcasePage() {
                   )}
                 </Link>
                 <div className="flex flex-wrap items-center gap-x-5 gap-y-2 border-t border-hairline px-6 md:px-7 py-4 text-sm">
-                  {item.externalUrl ? (
+                  {item.toolPath ? (
+                    <Link href={item.toolPath} className="text-link inline-flex items-center gap-1">
+                      바로 써 보기 <ArrowRight aria-hidden size={14} />
+                    </Link>
+                  ) : item.externalUrl ? (
                     <a href={item.externalUrl} target="_blank" rel="noopener noreferrer" className="text-link inline-flex items-center gap-1">
                       데모 열기 <ArrowUpRight aria-hidden size={14} />
                     </a>

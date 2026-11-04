@@ -1,0 +1,16 @@
+{
+  "$comment": "첫 화면 JS 전송량 예산(KB, 압축된 본문 = encodedBodySize 합). e2e/js-budget.spec.ts 가 `next start`(gzip) 대상으로 잰다. Next 16 빌드 출력에는 First Load JS 열이 없어(2026-11-04 확인) 실제 전송량으로 잰다. 게이트 = baselineKB × (1 + tolerance). 새 도구 경로는 첫 측정치를 baselineKB 로 등록한다(HANDOFF §6.5). 목표(rules/web/performance.md): Landing 150KB · App 300KB.",
+  "tolerance": 0.1,
+  "routes": {
+    "/showcase": {
+      "baselineKB": 129.9,
+      "targetKB": 150,
+      "measuredAt": "2026-11-04 (origin/main 471b6e1, next start, 결정적 — 같은 빌드 재측정 시 동일)"
+    },
+    "/tools/blog-meta-linter": {
+      "baselineKB": 136.5,
+      "targetKB": 300,
+      "measuredAt": "2026-11-04 (phase0/4, next start)"
+    }
+  }
+}
