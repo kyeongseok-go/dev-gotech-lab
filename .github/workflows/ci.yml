@@ -36,11 +36,20 @@ jobs:
       - name: 린트
         run: pnpm lint
 
+      - name: 단위 테스트 + 커버리지 (vitest, 임계는 vitest.config.ts)
+        run: pnpm test:coverage
+
       - name: 빌드
         run: pnpm build
 
       - name: 렌더 방식 검사 (G3b — 허용 목록 밖 동적 경로·dynamicParams·ISR·증분 캐시 설정)
         run: pnpm check:render
+
+      - name: Playwright 브라우저 설치 (JS 예산·도구 E2E용)
+        run: pnpm exec playwright install --with-deps chromium
+
+      - name: 첫 화면 JS 예산 + 도구 E2E (scripts/js-budget.json, e2e/tools-*.spec.ts)
+        run: pnpm test:gate
 
   runtime-cost:
     # G3b: 운영과 같은 런타임(OpenNext 로컬 workerd)에서 공개 페이지가 전부 미리 렌더된 캐시로 응답하는지.
