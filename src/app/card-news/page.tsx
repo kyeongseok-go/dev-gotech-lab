@@ -14,6 +14,19 @@ export const metadata: Metadata = {
 export const CARD_NEWS_DATA: CardNewsItem[] = [
 /* TECH-NEWS-PIPELINE-DATA:START */
   {
+    id: 217,
+    slug: "llm-037",
+    title: "llm 0.37",
+    summary: "Release: llm 0.37 There's a lot of stuff in this new release of my LLM CLI tool and Python library, representing around two months of accumulated features and fixes. I added gpt-6.1-sol and gpt-6.1-terra, plus a new llm openai endpoint add ",
+    content: "",
+    category: "news",
+    image_url: "/card-news/llm-037.png",
+    external_link: "https://simonwillison.net/2026/Nov/2/llm/",
+    tags: ["AI", "기술", "트렌드"],
+    created_at: "2026-11-04",
+    span: "",
+  },
+  {
     id: 216,
     slug: "official-statement-qwen-models-will-stick-to-open-source-to-",
     title: "Official Statement: Qwen Models Will Stick to Open Source to the End!",
