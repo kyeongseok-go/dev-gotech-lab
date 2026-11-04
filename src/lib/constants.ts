@@ -4,3 +4,9 @@ export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://dev-gotech-
 export const SITE_NAME = "GoTechy";
 export const SITE_TAGLINE = "Go Build the Technology, more easy.";
 export const SITE_DESCRIPTION = "GoTechy — 기술 블로그 · 포트폴리오 · AI 실험 공간. Go Build the Technology, more easy.";
+
+/**
+ * Cloudflare Web Analytics 사이트 토큰(무료·쿠키 없음, HANDOFF §12-2). 페이지 HTML 에 그대로 실리는 공개 값이라 비밀이 아니다.
+ * 비어 있으면 비컨을 넣지 않는다. 발급: Cloudflare 대시보드 → Analytics & Logs → Web Analytics → 사이트 추가(수동 JS 스니펫의 token).
+ */
+export const CF_WEB_ANALYTICS_TOKEN = process.env.NEXT_PUBLIC_CF_WEB_ANALYTICS_TOKEN ?? "";

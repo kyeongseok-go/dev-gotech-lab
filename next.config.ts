@@ -1,5 +1,6 @@
 import type { NextConfig } from "next";
 import { initOpenNextCloudflareForDev } from "@opennextjs/cloudflare";
+import { securityHeaders } from "./src/lib/security/headers";
 
 // Velite: dev/build 시 콘텐츠 파이프라인 먼저 실행
 const isDev = process.argv.indexOf("dev") !== -1;
@@ -18,6 +19,11 @@ const nextConfig: NextConfig = {
   // 인물 사진 등 정적 이미지를 AVIF → WebP 순으로 협상해 전송 (Cloudflare IMAGES 바인딩이 변환)
   images: {
     formats: ["image/avif", "image/webp"],
+  },
+  // 운영 보안 헤더(src/lib/security/headers.ts). dev 는 HMR 이 eval 을 써서 CSP 를 걸지 않는다
+  async headers() {
+    if (isDev) return [];
+    return [{ source: "/:path*", headers: securityHeaders() }];
   },
 };
 
