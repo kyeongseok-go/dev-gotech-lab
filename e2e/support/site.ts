@@ -43,6 +43,7 @@ export interface ShowcaseDoc {
   status: string;
   externalUrl?: string;
   repoUrl?: string;
+  toolPath?: string;
 }
 
 function readJson<T>(rel: string): T {
@@ -91,10 +92,12 @@ export const STATIC_ROUTES = [
 export const blogRoutes = blogs.map((b) => `/blog/${b.slug}`);
 export const projectRoutes = projects.map((p) => `/projects/${p.slug}`);
 export const showcaseRoutes = showcase.map((s) => `/showcase/${s.slug}`);
+/** 실행 도구 경로 (showcase toolPath) */
+export const toolRoutes = showcase.flatMap((s) => (s.toolPath ? [s.toolPath] : []));
 export const cardRoutes = cards.map((c) => `/card-news/${c.id}`);
 
 /** 공개된 모든 페이지 */
-export const ALL_ROUTES: string[] = [...STATIC_ROUTES, ...blogRoutes, ...projectRoutes, ...showcaseRoutes, ...cardRoutes];
+export const ALL_ROUTES: string[] = [...STATIC_ROUTES, ...blogRoutes, ...projectRoutes, ...showcaseRoutes, ...toolRoutes, ...cardRoutes];
 
 /** 컴파일된 MDX 본문에 코드 블록(rehype-pretty-code)이 있는지 */
 export function hasCodeBlock(doc: { body: string }): boolean {

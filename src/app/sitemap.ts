@@ -37,6 +37,15 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.6,
   }));
 
+  const toolPages: MetadataRoute.Sitemap = getPublishedShowcase()
+    .filter((item) => item.toolPath)
+    .map((item) => ({
+      url: `${SITE_URL}${item.toolPath}`,
+      lastModified: item.updatedAt ?? item.releasedAt,
+      changeFrequency: "monthly",
+      priority: 0.7,
+    }));
+
   const cardPages: MetadataRoute.Sitemap = CARD_NEWS_DATA.map((card) => ({
     url: `${SITE_URL}/card-news/${card.id}`,
     lastModified: card.created_at,
@@ -44,5 +53,5 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.4,
   }));
 
-  return [...staticPages, ...blogPages, ...projectPages, ...showcasePages, ...cardPages];
+  return [...staticPages, ...blogPages, ...projectPages, ...showcasePages, ...toolPages, ...cardPages];
 }

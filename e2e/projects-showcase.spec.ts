@@ -84,10 +84,11 @@ for (const [i, project] of projects.entries()) {
 test("쇼케이스 목록: 모든 공개 항목이 나오고 상세·프로젝트·외부 링크가 올바르다", async ({ page, diag }) => {
   await gotoReady(page, "/showcase");
   const hrefs = await page.locator('main a[href^="/showcase/"]').evaluateAll((els) => els.map((e) => e.getAttribute("href")));
-  // showcase/page.tsx 규칙: 데모 링크 있는 운영 중(live) 항목 먼저, 그다음 상태 순(live→wip→archived)
+  // showcase/page.tsx 규칙: 바로 쓸 수 있는(도구 경로·데모 링크) 운영 중 항목 먼저, 그다음 상태 순(live→wip→archived)
   const order: Record<string, number> = { live: 0, wip: 1, archived: 2 };
+  const runnable = (s: (typeof showcase)[number]) => Number(!!(s.toolPath || s.externalUrl) && s.status === "live");
   const want = [...showcase].sort((a, b) => {
-    const live = Number(!!b.externalUrl && b.status === "live") - Number(!!a.externalUrl && a.status === "live");
+    const live = runnable(b) - runnable(a);
     return live || (order[a.status] ?? 3) - (order[b.status] ?? 3);
   });
   expect(hrefs).toEqual(want.map((s) => `/showcase/${s.slug}`));

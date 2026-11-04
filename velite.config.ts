@@ -1,5 +1,6 @@
 import rehypePrettyCode from "rehype-pretty-code";
 import { defineCollection, defineConfig, s } from "velite";
+import { TOOL_CATEGORIES, TOOL_PATH_PATTERN } from "./src/lib/tools/categories";
 
 // ------------------------------------------------------------------ blog --
 const blogs = defineCollection({
@@ -53,6 +54,23 @@ const showcase = defineCollection({
     repoUrl: s.string().url().optional(),
     featured: s.boolean().default(false),
     draft: s.boolean().default(false),
+    // ---- 도구 카탈로그 필드 (HANDOFF §6.2, 전부 선택 — 기존 항목 호환) ----
+    /** 허브 그룹 */
+    category: s.enum(TOOL_CATEGORIES).optional(),
+    /** lucide 아이콘 이름 — src/lib/tools/icons.ts 허용 목록, 없으면 기본 아이콘 */
+    icon: s.string().optional(),
+    /** 실행 도구 경로 /tools/<slug>. 없으면 소개만 있는 항목 */
+    toolPath: s.string().regex(TOOL_PATH_PATTERN).optional(),
+    /** 카드 한 줄 소개 (summary 는 소개 페이지용) */
+    tagline: s.string().max(40).optional(),
+    tags: s.array(s.string()).default([]),
+    /** 최초 live 날짜 */
+    releasedAt: s.isodate().optional(),
+    /** 최근 업데이트 정렬 기준 */
+    updatedAt: s.isodate().optional(),
+    version: s.string().optional(),
+    /** 방문자 API 키(BYO-key)가 필요한 도구 */
+    requiresKey: s.boolean().default(false),
     body: s.mdx(),
   }),
 });

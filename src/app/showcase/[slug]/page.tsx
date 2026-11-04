@@ -104,7 +104,11 @@ export default async function ShowcaseDetailPage({ params }: Props) {
           </dl>
           <div className="col-span-12 lg:col-span-5 flex flex-col items-start gap-3 lg:pl-6 lg:border-l lg:border-hairline">
             <p className="font-code text-xs uppercase tracking-[0.12em] text-on-surface-muted">Try it · 써 보기</p>
-            {item.externalUrl ? (
+            {item.toolPath ? (
+              <Link href={item.toolPath} className="btn-primary inline-flex h-12 px-6 text-[15px]">
+                도구 실행 <ArrowUpRight aria-hidden size={16} className="btn-arrow" />
+              </Link>
+            ) : item.externalUrl ? (
               <a href={item.externalUrl} target="_blank" rel="noopener noreferrer" className="btn-primary inline-flex h-12 px-6 text-[15px]">
                 데모 열기 <ArrowUpRight aria-hidden size={16} className="btn-arrow" />
               </a>

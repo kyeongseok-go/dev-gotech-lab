@@ -1,7 +1,7 @@
 /**
  * 서비스·AI 뉴스·소개·구독 폼(검증 메시지, 제출은 네트워크 가로채기)·RSS·sitemap·robots·404.
  */
-import { ALL_ROUTES, PRODUCTION_ORIGIN, blogs, cards, projects, showcase } from "./support/site";
+import { ALL_ROUTES, PRODUCTION_ORIGIN, blogs, cards, projects, showcase, toolRoutes } from "./support/site";
 import { expect, test, gotoReady } from "./support/fixtures";
 
 test.use({ viewport: { width: 1440, height: 900 } });
@@ -112,7 +112,7 @@ test("sitemap: 모든 공개 페이지를 운영 주소로 담고, 각 URL 이 2
   expect(res.status()).toBe(200);
   const xml = await res.text();
   const locs = [...xml.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1]);
-  expect(locs.length).toBe(7 + blogs.length + projects.length + showcase.length + cards.length);
+  expect(locs.length).toBe(7 + blogs.length + projects.length + showcase.length + toolRoutes.length + cards.length);
   expect(new Set(locs).size).toBe(locs.length);
   for (const loc of locs) expect(loc.startsWith(PRODUCTION_ORIGIN), loc).toBe(true);
   const paths = locs.map((l) => decodeURI(l.slice(PRODUCTION_ORIGIN.length)) || "/");
