@@ -1,6 +1,6 @@
 # 반복해서 틀리는 실수 목록
 
-- 아직 없음
+- **낡은 로컬 main을 실측 근거로 씀** / 원인: 2026-11-02 handoff 작성 때 `git fetch` 없이 로컬 `main`(origin보다 수십 커밋 뒤)을 읽어 Playwright·G3b·SITE_URL 상태를 틀리게 적음 / 예방: 리포 현황을 문서에 적기 전 `git fetch origin` 후 `origin/main` 기준으로 확인하고 커밋 해시를 함께 적는다.
 
 ## 규칙
 

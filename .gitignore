@@ -62,3 +62,6 @@ next-env.d.ts
 /playwright-report
 /blob-report
 /playwright/.cache
+
+# 참고 분석 산출물(스크린샷·클론·번들 추출) — 커밋 금지, 90일 뒤 삭제 (HANDOFF §7)
+research/local/
