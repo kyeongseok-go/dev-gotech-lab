@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { DEFAULT_LIMITS, lintPost, summarize } from "./rules";
+import { SAMPLE_POST } from "./sample";
 
 const GOOD = `---
 title: "블로그 메타 검사기를 만들며"
@@ -62,11 +63,23 @@ describe("lintPost", () => {
     const report = lintPost(`${GOOD}![](/b.png)\n<img src="/c.png">\n<img src="/d.png" alt="설명">\n`, DEFAULT_LIMITS);
     expect(report.results.find((r) => r.id === "image-alt")).toMatchObject({
       status: "fail",
-      detail: "대체 텍스트 없는 이미지 2개 (14, 15번째 줄)",
+      detail: "대체 텍스트 없는 이미지 2개 (12, 13번째 줄)",
     });
   });
 
   it("frontmatter 를 읽지 못하면 parseError 만 돌려준다", () => {
     expect(lintPost("본문만", DEFAULT_LIMITS)).toEqual({ parseError: { kind: "missing" }, results: [], data: null });
+  });
+});
+
+describe("SAMPLE_POST (예시 넣기)", () => {
+  it("일부러 제목 길이·이미지 대체 텍스트 실패와 카테고리 경고를 보여 준다", () => {
+    const report = lintPost(SAMPLE_POST, DEFAULT_LIMITS);
+    expect(summarize(report.results)).toEqual({ pass: 5, warn: 1, fail: 2 });
+    const failed = report.results.filter((r) => r.status === "fail").map((r) => [r.id, r.detail]);
+    expect(failed).toEqual([
+      ["title-length", "49자 / 기준 40자 이내"],
+      ["image-alt", "대체 텍스트 없는 이미지 1개 (12번째 줄)"],
+    ]);
   });
 });

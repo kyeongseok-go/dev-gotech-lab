@@ -6,6 +6,11 @@
       "baselineKB": 129.9,
       "targetKB": 150,
       "measuredAt": "2026-11-04 (origin/main 471b6e1, next start, 결정적 — 같은 빌드 재측정 시 동일)"
+    },
+    "/tools/blog-meta-linter": {
+      "baselineKB": 136.5,
+      "targetKB": 300,
+      "measuredAt": "2026-11-04 (phase0/4, next start)"
     }
   }
 }
