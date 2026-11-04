@@ -1,0 +1,77 @@
+name: Canary
+
+# 배포 확인(HANDOFF §8.6): CI(main 푸시 → validate·runtime-cost·deploy)가 성공으로 끝난 뒤 운영 주소를 확인한다.
+# ci.yml 은 수정하지 않는다. 실패하면 Issue(bug + blocked)를 연다 — 자동 롤백은 하지 않는다(사람이 wrangler rollback 또는 revert PR).
+on:
+  workflow_run:
+    workflows: [CI]
+    types: [completed]
+    branches: [main]
+
+permissions:
+  contents: read
+  issues: write
+
+concurrency:
+  group: canary
+  cancel-in-progress: false
+
+jobs:
+  check:
+    if: github.event.workflow_run.event == 'push' && github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+    env:
+      BASE_URL: https://dev-gotech-lab.kugll9606.workers.dev
+    steps:
+      - name: 체크아웃 (배포된 커밋)
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.workflow_run.head_sha }}
+
+      - name: 확인할 경로 모으기 (홈 · 쇼케이스 · 모든 도구 toolPath)
+        id: paths
+        run: |
+          {
+            echo "/"
+            echo "/showcase"
+            grep -h '^toolPath:' content/showcase/*.mdx | sed -E 's/^toolPath:[[:space:]]*"?([^"]+)"?[[:space:]]*$/\1/' || true
+          } | sort -u > paths.txt
+          cat paths.txt
+
+      - name: 운영 주소 확인 (GET 200 + <main 포함, 경로당 3회 재시도)
+        run: |
+          sleep 30  # Workers 배포 전파 여유
+          : > failures.txt
+          while read -r p; do
+            ok=""
+            for attempt in 1 2 3; do
+              code=$(curl -s -o body.html -w '%{http_code}' -m 20 "$BASE_URL$p" || echo 000)
+              if [ "$code" = "200" ] && grep -q '<main' body.html; then ok=1; break; fi
+              sleep 10
+            done
+            [ -n "$ok" ] && echo "OK   $p" || { echo "FAIL $p ($code)"; echo "- \`$p\` → HTTP $code" >> failures.txt; }
+          done < paths.txt
+          [ ! -s failures.txt ]
+
+      - name: 실패 시 Issue 열기
+        if: failure()
+        env:
+          GH_TOKEN: ${{ github.token }}
+          SHA: ${{ github.event.workflow_run.head_sha }}
+          RUN_URL: ${{ github.event.workflow_run.html_url }}
+        run: |
+          {
+            echo "배포 뒤 캐너리가 실패했습니다. 자동 롤백은 하지 않습니다."
+            echo
+            echo "- 커밋: \`$SHA\`"
+            echo "- CI 실행: $RUN_URL"
+            echo "- 캐너리 실행: $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"
+            echo
+            echo "### 실패한 경로"
+            cat failures.txt 2>/dev/null || echo "(경로 수집 단계에서 실패)"
+            echo
+            echo "### 복구 (HANDOFF §8.6)"
+            echo "1. 빠른 길: 로컬에서 \`npx wrangler deployments list\` → 직전 버전 ID로 \`npx wrangler rollback <version-id>\`"
+            echo "2. 느린 길: 원인 커밋을 \`git revert\` 하는 PR → 머지"
+          } > issue.md
+          gh issue create --title "canary: 배포 확인 실패 (${SHA:0:7})" --label bug --label blocked --body-file issue.md
