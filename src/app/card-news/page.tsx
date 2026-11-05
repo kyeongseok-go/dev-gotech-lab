@@ -14,6 +14,19 @@ export const metadata: Metadata = {
 export const CARD_NEWS_DATA: CardNewsItem[] = [
 /* TECH-NEWS-PIPELINE-DATA:START */
   {
+    id: 218,
+    slug: "anthropics-flashprove-could-prove-an-ai-provider-used-the-mo",
+    title: "Anthropic’s FlashProve could prove an AI provider used the model you paid for without exposing its weights",
+    summary: "Users currently have no independent way to confirm whether an AI provider served the requested model or quietly substituted a cheaper one. FlashProve addresses this by using zero-knowledge cryptography to prove that a particular model gener",
+    content: "",
+    category: "ai",
+    image_url: "/card-news/anthropics-flashprove-could-prove-an-ai-provider-used-the-mo.png",
+    external_link: "https://interestingengineering.com/ai-robotics/anthropic-flashprove-cryptographic-model-verification",
+    tags: ["Anthropic", "FlashProve", "AI"],
+    created_at: "2026-11-05",
+    span: "",
+  },
+  {
     id: 217,
     slug: "llm-037",
     title: "llm 0.37",
