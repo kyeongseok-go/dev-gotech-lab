@@ -14,6 +14,19 @@ export const metadata: Metadata = {
 export const CARD_NEWS_DATA: CardNewsItem[] = [
 /* TECH-NEWS-PIPELINE-DATA:START */
   {
+    id: 219,
+    slug: "dialfork-a-benchmark-for-procedural-hallucination-in-convers",
+    title: "DialFork: a benchmark for procedural hallucination in conversational agents [R]",
+    summary: "Hi all, author here (Idiap Research Institute, joint work with Logitech). We recently released DialFork and thought it might interest people here. It's a benchmark for a failure mode of LLM agents that is easy to miss: every turn is fluent ",
+    content: "",
+    category: "ai",
+    image_url: "/card-news/dialfork-a-benchmark-for-procedural-hallucination-in-convers.png",
+    external_link: "https://www.reddit.com/r/MachineLearning/comments/1xofjrn/dialfork_a_benchmark_for_procedural_hallucination/",
+    tags: ["DialFork"],
+    created_at: "2026-11-06",
+    span: "",
+  },
+  {
     id: 218,
     slug: "anthropics-flashprove-could-prove-an-ai-provider-used-the-mo",
     title: "Anthropic’s FlashProve could prove an AI provider used the model you paid for without exposing its weights",
