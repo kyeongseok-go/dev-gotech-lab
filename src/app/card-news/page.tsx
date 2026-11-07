@@ -14,6 +14,19 @@ export const metadata: Metadata = {
 export const CARD_NEWS_DATA: CardNewsItem[] = [
 /* TECH-NEWS-PIPELINE-DATA:START */
   {
+    id: 220,
+    slug: "gpt6-cyber-advancing-the-frontier-of-aligned-cybersecurity-a",
+    title: "GPT‑6 Cyber: Advancing the frontier of aligned cybersecurity agents",
+    summary: "Introducing GPT‑6 Cyber, OpenAI’s cybersecurity model for finding exploitable vulnerabilities and developing fixes, trained to stay within authorized scope.",
+    content: "",
+    category: "news",
+    image_url: "/card-news/gpt6-cyber-advancing-the-frontier-of-aligned-cybersecurity-a.png",
+    external_link: "https://openai.com/index/introducing-gpt-6-cyber",
+    tags: ["GPT", "Cyber", "Advancing"],
+    created_at: "2026-11-07",
+    span: "",
+  },
+  {
     id: 219,
     slug: "dialfork-a-benchmark-for-procedural-hallucination-in-convers",
     title: "DialFork: a benchmark for procedural hallucination in conversational agents [R]",
