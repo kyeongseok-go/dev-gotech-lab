@@ -14,6 +14,19 @@ export const metadata: Metadata = {
 export const CARD_NEWS_DATA: CardNewsItem[] = [
 /* TECH-NEWS-PIPELINE-DATA:START */
   {
+    id: 221,
+    slug: "an-ai-system-just-proved-an-18-year-old-quantum-conjecture-a",
+    title: "An AI system just proved an 18-year-old quantum conjecture — and Lean checked every step",
+    summary: "Physical Superintelligence (PSI) announced on November 6 that an internal research system running instances of a non-public Anthropic model produced a complete proof of the Aaronson–Ambainis conjecture — a quantum-computing question open si",
+    content: "",
+    category: "ai",
+    image_url: "/card-news/an-ai-system-just-proved-an-18-year-old-quantum-conjecture-a.png",
+    external_link: "https://www.reddit.com/r/artificial/comments/1xqlg8p/an_ai_system_just_proved_an_18yearold_quantum/",
+    tags: ["An", "AI", "Lean"],
+    created_at: "2026-11-08",
+    span: "",
+  },
+  {
     id: 220,
     slug: "gpt6-cyber-advancing-the-frontier-of-aligned-cybersecurity-a",
     title: "GPT‑6 Cyber: Advancing the frontier of aligned cybersecurity agents",
