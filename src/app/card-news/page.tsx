@@ -14,6 +14,19 @@ export const metadata: Metadata = {
 export const CARD_NEWS_DATA: CardNewsItem[] = [
 /* TECH-NEWS-PIPELINE-DATA:START */
   {
+    id: 222,
+    slug: "deepminds-vp-of-science-teases-a-phase-transition-in-scienti",
+    title: "DeepMind’s VP of Science teases a \"phase transition\" in scientific discovery. What could it be?",
+    summary: "Curious what this could be. Maybe something related to Co-Scientist, drug discovery or materials science? Google also filed a trademark for AlphaMatter back in April, so maybe we’ll finally hear something about that? Hopefully we get some a",
+    content: "",
+    category: "news",
+    image_url: "/card-news/deepminds-vp-of-science-teases-a-phase-transition-in-scienti.png",
+    external_link: "https://i.redd.it/qxnbipskee0i1.png",
+    tags: ["DeepMind", "VP", "Science"],
+    created_at: "2026-11-09",
+    span: "",
+  },
+  {
     id: 221,
     slug: "an-ai-system-just-proved-an-18-year-old-quantum-conjecture-a",
     title: "An AI system just proved an 18-year-old quantum conjecture — and Lean checked every step",
