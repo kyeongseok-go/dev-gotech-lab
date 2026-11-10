@@ -14,6 +14,19 @@ export const metadata: Metadata = {
 export const CARD_NEWS_DATA: CardNewsItem[] = [
 /* TECH-NEWS-PIPELINE-DATA:START */
   {
+    id: 223,
+    slug: "introducing-our-smallest-most-efficient-model-muse-ember",
+    title: "Introducing Our Smallest, Most Efficient Model: Muse Ember",
+    summary: "Introducing Our Smallest, Most Efficient Model: Muse Ember Meta AI just launched their entry in the Claude Haiku/GPT Luna category: Muse Ember, which they describe as: [...] our smallest and most efficient model designed for complex reasoni",
+    content: "",
+    category: "news",
+    image_url: "/card-news/introducing-our-smallest-most-efficient-model-muse-ember.png",
+    external_link: "https://simonwillison.net/2026/Nov/10/muse-ember/",
+    tags: ["Introducing", "Our", "Smallest"],
+    created_at: "2026-11-10",
+    span: "",
+  },
+  {
     id: 222,
     slug: "deepminds-vp-of-science-teases-a-phase-transition-in-scienti",
     title: "DeepMind’s VP of Science teases a \"phase transition\" in scientific discovery. What could it be?",
