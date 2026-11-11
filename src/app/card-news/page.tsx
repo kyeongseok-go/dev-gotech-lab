@@ -14,6 +14,19 @@ export const metadata: Metadata = {
 export const CARD_NEWS_DATA: CardNewsItem[] = [
 /* TECH-NEWS-PIPELINE-DATA:START */
   {
+    id: 224,
+    slug: "검수도-답변도-호출도-ai가-커머스api의-2026",
+    title: "검수도 답변도 호출도 AI가? 커머스API의 2026",
+    summary: "네이버 사내 기술 교류 행사인 NAVER Engineering Day 10th 에서 발표되었던 세션을 공개합니다. ​ 검수도 답변도 호출도 AI가? 커머스API의 2026 NAVER D2 | 검수도 답변도 호출도 AI가? 커머스API의 2026 naver.me ​ 발표 내용 같은 API 스펙이 AI 에게 검수되고, 문의 답변의 근거가 되고, tool 로 호출되기까지 — 커머스API 플랫폼이 올해 진행한 AI native 과제 ",
+    content: "",
+    category: "news",
+    image_url: "/card-news/검수도-답변도-호출도-ai가-커머스api의-2026.png",
+    external_link: "https://d2.naver.com/helloworld/7749530",
+    tags: ["AI", "API"],
+    created_at: "2026-11-11",
+    span: "",
+  },
+  {
     id: 223,
     slug: "introducing-our-smallest-most-efficient-model-muse-ember",
     title: "Introducing Our Smallest, Most Efficient Model: Muse Ember",
