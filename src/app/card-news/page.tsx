@@ -14,6 +14,19 @@ export const metadata: Metadata = {
 export const CARD_NEWS_DATA: CardNewsItem[] = [
 /* TECH-NEWS-PIPELINE-DATA:START */
   {
+    id: 225,
+    slug: "ai-스킬-만들기-10계명-figmacode-자동화-실전기",
+    title: "AI 스킬 만들기 10계명: Figma→Code 자동화 실전기",
+    summary: "이 글에서 예로 든 스킬은 naver/design-to-ui라는 이름의 오픈 소스로 공개되어 있습니다. 들어가며: 같은 모델, 다른 결과 AI 코딩 도구를 쓰다 보면 프롬프트에서 같은 설명을 매번 반복하게 됩니다. \"이건 아이콘이니까 에셋으로 받아\", \"이건 그래프니까 Canvas로 그려\", \"색상은 하드코딩하지 말고 디자인 토큰을 써\" 같은 설명이 그렇습니다. Figma 디자인을 Android 코드로 옮길 때도 마찬가지였습니",
+    content: "",
+    category: "news",
+    image_url: "/card-news/ai-스킬-만들기-10계명-figmacode-자동화-실전기.png",
+    external_link: "https://d2.naver.com/helloworld/8562180",
+    tags: ["AI", "Figma", "Code"],
+    created_at: "2026-11-12",
+    span: "",
+  },
+  {
     id: 224,
     slug: "검수도-답변도-호출도-ai가-커머스api의-2026",
     title: "검수도 답변도 호출도 AI가? 커머스API의 2026",
