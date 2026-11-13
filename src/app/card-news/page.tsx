@@ -14,6 +14,19 @@ export const metadata: Metadata = {
 export const CARD_NEWS_DATA: CardNewsItem[] = [
 /* TECH-NEWS-PIPELINE-DATA:START */
   {
+    id: 226,
+    slug: "llm-0372",
+    title: "llm 0.37.2",
+    summary: "Release: llm 0.37.2 Fixes a security issue reported by Daniel de Araujo in GHSA-v9h7-jj4g-f862 and GHSA-r639-rr7r-x72w. LLM has a mechanism called extra-openai-models.yaml - now managed by the new-in-0.37 llm openai endpoint add command - f",
+    content: "",
+    category: "news",
+    image_url: "/card-news/llm-0372.png",
+    external_link: "https://simonwillison.net/2026/Nov/11/llm/",
+    tags: ["AI", "기술", "트렌드"],
+    created_at: "2026-11-13",
+    span: "",
+  },
+  {
     id: 225,
     slug: "ai-스킬-만들기-10계명-figmacode-자동화-실전기",
     title: "AI 스킬 만들기 10계명: Figma→Code 자동화 실전기",
