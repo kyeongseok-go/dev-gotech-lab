@@ -14,6 +14,19 @@ export const metadata: Metadata = {
 export const CARD_NEWS_DATA: CardNewsItem[] = [
 /* TECH-NEWS-PIPELINE-DATA:START */
   {
+    id: 227,
+    slug: "ai-산출물이-프로덕션이-되기까지-ai와-디자인시스템이-함께-일하는-법",
+    title: "AI 산출물이 프로덕션이 되기까지-AI와 디자인시스템이 함께 일하는 법",
+    summary: "네이버 사내 기술 교류 행사인 NAVER Engineering Day 10th 에서 발표되었던 세션을 공개합니다. ​ ​ 발표 내용 AI변화와 함께 성장하는 디자인시스템을 소개합니다. ​ AI 산출물이 프로덕션으로 이어지지 못하는 5가지 이유 스펙·HTML·이미지 어떤 입력이든 Figma로 모으는 전략과, Figma를 중심에 둔 이유 AI와 설계자가 같은 블록으로 조립하도록 컴포넌트·디자인 토큰·design.md로 설계 의도를",
+    content: "",
+    category: "news",
+    image_url: "/card-news/ai-산출물이-프로덕션이-되기까지-ai와-디자인시스템이-함께-일하는-법.png",
+    external_link: "https://d2.naver.com/helloworld/2568242",
+    tags: ["AI", "AI"],
+    created_at: "2026-11-14",
+    span: "",
+  },
+  {
     id: 226,
     slug: "llm-0372",
     title: "llm 0.37.2",
