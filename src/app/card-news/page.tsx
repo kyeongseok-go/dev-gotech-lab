@@ -14,6 +14,19 @@ export const metadata: Metadata = {
 export const CARD_NEWS_DATA: CardNewsItem[] = [
 /* TECH-NEWS-PIPELINE-DATA:START */
   {
+    id: 228,
+    slug: "datasette-llm-01a11",
+    title: "datasette-llm 0.1a11",
+    summary: "Release: datasette-llm 0.1a11 datasette-llm is the intermediate plugin for Datasette that supports configuring LLMs for use with other Datasette plugins. This release adds support for OpenAI-compatible endpoints, so you can configure Datase",
+    content: "",
+    category: "news",
+    image_url: "/card-news/datasette-llm-01a11.png",
+    external_link: "https://simonwillison.net/2026/Nov/14/datasette-llm/",
+    tags: ["AI", "기술", "트렌드"],
+    created_at: "2026-11-15",
+    span: "",
+  },
+  {
     id: 227,
     slug: "ai-산출물이-프로덕션이-되기까지-ai와-디자인시스템이-함께-일하는-법",
     title: "AI 산출물이 프로덕션이 되기까지-AI와 디자인시스템이 함께 일하는 법",
