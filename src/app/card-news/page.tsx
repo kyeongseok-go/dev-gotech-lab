@@ -14,6 +14,19 @@ export const metadata: Metadata = {
 export const CARD_NEWS_DATA: CardNewsItem[] = [
 /* TECH-NEWS-PIPELINE-DATA:START */
   {
+    id: 229,
+    slug: "datasette-apps-04a0",
+    title: "datasette-apps 0.4a0",
+    summary: "Release: datasette-apps 0.4a0 Datasette Apps are sandboxed HTML and JavaScript applications that live inside Datasette - think Claude Artifacts, but these ones can run SQL queries against your data. 0.4a0 adds support for linking: you can l",
+    content: "",
+    category: "news",
+    image_url: "/card-news/datasette-apps-04a0.png",
+    external_link: "https://simonwillison.net/2026/Nov/15/datasette-apps/",
+    tags: ["AI", "기술", "트렌드"],
+    created_at: "2026-11-16",
+    span: "",
+  },
+  {
     id: 228,
     slug: "datasette-llm-01a11",
     title: "datasette-llm 0.1a11",
