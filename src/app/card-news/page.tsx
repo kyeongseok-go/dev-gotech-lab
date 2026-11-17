@@ -14,6 +14,19 @@ export const metadata: Metadata = {
 export const CARD_NEWS_DATA: CardNewsItem[] = [
 /* TECH-NEWS-PIPELINE-DATA:START */
   {
+    id: 230,
+    slug: "introducing-hy4-flash",
+    title: "Introducing Hy4 flash",
+    summary: "Now this seems to be interesting. From the article: We’re introducing Hy4 flash, our most cost-effective Hy model to date—featuring 224B total parameters (including 64B Engram parameters) with just 12B active parameters per token. Like Hy4,",
+    content: "",
+    category: "news",
+    image_url: "/card-news/introducing-hy4-flash.png",
+    external_link: "https://hy.tencent.ai/research/hy4-flash",
+    tags: ["Introducing", "Hy"],
+    created_at: "2026-11-17",
+    span: "",
+  },
+  {
     id: 229,
     slug: "datasette-apps-04a0",
     title: "datasette-apps 0.4a0",
