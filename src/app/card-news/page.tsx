@@ -14,6 +14,19 @@ export const metadata: Metadata = {
 export const CARD_NEWS_DATA: CardNewsItem[] = [
 /* TECH-NEWS-PIPELINE-DATA:START */
   {
+    id: 231,
+    slug: "introducing-gpt-62-astra-and-sol",
+    title: "Introducing GPT-6.2 Astra and Sol",
+    summary: "Introducing GPT‑6.2 Astra and Sol, with better professional outputs, coding, computer use, and efficiency at lower cost across ChatGPT Work, Codex, and the API.",
+    content: "",
+    category: "news",
+    image_url: "/card-news/introducing-gpt-62-astra-and-sol.png",
+    external_link: "https://openai.com/index/introducing-gpt-6-2-astra-sol",
+    tags: ["Introducing", "GPT", "Astra"],
+    created_at: "2026-11-18",
+    span: "",
+  },
+  {
     id: 230,
     slug: "introducing-hy4-flash",
     title: "Introducing Hy4 flash",
