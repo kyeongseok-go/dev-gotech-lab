@@ -14,6 +14,19 @@ export const metadata: Metadata = {
 export const CARD_NEWS_DATA: CardNewsItem[] = [
 /* TECH-NEWS-PIPELINE-DATA:START */
   {
+    id: 232,
+    slug: "gemini-4-neon",
+    title: "Gemini 4 Neon",
+    summary: "Article URL: https://blog.google/innovation-and-ai/models-and-research/gemini-models/introducing-gemini-4-neon/ Comments URL: https://news.ycombinator.com/item?id=50552424 Points: 703 # Comments: 595",
+    content: "",
+    category: "news",
+    image_url: "/card-news/gemini-4-neon.png",
+    external_link: "https://blog.google/innovation-and-ai/models-and-research/gemini-models/introducing-gemini-4-neon/",
+    tags: ["Gemini", "Neon"],
+    created_at: "2026-11-19",
+    span: "",
+  },
+  {
     id: 231,
     slug: "introducing-gpt-62-astra-and-sol",
     title: "Introducing GPT-6.2 Astra and Sol",
