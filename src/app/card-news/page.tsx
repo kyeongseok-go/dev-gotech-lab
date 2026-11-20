@@ -14,6 +14,19 @@ export const metadata: Metadata = {
 export const CARD_NEWS_DATA: CardNewsItem[] = [
 /* TECH-NEWS-PIPELINE-DATA:START */
   {
+    id: 233,
+    slug: "introducing-tool-retrieval-in-the-gemini-api",
+    title: "Introducing Tool Retrieval in the Gemini API",
+    summary: "Gemini spark on a space background",
+    content: "",
+    category: "news",
+    image_url: "/card-news/introducing-tool-retrieval-in-the-gemini-api.png",
+    external_link: "https://blog.google/innovation-and-ai/technology/developers-tools/gemini-api-tool-retrieval/",
+    tags: ["Introducing", "Tool", "Retrieval"],
+    created_at: "2026-11-20",
+    span: "",
+  },
+  {
     id: 232,
     slug: "gemini-4-neon",
     title: "Gemini 4 Neon",
