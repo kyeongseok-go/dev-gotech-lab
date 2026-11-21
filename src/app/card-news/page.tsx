@@ -14,6 +14,19 @@ export const metadata: Metadata = {
 export const CARD_NEWS_DATA: CardNewsItem[] = [
 /* TECH-NEWS-PIPELINE-DATA:START */
   {
+    id: 234,
+    slug: "llm-gemini-038",
+    title: "llm-gemini 0.38",
+    summary: "Release: llm-gemini 0.38 Today Google introduced Gemini 4 Neon. I wrote recently about how confusing the pricing for the Gemini 4 series was - Neon has somehow made this even worse. Previously the Gemini 4 lineup was Hydrogen, Argon, and Ca",
+    content: "",
+    category: "news",
+    image_url: "/card-news/llm-gemini-038.png",
+    external_link: "https://simonwillison.net/2026/Nov/18/llm-gemini/",
+    tags: ["AI", "기술", "트렌드"],
+    created_at: "2026-11-21",
+    span: "",
+  },
+  {
     id: 233,
     slug: "introducing-tool-retrieval-in-the-gemini-api",
     title: "Introducing Tool Retrieval in the Gemini API",
