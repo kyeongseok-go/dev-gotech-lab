@@ -14,6 +14,19 @@ export const metadata: Metadata = {
 export const CARD_NEWS_DATA: CardNewsItem[] = [
 /* TECH-NEWS-PIPELINE-DATA:START */
   {
+    id: 235,
+    slug: "llm-gemini-0381",
+    title: "llm-gemini 0.38.1",
+    summary: "Release: llm-gemini 0.38.1 Gemini 4 Carbon only supports low, medium and high reasoning levels - but Gemini 4 Hydrogen and Gemini 4 Neon both have an extra xhigh level. I missed that when I added those models to the llm-gemini plugin, which",
+    content: "",
+    category: "news",
+    image_url: "/card-news/llm-gemini-0381.png",
+    external_link: "https://simonwillison.net/2026/Nov/20/llm-gemini/",
+    tags: ["AI", "기술", "트렌드"],
+    created_at: "2026-11-22",
+    span: "",
+  },
+  {
     id: 234,
     slug: "llm-gemini-038",
     title: "llm-gemini 0.38",
