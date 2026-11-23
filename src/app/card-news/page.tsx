@@ -14,6 +14,19 @@ export const metadata: Metadata = {
 export const CARD_NEWS_DATA: CardNewsItem[] = [
 /* TECH-NEWS-PIPELINE-DATA:START */
   {
+    id: 236,
+    slug: "spark-배치-파이프라인-distributed-tracing-도입",
+    title: "Spark 배치 파이프라인 Distributed Tracing 도입",
+    summary: "네이버 사내 기술 교류 행사인 NAVER Engineering Day 10th 에서 발표되었던 세션을 공개합니다. ​ ​ 발표 내용 Apache Spark가 지원하지 않는 분산 추적을 비즈니스 로직 수정 없이 플러그인 형태로 제공하여 연관된 애플리케이션들과 한 흐름으로 잇는 방법을 소개하고, 관측 결과를 성능 개선과 AI Agent 진단에 연결한 경험을 공유합니다. ​ 발표 대상 Spark 배치 처리의 관측성 확보와 성능 최적",
+    content: "",
+    category: "news",
+    image_url: "/card-news/spark-배치-파이프라인-distributed-tracing-도입.png",
+    external_link: "https://d2.naver.com/helloworld/2526679",
+    tags: ["Spark", "Distributed", "Tracing"],
+    created_at: "2026-11-23",
+    span: "",
+  },
+  {
     id: 235,
     slug: "llm-gemini-0381",
     title: "llm-gemini 0.38.1",
