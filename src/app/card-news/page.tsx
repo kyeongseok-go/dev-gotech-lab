@@ -14,6 +14,19 @@ export const metadata: Metadata = {
 export const CARD_NEWS_DATA: CardNewsItem[] = [
 /* TECH-NEWS-PIPELINE-DATA:START */
   {
+    id: 237,
+    slug: "datasette-charts-01a0",
+    title: "datasette-charts 0.1a0",
+    summary: "Release: datasette-charts 0.1a0 I've been thinking about this problem for over a year now, but on Sunday I finally fired up Claude Fable 5.2 to build an initial prototype. The prototype went so well that this is now a full plugin. You can t",
+    content: "",
+    category: "news",
+    image_url: "/card-news/datasette-charts-01a0.png",
+    external_link: "https://simonwillison.net/2026/Nov/23/datasette-charts/",
+    tags: ["AI", "기술", "트렌드"],
+    created_at: "2026-11-24",
+    span: "",
+  },
+  {
     id: 236,
     slug: "spark-배치-파이프라인-distributed-tracing-도입",
     title: "Spark 배치 파이프라인 Distributed Tracing 도입",
