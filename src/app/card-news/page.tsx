@@ -14,6 +14,19 @@ export const metadata: Metadata = {
 export const CARD_NEWS_DATA: CardNewsItem[] = [
 /* TECH-NEWS-PIPELINE-DATA:START */
   {
+    id: 238,
+    slug: "운영자의-시간을-아끼는-ai-에이전트-2부---mcp-부터-agent-설계까지",
+    title: "운영자의 시간을 아끼는 AI 에이전트 2부 - MCP 부터 Agent 설계까지",
+    summary: "네이버 사내 기술 교류 행사인 NAVER Engineering Day 10th 에서 발표되었던 세션을 공개합니다. ​ 발표 내용 운영 문의가 들어오면 운영자는 로그와 메트릭, 과거 사례를 직접 살펴보고 답변해야 합니다. 업무 시간 밖에 들어온 문의는 첫 답변을 받기까지 약 13시간이 걸리기도 했습니다. 이 발표에서는 OpenSearch 운영 문의에 운영자보다 먼저 답변하는 AI 에이전트, care-ai를 만들면서 겪은 시행착오",
+    content: "",
+    category: "news",
+    image_url: "/card-news/운영자의-시간을-아끼는-ai-에이전트-2부---mcp-부터-agent-설계까지.png",
+    external_link: "https://d2.naver.com/helloworld/5073599",
+    tags: ["AI", "MCP", "Agent"],
+    created_at: "2026-11-25",
+    span: "",
+  },
+  {
     id: 237,
     slug: "datasette-charts-01a0",
     title: "datasette-charts 0.1a0",
