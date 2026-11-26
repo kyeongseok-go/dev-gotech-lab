@@ -14,6 +14,19 @@ export const metadata: Metadata = {
 export const CARD_NEWS_DATA: CardNewsItem[] = [
 /* TECH-NEWS-PIPELINE-DATA:START */
   {
+    id: 239,
+    slug: "three-llm-inflection-points-in-twelve-months",
+    title: "Three LLM inflection points in twelve months",
+    summary: "I gave a keynote at the AI Engineer Code Summit a couple of weeks ago, constructed around the idea that there have been three significant inflection points in the abilities of LLMs and coding agents in the past twelve months. Here's the vid",
+    content: "",
+    category: "news",
+    image_url: "/card-news/three-llm-inflection-points-in-twelve-months.png",
+    external_link: "https://simonwillison.net/2026/Nov/24/llm-inflection-points/",
+    tags: ["Three", "LLM"],
+    created_at: "2026-11-26",
+    span: "",
+  },
+  {
     id: 238,
     slug: "운영자의-시간을-아끼는-ai-에이전트-2부---mcp-부터-agent-설계까지",
     title: "운영자의 시간을 아끼는 AI 에이전트 2부 - MCP 부터 Agent 설계까지",
