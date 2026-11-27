@@ -14,6 +14,19 @@ export const metadata: Metadata = {
 export const CARD_NEWS_DATA: CardNewsItem[] = [
 /* TECH-NEWS-PIPELINE-DATA:START */
   {
+    id: 240,
+    slug: "운영자의-시간을-아끼는-ai-에이전트-1부---rcaqa-운영-지식그래프",
+    title: "운영자의 시간을 아끼는 AI 에이전트 1부 - RCA·Q&A 운영 지식그래프",
+    summary: "네이버 사내 기술 교류 행사인 NAVER Engineering Day 10th 에서 발표되었던 세션을 공개합니다. ​ ​ 발표 내용 운영 문의에 명확한 답변을 남겨도 이슈가 닫히면 묻히기 쉽습니다. 같은 원인으로 문의가 다시 들어오면 운영자는 처음부터 다시 조사해야 했습니다. 이 발표에서는 n3r 운영 이슈에서 LLM으로 RCA(근본 원인 분석)와 Q&amp;A를 추출해 Neo4j 지식 그래프에 쌓고, Care AI 에이전트가",
+    content: "",
+    category: "news",
+    image_url: "/card-news/운영자의-시간을-아끼는-ai-에이전트-1부---rcaqa-운영-지식그래프.png",
+    external_link: "https://d2.naver.com/helloworld/6934862",
+    tags: ["AI", "RCA"],
+    created_at: "2026-11-27",
+    span: "",
+  },
+  {
     id: 239,
     slug: "three-llm-inflection-points-in-twelve-months",
     title: "Three LLM inflection points in twelve months",
