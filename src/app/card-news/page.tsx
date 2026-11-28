@@ -14,6 +14,19 @@ export const metadata: Metadata = {
 export const CARD_NEWS_DATA: CardNewsItem[] = [
 /* TECH-NEWS-PIPELINE-DATA:START */
   {
+    id: 241,
+    slug: "datasette-charts-04a0",
+    title: "datasette-charts 0.4a0",
+    summary: "Release: datasette-charts 0.4a0 The new datasette-charts plugin has its own plugin hook to allow other plugins to define new chart types, but I hadn't actually used it for anything yet. I had Claude Opus 5.5 build an experimental plugins ju",
+    content: "",
+    category: "news",
+    image_url: "/card-news/datasette-charts-04a0.png",
+    external_link: "https://simonwillison.net/2026/Nov/27/datasette-charts/",
+    tags: ["AI", "기술", "트렌드"],
+    created_at: "2026-11-28",
+    span: "",
+  },
+  {
     id: 240,
     slug: "운영자의-시간을-아끼는-ai-에이전트-1부---rcaqa-운영-지식그래프",
     title: "운영자의 시간을 아끼는 AI 에이전트 1부 - RCA·Q&A 운영 지식그래프",
